@@ -83,8 +83,16 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `type_summary.csv` | period × residential type | development-mix analysis |
 | `community_summary.csv` | community | before/during geographic comparison |
 | `processing_summary.csv` | period and optional type | processing-time statistics |
-| `classification_lookup.csv` | source value/rule | transparent category mapping |
 | `bias_audit.csv` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
 | `sensitivity_summary.csv` | scenario × metric | comparison of headline results under alternative reasonable rules |
 
 Names are provisional until the Python workflow is implemented.
+
+## Configuration files
+
+| File | Grain | Purpose |
+|---|---|---|
+| `config/settings.yaml` | one project configuration | data source, paths, study periods, analysis settings, seasons, quality checks, output names, and logging |
+| `config/classification_rules.csv` | one ordered classification rule | residential inclusion, housing-type, and rezoning-relevance logic, including validation status |
+
+The classification-rule schema, precedence, validation, and audit requirements are defined in [Configuration and Classification Rules](CONFIGURATION.md). The rule file is an input and must not be overwritten as pipeline output.

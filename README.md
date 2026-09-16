@@ -108,7 +108,11 @@ Data110_DP_Activity/
 ├── ACADEMIC_INTEGRITY.md
 ├── LICENSE.md
 ├── README.md
+├── config/
+│   ├── settings.yaml             # project-wide analysis settings
+│   └── classification_rules.csv # ordered housing-form classification rules
 ├── docs/
+│   ├── CONFIGURATION.md
 │   ├── DATA_DICTIONARY.md
 │   ├── BIAS_AND_MITIGATION.md
 │   ├── DEVELOPMENT_PERMIT_BACKGROUND.md
@@ -127,7 +131,13 @@ Data110_DP_Activity/
 └── tests/                   # data-quality and transformation tests
 ```
 
-Folders shown above that are not yet present will be added as the analysis is implemented.
+Folders and planned files shown above that are not yet present will be added as the analysis is implemented.
+
+## Configuration
+
+Analysis choices are kept outside the Python code where practical. [`config/settings.yaml`](config/settings.yaml) contains the data source, study periods, season definitions, quality checks, and output names. [`config/classification_rules.csv`](config/classification_rules.csv) contains ordered, auditable rules for residential inclusion, housing type, and rezoning-relevance classification. Provisional, fallback, and review rules remain subject to the validation process; being committed does not magically make a rule correct.
+
+See the [configuration and classification-rules guide](docs/CONFIGURATION.md) for the file schemas, validation requirements, rule precedence, and audit process.
 
 ## Getting started
 
@@ -151,6 +161,7 @@ Then install the pinned dependencies and run the analysis commands documented in
 
 - [Copyright notice](LICENSE.md)
 - [Academic integrity policy](ACADEMIC_INTEGRITY.md)
+- [Configuration and classification-rules guide](docs/CONFIGURATION.md)
 - [One-page project summary](docs/PROJECT_SUMMARY.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
