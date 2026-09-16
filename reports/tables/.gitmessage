@@ -1,0 +1,150 @@
+# Subject line: aim for ~50 characters
+#         1         2         3         4         5
+#12345678901234567890123456789012345678901234567890
+#                                                 ^ 50
+<type>(<scope>): <short summary>
+
+# Body lines: maximum 72 characters
+#         1         2         3         4         5         6         7
+#123456789012345678901234567890123456789012345678901234567890123456789012
+#                                                                       ^ 72
+#
+# Explain:
+# - what changed
+# - why the change was needed
+# - important design or analytical decisions
+# - effects on reproducibility, Python, Power BI, or documentation
+#
+# Do not repeat the subject line.
+#
+# Example:
+#
+# feat(config): add analysis configuration
+#
+# Add settings.yaml for dataset, study periods, paths, seasonal
+# definitions, quality checks, and analysis thresholds.
+#
+# Keep project configuration outside Python source code so that
+# analytical settings can be changed without modifying application
+# logic.
+
+# ----------------------------------------------------------------------
+# TYPES
+# ----------------------------------------------------------------------
+#
+# feat      Add a new feature or analytical capability
+# fix       Correct a bug, data issue, or incorrect analysis
+# data      Add or change data acquisition or processing
+# analysis  Add or change analytical methods or metrics
+# viz       Add or change Python or Power BI visualizations
+# docs      Documentation only
+# test      Add or change tests or validation checks
+# refactor  Restructure code without changing expected behaviour
+# config    Configuration or dependency changes
+# build     Build, packaging, or environment changes
+# ci        Continuous integration / GitHub Actions changes
+# chore     Maintenance that does not fit another category
+#
+# ----------------------------------------------------------------------
+# PROJECT SCOPES
+# ----------------------------------------------------------------------
+#
+# api             Calgary Open Data / Socrata retrieval
+# config          settings.yaml and project configuration
+# classification  Residential and rezoning classification rules
+# cleaning        Data cleaning and normalization
+# validation      Schema and data-quality validation
+# periods         Before/during/post-repeal period logic
+# seasons         Seasonal classification
+# processing      Processing-time calculations
+# community       Community-level analysis
+# permits         Development permit analysis
+# pipeline        End-to-end processing pipeline
+# repository      Repository/data-access layer
+# adapter         Calgary dataset adapter
+# analysis        General analytical framework
+# export          CSV/table/chart exports
+# powerbi         Power BI model, measures, or dashboard
+# charts          Python visualizations
+# tests           Automated tests
+# docs            General documentation
+# methodology     Methodology documentation
+# bias            Bias and mitigation documentation
+# references      Sources and related work
+# summary         DATA 110 project summary
+# presentation    Presentation materials
+# readme          README.md
+#
+# ----------------------------------------------------------------------
+# OPTIONAL FOOTERS
+# ----------------------------------------------------------------------
+#
+# Breaking change:
+# BREAKING CHANGE: <describe incompatible change>
+#
+# Issue/reference:
+# Refs: #123
+# Closes: #123
+#
+# Data snapshot:
+# Data-Snapshot: YYYY-MM-DD
+#
+# Classification version:
+# Classification-Version: v1.0
+#
+# ----------------------------------------------------------------------
+# GOOD EXAMPLES
+# ----------------------------------------------------------------------
+#
+# feat(api): add Calgary permit downloader
+#
+# Add Socrata repository support for development permit dataset
+# 6933-unw5 and save a timestamped raw snapshot for reproducible
+# analysis.
+#
+#
+# feat(classification): add permit rule framework
+#
+# Load classification rules from CSV and apply rules by priority.
+# Preserve the matching RuleID so classifications remain auditable.
+#
+#
+# analysis(seasons): add seasonal permit metrics
+#
+# Classify applications into Fall, Winter, Spring, and Summer and
+# distinguish complete seasons from periods truncated by study
+# boundaries.
+#
+#
+# fix(periods): correct repeal boundary date
+#
+# Treat August 3, 2026 as the final day of the During period and
+# August 4, 2026 as the beginning of Early Post-Repeal.
+#
+#
+# docs(methodology): document classification process
+#
+# Explain how observed Calgary permit values are reviewed before
+# residential and rezoning-relevant rules are finalized.
+#
+#
+# test(processing): test negative processing days
+#
+# Add validation cases for missing decision dates and decisions that
+# precede application dates.
+#
+# ----------------------------------------------------------------------
+# COMMIT CHECKLIST
+# ----------------------------------------------------------------------
+#
+# [ ] Subject uses imperative wording
+# [ ] Subject is approximately 50 characters or fewer
+# [ ] Subject does not end with a period
+# [ ] Body explains why, not only what
+# [ ] Body lines are 72 characters or fewer
+# [ ] Tests updated if behaviour changed
+# [ ] Documentation updated if methodology changed
+# [ ] Generated/raw data has not been committed accidentally
+# [ ] No credentials, API tokens, or private information included
+#
+# Lines beginning with # are ignored by Git.
