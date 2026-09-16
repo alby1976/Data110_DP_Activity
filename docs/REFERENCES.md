@@ -4,6 +4,22 @@ This is the working reference list for the project summary, dashboard notes, and
 
 ## Primary data and policy sources
 
+### City of Calgary — Development permit process
+
+City of Calgary. *Development Permit Process*.
+
+https://www.calgary.ca/development/permits/process.html
+
+**Use in this project:** defines the role of a development permit and describes submission, review, decision, advertising, appeal, prior-to-release conditions, and permit release.
+
+### City of Calgary — Development Map process
+
+City of Calgary. *How the Process Works*.
+
+https://www.calgary.ca/development/permits/dmap-process.html
+
+**Use in this project:** provides the public-facing application phases, current target timeframes, public-input information, and the distinction between decision and release.
+
 ### City of Calgary — Development Permits
 
 City of Calgary. *Development Permits*. Open Calgary, dataset `6933-unw5`.
@@ -19,6 +35,14 @@ City of Calgary. *The City of Calgary Land Use Bylaw 1P2007*, including Bylaw 21
 https://www.calgary.ca/planning/land-use/online-land-use-bylaw.html?sec=21P2024
 
 **Use in this project:** confirms the legal and policy context for the August 6, 2024 implementation boundary.
+
+### City of Calgary — Approval and stated purpose of citywide rezoning
+
+City of Calgary Newsroom. *City Council Approves Citywide Rezoning with Amendments in Response to Calgary's Housing Crisis*. May 14, 2024.
+
+https://newsroom.calgary.ca/city-council-approves-citywide-rezoning-with-amendments-in-response-to-calgarys-housing-crisis/
+
+**Use in this project:** documents Council's approval and the City's stated goals of enabling increased housing supply and choice, reducing barriers and uncertainty, and reducing the time and cost involved in delivering housing. These are treated as policy objectives, not assumed analytical results.
 
 ### City of Calgary — Repeal of Citywide Rezoning
 
