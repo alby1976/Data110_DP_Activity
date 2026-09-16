@@ -6,11 +6,19 @@ This project examines how Calgary residential development-permit activity differ
 
 The project studies **observable differences and associations**. It does not claim that rezoning caused every change in permit activity.
 
+## Copyright and academic integrity
+
+Copyright © 2026 Albert Leung. All rights reserved.
+
+This repository contains an original academic project. It may be viewed for reference, but its original code, documentation, analysis, visualizations, Power BI materials, and presentation materials may not be copied, modified, or submitted for academic credit without prior written permission.
+
+See the [copyright notice](LICENSE.md) and [academic integrity policy](ACADEMIC_INTEGRITY.md). City of Calgary source data is separately licensed under the Open Government Licence – City of Calgary and is not covered by this project's copyright restrictions.
+
 ## Research question
 
 > What differences in Calgary residential development-permit activity can be observed before and during citywide rezoning?
 
-The analysis focuses on five supporting questions:
+The analysis focuses on six supporting questions:
 
 1. Did monthly residential development-permit volume differ between the two periods?
 2. Did the mix of residential development types change?
@@ -97,6 +105,8 @@ Winter crosses calendar years. For example, December 2024 through February 2025 
 
 ```text
 Data110_DP_Activity/
+├── ACADEMIC_INTEGRITY.md
+├── LICENSE.md
 ├── README.md
 ├── docs/
 │   ├── DATA_DICTIONARY.md
@@ -138,6 +148,8 @@ Then install the pinned dependencies and run the analysis commands documented in
 
 ## Documentation
 
+- [Copyright notice](LICENSE.md)
+- [Academic integrity policy](ACADEMIC_INTEGRITY.md)
 - [One-page project summary](docs/PROJECT_SUMMARY.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)
