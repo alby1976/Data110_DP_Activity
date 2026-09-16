@@ -1,0 +1,103 @@
+project:
+  name: "Calgary Development Permit Activity"
+  course: "DATA 110"
+  author: "Albert Leung"
+
+data_source:
+  provider: "City of Calgary Open Data"
+  dataset_id: "6933-unw5"
+  api_base_url: "https://data.calgary.ca/resource"
+  format: "json"
+
+  # Use socrata for downloading fresh data.
+  # Use csv for reproducible analysis from a frozen snapshot.
+  source_type: "socrata"
+
+paths:
+  raw_data: "data/raw"
+  interim_data: "data/interim"
+  processed_data: "data/processed"
+
+  classification_rules: "config/classification_rules.csv"
+
+  reports: "reports"
+  figures: "reports/figures"
+  tables: "reports/tables"
+
+study_periods:
+  before:
+    label: "Before"
+    start: "2022-08-06"
+    end: "2024-08-05"
+
+  during:
+    label: "During"
+    start: "2024-08-06"
+    end: "2026-08-03"
+
+  post_repeal:
+    label: "Early Post-Repeal"
+    start: "2026-08-04"
+
+analysis:
+  primary_date_field: "applied_date"
+
+  include_early_post_repeal: true
+
+  processing_time:
+    start_field: "applied_date"
+    end_field: "decision_date"
+    minimum_days: 0
+
+  community_analysis:
+    minimum_baseline_count: 5
+
+  classification:
+    unmatched_action: "Review"
+    case_sensitive: false
+
+seasons:
+  fall:
+    label: "Fall"
+    months: [9, 10, 11]
+
+  winter:
+    label: "Winter"
+    months: [12, 1, 2]
+
+  spring:
+    label: "Spring"
+    months: [3, 4, 5]
+
+  summer:
+    label: "Summer"
+    months: [6, 7, 8]
+
+quality_checks:
+  require_unique_permit_number: true
+
+  required_columns:
+    - permit_number
+    - applied_date
+    - category
+    - proposed_use_code
+    - proposed_use_description
+    - land_use_district
+    - community
+
+  warn_on_missing_community: true
+  warn_on_missing_coordinates: true
+  warn_on_negative_processing_days: true
+
+outputs:
+  clean_permits: "permits_clean.csv"
+  monthly_summary: "monthly_summary.csv"
+  seasonal_summary: "seasonal_summary.csv"
+  community_summary: "community_summary.csv"
+  type_summary: "type_summary.csv"
+  processing_summary: "processing_summary.csv"
+  bias_audit: "bias_audit.csv"
+
+logging:
+  level: "INFO"
+  log_file: "reports/pipeline.log"
