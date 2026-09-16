@@ -65,7 +65,13 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `ClassificationRule` | text | rule or lookup entry producing the classification |
 | `ClassificationNeedsReview` | Boolean | ambiguous or unmatched classification |
 | `HasGeography` | Boolean | usable community or coordinate data |
+| `IsPending` | Boolean | application has no final observed outcome at the snapshot date |
+| `FollowUpDays` | integer | days from application to decision or, if unresolved, to the snapshot date |
+| `HasMinimumFollowUp` | Boolean | record meets the documented follow-up requirement for its analysis |
+| `IsRightCensored` | Boolean | final processing duration is not yet observed |
+| `ExclusionReason` | text | explicit reason a record is omitted from a specific analytical subset |
 | `DataRetrievedUTC` | datetime | source retrieval timestamp |
+| `SourceSnapshotID` | text | identifier connecting outputs to the frozen source extract |
 
 ## Planned output tables
 
@@ -78,5 +84,7 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `community_summary.csv` | community | before/during geographic comparison |
 | `processing_summary.csv` | period and optional type | processing-time statistics |
 | `classification_lookup.csv` | source value/rule | transparent category mapping |
+| `bias_audit.csv` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
+| `sensitivity_summary.csv` | scenario × metric | comparison of headline results under alternative reasonable rules |
 
 Names are provisional until the Python workflow is implemented.

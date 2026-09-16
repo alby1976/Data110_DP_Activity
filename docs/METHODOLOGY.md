@@ -168,7 +168,24 @@ Report count, median, mean, 25th percentile, and 75th percentile. The primary st
 - Label incomplete periods prominently.
 - Report data-quality exclusions beside each affected metric.
 
-## 11. Reproducibility checklist
+## 11. Bias-control plan
+
+The project will maintain a detailed [Biases and Mitigation Plan](BIAS_AND_MITIGATION.md). The minimum controls required before reporting results are:
+
+1. freeze and identify the source-data snapshot used for the final analysis;
+2. publish inclusion, exclusion, residential, and rezoning-relevant rules;
+3. validate rule-based classifications against a seeded reproducible sample;
+4. report missingness, exclusions, pending cases, and valid denominators;
+5. distinguish applications, decisions, approvals, releases, and completed housing;
+6. compare like months and complete seasons where possible;
+7. flag partial seasons, right-censored processing times, and small community baselines;
+8. report citywide and subgroup results to check for aggregation effects;
+9. run sensitivity analyses using reasonable alternative dates and classification rules;
+10. write conclusions from the results table rather than selecting only supportive charts.
+
+Bias controls and unresolved residual risks will be included in the final report. A mitigation step must not be described as eliminating a bias unless evidence demonstrates that it does.
+
+## 12. Reproducibility checklist
 
 - [ ] Data retrieval timestamp recorded
 - [ ] Dependencies pinned
@@ -178,3 +195,5 @@ Report count, median, mean, 25th percentile, and 75th percentile. The primary st
 - [ ] Python totals reconciled with Power BI measures
 - [ ] Final figures traceable to a named data snapshot
 - [ ] README commands tested on a clean environment
+- [ ] Bias register completed with evidence for each applied mitigation
+- [ ] Sensitivity results retained, including results that weaken the main finding

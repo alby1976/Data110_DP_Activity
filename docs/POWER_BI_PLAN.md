@@ -128,6 +128,20 @@ Use both absolute and percentage change. Suppress or flag percentage rankings be
 - keep Before and During colours consistent throughout;
 - label Early Post-Repeal as incomplete wherever it appears.
 
+## Bias-aware reporting
+
+The dashboard should make important analytical risks visible instead of burying them in speaker notes:
+
+- display the data retrieval date and maximum `AppliedDate`;
+- show the valid denominator for processing-time measures;
+- provide counts of pending, missing-date, unclassified, and excluded records;
+- label application counts as applications, not housing units or completed homes;
+- display baseline counts beside community percentage changes;
+- flag or filter incomplete seasons;
+- include a small-base warning for unstable community percentages;
+- offer counts and shares together so changes in total volume are not mistaken for changes in composition;
+- use a tooltip or information panel summarizing classification rules and residual limitations.
+
 ## Validation checklist
 
 - [ ] Distinct permit totals match Python outputs
@@ -143,3 +157,7 @@ Use both absolute and percentage change. Suppress or flag percentage rankings be
 - [ ] All page-level filters are documented
 - [ ] Slicer synchronization behaves as intended
 - [ ] Titles state whether a visual uses application or decision date
+- [ ] Pending and right-censored records are visible in processing-time views
+- [ ] Every percentage displays or exposes its denominator
+- [ ] Application counts are not labelled as homes constructed
+- [ ] Bias and limitations information is accessible from every report page

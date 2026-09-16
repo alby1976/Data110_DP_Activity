@@ -100,6 +100,7 @@ Data110_DP_Activity/
 ├── README.md
 ├── docs/
 │   ├── DATA_DICTIONARY.md
+│   ├── BIAS_AND_MITIGATION.md
 │   ├── METHODOLOGY.md
 │   ├── POWER_BI_PLAN.md
 │   ├── PRESENTATION_PLAN.md
@@ -138,6 +139,7 @@ Then install the pinned dependencies and run the analysis commands documented in
 ## Documentation
 
 - [One-page project summary](docs/PROJECT_SUMMARY.md)
+- [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)
 - [Data dictionary](docs/DATA_DICTIONARY.md)
 - [Power BI dashboard plan](docs/POWER_BI_PLAN.md)
@@ -153,6 +155,8 @@ Then install the pinned dependencies and run the analysis commands documented in
 - Current status fields can change after data is downloaded.
 - Percentage changes can be misleading when a community has a small baseline count.
 - The early post-repeal period is incomplete and is presented only as context.
+
+The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITIGATION.md). Planned safeguards include freezing a reproducible data snapshot, validating classification rules against samples, separating applications from approvals and completed homes, reporting missingness and pending cases, comparing like months and complete seasons, showing denominators, and testing whether conclusions change under reasonable alternative definitions. These steps can reduce bias; they cannot turn an observational comparison into a causal experiment.
 
 ## Official references
 

@@ -40,6 +40,7 @@ Estimated total: **8:35**.
 - primary period based on `AppliedDate`;
 - key fields and final analytical sample size;
 - limitation banner: observational comparison.
+- name the principal risks: confounding, classification error, and incomplete recent cases.
 
 ### 4. From Raw Data to Analysis
 
@@ -47,6 +48,7 @@ Estimated total: **8:35**.
 - two or three representative cleaning decisions;
 - residential and rezoning-relevant classification method;
 - validation result, not a screenshot of fifty lines of code.
+- one concise example showing how a bias-control step changed or tested the analysis.
 
 ### 5. Permit Volume Over Time
 
@@ -74,6 +76,7 @@ Estimated total: **8:35**.
 - direct answer to each important research question;
 - two or three strongest findings;
 - two or three major limitations;
+- mitigations actually performed and the biases that remain;
 - final sentence: what the evidence supports and what it does not.
 
 ## Delivery notes
@@ -96,3 +99,5 @@ Estimated total: **8:35**.
 - [ ] Slides fit within 10 minutes during two timed rehearsals
 - [ ] PDF export and PowerPoint file both open correctly
 - [ ] Static backup exists for any live dashboard demonstration
+- [ ] Bias mitigations are supported by results or audit evidence, not merely promised
+- [ ] Null, mixed, or contradictory findings have not been omitted

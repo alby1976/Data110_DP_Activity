@@ -31,7 +31,7 @@ The City of Calgary already publishes planning-application statistics by communi
 
 ### Limitations
 
-The analysis is observational and cannot isolate rezoning from interest rates, construction costs, population growth, housing demand, other policies, or administrative changes. Public text fields may not identify housing form perfectly, applications may cross policy boundaries, and current status can change over time. Results will therefore be presented as measured differences in permit activity—not proof of policy impact.
+The analysis is observational and cannot isolate rezoning from interest rates, construction costs, population growth, housing demand, other policies, or administrative changes. Public text fields may not identify housing form perfectly, applications may cross policy boundaries, and current status can change over time. Bias will be reduced by freezing the final data snapshot, documenting inclusion and classification rules before calculating results, manually validating a reproducible sample, reporting missing and pending records, comparing like months and complete seasons, showing both counts and rates with their denominators, and running sensitivity checks with alternative reasonable definitions. These measures improve transparency and robustness but cannot remove confounding. Results will therefore be presented as measured differences in permit activity—not proof of policy impact.
 
 ### References
 
