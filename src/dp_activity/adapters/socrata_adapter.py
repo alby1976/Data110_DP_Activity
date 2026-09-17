@@ -1,9 +1,18 @@
 """Adapter for the City of Calgary Socrata API.
 
-Design pattern:
+This module owns Socrata pagination and reproducibility metadata so external API details
+do not leak into analytical code.
+
+Design Pattern:
     Adapter.
-Why:
-    It translates Socrata HTTP/JSON pagination into project-owned records and download metadata, keeping API details out of the analysis pipeline.
+
+Pattern Rationale:
+    It translates Socrata HTTP/JSON pagination into project-owned records and download
+    metadata, keeping API details out of the analysis pipeline.
+
+Typical Usage:
+    Import and use these components when acquiring or persisting external Socrata
+    records.
 """
 
 from __future__ import annotations
@@ -16,7 +25,18 @@ from typing import Any
 
 @dataclass(frozen=True)
 class DownloadMetadata:
-    """Facts needed to reproduce a source download."""
+    """Record facts needed to reproduce a source download.
+
+    This immutable value object travels with a raw snapshot so its dataset, endpoint,
+    retrieval time, row count, and query remain auditable.
+
+    Attributes:
+        dataset_id: Socrata dataset identifier parsed from the endpoint.
+        endpoint: Source endpoint used for the request.
+        retrieved_at_utc: UTC time at which retrieval completed.
+        row_count: Number of materialized source records.
+        query: Serialized query text, or None when no query was applied.
+    """
 
     dataset_id: str
     endpoint: str
@@ -26,7 +46,15 @@ class DownloadMetadata:
 
 
 class SocrataAdapter:
-    """Retrieve paginated records without embedding analysis rules."""
+    """Adapt the City of Calgary Socrata API to project-owned records.
+
+    This class participates in the Adapter pattern by hiding HTTP, JSON, and pagination
+    details behind iteration and download operations.
+
+    Attributes:
+        endpoint: Socrata resource endpoint.
+        app_token: Optional application token supplied with requests.
+    """
 
     def __init__(self, endpoint: str, app_token: str | None = None) -> None:
         self.endpoint = endpoint
@@ -39,7 +67,19 @@ class SocrataAdapter:
         where: str | None = None,
         page_size: int = 50_000,
     ) -> Iterator[dict[str, Any]]:
-        """Yield all API rows using deterministic pagination."""
+        """Yield all API rows using deterministic pagination.
+
+        Args:
+            select: Optional SoQL select expression.
+            where: Optional SoQL filter expression.
+            page_size: Maximum number of Socrata rows requested per page.
+
+        Yields:
+            One project-owned record for each row returned by the Socrata query.
+
+        Raises:
+            NotImplementedError: The scaffolded behavior has not yet been implemented.
+        """
         # TODO: Validate page_size and build SoQL parameters.
         # TODO: Request pages using $limit, $offset, and a stable $order.
         # TODO: Retry transient failures with a bounded backoff.
@@ -48,6 +88,16 @@ class SocrataAdapter:
         raise NotImplementedError
 
     def download(self, **query: Any) -> tuple[list[dict[str, Any]], DownloadMetadata]:
-        """Materialize records and return them with retrieval metadata."""
+        """Materialize records and return them with retrieval metadata.
+
+        Args:
+            query: Query options forwarded to iter_records().
+
+        Returns:
+            The materialized records and their reproducibility metadata.
+
+        Raises:
+            NotImplementedError: The scaffolded behavior has not yet been implemented.
+        """
         # TODO: Collect iter_records(), timestamp the completed retrieval, and count rows.
         raise NotImplementedError

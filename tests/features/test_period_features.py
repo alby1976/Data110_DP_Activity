@@ -1,3 +1,20 @@
+"""Tests for period features.
+
+This module verifies the documented contracts and edge cases of the period features
+component.
+
+Design Pattern:
+    None
+
+Pattern Rationale:
+    The module contains pytest verification code and does not intentionally implement an
+    application design pattern.
+
+Typical Usage:
+    Pytest discovers this module and executes its focused unit tests with small
+    deterministic inputs.
+"""
+
 from datetime import date
 
 import pandas as pd
@@ -9,6 +26,7 @@ from dp_activity.features.period_features import add_period_features
 
 
 def test_period_boundaries_are_inclusive() -> None:
+    """Verify that period boundaries are inclusive."""
     permits = pd.DataFrame(
         {"applied_date": pd.to_datetime(["2024-08-05", "2024-08-06", "2026-08-04"])}
     )
@@ -26,4 +44,3 @@ def test_period_boundaries_are_inclusive() -> None:
     )
 
     assert result["Period"].tolist() == ["Before", "During", "Early Post-Repeal"]
-

@@ -1,9 +1,18 @@
 """Create evidence needed before finalizing cleaning and rules.
 
-Design pattern:
+This module produces evidence tables used to evaluate source structure and refine later
+cleaning and classification rules.
+
+Design Pattern:
     Pipes and Filters.
-Why:
-    Profiling is a read-only pipeline stage that transforms source records into named evidence tables without owning persistence.
+
+Pattern Rationale:
+    Profiling is a read-only pipeline stage that transforms source records into named
+    evidence tables without owning persistence.
+
+Typical Usage:
+    Run these components against source records before finalizing cleaning and
+    classification rules.
 """
 
 from __future__ import annotations
@@ -12,10 +21,25 @@ from typing import Any
 
 
 class DataProfiler:
-    """Profile structure, missingness, dates, and important categories."""
+    """Profile source structure and important data distributions.
+
+    This class is a read-only Pipes-and-Filters stage that returns evidence tables
+    without owning their persistence.
+    """
 
     def profile(self, permits: Any, categorical_columns: list[str]) -> dict[str, Any]:
-        """Return named tidy profile tables."""
+        """Return named tidy profile tables.
+
+        Args:
+            permits: DataFrame-like table of permit records.
+            categorical_columns: Columns for which categorical value-count tables are required.
+
+        Returns:
+            Profile names mapped to tidy evidence tables.
+
+        Raises:
+            NotImplementedError: The scaffolded behavior has not yet been implemented.
+        """
         # TODO: Produce row/column counts and inferred data types.
         # TODO: Report missing count and percentage for every field.
         # TODO: Report PermitNum uniqueness and duplicate examples.

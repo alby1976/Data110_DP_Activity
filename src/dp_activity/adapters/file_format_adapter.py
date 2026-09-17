@@ -1,12 +1,20 @@
 """Save Socrata records through interchangeable file-format adapters.
 
-Design patterns:
+This module defines a common persistence contract, concrete CSV, JSON, and Parquet
+adapters, reflective adapter discovery, and runtime adapter selection.
+
+Design Pattern:
     Adapter, Strategy, and Reflective Factory.
-Why:
+
+Pattern Rationale:
     Each format adapter translates project-owned Socrata records into one external file
-    representation. The writer selects an adapter at runtime, while the factory uses Python
-    reflection to load approved adapter subclasses without adding format-specific branches to
-    the Socrata client or analysis pipeline.
+    representation. The writer selects an adapter at runtime, while the factory uses
+    Python reflection to load approved adapter subclasses without adding format-specific
+    branches to the Socrata client or analysis pipeline.
+
+Typical Usage:
+    Import and use these components when acquiring or persisting external Socrata
+    records.
 """
 
 from __future__ import annotations
@@ -24,23 +32,59 @@ Record = Mapping[str, Any]
 
 
 class FileFormatAdapter(ABC):
-    """Contract implemented by every supported output-format adapter."""
+    """Define the contract for output-format adapters.
+
+    This abstract class participates in the Adapter and Strategy patterns. Concrete
+    adapters translate project-owned records into a specific file representation,
+    while callers depend only on the shared save operation.
+
+    Attributes:
+        extensions: Lowercase file suffixes supported by the adapter.
+    """
 
     extensions: tuple[str, ...] = ()
 
     @abstractmethod
     def save(self, records: Iterable[Record], output_path: Path) -> Path:
-        """Write records to output_path and return the completed path."""
+        """Write records to output_path and return the completed path.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            The completed output path.
+
+        Raises:
+            NotImplementedError: The scaffolded behavior has not yet been implemented.
+        """
         raise NotImplementedError
 
     @classmethod
     def supports(cls, output_path: Path) -> bool:
-        """Return whether this adapter supports the file's lowercase suffix."""
+        """Return whether this adapter supports the file's lowercase suffix.
+
+        Args:
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            True when the path suffix is supported; otherwise False.
+        """
         return output_path.suffix.lower() in cls.extensions
 
     @staticmethod
     def prepare_output_path(output_path: Path) -> Path:
-        """Create the parent directory and reject directory targets."""
+        """Create the parent directory and reject directory targets.
+
+        Args:
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            The normalized output path with an existing parent directory.
+
+        Raises:
+            IsADirectoryError: The requested output path already exists as a directory.
+        """
         path = Path(output_path)
         if path.exists() and path.is_dir():
             raise IsADirectoryError(f"Output path is a directory: {path}")
@@ -49,11 +93,28 @@ class FileFormatAdapter(ABC):
 
 
 class CsvFileAdapter(FileFormatAdapter):
-    """Adapt records to a UTF-8 CSV file with a stable union of source fields."""
+    """Adapt records to a UTF-8 CSV file.
+
+    This concrete Adapter preserves the union of source fields in first-seen order so
+    heterogeneous Socrata records can be written through the common file-format
+    contract.
+    """
 
     extensions = (".csv",)
 
     def save(self, records: Iterable[Record], output_path: Path) -> Path:
+        """Write records as a UTF-8 CSV file.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            The completed CSV path.
+
+        Raises:
+            IsADirectoryError: The requested output path is a directory.
+        """
         rows = [dict(record) for record in records]
         path = self.prepare_output_path(output_path)
         fieldnames = list(dict.fromkeys(key for row in rows for key in row))
@@ -68,11 +129,27 @@ class CsvFileAdapter(FileFormatAdapter):
 
 
 class JsonFileAdapter(FileFormatAdapter):
-    """Adapt records to a readable UTF-8 JSON array."""
+    """Adapt records to a readable UTF-8 JSON array.
+
+    This concrete Adapter converts project records to JSON while preserving non-ASCII
+    text and providing a stable, human-readable representation.
+    """
 
     extensions = (".json",)
 
     def save(self, records: Iterable[Record], output_path: Path) -> Path:
+        """Write records as a readable UTF-8 JSON array.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            The completed JSON path.
+
+        Raises:
+            IsADirectoryError: The requested output path is a directory.
+        """
         path = self.prepare_output_path(output_path)
         rows = [dict(record) for record in records]
         with path.open("w", encoding="utf-8") as handle:
@@ -82,11 +159,28 @@ class JsonFileAdapter(FileFormatAdapter):
 
 
 class ParquetFileAdapter(FileFormatAdapter):
-    """Adapt records to Parquet when pandas and a Parquet engine are installed."""
+    """Adapt records to a Parquet table.
+
+    This concrete Adapter delegates columnar serialization to pandas and an installed
+    Parquet engine while preserving the common file-format contract.
+    """
 
     extensions = (".parquet", ".pq")
 
     def save(self, records: Iterable[Record], output_path: Path) -> Path:
+        """Write records as a Parquet table.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            The completed Parquet path.
+
+        Raises:
+            IsADirectoryError: The requested output path is a directory.
+            RuntimeError: pandas or a compatible Parquet engine is unavailable.
+        """
         path = self.prepare_output_path(output_path)
         try:
             import pandas as pd
@@ -103,7 +197,15 @@ class ParquetFileAdapter(FileFormatAdapter):
 
 
 class ReflectiveFileAdapterFactory:
-    """Create built-in or reflected adapters while enforcing the adapter contract."""
+    """Create built-in or reflected file-format adapters.
+
+    This class implements a reflective Factory. It centralizes alias registration and
+    safe class validation so new adapters can be loaded without adding
+    format-specific branches to the writer.
+
+    Attributes:
+        _aliases: Case-insensitive names mapped to validated adapter classes.
+    """
 
     def __init__(self) -> None:
         self._aliases: dict[str, type[FileFormatAdapter]] = {
@@ -114,7 +216,16 @@ class ReflectiveFileAdapterFactory:
         }
 
     def register(self, alias: str, adapter_class: type[FileFormatAdapter]) -> None:
-        """Register a validated adapter class under a case-insensitive alias."""
+        """Register a validated adapter class under a case-insensitive alias.
+
+        Args:
+            alias: Case-insensitive name used to register the adapter.
+            adapter_class: Concrete FileFormatAdapter subclass to register.
+
+        Raises:
+            ValueError: The normalized alias is blank.
+            TypeError: adapter_class is not a concrete FileFormatAdapter subclass.
+        """
         normalized = alias.strip().lower().lstrip(".")
         if not normalized:
             raise ValueError("Adapter alias cannot be blank.")
@@ -122,7 +233,19 @@ class ReflectiveFileAdapterFactory:
         self._aliases[normalized] = adapter_class
 
     def create(self, adapter_spec: str, **adapter_options: Any) -> FileFormatAdapter:
-        """Create an adapter from an alias or ``package.module:ClassName`` specification."""
+        """Create an adapter from an alias or ``package.module:ClassName`` specification.
+
+        Args:
+            adapter_spec: Registered alias or import path identifying an adapter class.
+            adapter_options: Keyword arguments passed to a newly constructed adapter.
+
+        Returns:
+            A newly constructed adapter.
+
+        Raises:
+            ValueError: The specification is blank or cannot be imported.
+            TypeError: The resolved object is not a concrete FileFormatAdapter subclass.
+        """
         normalized = adapter_spec.strip()
         if not normalized:
             raise ValueError("Adapter specification cannot be blank.")
@@ -136,7 +259,17 @@ class ReflectiveFileAdapterFactory:
         return adapter_class(**adapter_options)
 
     def create_for_path(self, output_path: Path) -> FileFormatAdapter:
-        """Infer a built-in adapter from the output filename extension."""
+        """Infer a built-in adapter from the output filename extension.
+
+        Args:
+            output_path: Destination path for the serialized records.
+
+        Returns:
+            A newly constructed built-in adapter for the path suffix.
+
+        Raises:
+            ValueError: The path has no suffix or no adapter is registered for it.
+        """
         suffix = Path(output_path).suffix.lower().lstrip(".")
         if not suffix:
             raise ValueError("Output path must have an extension or an adapter must be specified.")
@@ -147,6 +280,17 @@ class ReflectiveFileAdapterFactory:
 
     @staticmethod
     def _load_class(adapter_spec: str) -> type[FileFormatAdapter]:
+        """Load an adapter class from an import specification.
+
+        Args:
+            adapter_spec: Registered alias or import path identifying an adapter class.
+
+        Returns:
+            The object resolved from the specified module and class name.
+
+        Raises:
+            ValueError: The specification is malformed or cannot be imported.
+        """
         module_name, separator, class_name = adapter_spec.partition(":")
         if not separator:
             module_name, separator, class_name = adapter_spec.rpartition(".")
@@ -164,6 +308,14 @@ class ReflectiveFileAdapterFactory:
 
     @staticmethod
     def _validate_adapter_class(candidate: Any) -> None:
+        """Validate that a reflected object is a concrete adapter class.
+
+        Args:
+            candidate: Object resolved through reflection and proposed as an adapter class.
+
+        Raises:
+            TypeError: The candidate is not a concrete FileFormatAdapter subclass.
+        """
         if not inspect.isclass(candidate) or not issubclass(candidate, FileFormatAdapter):
             raise TypeError("Reflected adapter must be a FileFormatAdapter subclass.")
         if inspect.isabstract(candidate):
@@ -171,7 +323,14 @@ class ReflectiveFileAdapterFactory:
 
 
 class SocrataFileWriter:
-    """Save records returned by SocrataAdapter using a selected format adapter."""
+    """Save Socrata records through a selected file-format adapter.
+
+    This class is the context for the file-format Strategy and delegates adapter
+    construction to ReflectiveFileAdapterFactory.
+
+    Attributes:
+        factory: Factory used to select or construct output adapters.
+    """
 
     def __init__(self, factory: ReflectiveFileAdapterFactory | None = None) -> None:
         self.factory = factory or ReflectiveFileAdapterFactory()
@@ -184,7 +343,22 @@ class SocrataFileWriter:
         adapter: str | FileFormatAdapter | None = None,
         adapter_options: Mapping[str, Any] | None = None,
     ) -> Path:
-        """Save records using an explicit adapter or infer one from the file extension."""
+        """Save records using an explicit adapter or infer one from the file extension.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+            output_path: Destination path for the serialized records.
+            adapter: Adapter alias, reflected class path, adapter instance, or None for extension-
+                based selection.
+            adapter_options: Keyword arguments passed to a newly constructed adapter.
+
+        Returns:
+            The path written by the selected adapter.
+
+        Raises:
+            ValueError: Adapter selection is invalid or adapter options conflict with an instance.
+            TypeError: adapter is not a supported selector or adapter instance.
+        """
         path = Path(output_path)
         if adapter is None:
             selected = self.factory.create_for_path(path)
