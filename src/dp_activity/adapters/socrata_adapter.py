@@ -1,4 +1,10 @@
-"""Adapter for the City of Calgary Socrata API."""
+"""Adapter for the City of Calgary Socrata API.
+
+Design pattern:
+    Adapter.
+Why:
+    It translates Socrata HTTP/JSON pagination into project-owned records and download metadata, keeping API details out of the analysis pipeline.
+"""
 
 from __future__ import annotations
 
@@ -45,4 +51,3 @@ class SocrataAdapter:
         """Materialize records and return them with retrieval metadata."""
         # TODO: Collect iter_records(), timestamp the completed retrieval, and count rows.
         raise NotImplementedError
-

@@ -1,0 +1,141 @@
+# Testing Framework
+
+## Purpose
+
+The project uses behavior-first automated tests to define what each Python module must do before its pseudocode is replaced with working code. Tests protect the analytical definitions as well as the software: a function is not complete merely because it runs; it must preserve configured study periods, cross-year winters, classification audit fields, valid denominators, and data-quality warnings.
+
+The framework uses `pytest`. Test inputs are deliberately small pandas DataFrames so failures can be understood without downloading the full City dataset. External services, files, and pipeline collaborators should be replaced with temporary files, monkeypatches, or small stubs in unit tests.
+
+## Current baseline
+
+There is one corresponding test module for each of the 27 non-`__init__` modules under `src/dp_activity`. The initial scaffold result is:
+
+```text
+1 passed, 26 xfailed
+```
+
+This is an implementation baseline, not a claim that 26 behaviors pass. The one passing test verifies the abstract analysis contract. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally.
+
+## Installation and commands
+
+From the repository root, create and activate a virtual environment, then install the pinned testing dependencies:
+
+```bash
+python -m pip install -r requirements-dev.txt
+```
+
+Run the complete suite:
+
+```bash
+python -m pytest -q
+```
+
+Run one test file while implementing a module:
+
+```bash
+python -m pytest tests/features/test_season_features.py -v
+```
+
+Run one named test:
+
+```bash
+python -m pytest tests/features/test_season_features.py::test_cross_year_winter_uses_december_start -v
+```
+
+Stop after the first unexpected failure:
+
+```bash
+python -m pytest -x
+```
+
+## Result meanings
+
+| Result | Meaning | Required response |
+|---|---|---|
+| `.` / `PASSED` | Implemented behavior met its assertions | Continue; retain the regression test |
+| `XFAIL` | The target still raised `NotImplementedError` | Implement that module when it reaches the timeline |
+| `F` / `FAILED` | Code ran but produced the wrong behavior | Fix the implementation or, if the requirement changed, update the documented rule and test together |
+| `E` / `ERROR` | Test setup, import, fixture, or execution failed | Fix the test environment or underlying exception before interpreting results |
+| `XPASS` | A test marked as expected to fail unexpectedly passed | Investigate and remove stale expected-failure handling |
+
+`XFAIL` must never be counted as a passed analytical check. The final project should have no scaffold-related expected failures.
+
+## Test organization
+
+The test tree mirrors the source tree:
+
+```text
+src/dp_activity/features/season_features.py
+tests/features/test_season_features.py
+```
+
+| Area | Main behaviors protected |
+|---|---|
+| CLI and configuration | command parsing, required settings, path resolution, non-overlapping periods |
+| Socrata and repositories | retrieval metadata, deterministic persistence, no accidental index columns or overwrites |
+| Cleaning | explicit name mapping, text normalization, date parsing, no input mutation |
+| Classification | rule parsing, priority, first-match behavior, audit fields, unmatched and conflicting rules |
+| Features | inclusive policy boundaries, cross-year winters, partial seasons, valid and pending processing times |
+| Validation and profiling | missing schema, duplicate identifiers, freshness, missingness, rule coverage, review counts |
+| Analysis | zero months, counts and shares, small baselines, valid denominators, censoring, sensitivity scenarios |
+| Visualization and export | required columns, stable files, ISO dates, reconciliation outputs |
+| Pipeline | stage order, dependency boundaries, named outputs, manifest-ready results |
+
+## Implementation workflow
+
+Use a small red–green–refactor cycle for one module at a time:
+
+1. Open the source module and its matching test file.
+2. Read the pseudocode and test assertions aloud before changing code.
+3. Run only that test file and confirm it is currently `XFAIL` because of `NotImplementedError`.
+4. Implement the smallest behavior needed to satisfy the test without hard-coding the example values.
+5. Run the focused test until it passes.
+6. Add boundary, missing-value, and invalid-input cases relevant to that module.
+7. Run the entire suite to catch effects on other modules.
+8. Refactor only while the suite remains green.
+9. Commit the source and its tests together with a message describing the behavior implemented.
+
+Do not change an assertion merely to make a failure disappear. If an analytical definition changes, update the applicable documentation, configuration, implementation, and tests in the same change so the decision remains auditable.
+
+## Required test layers
+
+### Unit tests
+
+Unit tests cover one function or class with tiny controlled inputs. These tests should make up most of the suite and should not require network access.
+
+### Integration tests
+
+Integration tests will verify adjacent components together, including configuration → cleaning → classification → features, and analysis tables → Power BI exports. They should use a small frozen fixture derived from the source schema rather than the full live dataset.
+
+### Data-contract tests
+
+Data-contract tests will verify required City API fields, supported types, rule-file columns, output schemas, unique keys, and allowed categorical values. Live-source checks must be kept separate from offline reproducibility tests because the public dataset can change.
+
+### Reconciliation tests
+
+Before submission, Python headline totals must be compared with the corresponding Power BI measures. Reconciliation should cover residential record count, period totals, monthly totals, classification totals, valid processing-time count, and missing/review counts.
+
+### End-to-end smoke test
+
+A final smoke test should run the pipeline from a named frozen snapshot and configuration version through generated CSV outputs. It must verify that expected files exist, contain required columns, and agree with manifest counts.
+
+## Test-data rules
+
+- Use synthetic records for ordinary unit tests.
+- Do not commit private, personal, or restricted data.
+- A retained public-data fixture should be small, documented, and traceable to a source snapshot.
+- Include dates exactly on August 5–6, 2024 and August 3–4, 2026.
+- Include December, January, and February records to test one cross-year winter.
+- Include missing dates, negative processing duration, pending applications, missing geography, duplicate identifiers, an unmatched classification, and a multi-rule conflict.
+- Include a zero-baseline community so percentage-change handling is tested explicitly.
+
+## Completion gates
+
+A module is complete when:
+
+- its matching scaffold test no longer reports `XFAIL`;
+- its normal, boundary, missing-value, and invalid-input cases pass;
+- related documentation and configuration agree with its behavior; and
+- the complete suite still passes.
+
+The Python analysis is ready for final Power BI reconciliation only when all scaffold-related `XFAIL` results have been removed, the frozen-snapshot integration test passes, and exported totals reconcile with Python results. Continuous integration is not configured yet; until it is added, the full suite must be run locally before each implementation commit and before submission.

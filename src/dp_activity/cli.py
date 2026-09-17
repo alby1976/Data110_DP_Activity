@@ -8,6 +8,11 @@ Implementation pseudocode:
 5. Execute the requested command.
 6. Print a short success summary; convert expected project errors to friendly messages.
 7. Return a non-zero exit code on failure.
+
+Design pattern:
+    Composition Root and Command.
+Why:
+    The CLI is the single place that assembles concrete dependencies, then dispatches the user's selected command to the appropriate workflow.
 """
 
 from __future__ import annotations
@@ -32,4 +37,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

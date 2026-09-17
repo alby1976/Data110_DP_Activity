@@ -1,4 +1,10 @@
-"""Shared contract for analysis components."""
+"""Shared contract for analysis components.
+
+Design pattern:
+    Strategy.
+Why:
+    It defines the interchangeable analysis contract; the pipeline can run any analysis implementation through the same run() interface.
+"""
 
 from __future__ import annotations
 
@@ -15,4 +21,3 @@ class Analysis(ABC):
     def run(self, permits: Any) -> dict[str, Any]:
         """Return tables keyed by stable output names."""
         raise NotImplementedError
-

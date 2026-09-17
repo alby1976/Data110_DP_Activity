@@ -1,4 +1,10 @@
-"""Persistence boundary for immutable raw snapshots."""
+"""Persistence boundary for immutable raw snapshots.
+
+Design pattern:
+    Repository.
+Why:
+    It separates immutable snapshot storage and retrieval from acquisition and analysis logic.
+"""
 
 from __future__ import annotations
 
@@ -30,4 +36,3 @@ class RawDataRepository:
         # TODO: Reject missing files and unsupported extensions.
         # TODO: Load without applying cleaning or classification.
         raise NotImplementedError
-

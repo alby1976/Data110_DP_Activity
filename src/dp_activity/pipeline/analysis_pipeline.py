@@ -1,4 +1,10 @@
-"""Orchestrate the complete analysis without hiding stage boundaries."""
+"""Orchestrate the complete analysis without hiding stage boundaries.
+
+Design pattern:
+    Facade, Dependency Injection, and Pipes and Filters.
+Why:
+    The facade exposes one run() operation while injected collaborators form explicit processing stages that can be replaced with test doubles.
+"""
 
 from __future__ import annotations
 
@@ -45,4 +51,3 @@ class AnalysisPipeline:
         # TODO: Export tables and a run manifest.
         # TODO: Return PipelineResult with counts and paths.
         raise NotImplementedError
-

@@ -2,6 +2,11 @@
 
 Keep YAML parsing and validation here so downstream modules receive trusted settings.
 All configured paths must be resolved relative to the repository root.
+
+Design pattern:
+    Immutable Value Object and Factory Function.
+Why:
+    Validated YAML is converted once into frozen configuration objects so downstream code receives stable settings instead of untrusted dictionaries.
 """
 
 from __future__ import annotations
@@ -43,4 +48,3 @@ def load_config(settings_path: Path) -> ProjectConfig:
     # TODO: Resolve paths and reject paths that escape repository_root.
     # TODO: Return ProjectConfig; never expose unvalidated YAML directly.
     raise NotImplementedError
-

@@ -1,4 +1,10 @@
-"""Permit-volume analysis."""
+"""Permit-volume analysis.
+
+Design pattern:
+    Strategy.
+Why:
+    It provides the volume-calculation algorithm as an interchangeable pipeline analysis.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ class VolumeAnalysis(Analysis):
         # TODO: Calculate absolute and percent change; blank percent when baseline=0.
         # TODO: Return permit_volume and monthly_volume tables.
         raise NotImplementedError
-

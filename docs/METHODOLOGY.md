@@ -162,7 +162,21 @@ Report count, median, mean, 25th percentile, and 75th percentile. The primary st
 
 Project-wide dates, seasons, paths, warning thresholds, and output names must be read from `config/settings.yaml`. Classification outcomes must come from `config/classification_rules.csv`, not from duplicate hard-coded lists in notebooks, Python modules, or Power BI. Both files and the source snapshot identifier must be associated with the final results.
 
-## 10. Interpretation rules
+## 10. Verification and testing
+
+The project uses the behavior-first `pytest` framework defined in [Testing Framework](TESTING.md). Each non-package Python module has a matching test module. During scaffolding, a test reports `XFAIL` only when the target still raises `NotImplementedError`; this records unfinished work and does not count as a passed analytical check.
+
+Verification will occur at five levels:
+
+1. unit tests for individual functions and classes using small synthetic DataFrames;
+2. integration tests across configuration, cleaning, classification, features, analyses, and exports;
+3. data-contract tests for City source fields, rule-file schemas, output schemas, and allowed values;
+4. an end-to-end smoke test using a named frozen source fixture and configuration version; and
+5. reconciliation tests comparing Python results with Power BI measures.
+
+Boundary cases must include both policy changes, December-to-February winter assignment, partial seasons, missing and invalid dates, pending cases, duplicate permit identifiers, unmatched and conflicting classification rules, missing geography, zero community baselines, and invalid processing durations. A module is not complete until its expected-failure marker is gone, its behavior and boundary cases pass, and the full suite remains green.
+
+## 11. Interpretation rules
 
 - Use **differed**, **increased**, **decreased**, or **was associated with**.
 - Avoid **caused**, **resulted in**, or **impact** unless supported by a stronger causal design.
@@ -170,7 +184,7 @@ Project-wide dates, seasons, paths, warning thresholds, and output names must be
 - Label incomplete periods prominently.
 - Report data-quality exclusions beside each affected metric.
 
-## 11. Bias-control plan
+## 12. Bias-control plan
 
 The project will maintain a detailed [Biases and Mitigation Plan](BIAS_AND_MITIGATION.md). The minimum controls required before reporting results are:
 
@@ -187,7 +201,7 @@ The project will maintain a detailed [Biases and Mitigation Plan](BIAS_AND_MITIG
 
 Bias controls and unresolved residual risks will be included in the final report. A mitigation step must not be described as eliminating a bias unless evidence demonstrates that it does.
 
-## 12. Reproducibility checklist
+## 13. Reproducibility checklist
 
 - [ ] Data retrieval timestamp recorded
 - [ ] Dependencies pinned
@@ -198,5 +212,9 @@ Bias controls and unresolved residual risks will be included in the final report
 - [ ] Python totals reconciled with Power BI measures
 - [ ] Final figures traceable to a named data snapshot
 - [ ] README commands tested on a clean environment
+- [ ] All scaffold-related `XFAIL` results removed
+- [ ] Unit, boundary, missing-value, and invalid-input tests pass
+- [ ] Frozen-fixture integration and end-to-end smoke tests pass
+- [ ] Python and Power BI reconciliation tests pass
 - [ ] Bias register completed with evidence for each applied mitigation
 - [ ] Sensitivity results retained, including results that weaken the main finding

@@ -1,4 +1,10 @@
-"""Policy-period features based on the configured primary date."""
+"""Policy-period features based on the configured primary date.
+
+Design pattern:
+    Functional Core / Pipes and Filters.
+Why:
+    A side-effect-free transformation adds period fields to a table, making the rule deterministic, composable, and easy to test at boundaries.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ def add_period_features(
     # TODO: Add a stable categorical sort order.
     # TODO: Flag applications whose decision crosses a policy boundary.
     raise NotImplementedError
-

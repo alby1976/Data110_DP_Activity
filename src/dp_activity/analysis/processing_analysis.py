@@ -1,4 +1,10 @@
-"""Processing-time analysis."""
+"""Processing-time analysis.
+
+Design pattern:
+    Strategy.
+Why:
+    It encapsulates processing-time calculations behind the common Analysis interface so duration logic can evolve independently.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ class ProcessingAnalysis(Analysis):
         # TODO: Add breakdowns by ResidentialType and optional community.
         # TODO: Label right-censoring: undecided recent applications are not random missingness.
         raise NotImplementedError
-

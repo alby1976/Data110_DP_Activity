@@ -1,4 +1,10 @@
-"""Application-to-decision processing-time features."""
+"""Application-to-decision processing-time features.
+
+Design pattern:
+    Functional Core / Pipes and Filters.
+Why:
+    A deterministic table transformation derives processing duration and validity flags without performing I/O.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ def add_processing_features(
     # TODO: Flag records with no decision as pending/right-censored.
     # TODO: Keep invalid rows in the dataset but exclude them from duration summaries.
     raise NotImplementedError
-

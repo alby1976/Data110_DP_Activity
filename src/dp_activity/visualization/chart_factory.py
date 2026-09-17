@@ -1,4 +1,10 @@
-"""Create consistent, accessible charts from analysis tables."""
+"""Create consistent, accessible charts from analysis tables.
+
+Design pattern:
+    Factory.
+Why:
+    It centralizes figure construction and styling so callers request a chart type without duplicating plotting setup.
+"""
 
 from __future__ import annotations
 
@@ -24,4 +30,3 @@ class ChartFactory:
         """Save one chart with reproducible dimensions and accessible resolution."""
         # TODO: Validate extension, create parent directory, and save with tight bounds.
         raise NotImplementedError
-

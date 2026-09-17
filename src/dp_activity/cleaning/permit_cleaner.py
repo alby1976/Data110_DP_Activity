@@ -1,4 +1,10 @@
-"""Deterministic cleaning for City development-permit records."""
+"""Deterministic cleaning for City development-permit records.
+
+Design pattern:
+    Pipes and Filters.
+Why:
+    Cleaning is one deterministic transformation stage with a clear input and output, so it can be composed and tested independently.
+"""
 
 from __future__ import annotations
 
@@ -23,4 +29,3 @@ class PermitCleaner:
         # TODO: Do not silently drop duplicates or invalid records.
         # TODO: Return columns in a stable documented order.
         raise NotImplementedError
-

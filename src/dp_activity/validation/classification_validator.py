@@ -1,4 +1,10 @@
-"""Validate rule coverage and classification reliability."""
+"""Validate rule coverage and classification reliability.
+
+Design pattern:
+    Strategy and Result Table.
+Why:
+    It encapsulates one replaceable validation algorithm and returns structured findings that can be exported or interpreted by the pipeline.
+"""
 
 from __future__ import annotations
 
@@ -17,4 +23,3 @@ class ClassificationValidator:
         # TODO: If a labelled audit sample exists, build a confusion matrix by class.
         # TODO: Report errors and rates; do not claim a rule is valid from its label alone.
         raise NotImplementedError
-

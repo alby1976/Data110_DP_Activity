@@ -1,4 +1,10 @@
-"""Sensitivity checks for defensible alternative definitions."""
+"""Sensitivity checks for defensible alternative definitions.
+
+Design pattern:
+    Strategy with injected functions.
+Why:
+    Named scenario callables supply alternative algorithms at runtime, allowing sensitivity definitions to change without modifying the orchestrator.
+"""
 
 from __future__ import annotations
 
@@ -23,4 +29,3 @@ class SensitivityAnalysis(Analysis):
         # TODO: Compare direction and magnitude with the reference result.
         # TODO: Retain scenarios that weaken the headline finding.
         raise NotImplementedError
-

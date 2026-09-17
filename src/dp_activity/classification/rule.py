@@ -1,4 +1,10 @@
-"""Domain representation of one classification rule."""
+"""Domain representation of one classification rule.
+
+Design pattern:
+    Specification and Value Object.
+Why:
+    Each immutable rule represents one reusable matching predicate plus its classification outcome, identified by stable rule data rather than object identity.
+"""
 
 from __future__ import annotations
 
@@ -32,4 +38,3 @@ class ClassificationRule:
         # TODO: Implement exact, contains, starts_with, and compiled regex.
         # TODO: Raise a project-specific error for an unsupported match type.
         raise NotImplementedError
-

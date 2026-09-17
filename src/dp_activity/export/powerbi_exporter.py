@@ -1,4 +1,10 @@
-"""Export stable, tidy tables for Power BI."""
+"""Export stable, tidy tables for Power BI.
+
+Design pattern:
+    Adapter.
+Why:
+    It converts project-owned tables into the stable CSV schemas and conventions expected by Power BI.
+"""
 
 from __future__ import annotations
 
@@ -26,4 +32,3 @@ class PowerBIExporter:
         # TODO: Reject accidental index columns and duplicate column names.
         # TODO: Return all output paths for inclusion in the run manifest.
         raise NotImplementedError
-

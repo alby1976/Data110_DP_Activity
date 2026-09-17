@@ -1,4 +1,10 @@
-"""Meteorological season fields, including cross-year winters."""
+"""Meteorological season fields, including cross-year winters.
+
+Design pattern:
+    Functional Core / Pipes and Filters.
+Why:
+    A pure transformation owns the cross-year season algorithm so it composes cleanly with other feature stages.
+"""
 
 from __future__ import annotations
 
@@ -20,4 +26,3 @@ def add_season_features(
     # TODO: Determine whether all days of the season fall within its analysis window.
     # TODO: Flag seasons split by the August policy boundaries as partial.
     raise NotImplementedError
-

@@ -1,4 +1,10 @@
-"""Residential development-type analysis."""
+"""Residential development-type analysis.
+
+Design pattern:
+    Strategy.
+Why:
+    It isolates residential-type count and share calculations behind the common Analysis interface.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ class TypeAnalysis(Analysis):
         # TODO: Retain Review/Unknown categories rather than hiding them.
         # TODO: Calculate changes with baseline-zero handling.
         raise NotImplementedError
-

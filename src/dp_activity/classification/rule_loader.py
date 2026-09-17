@@ -1,4 +1,10 @@
-"""Load and validate data-driven classification rules."""
+"""Load and validate data-driven classification rules.
+
+Design pattern:
+    Factory.
+Why:
+    It validates external CSV rows and constructs trusted ClassificationRule domain objects, centralizing creation and conversion rules.
+"""
 
 from __future__ import annotations
 
@@ -21,4 +27,3 @@ class RuleLoader:
         # TODO: Build ClassificationRule objects.
         # TODO: Filter Enabled=true and sort by (Priority, RuleID).
         raise NotImplementedError
-

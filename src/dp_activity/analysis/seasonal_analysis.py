@@ -1,4 +1,10 @@
-"""Seasonal permit analysis."""
+"""Seasonal permit analysis.
+
+Design pattern:
+    Strategy.
+Why:
+    It encapsulates complete- and partial-season comparisons behind the shared Analysis contract.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ class SeasonalAnalysis(Analysis):
         # TODO: Produce clearly labelled partial-season context separately.
         # TODO: Compare like calendar months as a supporting seasonality check.
         raise NotImplementedError
-

@@ -1,4 +1,10 @@
-"""General data-quality checks and machine-readable results."""
+"""General data-quality checks and machine-readable results.
+
+Design pattern:
+    Strategy and Result Object.
+Why:
+    It packages configurable quality checks as one validation strategy and returns explicit immutable results instead of printing or silently repairing data.
+"""
 
 from __future__ import annotations
 
@@ -26,4 +32,3 @@ class DataQualityValidator:
         # TODO: Compare max AppliedDate with the configured freshness threshold.
         # TODO: Return pass/warn/fail records suitable for export.
         raise NotImplementedError
-

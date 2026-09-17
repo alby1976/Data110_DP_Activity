@@ -1,4 +1,10 @@
-"""Community and ward analysis."""
+"""Community and ward analysis.
+
+Design pattern:
+    Strategy.
+Why:
+    It packages community and ward calculations as one interchangeable analysis that the pipeline can select without geography-specific branching.
+"""
 
 from __future__ import annotations
 
@@ -22,4 +28,3 @@ class GeographyAnalysis(Analysis):
         # TODO: Add SmallBaselineWarning; do not delete small communities.
         # TODO: Return community and ward tables suitable for maps/Power BI.
         raise NotImplementedError
-

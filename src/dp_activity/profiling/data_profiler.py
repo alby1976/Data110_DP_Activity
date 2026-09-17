@@ -1,4 +1,10 @@
-"""Create evidence needed before finalizing cleaning and rules."""
+"""Create evidence needed before finalizing cleaning and rules.
+
+Design pattern:
+    Pipes and Filters.
+Why:
+    Profiling is a read-only pipeline stage that transforms source records into named evidence tables without owning persistence.
+"""
 
 from __future__ import annotations
 
@@ -18,4 +24,3 @@ class DataProfiler:
         # TODO: Include examples of long descriptions for manual rule review.
         # TODO: Return tables; leave file writing to OutputRepository.
         raise NotImplementedError
-

@@ -114,21 +114,24 @@ Data110_DP_Activity/
 ├── docs/
 │   ├── CONFIGURATION.md
 │   ├── DATA_DICTIONARY.md
+│   ├── DESIGN_PATTERNS.md
 │   ├── BIAS_AND_MITIGATION.md
 │   ├── DEVELOPMENT_PERMIT_BACKGROUND.md
 │   ├── METHODOLOGY.md
 │   ├── POWER_BI_PLAN.md
 │   ├── PRESENTATION_PLAN.md
 │   ├── PROJECT_SUMMARY.md
-│   └── REFERENCES.md
+│   ├── REFERENCES.md
+│   └── TESTING.md
 ├── data/
 │   ├── raw/                 # downloaded source data; not committed
 │   └── processed/           # cleaned Power BI inputs
 ├── notebooks/               # optional exploration notebooks
 ├── powerbi/                 # Power BI .pbix file
 ├── reports/                 # final summary and presentation exports
+├── requirements-dev.txt     # pinned local testing dependencies
 ├── src/                     # reusable Python modules
-└── tests/                   # data-quality and transformation tests
+└── tests/                   # pytest tree mirroring the Python modules
 ```
 
 Folders and planned files shown above that are not yet present will be added as the analysis is implemented.
@@ -138,6 +141,8 @@ Folders and planned files shown above that are not yet present will be added as 
 Analysis choices are kept outside the Python code where practical. [`config/settings.yaml`](config/settings.yaml) contains the data source, study periods, season definitions, quality checks, and output names. [`config/classification_rules.csv`](config/classification_rules.csv) contains ordered, auditable rules for residential inclusion, housing type, and rezoning-relevance classification. Provisional, fallback, and review rules remain subject to the validation process; being committed does not magically make a rule correct.
 
 See the [configuration and classification-rules guide](docs/CONFIGURATION.md) for the file schemas, validation requirements, rule precedence, and audit process.
+
+The Python modules also identify their architectural or object-oriented pattern and explain why it is used. See the [Python Design Patterns](docs/DESIGN_PATTERNS.md) overview for how the adapters, repositories, pipeline, strategies, rule chain, factories, and functional feature stages fit together.
 
 ## Getting started
 
@@ -176,11 +181,15 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
+The full framework, test layers, implementation loop, fixture rules, and completion gates are
+defined in the [Testing Framework](docs/TESTING.md).
+
 ## Documentation
 
 - [Copyright notice](LICENSE.md)
 - [Academic integrity policy](ACADEMIC_INTEGRITY.md)
 - [Configuration and classification-rules guide](docs/CONFIGURATION.md)
+- [Python design patterns](docs/DESIGN_PATTERNS.md)
 - [One-page project summary](docs/PROJECT_SUMMARY.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
@@ -188,6 +197,7 @@ completed work.
 - [Data dictionary](docs/DATA_DICTIONARY.md)
 - [Power BI dashboard plan](docs/POWER_BI_PLAN.md)
 - [Presentation plan](docs/PRESENTATION_PLAN.md)
+- [Testing framework](docs/TESTING.md)
 - [References and related work](docs/REFERENCES.md)
 
 ## Limitations

@@ -1,4 +1,10 @@
-"""Apply ordered rules and produce classification audit fields."""
+"""Apply ordered rules and produce classification audit fields.
+
+Design pattern:
+    Chain of Responsibility.
+Why:
+    Ordered rules are tried in priority order until the first match handles a record; later matches are still counted for conflict auditing.
+"""
 
 from __future__ import annotations
 
@@ -35,4 +41,3 @@ class PermitClassifier:
         """Summarize matches, unmatched rows, review states, and conflicts."""
         # TODO: Group by rule, period (when available), and review status.
         raise NotImplementedError
-

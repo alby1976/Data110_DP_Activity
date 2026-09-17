@@ -1,4 +1,10 @@
-"""Persistence boundary for generated tables and run manifests."""
+"""Persistence boundary for generated tables and run manifests.
+
+Design pattern:
+    Repository.
+Why:
+    It hides filesystem persistence behind project-level write operations so analysis code does not depend on CSV or JSON mechanics.
+"""
 
 from __future__ import annotations
 
@@ -23,4 +29,3 @@ class OutputRepository:
         """Record inputs, settings, Git revision, checksums, and outputs."""
         # TODO: Serialize JSON with sorted keys and readable indentation.
         raise NotImplementedError
-
