@@ -157,6 +157,25 @@ Activate the environment on Windows PowerShell:
 
 Then install the pinned dependencies and run the analysis commands documented in a future reproducibility section. Commands will not be advertised as working until the corresponding files exist.
 
+## Running the tests
+
+Install the development dependencies and run the complete suite from the repository root:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
+Tests for unfinished pseudocode appear as `XFAIL`. This is expected while a function still
+raises `NotImplementedError`. After you implement a function, its real assertions run:
+
+- `.` means the behavior passed;
+- `F` means the implementation returned a result but did not meet the expected behavior;
+- `XFAIL` means that module still reaches a `NotImplementedError` placeholder.
+
+This makes the test summary a progress checklist rather than treating unfinished modules as
+completed work.
+
 ## Documentation
 
 - [Copyright notice](LICENSE.md)
