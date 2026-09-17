@@ -69,6 +69,8 @@ Python and Power BI serve different roles while using the same definitions:
 - **Python:** retrieve, profile, clean, classify, validate, summarize, visualize, and export the data.
 - **Power BI:** provide interactive comparisons by period, community, ward, permit type, status, and land-use district.
 
+Socrata results can be saved as CSV or JSON by filename extension, or as Parquet when a compatible engine is installed. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
+
 ## Key measures
 
 - total and monthly residential permit counts;

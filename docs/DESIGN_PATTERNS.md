@@ -11,7 +11,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 | Pattern | Source modules | Why it is used |
 |---|---|---|
 | Composition Root and Command | `cli.py` | Builds concrete dependencies in one place and dispatches the selected workflow |
-| Adapter | `socrata_adapter.py`, `powerbi_exporter.py` | Keeps Socrata and Power BI formats outside the analytical core |
+| Adapter | `socrata_adapter.py`, `file_format_adapter.py`, `powerbi_exporter.py` | Keeps Socrata, storage-format, and Power BI details outside the analytical core |
 | Repository | `raw_data_repository.py`, `output_repository.py` | Hides filesystem persistence behind project-owned operations |
 | Facade and Dependency Injection | `analysis_pipeline.py` | Exposes one pipeline operation while accepting replaceable collaborators |
 | Pipes and Filters | cleaner, profiler, feature modules, pipeline | Builds the workflow from explicit deterministic stages |
@@ -19,6 +19,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 | Chain of Responsibility | `classifier.py` | Evaluates ordered rules until the first matching rule handles a permit |
 | Specification and Value Object | `rule.py` | Represents each immutable classification predicate and outcome as auditable data |
 | Factory | `rule_loader.py`, `chart_factory.py` | Centralizes construction of validated rules and consistently styled figures |
+| Reflective Factory | `file_format_adapter.py` | Loads a custom output adapter from a configured Python class path while enforcing the adapter contract |
 | Immutable Value Object | `config.py` | Prevents validated settings and period boundaries from changing during a run |
 | Result Object/Table | validation and pipeline-result classes | Returns structured findings instead of relying on printed messages or hidden state |
 | Functional Core | feature modules | Keeps date and feature rules deterministic, side-effect-free, and boundary-testable |
@@ -35,6 +36,8 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 ## Implementation rules
 
 - Keep Socrata request logic inside the adapter.
+- Add new snapshot formats by implementing `FileFormatAdapter`; do not add format branches to `SocrataAdapter`.
+- Accept reflected file adapters only when they subclass `FileFormatAdapter` and implement `save()`.
 - Keep file-format and filesystem details inside repositories or exporters.
 - Construct concrete dependencies in the CLI composition root, not inside analytical classes.
 - Inject collaborators into the pipeline so tests can use stubs and fakes.
