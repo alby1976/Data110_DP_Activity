@@ -24,6 +24,20 @@ paths:
   figures: "reports/figures"
   tables: "reports/tables"
 
+storage:
+  # File stem used before the configured csv/parquet extension.
+  output_base_name: "development_permits"
+  # true replaces existing generated output files; false preserves them.
+  overwrite_outputs: true
+  # Choose one or both supported formats: csv, parquet.
+  # Parquet output requires installing the optional project parquet dependencies.
+  raw_snapshot_formats:
+    - csv
+    # - parquet
+  processed_output_formats:
+    - csv
+    # - parquet
+
 study_periods:
   before:
     label: "Before"

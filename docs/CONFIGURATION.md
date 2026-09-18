@@ -13,6 +13,7 @@ This YAML file is the central source for project metadata, data access, analysis
 | `project` | Identifies the project and author | project name, course, author |
 | `data_source` | Defines where data comes from | provider, dataset ID `6933-unw5`, API URL, source type |
 | `paths` | Defines repository-relative locations | raw, interim, processed, reports, classification rules |
+| `storage` | Selects persisted data names, overwrite behavior, and formats | output basename, overwrite flag, and raw snapshot/processed output formats: `csv`, `parquet`, or both |
 | `study_periods` | Defines inclusive policy windows | Before, During, Early Post-Repeal |
 | `analysis` | Controls analytical definitions | primary date, processing fields, small-base threshold, classification defaults |
 | `seasons` | Maps calendar months to seasons | Fall, Winter, Spring, Summer |
@@ -26,6 +27,8 @@ This YAML file is the central source for project metadata, data access, analysis
 - Configuration dates use ISO format (`YYYY-MM-DD`) and study-period endpoints are inclusive.
 - The `before` and `during` periods must not overlap.
 - Every month number from 1 through 12 must appear in exactly one season.
+- `storage.output_base_name` is an extension-free file stem; `storage.raw_snapshot_formats` and `storage.processed_output_formats` supply the `.csv` and/or `.parquet` extension. Parquet requires the optional Parquet dependency group.
+- `storage.overwrite_outputs` defaults to `true` in the project settings. Set it to `false` when an existing generated output should be preserved instead of replaced.
 - January and February belong to a winter that starts in December of the previous year.
 - `analysis.primary_date_field` determines policy-period and seasonal assignment.
 - `analysis.classification.unmatched_action: "Review"` prevents an unrecognized value from being silently included or excluded.

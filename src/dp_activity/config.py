@@ -24,6 +24,8 @@ from typing import Any
 
 import yaml
 
+SUPPORTED_STORAGE_FORMATS = frozenset({"csv", "parquet"})
+
 
 @dataclass(frozen=True)
 class StudyPeriod:
@@ -56,6 +58,10 @@ class ProjectConfig:
         processed_data_dir: Directory for transformed data products.
         reports_dir: Directory for reports and reporting exports.
         classification_rules_path: Validated classification-rule CSV path.
+        output_base_name: Extension-free file stem used for configured data outputs.
+        overwrite_outputs: Whether generated output files may replace existing files.
+        raw_snapshot_formats: Storage formats requested for immutable source snapshots.
+        processed_output_formats: Storage formats requested for processed output tables.
         periods: Ordered policy-period definitions.
         raw: Complete validated settings mapping.
     """
@@ -65,6 +71,10 @@ class ProjectConfig:
     processed_data_dir: Path
     reports_dir: Path
     classification_rules_path: Path
+    output_base_name: str
+    overwrite_outputs: bool
+    raw_snapshot_formats: tuple[str, ...]
+    processed_output_formats: tuple[str, ...]
     periods: tuple[StudyPeriod, ...]
     raw: dict[str, Any]
 
@@ -103,6 +113,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
     repository_root = path.parent.parent.resolve()
 
     paths = _required_mapping(raw, "paths")
+    storage = _required_mapping(raw, "storage")
     periods_mapping = _required_mapping(raw, "study_periods")
     seasons_mapping = _required_mapping(raw, "seasons")
 
@@ -127,6 +138,22 @@ def load_config(settings_path: Path) -> ProjectConfig:
         field_name="paths.classification_rules",
     )
 
+    output_base_name = _parse_output_base_name(storage)
+    overwrite_outputs = _required_boolean(
+        storage,
+        "overwrite_outputs",
+        section="storage",
+    )
+    raw_snapshot_formats = _parse_storage_formats(
+        storage,
+        "raw_snapshot_formats",
+        field_name="storage.raw_snapshot_formats",
+    )
+    processed_output_formats = _parse_storage_formats(
+        storage,
+        "processed_output_formats",
+        field_name="storage.processed_output_formats",
+    )
     periods = _parse_study_periods(periods_mapping)
     _validate_seasons(seasons_mapping)
 
@@ -136,6 +163,10 @@ def load_config(settings_path: Path) -> ProjectConfig:
         processed_data_dir=processed_data_dir,
         reports_dir=reports_dir,
         classification_rules_path=classification_rules_path,
+        output_base_name=output_base_name,
+        overwrite_outputs=overwrite_outputs,
+        raw_snapshot_formats=raw_snapshot_formats,
+        processed_output_formats=processed_output_formats,
         periods=periods,
         raw=raw,
     )
@@ -154,6 +185,26 @@ def _required_string(settings: dict[str, Any], key: str, *, section: str) -> str
     value = settings.get(key)
     if not isinstance(value, str) or not value.strip():
         raise TypeError(f"Required field '{section}.{key}' must be a non-blank string.")
+    return value
+
+
+def _required_boolean(settings: dict[str, Any], key: str, *, section: str) -> bool:
+    """Return a required Boolean field from a settings section.
+
+    Args:
+        settings: Settings section containing the expected field.
+        key: Field name to retrieve.
+        section: Section name used in validation messages.
+
+    Returns:
+        The configured Boolean value.
+
+    Raises:
+        TypeError: The field is missing or is not a Boolean.
+    """
+    value = settings.get(key)
+    if not isinstance(value, bool):
+        raise TypeError(f"Required field '{section}.{key}' must be true or false.")
     return value
 
 
@@ -208,6 +259,81 @@ def _parse_study_periods(periods_mapping: dict[str, Any]) -> tuple[StudyPeriod, 
     ordered_periods = tuple(sorted(periods, key=lambda period: period.start))
     _validate_non_overlapping_periods(ordered_periods)
     return ordered_periods
+
+
+def _parse_storage_formats(
+    storage_mapping: dict[str, Any],
+    key: str,
+    *,
+    field_name: str,
+) -> tuple[str, ...]:
+    """Return normalized, supported storage formats from the configuration.
+
+    Args:
+        storage_mapping: Validated storage section from the settings file.
+        key: Storage-list key to parse.
+        field_name: Fully qualified field name used in validation messages.
+
+    Returns:
+        Normalized storage format names in configured order.
+
+    Raises:
+        TypeError: The format list is missing or contains non-string values.
+        ValueError: The format list is empty, duplicated, or unsupported.
+    """
+    configured_formats = storage_mapping.get(key)
+    if not isinstance(configured_formats, list) or not configured_formats:
+        raise TypeError(f"Field '{field_name}' must be a non-empty list.")
+
+    normalized_formats: list[str] = []
+    for configured_format in configured_formats:
+        if not isinstance(configured_format, str) or not configured_format.strip():
+            raise TypeError(f"All values in '{field_name}' must be non-blank strings.")
+
+        normalized_format = configured_format.strip().lower()
+        if normalized_format not in SUPPORTED_STORAGE_FORMATS:
+            supported = ", ".join(sorted(SUPPORTED_STORAGE_FORMATS))
+            raise ValueError(
+                f"Unsupported storage format in '{field_name}': "
+                f"{configured_format!r}. Supported formats: {supported}."
+            )
+        if normalized_format in normalized_formats:
+            raise ValueError(
+                f"Duplicate storage format in '{field_name}': {normalized_format!r}."
+            )
+        normalized_formats.append(normalized_format)
+
+    return tuple(normalized_formats)
+
+
+def _parse_output_base_name(storage_mapping: dict[str, Any]) -> str:
+    """Return the extension-free output filename stem from storage settings.
+
+    Args:
+        storage_mapping: Validated storage section from the settings file.
+
+    Returns:
+        Configured output filename stem.
+
+    Raises:
+        TypeError: The configured basename is missing or is not a string.
+        ValueError: The configured basename is blank, path-like, or includes a suffix.
+    """
+    output_base_name = _required_string(
+        storage_mapping,
+        "output_base_name",
+        section="storage",
+    ).strip()
+    output_path = Path(output_base_name)
+
+    if output_path.name != output_base_name or output_path.parent != Path("."):
+        raise ValueError("Field 'storage.output_base_name' must not contain directories.")
+    if output_path.suffix:
+        raise ValueError("Field 'storage.output_base_name' must not include a file extension.")
+    if output_base_name in {".", ".."}:
+        raise ValueError("Field 'storage.output_base_name' must be a usable file stem.")
+
+    return output_base_name
 
 
 def _validate_non_overlapping_periods(periods: tuple[StudyPeriod, ...]) -> None:
