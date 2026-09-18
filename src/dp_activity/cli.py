@@ -26,20 +26,107 @@ Implementation Outline:
 
 from __future__ import annotations
 
+import argparse
+import sys
 from collections.abc import Sequence
+from dataclasses import dataclass
+from functools import partial
+from pathlib import Path
+
+from dp_activity.analysis.geography_analysis import GeographyAnalysis
+from dp_activity.analysis.processing_analysis import ProcessingAnalysis
+from dp_activity.analysis.rezoning_analysis import RezoningAnalysis
+from dp_activity.analysis.seasonal_analysis import SeasonalAnalysis
+from dp_activity.analysis.sensitivity_analysis import SensitivityAnalysis
+from dp_activity.analysis.type_analysis import TypeAnalysis
+from dp_activity.analysis.volume_analysis import VolumeAnalysis
+from dp_activity.classification.classifier import PermitClassifier
+from dp_activity.classification.rule_loader import RuleLoader
+from dp_activity.cleaning.permit_cleaner import PermitCleaner
+from dp_activity.config import ProjectConfig, load_config
+from dp_activity.export.powerbi_exporter import PowerBIExporter
+from dp_activity.features.period_features import add_period_features
+from dp_activity.features.processing_features import add_processing_features
+from dp_activity.features.season_features import add_season_features
+from dp_activity.pipeline.analysis_pipeline import AnalysisPipeline, PipelineResult
+from dp_activity.repositories.raw_data_repository import RawDataRepository
+from dp_activity.validation.classification_validator import ClassificationValidator
+from dp_activity.validation.data_quality_validator import DataQualityValidator
+from dp_activity.validation.schema_validator import SchemaValidator
 
 
-def build_parser():
+DEFAULT_SETTINGS_PATH = Path("config/settings.yaml")
+
+
+@dataclass(frozen=True)
+class RunPipelineCommand:
+    """Execute the full analysis pipeline for one raw snapshot.
+
+    This object is the CLI's Command-pattern representation of the ``run`` action. It
+    receives already assembled dependencies from the composition root and exposes a
+    single execution method to keep dispatch logic simple.
+
+    Attributes:
+        pipeline: Fully assembled analysis-pipeline facade.
+        snapshot_path: Raw snapshot path supplied by the user.
+    """
+
+    pipeline: AnalysisPipeline
+    snapshot_path: Path
+
+    def execute(self) -> PipelineResult:
+        """Run the pipeline command and return the pipeline result.
+
+        Returns:
+            Structured outputs reported by the analysis pipeline.
+        """
+        return self.pipeline.run(self.snapshot_path)
+
+
+def build_parser() -> argparse.ArgumentParser:
     """Create and return the project's command-line parser.
 
     Returns:
         The configured argument parser.
-
-    Raises:
-        NotImplementedError: The scaffolded behavior has not yet been implemented.
     """
-    # TODO: Create argparse.ArgumentParser and its subcommands/options.
-    raise NotImplementedError
+    parser = argparse.ArgumentParser(
+        prog="dp-activity",
+        description="Run Calgary development-permit activity workflows.",
+    )
+    parser.add_argument(
+        "--settings",
+        type=Path,
+        default=DEFAULT_SETTINGS_PATH,
+        help="Path to the project settings YAML file.",
+    )
+
+    subparsers = parser.add_subparsers(dest="command", required=True)
+    run_parser = subparsers.add_parser(
+        "run",
+        help="Run the complete analysis pipeline for a raw snapshot.",
+    )
+    run_parser.add_argument(
+        "snapshot_path",
+        nargs="?",
+        type=Path,
+        help="Path to the immutable raw snapshot to analyze.",
+    )
+
+    return parser
+
+
+def build_run_command(config: ProjectConfig, snapshot_path: Path) -> RunPipelineCommand:
+    """Assemble concrete dependencies for the run workflow.
+
+    Args:
+        config: Validated project configuration.
+        snapshot_path: Raw snapshot path supplied by the user.
+
+    Returns:
+        A command object that can execute the configured pipeline.
+    """
+    pipeline = _build_pipeline(config)
+    return RunPipelineCommand(pipeline=pipeline, snapshot_path=snapshot_path)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -51,15 +138,172 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     Returns:
         A process exit code; zero indicates success.
-
-    Raises:
-        NotImplementedError: The scaffolded behavior has not yet been implemented.
     """
-    # TODO: Parse argv.
-    # TODO: Load settings and configure logging.
-    # TODO: Assemble dependencies rather than constructing them inside analysis classes.
-    # TODO: Dispatch the command and report its outputs.
-    raise NotImplementedError
+    parser = build_parser()
+    try:
+        arguments = parser.parse_args(argv)
+    except SystemExit as exc:
+        return exc.code if isinstance(exc.code, int) else 2
+
+    try:
+        config = load_config(arguments.settings)
+
+        if arguments.command == "run":
+            if arguments.snapshot_path is None:
+                print("error: the run command requires snapshot_path", file=sys.stderr)
+                return 2
+            command = build_run_command(config, arguments.snapshot_path)
+            result = command.execute()
+            _print_run_summary(result)
+            return 0
+
+        print(f"error: unknown command: {arguments.command}", file=sys.stderr)
+        return 2
+    except (FileNotFoundError, TypeError, ValueError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    except NotImplementedError as exc:
+        message = str(exc) or "The selected workflow is not implemented yet."
+        print(f"error: {message}", file=sys.stderr)
+        return 1
+
+    return 1
+
+
+def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
+    """Construct the concrete pipeline graph at the application boundary.
+
+    Args:
+        config: Validated project configuration.
+
+    Returns:
+        A fully assembled analysis-pipeline facade.
+    """
+    rules = RuleLoader().load(config.classification_rules_path)
+    analysis_settings = config.raw.get("analysis", {})
+    seasons_settings = config.raw.get("seasons", {})
+    quality_settings = config.raw.get("quality_checks", {})
+
+    source_repository = RawDataRepository(config.raw_data_dir)
+    cleaner = PermitCleaner(
+        column_map=_default_column_map(),
+        date_columns=[
+            analysis_settings.get("primary_date_field", "applied_date"),
+            analysis_settings.get("processing_time", {}).get("end_field", "decision_date"),
+        ],
+    )
+    classifier = PermitClassifier(
+        rules=rules,
+        field_map=_default_classification_field_map(),
+        unmatched_action=analysis_settings.get("classification", {}).get(
+            "unmatched_action",
+            "Review",
+        ),
+    )
+    feature_builders = [
+        partial(
+            add_period_features,
+            date_column=analysis_settings.get("primary_date_field", "applied_date"),
+            periods=list(config.periods),
+        ),
+        partial(
+            add_season_features,
+            date_column=analysis_settings.get("primary_date_field", "applied_date"),
+            season_months={
+                key: value["months"]
+                for key, value in seasons_settings.items()
+                if isinstance(value, dict) and "months" in value
+            },
+            analysis_windows=list(config.periods),
+        ),
+        partial(
+            add_processing_features,
+            applied_date_column=analysis_settings.get("processing_time", {}).get(
+                "start_field",
+                "applied_date",
+            ),
+            decision_date_column=analysis_settings.get("processing_time", {}).get(
+                "end_field",
+                "decision_date",
+            ),
+        ),
+    ]
+    validators = [
+        partial(
+            SchemaValidator().validate,
+            required_columns=quality_settings.get("required_columns", []),
+        ),
+        partial(DataQualityValidator().validate, settings=quality_settings),
+        partial(ClassificationValidator().validate, rules=rules),
+    ]
+    analyses = [
+        VolumeAnalysis(),
+        TypeAnalysis(),
+        GeographyAnalysis(
+            minimum_baseline_count=analysis_settings.get("community_analysis", {}).get(
+                "minimum_baseline_count",
+                5,
+            )
+        ),
+        ProcessingAnalysis(),
+        RezoningAnalysis(),
+        SeasonalAnalysis(),
+        SensitivityAnalysis(scenarios={}),
+    ]
+    exporter = PowerBIExporter(config.processed_data_dir)
+
+    return AnalysisPipeline(
+        source_repository=source_repository,
+        cleaner=cleaner,
+        classifier=classifier,
+        feature_builders=feature_builders,
+        validators=validators,
+        analyses=analyses,
+        exporter=exporter,
+    )
+
+
+def _default_column_map() -> dict[str, str]:
+    """Return Socrata-to-project column mappings used by the default pipeline."""
+    return {
+        "permitnum": "permit_number",
+        "applieddate": "applied_date",
+        "decisiondate": "decision_date",
+        "releaseddate": "released_date",
+        "completeddate": "completed_date",
+        "category": "category",
+        "description": "description",
+        "proposedusecode": "proposed_use_code",
+        "proposedusedescription": "proposed_use_description",
+        "landusedistrict": "land_use_district",
+        "communityname": "community",
+        "ward": "ward",
+        "latitude": "latitude",
+        "longitude": "longitude",
+    }
+
+
+def _default_classification_field_map() -> dict[str, str]:
+    """Return rule-field mappings against cleaned permit columns."""
+    return {
+        "category": "category",
+        "description": "description",
+        "proposedusecode": "proposed_use_code",
+        "proposedusedescription": "proposed_use_description",
+        "landusedistrict": "land_use_district",
+    }
+
+
+def _print_run_summary(result: PipelineResult) -> None:
+    """Print a concise success summary for a completed pipeline run.
+
+    Args:
+        result: Structured pipeline result returned by the run command.
+    """
+    print("Pipeline completed successfully.")
+    print(f"Analysis tables: {len(result.analysis_tables)}")
+    print(f"Validation reports: {len(result.validation_reports)}")
+    print(f"Output paths: {len(result.output_paths)}")
 
 
 if __name__ == "__main__":
