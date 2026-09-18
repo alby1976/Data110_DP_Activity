@@ -192,6 +192,7 @@ defined in the [Testing Framework](docs/TESTING.md).
 - [Academic integrity policy](ACADEMIC_INTEGRITY.md)
 - [Configuration and classification-rules guide](docs/CONFIGURATION.md)
 - [Python design patterns](docs/DESIGN_PATTERNS.md)
+- [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
 - [One-page project summary](docs/PROJECT_SUMMARY.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
