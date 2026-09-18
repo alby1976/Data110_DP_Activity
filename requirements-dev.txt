@@ -1,1 +1,2 @@
+# Installs the package, runtime dependencies, and local test tooling.
 -e .[dev]
