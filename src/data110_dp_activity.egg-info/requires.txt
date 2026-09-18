@@ -1,0 +1,10 @@
+pandas==2.2.3
+PyYAML==6.0.3
+requests==2.34.2
+
+[dev]
+pytest==9.1.1
+requests-mock==1.12.1
+
+[parquet]
+pyarrow>=16.0
