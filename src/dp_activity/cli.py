@@ -30,6 +30,7 @@ import argparse
 import sys
 from collections.abc import Sequence
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from functools import partial
 from pathlib import Path
 
@@ -43,7 +44,7 @@ from dp_activity.analysis.volume_analysis import VolumeAnalysis
 from dp_activity.classification.classifier import PermitClassifier
 from dp_activity.classification.rule_loader import RuleLoader
 from dp_activity.cleaning.permit_cleaner import PermitCleaner
-from dp_activity.config import ProjectConfig, load_config
+from dp_activity.config import LogArchiveConfig, ProjectConfig, load_config
 from dp_activity.export.powerbi_exporter import PowerBIExporter
 from dp_activity.features.period_features import add_period_features
 from dp_activity.features.processing_features import add_processing_features
@@ -152,6 +153,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             if arguments.snapshot_path is None:
                 print("error: the run command requires snapshot_path", file=sys.stderr)
                 return 2
+            _archive_existing_log(config.log_archive)
             command = build_run_command(config, arguments.snapshot_path)
             result = command.execute()
             _print_run_summary(result)
@@ -304,6 +306,62 @@ def _print_run_summary(result: PipelineResult) -> None:
     print(f"Analysis tables: {len(result.analysis_tables)}")
     print(f"Validation reports: {len(result.validation_reports)}")
     print(f"Output paths: {len(result.output_paths)}")
+
+
+def _archive_existing_log(
+    log_archive: LogArchiveConfig,
+    *,
+    now: datetime | None = None,
+) -> Path | None:
+    """Archive the current pipeline log before a new run starts.
+
+    Args:
+        log_archive: Validated logging archive settings.
+        now: Optional timestamp used for deterministic tests.
+
+    Returns:
+        The archived log path, or None when no archive was needed.
+
+    Raises:
+        IsADirectoryError: The configured active log path is a directory.
+    """
+    if not log_archive.archive_existing or not log_archive.log_file.exists():
+        return None
+    if log_archive.log_file.is_dir():
+        raise IsADirectoryError(f"Log file path is a directory: {log_archive.log_file}")
+
+    timestamp = (now or datetime.now(timezone.utc)).strftime(
+        log_archive.archive_timestamp_format
+    )
+    archive_path = (
+        log_archive.archive_dir
+        / f"{log_archive.log_file.stem}_{timestamp}{log_archive.log_file.suffix}"
+    )
+    archive_path = _unique_archive_path(archive_path)
+
+    archive_path.parent.mkdir(parents=True, exist_ok=True)
+    log_archive.log_file.replace(archive_path)
+    return archive_path
+
+
+def _unique_archive_path(path: Path) -> Path:
+    """Return path or a numbered sibling that does not already exist.
+
+    Args:
+        path: Preferred archive path.
+
+    Returns:
+        A collision-free archive path.
+    """
+    if not path.exists():
+        return path
+
+    counter = 2
+    while True:
+        candidate = path.with_name(f"{path.stem}_{counter}{path.suffix}")
+        if not candidate.exists():
+            return candidate
+        counter += 1
 
 
 if __name__ == "__main__":

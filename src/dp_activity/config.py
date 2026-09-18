@@ -46,6 +46,26 @@ class StudyPeriod:
 
 
 @dataclass(frozen=True)
+class LogArchiveConfig:
+    """Describe how an existing pipeline log should be archived.
+
+    This immutable value object keeps log rollover behavior together so the CLI can
+    configure logging without reading raw YAML keys directly.
+
+    Attributes:
+        log_file: Current run log path.
+        archive_existing: Whether an existing log file should be archived before reuse.
+        archive_dir: Directory that receives timestamped archived logs.
+        archive_timestamp_format: ``strftime`` format used in archived log names.
+    """
+
+    log_file: Path
+    archive_existing: bool
+    archive_dir: Path
+    archive_timestamp_format: str
+
+
+@dataclass(frozen=True)
 class ProjectConfig:
     """Hold validated settings required by the analysis pipeline.
 
@@ -58,6 +78,7 @@ class ProjectConfig:
         processed_data_dir: Directory for transformed data products.
         reports_dir: Directory for reports and reporting exports.
         classification_rules_path: Validated classification-rule CSV path.
+        log_archive: Logging archive settings for pipeline log rollover.
         output_base_name: Extension-free file stem used for configured data outputs.
         overwrite_outputs: Whether generated output files may replace existing files.
         raw_snapshot_formats: Storage formats requested for immutable source snapshots.
@@ -71,6 +92,7 @@ class ProjectConfig:
     processed_data_dir: Path
     reports_dir: Path
     classification_rules_path: Path
+    log_archive: LogArchiveConfig
     output_base_name: str
     overwrite_outputs: bool
     raw_snapshot_formats: tuple[str, ...]
@@ -114,6 +136,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
 
     paths = _required_mapping(raw, "paths")
     storage = _required_mapping(raw, "storage")
+    logging_settings = _required_mapping(raw, "logging")
     periods_mapping = _required_mapping(raw, "study_periods")
     seasons_mapping = _required_mapping(raw, "seasons")
 
@@ -137,6 +160,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
         _required_string(paths, "classification_rules", section="paths"),
         field_name="paths.classification_rules",
     )
+    log_archive = _parse_log_archive(logging_settings, repository_root)
 
     output_base_name = _parse_output_base_name(storage)
     overwrite_outputs = _required_boolean(
@@ -163,6 +187,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
         processed_data_dir=processed_data_dir,
         reports_dir=reports_dir,
         classification_rules_path=classification_rules_path,
+        log_archive=log_archive,
         output_base_name=output_base_name,
         overwrite_outputs=overwrite_outputs,
         raw_snapshot_formats=raw_snapshot_formats,
@@ -334,6 +359,53 @@ def _parse_output_base_name(storage_mapping: dict[str, Any]) -> str:
         raise ValueError("Field 'storage.output_base_name' must be a usable file stem.")
 
     return output_base_name
+
+
+def _parse_log_archive(
+    logging_mapping: dict[str, Any],
+    repository_root: Path,
+) -> LogArchiveConfig:
+    """Return validated pipeline-log archive settings.
+
+    Args:
+        logging_mapping: Validated logging section from the settings file.
+        repository_root: Absolute project root used to resolve configured paths.
+
+    Returns:
+        Immutable logging archive settings.
+    """
+    log_file = _resolve_repository_path(
+        repository_root,
+        _required_string(logging_mapping, "log_file", section="logging"),
+        field_name="logging.log_file",
+    )
+    archive_existing = _required_boolean(
+        logging_mapping,
+        "archive_existing",
+        section="logging",
+    )
+    archive_dir = _resolve_repository_path(
+        repository_root,
+        _required_string(logging_mapping, "archive_dir", section="logging"),
+        field_name="logging.archive_dir",
+    )
+    archive_timestamp_format = _required_string(
+        logging_mapping,
+        "archive_timestamp_format",
+        section="logging",
+    ).strip()
+
+    if archive_dir == log_file or archive_dir.suffix:
+        raise ValueError("Field 'logging.archive_dir' must be a directory path.")
+    if not archive_timestamp_format:
+        raise ValueError("Field 'logging.archive_timestamp_format' cannot be blank.")
+
+    return LogArchiveConfig(
+        log_file=log_file,
+        archive_existing=archive_existing,
+        archive_dir=archive_dir,
+        archive_timestamp_format=archive_timestamp_format,
+    )
 
 
 def _validate_non_overlapping_periods(periods: tuple[StudyPeriod, ...]) -> None:

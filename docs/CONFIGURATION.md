@@ -19,7 +19,7 @@ This YAML file is the central source for project metadata, data access, analysis
 | `seasons` | Maps calendar months to seasons | Fall, Winter, Spring, Summer |
 | `quality_checks` | Defines required checks | unique permit number, required columns, warning conditions |
 | `outputs` | Names generated tables | clean permits, summaries, audit table |
-| `logging` | Controls pipeline records | level and log-file location |
+| `logging` | Controls pipeline records | level, active log file, archive toggle, archive directory, timestamp format |
 
 ### Interpretation rules
 
@@ -29,6 +29,7 @@ This YAML file is the central source for project metadata, data access, analysis
 - Every month number from 1 through 12 must appear in exactly one season.
 - `storage.output_base_name` is an extension-free file stem; `storage.raw_snapshot_formats` and `storage.processed_output_formats` supply the `.csv` and/or `.parquet` extension. Parquet requires the optional Parquet dependency group.
 - `storage.overwrite_outputs` defaults to `true` in the project settings. Set it to `false` when an existing generated output should be preserved instead of replaced.
+- `logging.log_file` remains the current run log. When `logging.archive_existing` is `true`, an existing log should be moved to `logging.archive_dir` using `logging.archive_timestamp_format` before a new run starts.
 - January and February belong to a winter that starts in December of the previous year.
 - `analysis.primary_date_field` determines policy-period and seasonal assignment.
 - `analysis.classification.unmatched_action: "Review"` prevents an unrecognized value from being silently included or excluded.

@@ -115,3 +115,6 @@ outputs:
 logging:
   level: "INFO"
   log_file: "reports/pipeline.log"
+  archive_existing: true
+  archive_dir: "reports/logs/archive"
+  archive_timestamp_format: "%Y%m%d_%H%M%S"

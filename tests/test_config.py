@@ -29,6 +29,10 @@ def test_loads_project_settings_and_periods() -> None:
     assert config.repository_root == REPOSITORY_ROOT
     assert [period.name for period in config.periods][:2] == ["Before", "During"]
     assert config.classification_rules_path.is_file()
+    assert config.log_archive.log_file == REPOSITORY_ROOT / "reports/pipeline.log"
+    assert config.log_archive.archive_existing is True
+    assert config.log_archive.archive_dir == REPOSITORY_ROOT / "reports/logs/archive"
+    assert config.log_archive.archive_timestamp_format == "%Y%m%d_%H%M%S"
     assert config.output_base_name == "development_permits"
     assert config.overwrite_outputs is True
     assert config.raw_snapshot_formats == ("csv",)
@@ -65,6 +69,9 @@ def test_load_config_accepts_csv_and_parquet_storage_formats(tmp_path) -> None:
     settings["storage"]["overwrite_outputs"] = False
     settings["storage"]["raw_snapshot_formats"] = ["csv", "parquet"]
     settings["storage"]["processed_output_formats"] = ["parquet", "csv"]
+    settings["logging"]["archive_existing"] = False
+    settings["logging"]["archive_dir"] = "reports/logs/old"
+    settings["logging"]["archive_timestamp_format"] = "%Y-%m-%d_%H-%M-%S"
     settings_path = config_dir / "settings.yaml"
     settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
 
@@ -74,3 +81,6 @@ def test_load_config_accepts_csv_and_parquet_storage_formats(tmp_path) -> None:
     assert config.processed_output_formats == ("parquet", "csv")
     assert config.output_base_name == "permits_snapshot"
     assert config.overwrite_outputs is False
+    assert config.log_archive.archive_existing is False
+    assert config.log_archive.archive_dir == tmp_path / "reports/logs/old"
+    assert config.log_archive.archive_timestamp_format == "%Y-%m-%d_%H-%M-%S"
