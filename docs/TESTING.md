@@ -8,13 +8,13 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. After adding the implemented file-format adapter, the current baseline is:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. After adding the implemented configuration, CLI, and file-format behavior, the current baseline is:
 
 ```text
-7 passed, 26 xfailed
+14 passed, 24 xfailed
 ```
 
-This is an implementation baseline, not a claim that 26 behaviors pass. The passing tests cover the abstract analysis contract and the implemented CSV/JSON/reflection file-adapter behavior. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally.
+This is an implementation baseline, not a claim that 24 behaviors pass. The passing tests cover configuration loading, CLI command dispatch and log archiving, the abstract analysis contract, and the implemented CSV/JSON/reflection file-adapter behavior. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally.
 
 ## Installation and commands
 
@@ -71,8 +71,8 @@ tests/features/test_season_features.py
 
 | Area | Main behaviors protected |
 |---|---|
-| CLI and configuration | command parsing, required settings, path resolution, non-overlapping periods |
-| Socrata and repositories | retrieval metadata, deterministic persistence, no accidental index columns or overwrites |
+| CLI and configuration | command parsing, required settings, path resolution, non-overlapping periods, storage-format settings, log archiving |
+| Socrata and repositories | retrieval metadata, deterministic persistence, configured formats, no accidental index columns or unintended overwrites |
 | Cleaning | explicit name mapping, text normalization, date parsing, no input mutation |
 | Classification | rule parsing, priority, first-match behavior, audit fields, unmatched and conflicting rules |
 | Features | inclusive policy boundaries, cross-year winters, partial seasons, valid and pending processing times |
@@ -117,7 +117,7 @@ Before submission, Python headline totals must be compared with the correspondin
 
 ### End-to-end smoke test
 
-A final smoke test should run the pipeline from a named frozen snapshot and configuration version through generated CSV outputs. It must verify that expected files exist, contain required columns, and agree with manifest counts.
+A final smoke test should run the pipeline from a named frozen snapshot and configuration version through generated outputs in every configured format. It must verify that expected files exist, contain required columns, respect overwrite settings, preserve or archive the active pipeline log as configured, and agree with manifest counts.
 
 ## Test-data rules
 

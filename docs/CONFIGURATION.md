@@ -36,6 +36,25 @@ This YAML file is the central source for project metadata, data access, analysis
 - `community_analysis.minimum_baseline_count` is a warning/filter threshold for unstable percentage changes, not a deletion rule for the source data.
 - Output names identify generated files. They should not be edited manually because they must be reproducible from the snapshot, configuration, and code.
 
+### Storage and logging settings
+
+The `storage` section separates the output file stem from the file formats. For example,
+`output_base_name: "development_permits"` with `processed_output_formats: ["csv",
+"parquet"]` gives downstream writers enough information to produce
+`development_permits.csv` and `development_permits.parquet` without duplicating file
+names in code. The basename must not include a directory or extension because paths and
+formats are configured separately.
+
+The `overwrite_outputs` flag controls generated data products. When it is `true`, a
+writer may replace an existing configured output. When it is `false`, writers should
+preserve existing files and fail or choose a collision-safe alternative, depending on the
+specific repository/exporter contract.
+
+The `logging` section keeps `reports/pipeline.log` as the active run log. If
+`archive_existing` is `true`, the CLI archives the previous log before a new `run`
+command starts, using `archive_timestamp_format` to create names such as
+`reports/logs/archive/pipeline_20260918_143022.log`.
+
 The settings file uses standardized, code-facing `snake_case` names such as `permit_number` and `applied_date`. The current rule file identifies source fields using the City's lowercase API names, such as `proposedusedescription`. The ingestion/classification workflow must therefore use an explicit, tested name map and apply each rule either before renaming or after translating its `Field` value. Mixing the two naming systems without a map would silently break classifications.
 
 ### Validation before execution
@@ -47,8 +66,11 @@ The Python workflow should stop with a clear message when:
 3. a path attempts to leave the repository;
 4. a date is invalid or primary periods overlap;
 5. a month is duplicated or missing from the seasonal map;
-6. the configured classification file is unavailable when classification is requested; or
-7. a configured source or output field is not supported by the pipeline.
+6. the configured classification file is unavailable when classification is requested;
+7. a storage format is unsupported, duplicated, or blank;
+8. an output basename includes a path or extension;
+9. a logging archive path attempts to leave the repository; or
+10. a configured source or output field is not supported by the pipeline.
 
 ## `config/classification_rules.csv`
 

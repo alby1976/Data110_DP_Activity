@@ -86,13 +86,16 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `bias_audit.csv` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
 | `sensitivity_summary.csv` | scenario × metric | comparison of headline results under alternative reasonable rules |
 
-Names are provisional until the Python workflow is implemented.
+Names are provisional until the Python workflow is implemented. The configured storage
+formats may produce CSV files, Parquet files, or both. `storage.output_base_name` in
+`config/settings.yaml` controls the shared stem used for generated data products when a
+repository/exporter derives filenames from the storage settings.
 
 ## Configuration files
 
 | File | Grain | Purpose |
 |---|---|---|
-| `config/settings.yaml` | one project configuration | data source, paths, study periods, analysis settings, seasons, quality checks, output names, and logging |
+| `config/settings.yaml` | one project configuration | data source, paths, study periods, analysis settings, seasons, quality checks, storage formats, output names, overwrite behavior, and logging archive settings |
 | `config/classification_rules.csv` | one ordered classification rule | residential inclusion, housing-type, and rezoning-relevance logic, including validation status |
 
 The classification-rule schema, precedence, validation, and audit requirements are defined in [Configuration and Classification Rules](CONFIGURATION.md). The rule file is an input and must not be overwritten as pipeline output.
