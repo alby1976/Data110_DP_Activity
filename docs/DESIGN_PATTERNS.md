@@ -27,7 +27,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 ## How the patterns work together
 
 1. `cli.py` acts as the composition root and creates the concrete adapter, repositories, pipeline stages, analyses, validators, and exporter.
-2. The Socrata adapter retrieves external records, and the raw-data repository stores an immutable snapshot.
+2. The Socrata adapter wraps the third-party `sodapy.Socrata` client. It translates the client's `get()` operation into project-owned `iter_records()` and `download()` operations, adding bounded retries, page validation, repeated-page detection, and retrieval metadata. The raw-data repository stores an immutable snapshot.
 3. The analysis-pipeline facade sends the snapshot through cleaning, classification, feature, validation, and analysis stages.
 4. The classifier applies immutable rule specifications as an ordered chain of responsibility.
 5. Strategy objects calculate independent analytical and validation outputs without adding large conditional blocks to the pipeline.
