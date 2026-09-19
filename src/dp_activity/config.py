@@ -1,14 +1,16 @@
 """Load, validate, and expose project configuration.
 
 This module converts untrusted YAML settings into validated, immutable project
-configuration with repository-relative paths.
+configuration with repository-relative paths and optional local environment
+variables.
 
 Design Pattern:
     Immutable Value Object and Factory Function.
 
 Pattern Rationale:
-    Validated YAML is converted once into frozen configuration objects so downstream
-    code receives stable settings instead of untrusted dictionaries.
+    Validated YAML and local environment settings are converted once into frozen
+    configuration objects so downstream code receives stable settings instead of
+    untrusted dictionaries or ad hoc process-environment lookups.
 
 Typical Usage:
     Call load_config() at the composition root and pass the returned immutable settings
@@ -20,11 +22,61 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
+import re
 from typing import Any
 
 import yaml
 
 SUPPORTED_STORAGE_FORMATS = frozenset({"csv", "parquet"})
+ENV_NAME_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+@dataclass(frozen=True)
+class EnvironmentVariable:
+    """Represent one parsed value from the configured `.env` file.
+
+    This immutable value object keeps local runtime settings explicit without
+    copying secret values into version-controlled YAML.
+
+    Attributes:
+        name: Environment variable name as it appears in the `.env` file.
+        value: Parsed string value. Empty strings are retained so callers can
+            distinguish a present blank variable from a missing variable.
+    """
+
+    name: str
+    value: str
+
+
+@dataclass(frozen=True)
+class EnvFileConfig:
+    """Hold the repository-local environment file and its parsed variables.
+
+    This immutable value object is the configuration layer's adapter for `.env`
+    files. It lets the rest of the application request named local settings
+    without depending on file syntax or mutating `os.environ`.
+
+    Attributes:
+        path: Repository-resolved path to the configured `.env` file.
+        variables: Parsed variables in file order.
+    """
+
+    path: Path
+    variables: tuple[EnvironmentVariable, ...]
+
+    def get(self, name: str) -> str | None:
+        """Return a parsed variable value by name.
+
+        Args:
+            name: Environment variable name to look up.
+
+        Returns:
+            The parsed value when the variable is present; otherwise None.
+        """
+        for variable in self.variables:
+            if variable.name == name:
+                return variable.value
+        return None
 
 
 @dataclass(frozen=True)
@@ -77,6 +129,7 @@ class ProjectConfig:
         raw_data_dir: Directory for immutable source snapshots.
         processed_data_dir: Directory for transformed data products.
         reports_dir: Directory for reports and reporting exports.
+        env_file: Parsed local environment-file settings.
         classification_rules_path: Validated classification-rule CSV path.
         log_archive: Logging archive settings for pipeline log rollover.
         output_base_name: Extension-free file stem used for configured data outputs.
@@ -91,6 +144,7 @@ class ProjectConfig:
     raw_data_dir: Path
     processed_data_dir: Path
     reports_dir: Path
+    env_file: EnvFileConfig
     classification_rules_path: Path
     log_archive: LogArchiveConfig
     output_base_name: str
@@ -99,6 +153,28 @@ class ProjectConfig:
     processed_output_formats: tuple[str, ...]
     periods: tuple[StudyPeriod, ...]
     raw: dict[str, Any]
+
+    @property
+    def socrata_app_token(self) -> str | None:
+        """Return the optional Socrata app token configured through `.env`.
+
+        Returns:
+            The token value named by `data_source.app_token_env`, or None when
+            the setting is absent, the `.env` file is missing, or the configured
+            variable is blank.
+        """
+        data_source = self.raw.get("data_source", {})
+        if not isinstance(data_source, dict):
+            return None
+
+        token_variable_name = data_source.get("app_token_env")
+        if not isinstance(token_variable_name, str) or not token_variable_name.strip():
+            return None
+
+        token = self.env_file.get(token_variable_name.strip())
+        if token is None or not token.strip():
+            return None
+        return token
 
 
 def load_config(settings_path: Path) -> ProjectConfig:
@@ -135,11 +211,19 @@ def load_config(settings_path: Path) -> ProjectConfig:
     repository_root = path.parent.parent.resolve()
 
     paths = _required_mapping(raw, "paths")
+    data_source = _required_mapping(raw, "data_source")
     storage = _required_mapping(raw, "storage")
     logging_settings = _required_mapping(raw, "logging")
     periods_mapping = _required_mapping(raw, "study_periods")
     seasons_mapping = _required_mapping(raw, "seasons")
 
+    _validate_optional_environment_name(data_source, "app_token_env", section="data_source")
+
+    env_file_path = _resolve_repository_path(
+        repository_root,
+        _required_string(paths, "env_file", section="paths"),
+        field_name="paths.env_file",
+    )
     raw_data_dir = _resolve_repository_path(
         repository_root,
         _required_string(paths, "raw_data", section="paths"),
@@ -161,6 +245,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
         field_name="paths.classification_rules",
     )
     log_archive = _parse_log_archive(logging_settings, repository_root)
+    env_file = _parse_env_file(env_file_path)
 
     output_base_name = _parse_output_base_name(storage)
     overwrite_outputs = _required_boolean(
@@ -186,6 +271,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
         raw_data_dir=raw_data_dir,
         processed_data_dir=processed_data_dir,
         reports_dir=reports_dir,
+        env_file=env_file,
         classification_rules_path=classification_rules_path,
         log_archive=log_archive,
         output_base_name=output_base_name,
@@ -231,6 +317,22 @@ def _required_boolean(settings: dict[str, Any], key: str, *, section: str) -> bo
     if not isinstance(value, bool):
         raise TypeError(f"Required field '{section}.{key}' must be true or false.")
     return value
+
+
+def _validate_optional_environment_name(
+    settings: dict[str, Any],
+    key: str,
+    *,
+    section: str,
+) -> None:
+    """Validate an optional environment-variable name in a settings section."""
+    value = settings.get(key)
+    if value is None:
+        return
+    if not isinstance(value, str) or not ENV_NAME_PATTERN.fullmatch(value.strip()):
+        raise TypeError(
+            f"Optional field '{section}.{key}' must be a valid environment variable name."
+        )
 
 
 def _parse_iso_date(value: Any, *, field_name: str) -> date:
@@ -406,6 +508,69 @@ def _parse_log_archive(
         archive_dir=archive_dir,
         archive_timestamp_format=archive_timestamp_format,
     )
+
+
+def _parse_env_file(env_file_path: Path) -> EnvFileConfig:
+    """Read a repository-local `.env` file into immutable environment settings.
+
+    Args:
+        env_file_path: Repository-resolved `.env` file path.
+
+    Returns:
+        Parsed environment-file settings. Missing files return an empty variable
+        collection so a fresh clone can still run without local secrets.
+
+    Raises:
+        IsADirectoryError: The configured path exists but is a directory.
+        ValueError: A non-comment line is malformed, uses an invalid variable
+            name, or duplicates a previous variable.
+    """
+    if not env_file_path.exists():
+        return EnvFileConfig(path=env_file_path, variables=())
+    if env_file_path.is_dir():
+        raise IsADirectoryError(f"Environment file path is a directory: {env_file_path}")
+
+    variables: list[EnvironmentVariable] = []
+    seen_names: set[str] = set()
+
+    for line_number, raw_line in enumerate(
+        env_file_path.read_text(encoding="utf-8").splitlines(),
+        start=1,
+    ):
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export ") :].strip()
+        if "=" not in line:
+            raise ValueError(
+                f"Malformed environment file line {line_number}: expected NAME=value."
+            )
+
+        name, value = line.split("=", 1)
+        name = name.strip()
+        if not ENV_NAME_PATTERN.fullmatch(name):
+            raise ValueError(
+                f"Malformed environment file line {line_number}: invalid variable name."
+            )
+        if name in seen_names:
+            raise ValueError(
+                f"Malformed environment file line {line_number}: duplicate variable {name!r}."
+            )
+
+        seen_names.add(name)
+        variables.append(EnvironmentVariable(name=name, value=_parse_env_value(value)))
+
+    return EnvFileConfig(path=env_file_path, variables=tuple(variables))
+
+
+def _parse_env_value(value: str) -> str:
+    """Return a trimmed `.env` value with simple matching quotes removed."""
+    parsed_value = value.strip()
+    if len(parsed_value) >= 2 and parsed_value[0] == parsed_value[-1]:
+        if parsed_value[0] in {'"', "'"}:
+            return parsed_value[1:-1]
+    return parsed_value
 
 
 def _validate_non_overlapping_periods(periods: tuple[StudyPeriod, ...]) -> None:

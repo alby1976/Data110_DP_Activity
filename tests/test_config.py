@@ -16,6 +16,7 @@ Typical Usage:
 
 from dataclasses import fields
 
+import pytest
 import yaml
 
 from conftest import REPOSITORY_ROOT, implemented
@@ -27,6 +28,8 @@ def test_loads_project_settings_and_periods() -> None:
     """Verify that project settings are loaded into typed config objects."""
     config = implemented(load_config, REPOSITORY_ROOT / "config/settings.yaml")
     assert config.repository_root == REPOSITORY_ROOT
+    assert config.env_file.path == REPOSITORY_ROOT / ".env"
+    assert config.socrata_app_token is None
     assert [period.name for period in config.periods][:2] == ["Before", "During"]
     assert config.classification_rules_path.is_file()
     assert config.log_archive.log_file == REPOSITORY_ROOT / "reports/pipeline.log"
@@ -84,3 +87,118 @@ def test_load_config_accepts_csv_and_parquet_storage_formats(tmp_path) -> None:
     assert config.log_archive.archive_existing is False
     assert config.log_archive.archive_dir == tmp_path / "reports/logs/old"
     assert config.log_archive.archive_timestamp_format == "%Y-%m-%d_%H-%M-%S"
+
+
+def test_load_config_reads_env_file_and_resolves_named_socrata_token(tmp_path) -> None:
+    """Verify that `.env` values are loaded without storing secrets in YAML.
+
+    Args:
+        tmp_path: Pytest fixture providing an isolated repository-like directory.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    env_file = tmp_path / ".env.local"
+    env_file.write_text(
+        """
+        # Local-only Socrata credentials.
+        export SOCRATA_APP_TOKEN="test-token"
+        EXTRA_SETTING='kept as text'
+        """,
+        encoding="utf-8",
+    )
+    settings = _copy_project_settings(tmp_path)
+    settings["paths"]["env_file"] = ".env.local"
+    settings["data_source"]["app_token_env"] = "SOCRATA_APP_TOKEN"
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+
+    config = implemented(load_config, settings_path)
+
+    assert config.env_file.path == env_file
+    assert config.env_file.get("SOCRATA_APP_TOKEN") == "test-token"
+    assert config.env_file.get("EXTRA_SETTING") == "kept as text"
+    assert config.socrata_app_token == "test-token"
+
+
+def test_load_config_allows_missing_env_file(tmp_path) -> None:
+    """Verify that a missing local `.env` file behaves like empty settings.
+
+    Args:
+        tmp_path: Pytest fixture providing an isolated repository-like directory.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    settings = _copy_project_settings(tmp_path)
+    settings["paths"]["env_file"] = ".env.missing"
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+
+    config = implemented(load_config, settings_path)
+
+    assert config.env_file.path == tmp_path / ".env.missing"
+    assert config.env_file.variables == ()
+    assert config.socrata_app_token is None
+
+
+@pytest.mark.parametrize(
+    ("env_text", "message"),
+    [
+        ("SOCRATA_APP_TOKEN\n", "expected NAME=value"),
+        ("1TOKEN=value\n", "invalid variable name"),
+        ("SOCRATA_APP_TOKEN=one\nSOCRATA_APP_TOKEN=two\n", "duplicate variable"),
+    ],
+)
+def test_load_config_rejects_malformed_env_file(
+    tmp_path,
+    env_text: str,
+    message: str,
+) -> None:
+    """Verify that malformed `.env` files fail with clear validation messages.
+
+    Args:
+        tmp_path: Pytest fixture providing an isolated repository-like directory.
+        env_text: Environment-file content to validate.
+        message: Expected validation-message fragment.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    (tmp_path / ".env").write_text(env_text, encoding="utf-8")
+    settings = _copy_project_settings(tmp_path)
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+
+    with pytest.raises(ValueError, match=message):
+        load_config(settings_path)
+
+
+def test_load_config_rejects_env_file_outside_repository(tmp_path) -> None:
+    """Verify that the configured environment file cannot escape the repository.
+
+    Args:
+        tmp_path: Pytest fixture providing an isolated repository-like directory.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    settings = _copy_project_settings(tmp_path)
+    settings["paths"]["env_file"] = "../outside.env"
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="paths.env_file"):
+        load_config(settings_path)
+
+
+def _copy_project_settings(repository_root) -> dict:
+    """Return project settings adjusted for an isolated repository root.
+
+    Args:
+        repository_root: Temporary repository-like directory used by a test.
+
+    Returns:
+        A mutable settings mapping with required local fixture files created.
+    """
+    config_dir = repository_root / "config"
+    (config_dir / "classification_rules.csv").write_text("RuleID\n", encoding="utf-8")
+    settings = yaml.safe_load((REPOSITORY_ROOT / "config/settings.yaml").read_text())
+    settings["paths"]["classification_rules"] = "config/classification_rules.csv"
+    return settings

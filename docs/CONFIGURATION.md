@@ -11,7 +11,7 @@ This YAML file is the central source for project metadata, data access, analysis
 | Section | Purpose | Important settings |
 |---|---|---|
 | `project` | Identifies the project and author | project name, course, author |
-| `data_source` | Defines where data comes from | provider, dataset ID `6933-unw5`, API URL, source type |
+| `data_source` | Defines where data comes from | provider, dataset ID `6933-unw5`, API URL, source type, optional app-token environment variable |
 | `paths` | Defines repository-relative locations | raw, interim, processed, reports, classification rules |
 | `storage` | Selects persisted data names, overwrite behavior, and formats | output basename, overwrite flag, and raw snapshot/processed output formats: `csv`, `parquet`, or both |
 | `study_periods` | Defines inclusive policy windows | Before, During, Early Post-Repeal |
@@ -23,12 +23,13 @@ This YAML file is the central source for project metadata, data access, analysis
 
 ### Current configured values
 
-The committed `settings.yaml` currently describes the **Calgary Development Permit Activity** project for DATA 110. It reads from the City of Calgary Open Data Socrata dataset `6933-unw5` at `https://data.calgary.ca/resource` using JSON results.
+The committed `settings.yaml` currently describes the **Calgary Development Permit Activity** project for DATA 110. It reads from the City of Calgary Open Data Socrata dataset `6933-unw5` at `https://data.calgary.ca/resource` using JSON results. If a Socrata app token is needed for higher rate limits, the token value belongs in the `SOCRATA_APP_TOKEN` environment variable, not in the committed YAML file.
 
 Configured repository paths are:
 
 | Setting | Current value | Purpose |
 |---|---|---|
+| `paths.env_file` | `.env` | local, ignored environment-variable file |
 | `paths.raw_data` | `data/raw` | immutable source snapshots |
 | `paths.interim_data` | `data/interim` | intermediate working data |
 | `paths.processed_data` | `data/processed` | cleaned and transformed analysis outputs |
@@ -44,6 +45,13 @@ Configured study periods are:
 | `before` | Before | `2022-08-06` | `2024-08-05` |
 | `during` | During | `2024-08-06` | `2026-08-03` |
 | `post_repeal` | Early Post-Repeal | `2026-08-04` | open-ended |
+
+The `.env` file is intentionally ignored by Git. It may define `SOCRATA_APP_TOKEN`,
+but the token value must not be copied into `settings.yaml`.
+The configuration loader reads simple `NAME=value` lines, ignores blank lines and
+comments, supports `export NAME=value`, and exposes the token through the
+configured `data_source.app_token_env` name. Missing `.env` files are treated as
+empty local settings so a fresh clone remains usable without credentials.
 
 The committed storage settings use `development_permits` as the shared output stem,
 allow generated outputs to overwrite previous generated files, and request CSV output

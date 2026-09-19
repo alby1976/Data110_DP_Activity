@@ -8,12 +8,15 @@ data_source:
   dataset_id: "6933-unw5"
   api_base_url: "https://data.calgary.ca/resource"
   format: "json"
+  # Optional Socrata app token environment variable; do not commit token values.
+  app_token_env: "SOCRATA_APP_TOKEN"
 
   # Use socrata for downloading fresh data.
   # Use csv for reproducible analysis from a frozen snapshot.
   source_type: "socrata"
 
 paths:
+  env_file: ".env"
   raw_data: "data/raw"
   interim_data: "data/interim"
   processed_data: "data/processed"

@@ -23,9 +23,18 @@ Examples:
     >>> config = load_config(Path("config/settings.yaml"))
 """
 
-from .config import LogArchiveConfig, ProjectConfig, StudyPeriod, load_config
+from .config import (
+    EnvFileConfig,
+    EnvironmentVariable,
+    LogArchiveConfig,
+    ProjectConfig,
+    StudyPeriod,
+    load_config,
+)
 
 __all__ = [
+    "EnvFileConfig",
+    "EnvironmentVariable",
     "LogArchiveConfig",
     "ProjectConfig",
     "StudyPeriod",
