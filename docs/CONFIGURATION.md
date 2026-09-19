@@ -21,6 +21,39 @@ This YAML file is the central source for project metadata, data access, analysis
 | `outputs` | Names generated tables | clean permits, summaries, audit table |
 | `logging` | Controls pipeline records | level, active log file, archive toggle, archive directory, timestamp format |
 
+### Current configured values
+
+The committed `settings.yaml` currently describes the **Calgary Development Permit Activity** project for DATA 110. It reads from the City of Calgary Open Data Socrata dataset `6933-unw5` at `https://data.calgary.ca/resource` using JSON results.
+
+Configured repository paths are:
+
+| Setting | Current value | Purpose |
+|---|---|---|
+| `paths.raw_data` | `data/raw` | immutable source snapshots |
+| `paths.interim_data` | `data/interim` | intermediate working data |
+| `paths.processed_data` | `data/processed` | cleaned and transformed analysis outputs |
+| `paths.classification_rules` | `config/classification_rules.csv` | ordered classification-rule table |
+| `paths.reports` | `reports` | report and pipeline outputs |
+| `paths.figures` | `reports/figures` | generated figures |
+| `paths.tables` | `reports/tables` | generated summary tables |
+
+Configured study periods are:
+
+| Period key | Label | Start | End |
+|---|---|---|---|
+| `before` | Before | `2022-08-06` | `2024-08-05` |
+| `during` | During | `2024-08-06` | `2026-08-03` |
+| `post_repeal` | Early Post-Repeal | `2026-08-04` | open-ended |
+
+The committed storage settings use `development_permits` as the shared output stem,
+allow generated outputs to overwrite previous generated files, and request CSV output
+for both raw snapshots and processed outputs. Parquet is documented as an optional
+format but is commented out in the current YAML.
+
+The configured output filenames are `permits_clean.csv`, `monthly_summary.csv`,
+`seasonal_summary.csv`, `community_summary.csv`, `type_summary.csv`,
+`processing_summary.csv`, and `bias_audit.csv`.
+
 ### Interpretation rules
 
 - All paths are resolved from the repository root, not from the user's current directory.

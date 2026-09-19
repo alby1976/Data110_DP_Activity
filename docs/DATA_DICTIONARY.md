@@ -73,7 +73,7 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `DataRetrievedUTC` | datetime | source retrieval timestamp |
 | `SourceSnapshotID` | text | identifier connecting outputs to the frozen source extract |
 
-## Planned output tables
+## Configured and planned output tables
 
 | File/table | Grain | Purpose |
 |---|---|---|
@@ -84,12 +84,13 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `community_summary.csv` | community | before/during geographic comparison |
 | `processing_summary.csv` | period and optional type | processing-time statistics |
 | `bias_audit.csv` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
-| `sensitivity_summary.csv` | scenario × metric | comparison of headline results under alternative reasonable rules |
 
-Names are provisional until the Python workflow is implemented. The configured storage
-formats may produce CSV files, Parquet files, or both. `storage.output_base_name` in
-`config/settings.yaml` controls the shared stem used for generated data products when a
-repository/exporter derives filenames from the storage settings.
+These filenames are configured in `config/settings.yaml`. Additional analytical tables,
+such as a future `sensitivity_summary.csv`, should be added to `outputs` before they are
+treated as pipeline products. The configured storage formats may produce CSV files,
+Parquet files, or both. `storage.output_base_name` controls the shared stem used for
+generated data products when a repository/exporter derives filenames from the storage
+settings.
 
 ## Configuration files
 

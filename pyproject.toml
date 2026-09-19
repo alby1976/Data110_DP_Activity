@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Calgary development permit activity analysis for a DATA 110 mini-capstone project."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "All rights reserved" }
+license = { file = "LICENSE.md" }
 authors = [
     { name = "Albert Leung" },
 ]
@@ -31,11 +31,18 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 dependencies = [
-    "pandas==2.2.3",
+    "pandas==3.0.6",
     "PyYAML==6.0.3",
     "requests==2.34.2",
     "sodapy==2.2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/alby1976/Data110_DP_Activity"
+Repository = "https://github.com/alby1976/Data110_DP_Activity"
+Documentation = "https://github.com/alby1976/Data110_DP_Activity#readme"
+Issues = "https://github.com/alby1976/Data110_DP_Activity/issues"
+Data = "https://data.calgary.ca/Business-and-Economic-Activity/Development-Permits/6933-unw5"
 
 [project.optional-dependencies]
 dev = [
@@ -43,7 +50,7 @@ dev = [
     "requests-mock==1.12.1",
 ]
 parquet = [
-    "pyarrow>=16.0",
+    "pyarrow==25.0.1",
 ]
 
 [project.scripts]
