@@ -87,10 +87,10 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 
 These filenames are configured in `config/settings.yaml`. Additional analytical tables,
 such as a future `sensitivity_summary.csv`, should be added to `outputs` before they are
-treated as pipeline products. The configured storage formats may produce CSV files,
-Parquet files, or both. `storage.output_base_name` controls the shared stem used for
-generated data products when a repository/exporter derives filenames from the storage
-settings.
+treated as pipeline products. The configured storage formats may produce CSV, JSON,
+JGeoJSON, Parquet files, or a combination. `storage.output_base_name` controls the
+shared stem used for generated data products when a repository/exporter derives
+filenames from the storage settings.
 
 ## Configuration files
 

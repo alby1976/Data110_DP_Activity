@@ -18,6 +18,7 @@ Typical Usage:
 from .file_format_adapter import (
     CsvFileAdapter,
     FileFormatAdapter,
+    JsonGeoFileAdapter,
     JsonFileAdapter,
     ParquetFileAdapter,
     ReflectiveFileAdapterFactory,
@@ -27,6 +28,7 @@ from .file_format_adapter import (
 __all__ = [
     "CsvFileAdapter",
     "FileFormatAdapter",
+    "JsonGeoFileAdapter",
     "JsonFileAdapter",
     "ParquetFileAdapter",
     "ReflectiveFileAdapterFactory",

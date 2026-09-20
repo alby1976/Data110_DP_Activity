@@ -28,17 +28,25 @@ paths:
   tables: "reports/tables"
 
 storage:
-  # File stem used before the configured csv/parquet extension.
+  # File stem used before the configured output-format extension.
   output_base_name: "development_permits"
   # true replaces existing generated output files; false preserves them.
   overwrite_outputs: true
-  # Choose one or both supported formats: csv, parquet.
+  # true appends the current UTC date/time to generated output filenames.
+  include_timestamp: false
+  # strftime format used when include_timestamp is true.
+  timestamp_format: "%Y%m%d_%H%M%S"
+  # Choose one or more supported formats: csv, json, jgeojson, parquet.
   # Parquet output requires installing the optional project parquet dependencies.
   raw_snapshot_formats:
     - csv
+    # - json
+    # - jgeojson
     # - parquet
   processed_output_formats:
     - csv
+    # - json
+    # - jgeojson
     # - parquet
 
 study_periods:

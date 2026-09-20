@@ -38,6 +38,8 @@ def test_loads_project_settings_and_periods() -> None:
     assert config.log_archive.archive_timestamp_format == "%Y%m%d_%H%M%S"
     assert config.output_base_name == "development_permits"
     assert config.overwrite_outputs is True
+    assert config.output_include_timestamp is False
+    assert config.output_timestamp_format == "%Y%m%d_%H%M%S"
     assert config.raw_snapshot_formats == ("csv",)
     assert config.processed_output_formats == ("csv",)
 
@@ -57,8 +59,8 @@ def test_load_config_returns_populated_attributes() -> None:
             assert value is not None
 
 
-def test_load_config_accepts_csv_and_parquet_storage_formats(tmp_path) -> None:
-    """Verify that storage formats can request CSV, Parquet, or both.
+def test_load_config_accepts_supported_storage_formats(tmp_path) -> None:
+    """Verify that storage formats can request every supported writer format.
 
     Args:
         tmp_path: Pytest fixture providing an isolated repository-like directory.
@@ -70,8 +72,10 @@ def test_load_config_accepts_csv_and_parquet_storage_formats(tmp_path) -> None:
     settings["paths"]["classification_rules"] = "config/classification_rules.csv"
     settings["storage"]["output_base_name"] = "permits_snapshot"
     settings["storage"]["overwrite_outputs"] = False
-    settings["storage"]["raw_snapshot_formats"] = ["csv", "parquet"]
-    settings["storage"]["processed_output_formats"] = ["parquet", "csv"]
+    settings["storage"]["include_timestamp"] = True
+    settings["storage"]["timestamp_format"] = "%Y%m%dT%H%M%SZ"
+    settings["storage"]["raw_snapshot_formats"] = ["csv", "json", "jgeojson", "parquet"]
+    settings["storage"]["processed_output_formats"] = ["parquet", "jgeojson", "json", "csv"]
     settings["logging"]["archive_existing"] = False
     settings["logging"]["archive_dir"] = "reports/logs/old"
     settings["logging"]["archive_timestamp_format"] = "%Y-%m-%d_%H-%M-%S"
@@ -80,10 +84,12 @@ def test_load_config_accepts_csv_and_parquet_storage_formats(tmp_path) -> None:
 
     config = implemented(load_config, settings_path)
 
-    assert config.raw_snapshot_formats == ("csv", "parquet")
-    assert config.processed_output_formats == ("parquet", "csv")
+    assert config.raw_snapshot_formats == ("csv", "json", "jgeojson", "parquet")
+    assert config.processed_output_formats == ("parquet", "jgeojson", "json", "csv")
     assert config.output_base_name == "permits_snapshot"
     assert config.overwrite_outputs is False
+    assert config.output_include_timestamp is True
+    assert config.output_timestamp_format == "%Y%m%dT%H%M%SZ"
     assert config.log_archive.archive_existing is False
     assert config.log_archive.archive_dir == tmp_path / "reports/logs/old"
     assert config.log_archive.archive_timestamp_format == "%Y-%m-%d_%H-%M-%S"
@@ -185,6 +191,28 @@ def test_load_config_rejects_env_file_outside_repository(tmp_path) -> None:
     settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
 
     with pytest.raises(ValueError, match="paths.env_file"):
+        load_config(settings_path)
+
+
+@pytest.mark.parametrize("timestamp_format", ["", " ", "%Y/%m/%d"])
+def test_load_config_rejects_invalid_output_timestamp_format(
+    tmp_path,
+    timestamp_format: str,
+) -> None:
+    """Verify that configured output timestamps remain filename-safe.
+
+    Args:
+        tmp_path: Pytest fixture providing an isolated repository-like directory.
+        timestamp_format: Invalid timestamp format under test.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    settings = _copy_project_settings(tmp_path)
+    settings["storage"]["timestamp_format"] = timestamp_format
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+
+    with pytest.raises((TypeError, ValueError), match="storage.timestamp_format"):
         load_config(settings_path)
 
 

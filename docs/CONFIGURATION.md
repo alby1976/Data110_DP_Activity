@@ -13,7 +13,7 @@ This YAML file is the central source for project metadata, data access, analysis
 | `project` | Identifies the project and author | project name, course, author |
 | `data_source` | Defines where data comes from | provider, dataset ID `6933-unw5`, API URL, source type, optional app-token environment variable |
 | `paths` | Defines repository-relative locations | raw, interim, processed, reports, classification rules |
-| `storage` | Selects persisted data names, overwrite behavior, and formats | output basename, overwrite flag, and raw snapshot/processed output formats: `csv`, `parquet`, or both |
+| `storage` | Selects persisted data names, overwrite behavior, timestamp naming, and formats | output basename, overwrite flag, optional timestamp flag/format, and raw snapshot/processed output formats: `csv`, `json`, `jgeojson`, `parquet`, or a combination |
 | `study_periods` | Defines inclusive policy windows | Before, During, Early Post-Repeal |
 | `analysis` | Controls analytical definitions | primary date, processing fields, small-base threshold, classification defaults |
 | `seasons` | Maps calendar months to seasons | Fall, Winter, Spring, Summer |
@@ -55,8 +55,13 @@ empty local settings so a fresh clone remains usable without credentials.
 
 The committed storage settings use `development_permits` as the shared output stem,
 allow generated outputs to overwrite previous generated files, and request CSV output
-for both raw snapshots and processed outputs. Parquet is documented as an optional
-format but is commented out in the current YAML.
+for both raw snapshots and processed outputs. JSON, JGeoJSON, and Parquet are
+documented as optional formats but are commented out in the current YAML.
+Timestamped output names are disabled by default. When `storage.include_timestamp` is
+`true`, the writer appends the current UTC date/time using
+`storage.timestamp_format` before the file extension. When the caller supplies an
+output label and data-period label, timestamped names use this order:
+`<base>_<label>_<data-period>_<timestamp>.<extension>`.
 
 The configured output filenames are `permits_clean.csv`, `monthly_summary.csv`,
 `seasonal_summary.csv`, `community_summary.csv`, `type_summary.csv`,
@@ -68,8 +73,9 @@ The configured output filenames are `permits_clean.csv`, `monthly_summary.csv`,
 - Configuration dates use ISO format (`YYYY-MM-DD`) and study-period endpoints are inclusive.
 - The `before` and `during` periods must not overlap.
 - Every month number from 1 through 12 must appear in exactly one season.
-- `storage.output_base_name` is an extension-free file stem; `storage.raw_snapshot_formats` and `storage.processed_output_formats` supply the `.csv` and/or `.parquet` extension. Parquet requires the optional Parquet dependency group.
+- `storage.output_base_name` is an extension-free file stem; `storage.raw_snapshot_formats` and `storage.processed_output_formats` supply supported format extensions such as `.csv`, `.json`, `.jgeojson`, and `.parquet`. Parquet requires the optional Parquet dependency group.
 - `storage.overwrite_outputs` defaults to `true` in the project settings. Set it to `false` when an existing generated output should be preserved instead of replaced.
+- `storage.include_timestamp` controls whether generated filenames include the current UTC date/time. `storage.timestamp_format` must be a nonblank `strftime` pattern that does not produce path separators. Optional label and data-period filename parts are normalized into filename-safe tokens.
 - `logging.log_file` remains the current run log. When `logging.archive_existing` is `true`, an existing log should be moved to `logging.archive_dir` using `logging.archive_timestamp_format` before a new run starts.
 - January and February belong to a winter that starts in December of the previous year.
 - `analysis.primary_date_field` determines policy-period and seasonal assignment.

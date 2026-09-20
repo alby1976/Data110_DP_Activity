@@ -156,7 +156,7 @@ Report count, median, mean, 25th percentile, and 75th percentile. The primary st
 4. Create period and derived fields.
 5. Validate classifications and date calculations.
 6. Produce monthly, seasonal, type, community, and processing-time tables.
-7. Export tidy tables in the configured CSV and/or Parquet formats.
+7. Export tidy tables in the configured CSV, JSON, JGeoJSON, and/or Parquet formats.
 8. Reconcile headline totals between Python and Power BI.
 9. Freeze the analysis snapshot used for the final presentation.
 

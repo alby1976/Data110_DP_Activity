@@ -1,7 +1,7 @@
 """Save Socrata records through interchangeable file-format adapters.
 
-This module defines a common persistence contract, concrete CSV, JSON, and Parquet
-adapters, reflective adapter discovery, and runtime adapter selection.
+This module defines a common persistence contract, concrete CSV, JSON, GeoJSON,
+and Parquet adapters, reflective adapter discovery, and runtime adapter selection.
 
 Design Pattern:
     Adapter, Strategy, and Reflective Factory.
@@ -23,12 +23,39 @@ import csv
 import importlib
 import inspect
 import json
+import math
+import re
 from abc import ABC, abstractmethod
 from collections.abc import Iterable, Mapping
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 Record = Mapping[str, Any]
+FILENAME_TOKEN_PATTERN = re.compile(r"[^A-Za-z0-9._-]+")
+
+
+def _parse_optional_float(value: Any) -> float | None:
+    """Return a finite float for coordinate values, or None when unusable.
+
+    Args:
+        value: Candidate coordinate value from a source record.
+
+    Returns:
+        A finite floating-point coordinate, or None for missing, blank, Boolean,
+        non-numeric, infinite, or NaN values.
+    """
+    if value is None or isinstance(value, bool):
+        return None
+    if isinstance(value, str) and not value.strip():
+        return None
+    try:
+        coordinate = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(coordinate):
+        return None
+    return coordinate
 
 
 class FileFormatAdapter(ABC):
@@ -91,6 +118,26 @@ class FileFormatAdapter(ABC):
         path.parent.mkdir(parents=True, exist_ok=True)
         return path
 
+    @staticmethod
+    def materialize_records(records: Iterable[Record]) -> list[dict[str, Any]]:
+        """Return concrete row dictionaries after validating record shape.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+
+        Returns:
+            A list of plain dictionaries suitable for serialization.
+
+        Raises:
+            TypeError: A supplied record is not mapping-like.
+        """
+        rows: list[dict[str, Any]] = []
+        for index, record in enumerate(records):
+            if not isinstance(record, Mapping):
+                raise TypeError(f"Record at position {index} must be a mapping.")
+            rows.append(dict(record))
+        return rows
+
 
 class CsvFileAdapter(FileFormatAdapter):
     """Adapt records to a UTF-8 CSV file.
@@ -115,7 +162,7 @@ class CsvFileAdapter(FileFormatAdapter):
         Raises:
             IsADirectoryError: The requested output path is a directory.
         """
-        rows = [dict(record) for record in records]
+        rows = self.materialize_records(records)
         path = self.prepare_output_path(output_path)
         fieldnames = list(dict.fromkeys(key for row in rows for key in row))
 
@@ -151,11 +198,98 @@ class JsonFileAdapter(FileFormatAdapter):
             IsADirectoryError: The requested output path is a directory.
         """
         path = self.prepare_output_path(output_path)
-        rows = [dict(record) for record in records]
+        rows = self.materialize_records(records)
         with path.open("w", encoding="utf-8") as handle:
             json.dump(rows, handle, ensure_ascii=False, indent=2, default=str)
             handle.write("\n")
         return path
+
+
+class JsonGeoFileAdapter(FileFormatAdapter):
+    """Adapt records to a GeoJSON FeatureCollection.
+
+    This concrete Adapter translates records with latitude and longitude fields
+    into GeoJSON features while preserving each original record as feature
+    properties. Rows without usable coordinates are retained with a null geometry
+    so export completeness remains auditable.
+
+    Attributes:
+        extensions: GeoJSON-oriented suffixes supported by this adapter.
+        latitude_field: Record field that contains latitude values.
+        longitude_field: Record field that contains longitude values.
+    """
+
+    extensions = (".geojson", ".jgeojson", ".jsongeo")
+
+    def __init__(
+        self,
+        *,
+        latitude_field: str = "latitude",
+        longitude_field: str = "longitude",
+    ) -> None:
+        """Configure coordinate field names for GeoJSON conversion.
+
+        Args:
+            latitude_field: Record field that contains latitude values.
+            longitude_field: Record field that contains longitude values.
+
+        Raises:
+            ValueError: A coordinate field name is blank.
+        """
+        if not latitude_field.strip() or not longitude_field.strip():
+            raise ValueError("GeoJSON coordinate field names cannot be blank.")
+        self.latitude_field = latitude_field
+        self.longitude_field = longitude_field
+
+    def save(self, records: Iterable[Record], output_path: Path) -> Path:
+        """Write records as a GeoJSON FeatureCollection.
+
+        Args:
+            records: Iterable of mapping-like Socrata records.
+            output_path: Destination path for the serialized GeoJSON.
+
+        Returns:
+            The completed GeoJSON path.
+
+        Raises:
+            IsADirectoryError: The requested output path is a directory.
+            TypeError: A supplied record is not mapping-like.
+        """
+        path = self.prepare_output_path(output_path)
+        rows = self.materialize_records(records)
+        feature_collection = {
+            "type": "FeatureCollection",
+            "features": [self._record_to_feature(row) for row in rows],
+        }
+        with path.open("w", encoding="utf-8") as handle:
+            json.dump(feature_collection, handle, ensure_ascii=False, indent=2, default=str)
+            handle.write("\n")
+        return path
+
+    def _record_to_feature(self, record: dict[str, Any]) -> dict[str, Any]:
+        """Return one GeoJSON feature for a materialized record.
+
+        Args:
+            record: Plain record dictionary.
+
+        Returns:
+            A GeoJSON feature with point geometry when coordinates are valid;
+            otherwise a feature with null geometry.
+        """
+        latitude = _parse_optional_float(record.get(self.latitude_field))
+        longitude = _parse_optional_float(record.get(self.longitude_field))
+        geometry = None
+        if latitude is not None and longitude is not None:
+            geometry = {
+                "type": "Point",
+                "coordinates": [longitude, latitude],
+            }
+
+        return {
+            "type": "Feature",
+            "geometry": geometry,
+            "properties": dict(record),
+        }
 
 
 class ParquetFileAdapter(FileFormatAdapter):
@@ -188,7 +322,7 @@ class ParquetFileAdapter(FileFormatAdapter):
             raise RuntimeError("Parquet output requires pandas.") from exc
 
         try:
-            pd.DataFrame([dict(record) for record in records]).to_parquet(path, index=False)
+            pd.DataFrame(self.materialize_records(records)).to_parquet(path, index=False)
         except ImportError as exc:
             raise RuntimeError(
                 "Parquet output requires an engine such as pyarrow or fastparquet."
@@ -211,6 +345,9 @@ class ReflectiveFileAdapterFactory:
         self._aliases: dict[str, type[FileFormatAdapter]] = {
             "csv": CsvFileAdapter,
             "json": JsonFileAdapter,
+            "geojson": JsonGeoFileAdapter,
+            "jgeojson": JsonGeoFileAdapter,
+            "jsongeo": JsonGeoFileAdapter,
             "parquet": ParquetFileAdapter,
             "pq": ParquetFileAdapter,
         }
@@ -246,6 +383,9 @@ class ReflectiveFileAdapterFactory:
             ValueError: The specification is blank or cannot be imported.
             TypeError: The resolved object is not a concrete FileFormatAdapter subclass.
         """
+        if not isinstance(adapter_spec, str):
+            raise TypeError("Adapter specification must be a string.")
+
         normalized = adapter_spec.strip()
         if not normalized:
             raise ValueError("Adapter specification cannot be blank.")
@@ -275,7 +415,7 @@ class ReflectiveFileAdapterFactory:
             raise ValueError("Output path must have an extension or an adapter must be specified.")
         try:
             return self.create(suffix)
-        except (KeyError, ValueError) as exc:
+        except ValueError as exc:
             raise ValueError(f"No file adapter is registered for '.{suffix}'.") from exc
 
     @staticmethod
@@ -342,6 +482,11 @@ class SocrataFileWriter:
         *,
         adapter: str | FileFormatAdapter | None = None,
         adapter_options: Mapping[str, Any] | None = None,
+        include_timestamp: bool = False,
+        label: str | None = None,
+        data_period: str | None = None,
+        timestamp_format: str = "%Y%m%d_%H%M%S",
+        now: datetime | None = None,
     ) -> Path:
         """Save records using an explicit adapter or infer one from the file extension.
 
@@ -351,6 +496,14 @@ class SocrataFileWriter:
             adapter: Adapter alias, reflected class path, adapter instance, or None for extension-
                 based selection.
             adapter_options: Keyword arguments passed to a newly constructed adapter.
+            include_timestamp: Whether to append the current UTC date/time to
+                the output filename before the extension.
+            label: Optional filename label inserted before the timestamp when
+                include_timestamp is true.
+            data_period: Optional data-period label inserted before the timestamp
+                when include_timestamp is true.
+            timestamp_format: ``strftime`` pattern used when include_timestamp is true.
+            now: Optional datetime used for deterministic tests.
 
         Returns:
             The path written by the selected adapter.
@@ -361,6 +514,8 @@ class SocrataFileWriter:
         """
         path = Path(output_path)
         if adapter is None:
+            if adapter_options:
+                raise ValueError("adapter_options require an explicit adapter name.")
             selected = self.factory.create_for_path(path)
         elif isinstance(adapter, str):
             selected = self.factory.create(adapter, **dict(adapter_options or {}))
@@ -371,4 +526,85 @@ class SocrataFileWriter:
         else:
             raise TypeError("adapter must be a name, FileFormatAdapter instance, or None.")
 
+        if include_timestamp:
+            path = self._timestamped_output_path(
+                path,
+                label=label,
+                data_period=data_period,
+                timestamp_format=timestamp_format,
+                now=now,
+            )
+
         return selected.save(records, path)
+
+    @staticmethod
+    def _timestamped_output_path(
+        output_path: Path,
+        *,
+        label: str | None = None,
+        data_period: str | None = None,
+        timestamp_format: str,
+        now: datetime | None = None,
+    ) -> Path:
+        """Return output_path with optional label, period, and UTC timestamp.
+
+        Args:
+            output_path: Destination path requested by the caller.
+            label: Optional filename label inserted after the base stem.
+            data_period: Optional data-period label inserted after label.
+            timestamp_format: ``strftime`` pattern used to format the timestamp.
+            now: Optional datetime used for deterministic tests.
+
+        Returns:
+            A sibling path whose filename includes filename-safe suffix parts.
+
+        Raises:
+            ValueError: A filename part is blank after normalization, or the
+                timestamp format is blank or creates path separators.
+            TypeError: The timestamp format or filename part has an unexpected type.
+        """
+        if not isinstance(timestamp_format, str):
+            raise TypeError("timestamp_format must be a string.")
+        if not timestamp_format.strip():
+            raise ValueError("timestamp_format cannot be blank.")
+
+        timestamp_source = now or datetime.now(timezone.utc)
+        timestamp = timestamp_source.strftime(timestamp_format)
+        if not timestamp:
+            raise ValueError("timestamp_format produced an empty timestamp.")
+        if any(separator in timestamp for separator in ("/", "\\")):
+            raise ValueError("timestamp_format must not produce path separators.")
+
+        filename_parts = [output_path.stem]
+        if label is not None:
+            filename_parts.append(_normalize_filename_token(label, field_name="label"))
+        if data_period is not None:
+            filename_parts.append(
+                _normalize_filename_token(data_period, field_name="data_period")
+            )
+        filename_parts.append(timestamp)
+
+        return output_path.with_name(f"{'_'.join(filename_parts)}{output_path.suffix}")
+
+
+def _normalize_filename_token(value: str, *, field_name: str) -> str:
+    """Return a filesystem-safe filename token for user-facing labels.
+
+    Args:
+        value: User-facing filename component.
+        field_name: Field name used in validation messages.
+
+    Returns:
+        A stripped token where whitespace and punctuation runs are replaced with
+        underscores.
+
+    Raises:
+        TypeError: The value is not a string.
+        ValueError: The value is blank or contains no filename-safe characters.
+    """
+    if not isinstance(value, str):
+        raise TypeError(f"{field_name} must be a string.")
+    normalized = FILENAME_TOKEN_PATTERN.sub("_", value.strip()).strip("._-")
+    if not normalized:
+        raise ValueError(f"{field_name} must contain filename-safe characters.")
+    return normalized

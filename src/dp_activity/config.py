@@ -20,14 +20,14 @@ Typical Usage:
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 import re
 from typing import Any
 
 import yaml
 
-SUPPORTED_STORAGE_FORMATS = frozenset({"csv", "parquet"})
+SUPPORTED_STORAGE_FORMATS = frozenset({"csv", "jgeojson", "json", "parquet"})
 ENV_NAME_PATTERN = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
 
 
@@ -134,6 +134,8 @@ class ProjectConfig:
         log_archive: Logging archive settings for pipeline log rollover.
         output_base_name: Extension-free file stem used for configured data outputs.
         overwrite_outputs: Whether generated output files may replace existing files.
+        output_include_timestamp: Whether generated output names include a timestamp.
+        output_timestamp_format: ``strftime`` format for generated output timestamps.
         raw_snapshot_formats: Storage formats requested for immutable source snapshots.
         processed_output_formats: Storage formats requested for processed output tables.
         periods: Ordered policy-period definitions.
@@ -149,6 +151,8 @@ class ProjectConfig:
     log_archive: LogArchiveConfig
     output_base_name: str
     overwrite_outputs: bool
+    output_include_timestamp: bool
+    output_timestamp_format: str
     raw_snapshot_formats: tuple[str, ...]
     processed_output_formats: tuple[str, ...]
     periods: tuple[StudyPeriod, ...]
@@ -253,6 +257,12 @@ def load_config(settings_path: Path) -> ProjectConfig:
         "overwrite_outputs",
         section="storage",
     )
+    output_include_timestamp = _required_boolean(
+        storage,
+        "include_timestamp",
+        section="storage",
+    )
+    output_timestamp_format = _parse_output_timestamp_format(storage)
     raw_snapshot_formats = _parse_storage_formats(
         storage,
         "raw_snapshot_formats",
@@ -276,6 +286,8 @@ def load_config(settings_path: Path) -> ProjectConfig:
         log_archive=log_archive,
         output_base_name=output_base_name,
         overwrite_outputs=overwrite_outputs,
+        output_include_timestamp=output_include_timestamp,
+        output_timestamp_format=output_timestamp_format,
         raw_snapshot_formats=raw_snapshot_formats,
         processed_output_formats=processed_output_formats,
         periods=periods,
@@ -461,6 +473,33 @@ def _parse_output_base_name(storage_mapping: dict[str, Any]) -> str:
         raise ValueError("Field 'storage.output_base_name' must be a usable file stem.")
 
     return output_base_name
+
+
+def _parse_output_timestamp_format(storage_mapping: dict[str, Any]) -> str:
+    """Return the validated filename timestamp format for generated outputs.
+
+    Args:
+        storage_mapping: Validated storage section from the settings file.
+
+    Returns:
+        Configured ``strftime`` pattern.
+
+    Raises:
+        TypeError: The configured timestamp format is missing or is not a string.
+        ValueError: The format is blank or produces path separators.
+    """
+    timestamp_format = _required_string(
+        storage_mapping,
+        "timestamp_format",
+        section="storage",
+    ).strip()
+    rendered_timestamp = datetime(2000, 1, 2, 3, 4, 5).strftime(timestamp_format)
+    if not rendered_timestamp:
+        raise ValueError("Field 'storage.timestamp_format' cannot produce a blank value.")
+    if any(separator in rendered_timestamp for separator in ("/", "\\")):
+        raise ValueError("Field 'storage.timestamp_format' must not produce path separators.")
+
+    return timestamp_format
 
 
 def _parse_log_archive(
