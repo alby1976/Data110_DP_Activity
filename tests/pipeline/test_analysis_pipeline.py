@@ -88,6 +88,38 @@ class StubExporter:
         return {"clean": "permits.csv"}
 
 
+def test_pipeline_constructor_stores_injected_collaborators() -> None:
+    """Verify that constructor injection defines the pipeline graph."""
+    source_repository = StubRepository()
+    cleaner = IdentityStage()
+    classifier = IdentityStage()
+    feature_builders = [lambda rows: rows]
+    validators = [lambda rows: []]
+    analyses = [object()]
+    exporter = StubExporter()
+
+    pipeline = AnalysisPipeline(
+        source_repository=source_repository,
+        cleaner=cleaner,
+        classifier=classifier,
+        feature_builders=feature_builders,
+        validators=validators,
+        analyses=analyses,
+        exporter=exporter,
+    )
+    feature_builders.append(lambda rows: rows)
+    validators.append(lambda rows: [])
+    analyses.append(object())
+
+    assert pipeline.source_repository is source_repository
+    assert pipeline.cleaner is cleaner
+    assert pipeline.classifier is classifier
+    assert len(pipeline.feature_builders) == 1
+    assert len(pipeline.validators) == 1
+    assert len(pipeline.analyses) == 1
+    assert pipeline.exporter is exporter
+
+
 def test_pipeline_returns_named_results() -> None:
     """Verify that pipeline returns named results."""
     pipeline = implemented(

@@ -16,8 +16,11 @@ Typical Usage:
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
+
+from dp_activity.repositories.output_repository import OutputRepository
 
 
 class PowerBIExporter:
@@ -28,10 +31,52 @@ class PowerBIExporter:
 
     Attributes:
         output_directory: Directory that receives exported tables.
+        output_repository: Repository used to persist generated output files.
+        output_formats: File formats requested for processed outputs.
+        base_name: Extension-free filename stem used for configured outputs.
+        include_timestamp: Whether generated output names should include timestamps.
+        timestamp_format: ``strftime`` format used for generated output timestamps.
     """
 
-    def __init__(self, output_directory: Path) -> None:
-        self.output_directory = output_directory
+    def __init__(
+        self,
+        output_directory: Path | None = None,
+        *,
+        output_repository: OutputRepository | None = None,
+        output_formats: Sequence[str] = ("csv",),
+        base_name: str = "development_permits",
+        include_timestamp: bool = False,
+        timestamp_format: str = "%Y%m%d_%H%M%S",
+    ) -> None:
+        """Configure the Power BI export adapter.
+
+        Args:
+            output_directory: Directory that receives generated files when an explicit
+                repository is not supplied.
+            output_repository: Optional repository that owns output persistence.
+            output_formats: Processed-output formats requested by configuration.
+            base_name: Extension-free filename stem used for configured outputs.
+            include_timestamp: Whether generated output names should include timestamps.
+            timestamp_format: ``strftime`` format used for generated output timestamps.
+
+        Raises:
+            ValueError: Neither an output directory nor repository is supplied, or the
+                configured output formats/base name are blank.
+        """
+        if output_repository is None and output_directory is None:
+            raise ValueError("PowerBIExporter requires an output directory or repository.")
+
+        self.output_repository = output_repository or OutputRepository(output_directory)
+        self.output_directory = self.output_repository.output_directory
+        self.output_formats = tuple(format_name.strip().lower() for format_name in output_formats)
+        self.base_name = base_name.strip()
+        self.include_timestamp = include_timestamp
+        self.timestamp_format = timestamp_format
+
+        if not self.output_formats or any(not format_name for format_name in self.output_formats):
+            raise ValueError("PowerBIExporter output formats cannot be blank.")
+        if not self.base_name:
+            raise ValueError("PowerBIExporter base name cannot be blank.")
 
     def export(
         self,

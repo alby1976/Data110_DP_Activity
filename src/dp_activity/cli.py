@@ -50,6 +50,7 @@ from dp_activity.features.period_features import add_period_features
 from dp_activity.features.processing_features import add_processing_features
 from dp_activity.features.season_features import add_season_features
 from dp_activity.pipeline.analysis_pipeline import AnalysisPipeline, PipelineResult
+from dp_activity.repositories.output_repository import OutputRepository
 from dp_activity.repositories.raw_data_repository import RawDataRepository
 from dp_activity.validation.classification_validator import ClassificationValidator
 from dp_activity.validation.data_quality_validator import DataQualityValidator
@@ -168,8 +169,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         message = str(exc) or "The selected workflow is not implemented yet."
         print(f"error: {message}", file=sys.stderr)
         return 1
-
-    return 1
+    except Exception as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
 
 
 def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
@@ -186,7 +188,11 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
     seasons_settings = config.raw.get("seasons", {})
     quality_settings = config.raw.get("quality_checks", {})
 
-    source_repository = RawDataRepository(config.raw_data_dir)
+    source_repository = RawDataRepository(
+        config.raw_data_dir,
+        file_format=config.raw_snapshot_formats[0],
+        base_name=config.output_base_name,
+    )
     cleaner = PermitCleaner(
         column_map=_default_column_map(),
         date_columns=[
@@ -252,7 +258,17 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
         SeasonalAnalysis(),
         SensitivityAnalysis(scenarios={}),
     ]
-    exporter = PowerBIExporter(config.processed_data_dir)
+    output_repository = OutputRepository(
+        config.processed_data_dir,
+        overwrite_outputs=config.overwrite_outputs,
+    )
+    exporter = PowerBIExporter(
+        output_repository=output_repository,
+        output_formats=config.processed_output_formats,
+        base_name=config.output_base_name,
+        include_timestamp=config.output_include_timestamp,
+        timestamp_format=config.output_timestamp_format,
+    )
 
     return AnalysisPipeline(
         source_repository=source_repository,

@@ -125,3 +125,70 @@ def test_main_archives_existing_pipeline_log(monkeypatch, tmp_path) -> None:
     assert not log_file.exists()
     archived_log = tmp_path / "reports/logs/archive/pipeline_20260918_143022.log"
     assert archived_log.read_text(encoding="utf-8") == "previous run\n"
+
+
+def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
+    """Verify that repository and exporter construction uses storage config.
+
+    Args:
+        monkeypatch: Pytest fixture used to replace unfinished pipeline collaborators.
+        tmp_path: Pytest fixture providing an isolated repository-like directory.
+    """
+
+    class StubRuleLoader:
+        """Avoid loading real classification rules in a composition-root wiring test."""
+
+        def load(self, path):
+            """Return no rules while preserving the loader interface.
+
+            Args:
+                path: Classification-rule path supplied by the config.
+
+            Returns:
+                Empty rule list for dependency construction.
+            """
+            return []
+
+    class CapturingPipeline:
+        """Capture assembled dependencies without running scaffolded pipeline code."""
+
+        def __init__(self, **dependencies):
+            """Store dependencies passed by the CLI composition root.
+
+            Args:
+                dependencies: Keyword dependencies supplied to AnalysisPipeline.
+            """
+            self.dependencies = dependencies
+
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    (config_dir / "classification_rules.csv").write_text("RuleID\n", encoding="utf-8")
+
+    settings = yaml.safe_load(cli.DEFAULT_SETTINGS_PATH.read_text(encoding="utf-8"))
+    settings["paths"]["classification_rules"] = "config/classification_rules.csv"
+    settings["storage"]["output_base_name"] = "configured_permits"
+    settings["storage"]["overwrite_outputs"] = False
+    settings["storage"]["include_timestamp"] = True
+    settings["storage"]["timestamp_format"] = "%Y%m%dT%H%M%SZ"
+    settings["storage"]["raw_snapshot_formats"] = ["json"]
+    settings["storage"]["processed_output_formats"] = ["json", "csv"]
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+    config = cli.load_config(settings_path)
+
+    monkeypatch.setattr(cli, "RuleLoader", StubRuleLoader)
+    monkeypatch.setattr(cli, "AnalysisPipeline", CapturingPipeline)
+
+    pipeline = cli._build_pipeline(config)
+
+    source_repository = pipeline.dependencies["source_repository"]
+    exporter = pipeline.dependencies["exporter"]
+    assert source_repository.raw_directory == config.raw_data_dir
+    assert source_repository.file_format == "json"
+    assert source_repository.base_name == "configured_permits"
+    assert exporter.output_repository.output_directory == config.processed_data_dir
+    assert exporter.output_repository.overwrite_outputs is False
+    assert exporter.output_formats == ("json", "csv")
+    assert exporter.base_name == "configured_permits"
+    assert exporter.include_timestamp is True
+    assert exporter.timestamp_format == "%Y%m%dT%H%M%SZ"
