@@ -181,6 +181,35 @@ def test_concrete_adapters_reject_directory_output(tmp_path) -> None:
         CsvFileAdapter().save(SAMPLE_RECORDS, output_directory)
 
 
+def test_adapter_constructor_normalizes_declared_extensions() -> None:
+    """Verify that concrete adapters inherit shared extension normalization."""
+    assert CsvFileAdapter().extensions == (".csv",)
+    assert JsonFileAdapter().extensions == (".json",)
+    assert JsonGeoFileAdapter().extensions == (".geojson", ".jgeojson", ".jsongeo")
+
+
+def test_adapter_constructor_requires_declared_extensions() -> None:
+    """Verify that concrete adapters must declare supported file suffixes."""
+
+    class ExtensionlessAdapter(FileFormatAdapter):
+        """Adapter test double with an invalid empty extension contract."""
+
+        def save(self, records: Iterable[Record], output_path: Path) -> Path:
+            """Write records to output_path.
+
+            Args:
+                records: Mapping-like records supplied by the test.
+                output_path: Destination path supplied by the test.
+
+            Returns:
+                The unchanged destination path.
+            """
+            return output_path
+
+    with pytest.raises(ValueError, match="at least one extension"):
+        ExtensionlessAdapter()
+
+
 def test_factory_loads_adapter_with_reflection() -> None:
     """Verify that factory loads adapter with reflection."""
     factory = ReflectiveFileAdapterFactory()

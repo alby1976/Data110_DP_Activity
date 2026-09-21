@@ -71,6 +71,36 @@ class FileFormatAdapter(ABC):
 
     extensions: tuple[str, ...] = ()
 
+    def __init__(self, extensions: Iterable[str] | None = None) -> None:
+        """Validate and store the file extensions supported by this adapter.
+
+        Args:
+            extensions: Optional extension list used by dynamically configured
+                adapters. When omitted, the subclass's ``extensions`` class attribute
+                defines the supported suffixes.
+
+        Raises:
+            TypeError: An extension is not a string.
+            ValueError: No extensions are configured, or an extension is blank.
+        """
+        configured_extensions = tuple(extensions or self.extensions)
+        if not configured_extensions:
+            raise ValueError("File format adapters must declare at least one extension.")
+
+        normalized_extensions: list[str] = []
+        for extension in configured_extensions:
+            if not isinstance(extension, str):
+                raise TypeError("File format adapter extensions must be strings.")
+
+            normalized_extension = extension.strip().lower()
+            if not normalized_extension:
+                raise ValueError("File format adapter extensions cannot be blank.")
+            if not normalized_extension.startswith("."):
+                normalized_extension = f".{normalized_extension}"
+            normalized_extensions.append(normalized_extension)
+
+        self.extensions = tuple(dict.fromkeys(normalized_extensions))
+
     @abstractmethod
     def save(self, records: Iterable[Record], output_path: Path) -> Path:
         """Write records to output_path and return the completed path.
@@ -236,6 +266,7 @@ class JsonGeoFileAdapter(FileFormatAdapter):
         Raises:
             ValueError: A coordinate field name is blank.
         """
+        super().__init__()
         if not latitude_field.strip() or not longitude_field.strip():
             raise ValueError("GeoJSON coordinate field names cannot be blank.")
         self.latitude_field = latitude_field
