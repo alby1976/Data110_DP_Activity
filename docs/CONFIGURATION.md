@@ -174,7 +174,7 @@ The allowed values and field names must be enforced in code. `ValidationStatus` 
 4. Evaluate rules in ascending `Priority`, using `RuleID` as a stable tie-breaker.
 5. Use the first matching rule and record its `RuleID` in `ClassificationRule`.
 6. Mark unmatched records according to `unmatched_action`, currently `Review`.
-7. Set `ClassificationNeedsReview` for unmatched records and rules whose `ValidationStatus` is `review`; report provisional and fallback classifications separately.
+7. Set `ClassificationNeedsReview` for unmatched records and winning rules whose `ValidationStatus` is `review`, `provisional`, or `fallback`. Preserve the status so these review reasons can be reported separately. Report additional matches separately as potential conflicts; intentional fallback/catch-all overlaps do not automatically change the winning rule's review flag.
 8. Log conflicting potential matches so priority does not conceal rule overlap.
 
 Specific exclusions and exact matches should normally have higher priority than broad `contains` or `regex` rules. A district name by itself should not automatically prove the proposed use or number of homes.

@@ -334,6 +334,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
             "unmatched_action",
             "Review",
         ),
+        case_sensitive=analysis_settings.get("classification", {}).get("case_sensitive", False),
     )
     feature_builders = [
         partial(

@@ -64,6 +64,11 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `RezoningRelevant` | Boolean | documented analytical relevance flag |
 | `ClassificationRule` | text | rule or lookup entry producing the classification |
 | `ClassificationNeedsReview` | Boolean | ambiguous or unmatched classification |
+| `IncludeResidential` | Boolean | first matching rule's inclusion decision; false for unmatched records pending review |
+| `ValidationStatus` | text | winning rule's evidence status, or `unmatched` |
+| `ClassificationMatchCount` | integer | number of enabled rules matching the permit |
+| `ClassificationConflictCount` | integer | additional matches after the winner; potential overlap even when outcomes agree |
+| `ClassificationMatchedRules` | tuple of text | all matching rule IDs in priority/ID order |
 | `HasGeography` | Boolean | usable community or coordinate data |
 | `IsPending` | Boolean | application has no final observed outcome at the snapshot date |
 | `FollowUpDays` | integer | days from application to decision or, if unresolved, to the snapshot date |

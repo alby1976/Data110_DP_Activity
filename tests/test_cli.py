@@ -294,6 +294,7 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     settings["storage"]["timestamp_format"] = "%Y%m%dT%H%M%SZ"
     settings["storage"]["raw_snapshot_formats"] = ["json"]
     settings["storage"]["processed_output_formats"] = ["json", "csv"]
+    settings["analysis"]["classification"]["case_sensitive"] = True
     settings_path = config_dir / "settings.yaml"
     settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
     config = cli.load_config(settings_path)
@@ -305,6 +306,7 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
 
     source_repository = pipeline.dependencies["source_repository"]
     exporter = pipeline.dependencies["exporter"]
+    assert pipeline.dependencies["classifier"].case_sensitive is True
     assert source_repository.raw_directory == config.raw_data_dir
     assert source_repository.file_format == "json"
     assert source_repository.base_name == "configured_permits"
