@@ -24,17 +24,25 @@ from conftest import REPOSITORY_ROOT, implemented
 from dp_activity.config import load_config
 
 
-def test_loads_project_settings_and_periods() -> None:
-    """Verify that project settings are loaded into typed config objects."""
-    config = implemented(load_config, REPOSITORY_ROOT / "config/settings.yaml")
-    assert config.repository_root == REPOSITORY_ROOT
-    assert config.env_file.path == REPOSITORY_ROOT / ".env"
+def test_loads_project_settings_and_periods(tmp_path) -> None:
+    """Load project defaults without reading a developer's real credentials.
+
+    Args:
+        tmp_path: Isolated repository root containing no local secrets.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(_copy_project_settings(tmp_path)), encoding="utf-8")
+    config = implemented(load_config, settings_path)
+    assert config.repository_root == tmp_path
+    assert config.env_file.path == tmp_path / ".env"
     assert config.socrata_app_token is None
     assert [period.name for period in config.periods][:2] == ["Before", "During"]
     assert config.classification_rules_path.is_file()
-    assert config.log_archive.log_file == REPOSITORY_ROOT / "reports/pipeline.log"
+    assert config.log_archive.log_file == tmp_path / "reports/pipeline.log"
     assert config.log_archive.archive_existing is True
-    assert config.log_archive.archive_dir == REPOSITORY_ROOT / "reports/logs/archive"
+    assert config.log_archive.archive_dir == tmp_path / "reports/logs/archive"
     assert config.log_archive.archive_timestamp_format == "%Y%m%d_%H%M%S"
     assert config.output_base_name == "development_permits"
     assert config.overwrite_outputs is True
@@ -44,9 +52,17 @@ def test_loads_project_settings_and_periods() -> None:
     assert config.processed_output_formats == ("csv",)
 
 
-def test_load_config_returns_populated_attributes() -> None:
-    """Verify that loaded configuration objects expose populated attributes."""
-    config = implemented(load_config, REPOSITORY_ROOT / "config/settings.yaml")
+def test_load_config_returns_populated_attributes(tmp_path) -> None:
+    """Verify populated configuration attributes using isolated fixture files.
+
+    Args:
+        tmp_path: Temporary repository root used instead of local credentials.
+    """
+    config_dir = tmp_path / "config"
+    config_dir.mkdir()
+    settings_path = config_dir / "settings.yaml"
+    settings_path.write_text(yaml.safe_dump(_copy_project_settings(tmp_path)), encoding="utf-8")
+    config = implemented(load_config, settings_path)
 
     for field in fields(config):
         assert getattr(config, field.name) is not None
@@ -124,6 +140,8 @@ def test_load_config_reads_env_file_and_resolves_named_socrata_token(tmp_path) -
     assert config.env_file.get("SOCRATA_APP_TOKEN") == "test-token"
     assert config.env_file.get("EXTRA_SETTING") == "kept as text"
     assert config.socrata_app_token == "test-token"
+    assert "test-token" not in repr(config)
+    assert "kept as text" not in repr(config.env_file)
 
 
 def test_load_config_allows_missing_env_file(tmp_path) -> None:
@@ -229,4 +247,5 @@ def _copy_project_settings(repository_root) -> dict:
     (config_dir / "classification_rules.csv").write_text("RuleID\n", encoding="utf-8")
     settings = yaml.safe_load((REPOSITORY_ROOT / "config/settings.yaml").read_text())
     settings["paths"]["classification_rules"] = "config/classification_rules.csv"
+    settings["paths"]["env_file"] = ".env"
     return settings

@@ -19,7 +19,7 @@ Typical Usage:
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
 import re
@@ -40,12 +40,13 @@ class EnvironmentVariable:
 
     Attributes:
         name: Environment variable name as it appears in the `.env` file.
-        value: Parsed string value. Empty strings are retained so callers can
-            distinguish a present blank variable from a missing variable.
+        value: Parsed string value, omitted from object representations to avoid
+            exposing credentials in logs or assertion output. Empty strings are
+            retained to distinguish a blank variable from a missing variable.
     """
 
     name: str
-    value: str
+    value: str = field(repr=False)
 
 
 @dataclass(frozen=True)
