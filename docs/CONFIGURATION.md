@@ -67,6 +67,30 @@ The configured output filenames are `permits_clean.csv`, `monthly_summary.csv`,
 `seasonal_summary.csv`, `community_summary.csv`, `type_summary.csv`,
 `processing_summary.csv`, and `bias_audit.csv`.
 
+### Downloading configured raw snapshots
+
+Run `dp-activity --settings config/settings.yaml download` from the repository
+root. The command builds the Socrata endpoint from `data_source.api_base_url`,
+`dataset_id`, and `format`, and uses `data_source.page_size` (default 50000) for
+pagination. The source type must be `socrata` and the API format must be `json`;
+snapshot storage formats are selected separately.
+
+The optional token comes from the variable named by `data_source.app_token_env`
+in the file configured by `paths.env_file`. Token values are excluded from
+download metadata and command summaries.
+
+The download includes the configured `study_periods`, filtered using the source
+column corresponding to `analysis.primary_date_field`. Inclusive end dates
+include the entire final day. The `post_repeal` period is omitted when
+`analysis.include_early_post_repeal` is false.
+
+One download is saved under `paths.raw_data` in every format listed in
+`storage.raw_snapshot_formats`, using `storage.output_base_name`. Each snapshot
+has a metadata sidecar with source, query, retrieval time, row count, and checksum.
+Raw snapshots always use the repository's timestamped, collision-safe naming;
+`overwrite_outputs`, `include_timestamp`, and `timestamp_format` govern generated
+analysis outputs rather than immutable raw snapshots.
+
 ### Interpretation rules
 
 - All paths are resolved from the repository root, not from the user's current directory.

@@ -29,11 +29,12 @@ from __future__ import annotations
 import argparse
 import sys
 from collections.abc import Sequence
-from dataclasses import dataclass
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass
+from datetime import date, datetime, timedelta, timezone
 from functools import partial
 from pathlib import Path
 
+from dp_activity.adapters.socrata_adapter import SocrataAdapter
 from dp_activity.analysis.geography_analysis import GeographyAnalysis
 from dp_activity.analysis.processing_analysis import ProcessingAnalysis
 from dp_activity.analysis.rezoning_analysis import RezoningAnalysis
@@ -58,6 +59,45 @@ from dp_activity.validation.schema_validator import SchemaValidator
 
 
 DEFAULT_SETTINGS_PATH = Path("config/settings.yaml")
+
+
+@dataclass(frozen=True)
+class DownloadCommand:
+    """Acquire configured study records and persist immutable raw snapshots.
+
+    This Command composes the source Adapter and persistence Repositories so
+    neither component needs to read project configuration itself.
+
+    Attributes:
+        adapter: Configured source adapter used for one download.
+        repositories: One persistence destination per configured raw format.
+        where: SoQL filter built from configured study periods and date field.
+        page_size: Configured maximum records requested per API page.
+    """
+
+    adapter: SocrataAdapter
+    repositories: tuple[RawDataRepository, ...]
+    where: str
+    page_size: int
+
+    def execute(self) -> tuple[int, tuple[Path, ...]]:
+        """Download once and save the same records in every requested format.
+
+        Returns:
+            Downloaded row count and paths to completed raw snapshots.
+
+        Raises:
+            requests.RequestException: Source retrieval fails.
+            ValueError: The adapter rejects the response or serialization fails.
+            OSError: A snapshot cannot be persisted. Earlier successful format
+                writes may remain if a later format fails.
+        """
+        records, metadata = self.adapter.download(where=self.where, page_size=self.page_size)
+        paths = tuple(
+            repository.save_snapshot(records, asdict(metadata))
+            for repository in self.repositories
+        )
+        return len(records), paths
 
 
 @dataclass(frozen=True)
@@ -103,6 +143,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     subparsers = parser.add_subparsers(dest="command", required=True)
+    subparsers.add_parser(
+        "download", help="Download configured study periods and save raw snapshots."
+    )
     run_parser = subparsers.add_parser(
         "run",
         help="Run the complete analysis pipeline for a raw snapshot.",
@@ -115,6 +158,82 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     return parser
+
+
+def build_download_command(config: ProjectConfig) -> DownloadCommand:
+    """Assemble acquisition dependencies using the loaded YAML settings.
+
+    Args:
+        config: Project configuration including source, local token, and storage.
+
+    Returns:
+        A download command using every configured raw snapshot format.
+
+    Raises:
+        ValueError: Source settings, page size, or study-date settings are invalid.
+    """
+    source = config.raw["data_source"]
+    for key in ("source_type", "api_base_url", "dataset_id", "format"):
+        if not isinstance(source.get(key), str) or not source[key].strip():
+            raise ValueError(f"data_source.{key} must be a nonblank string.")
+    if source["source_type"] != "socrata":
+        raise ValueError("The download command requires data_source.source_type: socrata.")
+    if source["format"] != "json":
+        raise ValueError("The Socrata adapter requires data_source.format: json.")
+    page_size = source.get("page_size", 50_000)
+    if isinstance(page_size, bool) or not isinstance(page_size, int) or page_size <= 0:
+        raise ValueError("data_source.page_size must be a positive integer.")
+    endpoint = f"{source['api_base_url'].rstrip('/')}/{source['dataset_id']}.{source['format']}"
+    adapter = SocrataAdapter(endpoint, app_token=config.socrata_app_token)
+    repositories = tuple(
+        RawDataRepository(
+            config.raw_data_dir, file_format=file_format, base_name=config.output_base_name
+        )
+        for file_format in config.raw_snapshot_formats
+    )
+    return DownloadCommand(adapter, repositories, _download_where(config), page_size)
+
+
+def _download_where(config: ProjectConfig) -> str:
+    """Translate configured inclusive study dates into a source-field filter.
+
+    Args:
+        config: Validated study periods and analysis settings.
+
+    Returns:
+        OR-joined study intervals using exclusive midnight upper bounds.
+
+    Raises:
+        ValueError: The primary date field is unsupported, the inclusion flag is
+            not Boolean, or no study periods remain selected.
+    """
+    analysis = config.raw.get("analysis", {})
+    if not isinstance(analysis, dict):
+        raise ValueError("analysis must be a mapping.")
+    primary_field = analysis.get("primary_date_field")
+    date_fields = {
+        "applied_date": "applieddate", "decision_date": "decisiondate",
+        "released_date": "releaseddate", "completed_date": "completeddate",
+    }
+    if not isinstance(primary_field, str) or primary_field not in date_fields:
+        raise ValueError("analysis.primary_date_field must name a supported permit date field.")
+    source_field = date_fields[primary_field]
+    include_post = analysis.get("include_early_post_repeal", True)
+    if not isinstance(include_post, bool):
+        raise ValueError("analysis.include_early_post_repeal must be Boolean.")
+    intervals = []
+    for key, period in config.raw["study_periods"].items():
+        if key == "post_repeal" and not include_post:
+            continue
+        start = date.fromisoformat(period["start"])
+        clause = f"{source_field} >= '{start.isoformat()}T00:00:00'"
+        if period.get("end") is not None:
+            exclusive_end = date.fromisoformat(period["end"]) + timedelta(days=1)
+            clause += f" AND {source_field} < '{exclusive_end.isoformat()}T00:00:00'"
+        intervals.append(f"({clause})")
+    if not intervals:
+        raise ValueError("At least one study period must be included for download.")
+    return " OR ".join(intervals)
 
 
 def build_run_command(config: ProjectConfig, snapshot_path: Path) -> RunPipelineCommand:
@@ -149,6 +268,14 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         config = load_config(arguments.settings)
+
+        if arguments.command == "download":
+            download_command = build_download_command(config)
+            row_count, paths = download_command.execute()
+            print(f"Downloaded {row_count} records.")
+            for path in paths:
+                print(f"Saved raw snapshot: {path}")
+            return 0
 
         if arguments.command == "run":
             if arguments.snapshot_path is None:

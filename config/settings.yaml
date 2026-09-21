@@ -8,6 +8,8 @@ data_source:
   dataset_id: "6933-unw5"
   api_base_url: "https://data.calgary.ca/resource"
   format: "json"
+  # Maximum records per request; this is not a total download limit.
+  page_size: 50000
   # Optional Socrata app token environment variable; do not commit token values.
   app_token_env: "SOCRATA_APP_TOKEN"
 
