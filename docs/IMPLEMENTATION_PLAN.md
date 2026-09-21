@@ -43,21 +43,24 @@ The project is complete when:
 | Date | Milestone | Deliverables | Exit Check |
 |---|---|---|---|
 | Sep 18 | Planning lock | This implementation plan; confirmed config expectations | Plan committed and linked from README |
-| Sep 19-20 | Data access and repositories | `SocrataAdapter`, `RawDataRepository`, `OutputRepository`; CSV/Parquet save/load behavior | Adapter and repository tests pass |
-| Sep 21-22 | Configuration-to-pipeline wiring | CLI uses config storage/logging settings; snapshot paths and output paths are deterministic | CLI and repository integration tests pass |
+| Sep 19, Sep 21 | Data access and repositories | `SocrataAdapter`, `RawDataRepository`, `OutputRepository`; CSV/Parquet save/load behavior | Adapter and repository tests pass |
+| Sep 20 | Sunday break | Day off for rest and recovery | No project work scheduled |
+| Sep 22 | Configuration-to-pipeline wiring | CLI uses config storage/logging settings; snapshot paths and output paths are deterministic | CLI and repository integration tests pass |
 | Sep 23-24 | Cleaning and profiling | `PermitCleaner`, `DataProfiler`; source-field mapping, date parsing, text normalization, profile tables | Cleaning/profiling tests pass |
 | Sep 25-26 | Classification foundation | `ClassificationRule.matches()`, `RuleLoader`, `PermitClassifier`; rule coverage report | Rule/classifier tests pass |
-| Sep 27 | Validation foundation | Schema, data-quality, and classification validators | Validation tests pass |
-| Sep 28-29 | Feature engineering | Period, season, and processing-time features | Feature tests pass, boundary dates verified |
-| Sep 30-Oct 1 | Analysis tables | Volume, type, geography, processing, rezoning, seasonal, and sensitivity analyses | Analysis tests pass |
+| Sep 27 | Sunday break | Day off for rest and recovery | No project work scheduled |
+| Sep 28 | Validation foundation | Schema, data-quality, and classification validators | Validation tests pass |
+| Sep 29-30 | Feature engineering | Period, season, and processing-time features | Feature tests pass, boundary dates verified |
+| Oct 1 | Analysis tables | Volume, type, geography, processing, rezoning, seasonal, and sensitivity analyses | Analysis tests pass |
 | Oct 2 | Pipeline orchestration | `AnalysisPipeline.__init__()` and `run()` integrate stages and collect results | Pipeline test passes |
 | Oct 3 | Export and manifest | `PowerBIExporter`, output schemas, reconciliation table, run manifest | Export tests pass |
-| Oct 4 | End-to-end smoke test | Small frozen fixture, CLI run, generated outputs in configured formats | Smoke test passes locally |
-| Oct 5-6 | Data pull and rule review | Real source snapshot, profile review, classification-rule adjustments with notes | Rule coverage and unmatched counts reviewed |
+| Oct 4 | Sunday break | Day off for rest and recovery | No project work scheduled |
+| Oct 5 | End-to-end smoke test | Small frozen fixture, CLI run, generated outputs in configured formats | Smoke test passes locally |
+| Oct 6 | Data pull and rule review | Real source snapshot, profile review, classification-rule adjustments with notes | Rule coverage and unmatched counts reviewed |
 | Oct 7-8 | Power BI build | Model, measures, dashboard pages, slicers, reconciliation checks | Power BI totals match Python outputs |
 | Oct 9 | Interpretation and bias audit | Findings, limitations, sensitivity results, bias-control documentation | Results are traceable to snapshot/config |
-| Oct 10 | Final documentation pass | README commands, methodology, data dictionary, references, presentation notes | Docs match generated outputs |
-| Oct 11 | Freeze candidate | Fresh clone/setup check, full tests, smoke test, final Power BI export | No unexpected failures |
+| Oct 10 | Final documentation pass and freeze candidate | README commands, methodology, data dictionary, references, presentation notes; fresh clone/setup check, full tests, smoke test, final Power BI export | Docs match generated outputs and no unexpected failures remain |
+| Oct 11 | Sunday break | Day off for rest and recovery | No project work scheduled |
 | Oct 12 | Submission package | Final report, presentation/dashboard assets, archived log, manifest, reproducibility notes | Submission-ready package complete |
 
 ## Work Breakdown
@@ -248,6 +251,8 @@ sanity checks that will later be converted into source code, tests, or documente
 
 ## Daily Operating Rules
 
+- Keep Sundays as planned days off. Use September 20, September 27, October 4, and
+  October 11, 2026 for rest rather than project work.
 - Implement one module or one closely related module group at a time.
 - Run the focused test first, then the full suite before closing the day.
 - Remove each `XFAIL` only when the behavior is implemented and assertions pass normally.
