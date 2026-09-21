@@ -31,7 +31,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 dependencies = [
-    "pandas==3.0.6",
+    "pandas==2.2.3",
     "PyYAML==6.0.3",
     "requests==2.34.2",
     "sodapy==2.2.0",

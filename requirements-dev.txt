@@ -1,2 +1,2 @@
-# Installs the package, runtime dependencies, and local test tooling.
--e .[dev]
+# Installs the package, runtime dependencies, local test tooling, and Parquet support.
+-e .[dev,parquet]

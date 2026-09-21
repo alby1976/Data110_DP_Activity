@@ -3,7 +3,38 @@ Name: data110-dp-activity
 Version: 0.1.0
 Summary: Calgary development permit activity analysis for a DATA 110 mini-capstone project.
 Author: Albert Leung
-License: All rights reserved
+License: # Copyright Notice
+        
+        Copyright © 2026 Albert Leung. All rights reserved.
+        
+        Except as permitted by applicable law or with the copyright holder's prior written permission, no part of this repository's original code, documentation, analysis, visualizations, reports, presentations, Power BI materials, or other original content may be copied, reproduced, modified, distributed, published, sublicensed, sold, incorporated into another work, or submitted for academic credit.
+        
+        Viewing or forking this public repository through functionality provided by GitHub does not grant any additional permission to reuse its original contents beyond the limited rights provided by GitHub's Terms of Service.
+        
+        Instructors and educational institutions may reproduce limited portions of the original content when reasonably necessary to verify authorship or investigate suspected academic misconduct.
+        
+        Links to this repository and properly attributed citations are permitted. Citation does not grant permission to reproduce substantial portions of the work or to submit this work for academic credit.
+        
+        To request permission, contact the copyright holder through the repository owner's GitHub profile.
+        
+        ## Third-Party Data and Materials
+        
+        This copyright notice applies only to original material owned by Albert Leung. It does not claim ownership of third-party data, facts, trademarks, or materials.
+        
+        City of Calgary source data is not covered by this copyright notice. It is made available under the Open Government Licence – City of Calgary.
+        
+        Contains information licensed under the Open Government Licence – City of Calgary.
+        
+        - Development Permits dataset: <https://data.calgary.ca/Business-and-Economic-Activity/Development-Permits/6933-unw5>
+        - City of Calgary Open Data Terms of Use: <https://data.calgary.ca/stories/s/Open-Calgary-Terms-of-Use/u45n-7awa/>
+        
+        Users who access, reproduce, modify, or redistribute City of Calgary data are responsible for complying with the City's applicable licence and attribution requirements.
+        
+Project-URL: Homepage, https://github.com/alby1976/Data110_DP_Activity
+Project-URL: Repository, https://github.com/alby1976/Data110_DP_Activity
+Project-URL: Documentation, https://github.com/alby1976/Data110_DP_Activity#readme
+Project-URL: Issues, https://github.com/alby1976/Data110_DP_Activity/issues
+Project-URL: Data, https://data.calgary.ca/Business-and-Economic-Activity/Development-Permits/6933-unw5
 Keywords: calgary,data-analysis,development-permits,power-bi
 Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Education
@@ -21,11 +52,12 @@ License-File: LICENSE.md
 Requires-Dist: pandas==2.2.3
 Requires-Dist: PyYAML==6.0.3
 Requires-Dist: requests==2.34.2
+Requires-Dist: sodapy==2.2.0
 Provides-Extra: dev
 Requires-Dist: pytest==9.1.1; extra == "dev"
 Requires-Dist: requests-mock==1.12.1; extra == "dev"
 Provides-Extra: parquet
-Requires-Dist: pyarrow>=16.0; extra == "parquet"
+Requires-Dist: pyarrow==25.0.1; extra == "parquet"
 Dynamic: license-file
 
 # Calgary Development Permit Activity
@@ -99,7 +131,7 @@ Python and Power BI serve different roles while using the same definitions:
 - **Python:** retrieve, profile, clean, classify, validate, summarize, visualize, and export the data.
 - **Power BI:** provide interactive comparisons by period, community, ward, permit type, status, and land-use district.
 
-Socrata results can be saved as CSV or JSON by filename extension, or as Parquet when a compatible engine is installed. Project settings can request CSV and/or Parquet storage for raw snapshots and processed outputs. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
+Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. Project settings can request CSV, JSON, JGeoJSON, and/or Parquet storage for raw snapshots and processed outputs. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
 
 ## Key measures
 
