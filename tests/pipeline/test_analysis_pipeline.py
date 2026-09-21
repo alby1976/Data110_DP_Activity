@@ -15,8 +15,6 @@ Typical Usage:
     deterministic inputs.
 """
 
-from conftest import implemented
-
 from dp_activity.pipeline.analysis_pipeline import AnalysisPipeline, PipelineResult
 
 
@@ -88,6 +86,23 @@ class StubExporter:
         return {"clean": "permits.csv"}
 
 
+class StubAnalysis:
+    """Provide a deterministic analysis strategy for pipeline orchestration tests."""
+
+    name = "stub_analysis"
+
+    def run(self, permits):
+        """Return one named analysis table.
+
+        Args:
+            permits: Permit records supplied by the pipeline.
+
+        Returns:
+            A named table mapping that preserves the input for assertion.
+        """
+        return {"summary": permits}
+
+
 def test_pipeline_constructor_stores_injected_collaborators() -> None:
     """Verify that constructor injection defines the pipeline graph."""
     source_repository = StubRepository()
@@ -122,17 +137,29 @@ def test_pipeline_constructor_stores_injected_collaborators() -> None:
 
 def test_pipeline_returns_named_results() -> None:
     """Verify that pipeline returns named results."""
-    pipeline = implemented(
-        AnalysisPipeline,
+    def add_feature(rows):
+        """Add one derived row so feature-builder ordering is visible."""
+        return [*rows, {"permit_number": "DP2"}]
+
+    def validation_report(rows):
+        """Return a validation report derived from feature-enriched rows."""
+        return {"row_count": len(rows)}
+
+    pipeline = AnalysisPipeline(
         source_repository=StubRepository(),
         cleaner=IdentityStage(),
         classifier=IdentityStage(),
-        feature_builders=[],
-        validators=[],
-        analyses=[],
+        feature_builders=[add_feature],
+        validators=[validation_report],
+        analyses=[StubAnalysis()],
         exporter=StubExporter(),
     )
-    result = implemented(pipeline.run, "snapshot.csv")
+    result = pipeline.run("snapshot.csv")
     assert isinstance(result, PipelineResult)
-    assert result.cleaned_permits == [{"permit_number": "DP1"}]
+    assert result.cleaned_permits == [
+        {"permit_number": "DP1"},
+        {"permit_number": "DP2"},
+    ]
+    assert result.validation_reports["validation_report"] == {"row_count": 2}
+    assert result.analysis_tables["summary"] == result.cleaned_permits
     assert result.output_paths["clean"] == "permits.csv"
