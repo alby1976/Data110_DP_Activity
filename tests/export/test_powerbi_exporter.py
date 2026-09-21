@@ -17,7 +17,7 @@ Typical Usage:
 
 import pandas as pd
 
-from conftest import implemented
+from tests.conftest import implemented
 
 from dp_activity.export.powerbi_exporter import PowerBIExporter
 
