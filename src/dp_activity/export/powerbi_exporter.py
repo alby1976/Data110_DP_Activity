@@ -1,7 +1,7 @@
 """Export stable, tidy tables for Power BI.
 
-This module converts finalized project tables into stable CSV schemas and reconciliation
-outputs consumed by Power BI.
+This module defines the export boundary for finalized project tables and Power BI
+reconciliation outputs. Constructor validation is implemented; export remains a scaffold.
 
 Design Pattern:
     Adapter.
@@ -11,7 +11,8 @@ Pattern Rationale:
     expected by Power BI.
 
 Typical Usage:
-    Use these components after validation to prepare stable downstream reporting files.
+    Inject a configured exporter into the analysis pipeline. Calling export()
+    currently raises NotImplementedError and writes no reporting files.
 """
 
 from __future__ import annotations
@@ -84,7 +85,7 @@ class PowerBIExporter:
         analysis_tables: dict[str, Any],
         validation_tables: dict[str, Any],
     ) -> dict[str, Path]:
-        """Export configured CSV files and return logical-name/path mappings.
+        """Define the pending export operation for configured output formats.
 
         Args:
             permit_table: Final permit-level table exported for reporting.
@@ -92,7 +93,8 @@ class PowerBIExporter:
             validation_tables: Validator names mapped to structured findings.
 
         Returns:
-            Logical output names mapped to the CSV paths written.
+            Intended contract: logical output names mapped to written paths.
+            The current scaffold raises before returning a mapping.
 
         Raises:
             NotImplementedError: The scaffolded behavior has not yet been implemented.

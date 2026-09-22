@@ -8,13 +8,17 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. After adding the implemented configuration, CLI, and file-format behavior, the current baseline is:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 21, 2026, `python -m pytest -q` with the configured Python 3.13.14 environment reports:
 
 ```text
-14 passed, 24 xfailed
+243 passed, 15 xfailed
 ```
 
-This is an implementation baseline, not a claim that 24 behaviors pass. The passing tests cover configuration loading, CLI command dispatch and log archiving, the abstract analysis contract, and the implemented CSV/JSON/reflection file-adapter behavior. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally.
+The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
+
+Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
+
+The 15 expected failures cover seven analysis strategies, three feature modules, three validators, Power BI export, and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally.
 
 ## Installation and commands
 

@@ -3,9 +3,16 @@
 ## Purpose
 
 This plan defines the work needed to move the project from the current scaffolded
-baseline to a reproducible analysis package by October 12, 2026. It assumes the current
-baseline is `14 passed, 24 xfailed`, with configuration, CLI command dispatch,
-file-format adapters, and documentation partly implemented.
+baseline to a reproducible analysis package by October 12, 2026. The September 21
+baseline is `243 passed, 15 xfailed`, with no unexpected failures; see
+[Testing Framework](TESTING.md#current-baseline).
+
+Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
+CLI dispatch, log archiving, and pipeline orchestration are implemented. Features,
+validators, analyses, charts, and Power BI export remain scaffolded. The timeline and
+sprint tables below retain the original delivery plan; they are planning checklists,
+not a record that every listed implementation step is still outstanding. A complete
+run with real collaborators remains blocked by the unfinished stages.
 
 The plan prioritizes the executable Python pipeline first, then validation, analysis
 outputs, Power BI readiness, and final reproducibility checks. The final deadline is

@@ -1,7 +1,7 @@
 """Orchestrate the complete analysis without hiding stage boundaries.
 
-This module coordinates explicit acquisition, preparation, validation, analysis, and
-export stages for one reproducible run.
+This module loads an existing raw snapshot and coordinates preparation, validation,
+analysis, and export stages. Acquisition is handled separately by the download command.
 
 Design Pattern:
     Facade, Dependency Injection, and Pipes and Filters.
@@ -110,6 +110,12 @@ class AnalysisPipeline:
             TypeError: An analysis strategy does not return a mapping of output names
                 to result tables.
             ValueError: Two analysis strategies return the same output name.
+
+        Note:
+            Collaborator exceptions propagate to the caller, including
+            NotImplementedError from unfinished stages. Validation reports are
+            collected without inspecting their severity; only a raised exception
+            stops execution. Export side effects are not rolled back on failure.
         """
         permits = self.source_repository.load_snapshot(snapshot_path)
         permits = self.cleaner.clean(permits)

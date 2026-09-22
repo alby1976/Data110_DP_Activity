@@ -27,6 +27,8 @@ from dp_activity.config import load_config
 def test_loads_project_settings_and_periods(tmp_path) -> None:
     """Load project defaults without reading a developer's real credentials.
 
+    Raw storage must include CSV but may also enable additional formats.
+
     Args:
         tmp_path: Isolated repository root containing no local secrets.
     """
@@ -48,7 +50,7 @@ def test_loads_project_settings_and_periods(tmp_path) -> None:
     assert config.overwrite_outputs is True
     assert config.output_include_timestamp is False
     assert config.output_timestamp_format == "%Y%m%d_%H%M%S"
-    assert config.raw_snapshot_formats == ("csv",)
+    assert "csv" in config.raw_snapshot_formats
     assert config.processed_output_formats == ("csv",)
 
 

@@ -11,17 +11,16 @@ Pattern Rationale:
     the user's selected command to the appropriate workflow.
 
 Typical Usage:
-    Invoke main() through the module entry point to dispatch a configured project
-    workflow.
+    Run ``python -m dp_activity.cli --settings config/settings.yaml download``
+    from the repository root to acquire configured study periods. The installed
+    ``dp-activity`` entry point accepts the same arguments.
 
-Implementation Outline:
-    1. Build an argument parser with commands such as download, profile, analyse, and run.
-    2. Accept an optional settings-file path; default to config/settings.yaml.
-    3. Load and validate configuration.
-    4. Construct repositories, pipeline stages, analyses, and exporters.
-    5. Execute the requested command.
-    6. Print a short success summary; convert expected project errors to friendly messages.
-    7. Return a non-zero exit code on failure.
+Note:
+    Only ``download`` and ``run`` commands are exposed. Download writes one raw
+    snapshot per configured format. Run assembles the pipeline for a supplied
+    snapshot, but unfinished feature, validation, analysis, and export stages
+    currently prevent a complete analysis. Command errors are printed to stderr
+    and converted to nonzero exit codes.
 """
 
 from __future__ import annotations
@@ -244,7 +243,8 @@ def build_run_command(config: ProjectConfig, snapshot_path: Path) -> RunPipeline
         snapshot_path: Raw snapshot path supplied by the user.
 
     Returns:
-        A command object that can execute the configured pipeline.
+        A command object wired to the configured pipeline. Assembly does not
+        establish that every stage is implemented or that execution will succeed.
     """
     pipeline = _build_pipeline(config)
     return RunPipelineCommand(pipeline=pipeline, snapshot_path=snapshot_path)
@@ -258,7 +258,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             process arguments.
 
     Returns:
-        A process exit code; zero indicates success.
+        Zero for command success or help, 2 for argument errors or a missing run
+        snapshot path, and 1 for configuration or workflow errors, including
+        unfinished stages that raise NotImplementedError.
+
+    Note:
+        Writes summaries to stdout and errors to stderr. Download persists raw
+        snapshots; run archives an existing configured log before assembling
+        and executing the pipeline, even if a later stage fails.
     """
     parser = build_parser()
     try:
