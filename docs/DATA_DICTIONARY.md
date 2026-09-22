@@ -80,22 +80,47 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 
 ## Configured and planned output tables
 
+### Implemented validation results
+
+These reports are produced in Python; their final file export remains pending.
+
+| Report | Grain | Fields and interpretation |
+|---|---|---|
+| Schema issues | one structural finding | `severity` (`error`/`info`), `column`, `message`; returned as frozen `SchemaIssue` objects |
+| Quality checks | one executed check or missing prerequisite | `check_name`, `status` (`pass`/`warn`/`fail`), `affected_rows`, `message`; returned as frozen `QualityCheckResult` objects |
+| Classification summary | one row with `report_type=summary` | `record_count`, `matched_count`, `unmatched_count`, `coverage_percentage`, `unmatched_percentage`, `review_count`, `review_percentage` |
+| Classification evidence | fields on the summary row | `overlap_count`, `additional_match_count`, `unknown_rule_count`, `disabled_rule_count`, `inconsistent_audit_count`, `missing_audit_columns`, `enabled_rule_count`, and separate `review_status_count`, `provisional_status_count`, `fallback_status_count` |
+| Human-label audit | fields on the summary row when requested | `audit_count`, `audit_error_count`, `audit_accuracy_percentage`; denominator is only independently labelled records |
+| Confusion matrix | one observed expected/predicted pair, `report_type=confusion` | `expected_type`, `predicted_type`, `record_count`, `status`, `message`; summary metrics are null on these rows |
+
+Classification rows also contain `status` and `message`. Filter `report_type`
+before aggregating counts. Unavailable metrics and undefined percentages are
+null, not zero. Overlaps are not automatically errors; coverage is not accuracy.
+Quality checks can fail with zero affected rows when columns are missing or a
+required nonempty dataset is empty. Inspect status and message as well as counts.
+
+### Planned exported products
+
 | File/table | Grain | Purpose |
 |---|---|---|
-| `permits_clean.csv` | one permit | Power BI fact table |
-| `monthly_summary.csv` | period × month | trend validation and Python results |
-| `seasonal_summary.csv` | period × season | seasonal volume and processing comparison |
-| `type_summary.csv` | period × residential type | development-mix analysis |
-| `community_summary.csv` | community | before/during geographic comparison |
-| `processing_summary.csv` | period and optional type | processing-time statistics |
-| `bias_audit.csv` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
+| `permits_clean` | one permit | Power BI fact table |
+| `monthly_summary` | period × month | trend validation and Python results |
+| `seasonal_summary` | period × season | seasonal volume and processing comparison |
+| `type_summary` | period × residential type | development-mix analysis |
+| `community_summary` | community | before/during geographic comparison |
+| `processing_summary` | period and optional type | processing-time statistics |
+| `bias_audit` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
 
-These filenames are configured in `config/settings.yaml`. Additional analytical tables,
-such as a future `sensitivity_summary.csv`, should be added to `outputs` before they are
+These extension-free labels are configured in `config/settings.yaml`. Additional analytical tables,
+such as a future `sensitivity_summary`, should be added to `outputs` before they are
 treated as pipeline products. The configured storage formats may produce CSV, JSON,
 JGeoJSON, Parquet files, or a combination. `storage.output_base_name` controls the
 shared stem used for generated data products when a repository/exporter derives
 filenames from the storage settings.
+The documented naming convention is
+`base_label[_study_period_label][_period][_timestamp][_current_date_time].format`;
+consuming output labels and the additional optional current-date/time component
+remain exporter work. See [Configuration](CONFIGURATION.md) for implementation limits.
 
 ## Configuration files
 

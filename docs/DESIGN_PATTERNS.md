@@ -8,7 +8,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 
 This overview includes both implemented components and scaffolded contracts. Adapters,
 repositories, configuration, cleaning, profiling, classification, CLI dispatch, and
-pipeline orchestration are implemented. Feature functions, validators, concrete
+pipeline orchestration, and all three validators are implemented. Feature functions, concrete
 analyses, chart operations, and Power BI export remain unfinished. The sequence below
 describes the intended complete workflow; see [Testing Framework](TESTING.md) for
 verified behavior and remaining expected failures. Profiling is available separately
@@ -58,6 +58,13 @@ and is not currently invoked by the CLI pipeline.
 - Do not create an interface with only one foreseeable implementation unless it creates a useful testing or dependency boundary.
 
 ## Pattern-focused testing
+
+Validation uses injected `validate` callables with configuration or rules bound
+by `functools.partial`. `SchemaValidator` and `DataQualityValidator` return lists
+of frozen `SchemaIssue` and `QualityCheckResult` objects. `ClassificationValidator`
+returns a DataFrame with a summary and optional human-label confusion rows.
+These strategies preserve input records and leave stop-or-warn decisions to
+the caller. Coverage and rule-status labels do not establish accuracy.
 
 The tests should verify the reason for each pattern, not merely its class names:
 

@@ -3,13 +3,13 @@
 ## Purpose
 
 This plan defines the work needed to move the project from the current scaffolded
-baseline to a reproducible analysis package by October 12, 2026. The September 21
-baseline is `243 passed, 15 xfailed`, with no unexpected failures; see
+baseline to a reproducible analysis package by October 12, 2026. The September 22
+baseline is `301 passed, 12 xfailed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
-CLI dispatch, log archiving, and pipeline orchestration are implemented. Features,
-validators, analyses, charts, and Power BI export remain scaffolded. The timeline and
+all three validators, CLI dispatch, log archiving, and pipeline orchestration are implemented.
+Features, analyses, charts, and Power BI export remain scaffolded. The timeline and
 sprint tables below retain the original delivery plan; they are planning checklists,
 not a record that every listed implementation step is still outstanding. A complete
 run with real collaborators remains blocked by the unfinished stages.
@@ -19,6 +19,35 @@ outputs, Power BI readiness, and final reproducibility checks. The final deadlin
 Monday, October 12, 2026.
 
 ## Success Criteria
+
+### Current implementation checkpoint: September 22
+
+All three validators are implemented and tested. Schema validation returns
+immutable issues, data-quality validation returns immutable check results, and
+classification validation returns a summary table with optional labelled-sample
+confusion rows. The pipeline currently collects findings without stopping on
+failed result statuses; an explicit fatal-finding policy remains an integration
+decision before final outputs are accepted.
+
+Remaining Python work, in implementation order:
+
+1. Implement period assignment, including policy-boundary tests.
+2. Implement cross-year seasons and complete/partial-season flags.
+3. Implement processing durations, pending status, and censoring features.
+4. Implement the seven volume, type, geography, processing, rezoning, seasonal,
+   and sensitivity analysis strategies.
+5. Implement Power BI exports, validation/bias-audit/reconciliation tables, and
+   configured output naming and formats. Manifest writing exists; assembling
+   complete run provenance and connecting it to final outputs still needs work.
+6. Implement chart creation and saving.
+7. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
+   real collaborators, including output formats and validation handling.
+
+The Before snapshot and exploratory notebook are available. Displaying the new
+validator reports in the notebook and reviewing the findings remain follow-up
+work; this is distinct from implementing the validators themselves.
+
+### Final acceptance criteria
 
 The project is complete when:
 

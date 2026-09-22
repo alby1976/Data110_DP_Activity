@@ -158,6 +158,21 @@ The settings file uses standardized, code-facing `snake_case` names such as `per
 
 ### Validation before execution
 
+The CLI binds `quality_checks.required_columns` to `SchemaValidator`, the full
+`quality_checks` mapping to `DataQualityValidator`, and loaded classification
+rules to `ClassificationValidator`. These validators are implemented; they
+return reports without modifying input data. The current pipeline collects
+their findings and does not automatically stop on failed report statuses.
+
+`require_unique_permit_number` defaults to true; false downgrades duplicates
+from failures to warnings. The three `warn_on_*` options default to true; false
+omits the corresponding check. Optional `minimum_row_count` fails below the
+configured minimum. Optional `max_data_age_days` requires `reference_date` and
+compares the latest valid application date with that explicit date. Both
+thresholds must be nonnegative integers and are disabled when absent. Historical
+snapshots should use a reference date appropriate to the selected study window.
+See [Methodology](METHODOLOGY.md#4-data-quality-checks) for count semantics.
+
 The Python workflow should stop with a clear message when:
 
 1. the YAML cannot be parsed;
