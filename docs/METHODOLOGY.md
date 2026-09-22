@@ -101,6 +101,16 @@ than replace this provenance record.
 
 ## 4. Data-quality checks
 
+`SchemaValidator` implements the structural check as an injected validation
+strategy. The CLI supplies `quality_checks.required_columns` from
+`config/settings.yaml`. It returns immutable `SchemaIssue` result objects:
+missing required columns, duplicate column names, invalid column labels, and
+unsupported table objects are errors; additional source or derived columns are
+informational. Names are matched exactly without changing the table. Empty
+tables may have valid schemas; identifier values, date validity, and row-count
+checks belong to data-quality validation. The pipeline collects these findings;
+returning an error finding does not itself stop execution.
+
 The Python workflow should fail clearly or issue a documented warning for:
 
 1. missing required columns;

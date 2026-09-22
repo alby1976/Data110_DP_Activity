@@ -20,13 +20,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+import pandas as pd
 
 @dataclass(frozen=True)
 class SchemaIssue:
     """Record one immutable schema finding.
 
     Attributes:
-        severity: Machine-readable importance assigned to the issue.
+        severity: ``error`` for unusable structure or missing requirements;
+            ``info`` for additional columns retained as evidence.
         column: Related column name, or None for table-level findings.
         message: Human-readable explanation of the issue.
     """
@@ -41,23 +43,79 @@ class SchemaValidator:
 
     This class is a validation Strategy that reports structured issues and leaves
     stop-or-warn policy to the caller.
+
+    Supply ``validate`` with configured required columns through a callable such
+    as ``functools.partial`` when injecting it into the pipeline. Column names
+    are matched exactly; source-field translation belongs to the cleaner.
     """
 
     def validate(self, table: Any, required_columns: list[str]) -> list[SchemaIssue]:
-        """Return issues; callers decide whether errors stop the pipeline.
+        """Inspect column structure without modifying the input table.
 
         Args:
-            table: DataFrame-like table used by the operation.
-            required_columns: Column names that must be present in the table.
+            table: Pandas DataFrame to inspect. Unsupported table objects produce
+                a table-level error finding.
+            required_columns: Nonblank, unique column names from configuration.
+                This is a minimum schema, not an exhaustive allowed-column list.
 
         Returns:
-            Structured schema issues; an empty list indicates no findings.
+            Immutable findings ordered by invalid labels, duplicate names,
+            missing requirements, then additional columns. An empty list means
+            the table has exactly the required, unambiguous column names.
 
         Raises:
-            NotImplementedError: The scaffolded behavior has not yet been implemented.
+            TypeError: Required columns are not a list of strings.
+            ValueError: Required names are blank or duplicated.
+
+        Note:
+            Empty tables can have valid schemas. Null or duplicate identifier
+            values, field types, and invalid dates are data-quality concerns;
+            they are not inferred from column names here. Source evidence and
+            derived columns are reported as information, never removed.
         """
-        # TODO: Report missing required columns as errors.
-        # TODO: Report unexpected columns as information, not automatic failure.
-        # TODO: Check PermitNum exists and is usable as the expected identifier.
-        # TODO: Check configured date/geography/classification evidence fields.
-        raise NotImplementedError
+        if not isinstance(required_columns, list) or any(
+            not isinstance(name, str) for name in required_columns
+        ):
+            raise TypeError("required_columns must be a list of strings.")
+        if any(not name.strip() for name in required_columns):
+            raise ValueError("Required column names cannot be blank.")
+        if len(set(required_columns)) != len(required_columns):
+            raise ValueError("Required column names must be unique.")
+
+        if not isinstance(table, pd.DataFrame):
+            return [SchemaIssue("error", None, "Expected a pandas DataFrame.")]
+
+        issues: list[SchemaIssue] = []
+        names: list[str] = []
+        for position, name in enumerate(table.columns):
+            if not isinstance(name, str) or not name.strip():
+                issues.append(SchemaIssue(
+                    "error", None,
+                    f"Column at position {position} must have a nonblank string name.",
+                ))
+            else:
+                names.append(name)
+
+        seen: set[str] = set()
+        duplicates: set[str] = set()
+        for name in names:
+            if name in seen and name not in duplicates:
+                issues.append(SchemaIssue(
+                    "error", name, f"Column '{name}' appears more than once.",
+                ))
+                duplicates.add(name)
+            seen.add(name)
+
+        for name in required_columns:
+            if name not in seen:
+                issues.append(SchemaIssue(
+                    "error", name, f"Required column '{name}' is missing.",
+                ))
+
+        required = set(required_columns)
+        for name in dict.fromkeys(names):
+            if name not in required:
+                issues.append(SchemaIssue(
+                    "info", name, f"Additional column '{name}' is outside the required schema.",
+                ))
+        return issues
