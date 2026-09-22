@@ -356,7 +356,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
             add_season_features,
             date_column=analysis_settings.get("primary_date_field", "applied_date"),
             season_months={
-                key: value["months"]
+                value.get("label", key): value["months"]
                 for key, value in seasons_settings.items()
                 if isinstance(value, dict) and "months" in value
             },

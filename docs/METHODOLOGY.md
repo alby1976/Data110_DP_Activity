@@ -242,6 +242,22 @@ The final logic should be stored in `config/classification_rules.csv` and summar
 
 ### Seasonal classification rules
 
+`add_season_features` implements these rules as a pure, input-preserving filter.
+The configured labels and ordered three-month lists partition all twelve months.
+It adds `Season`, `SeasonStartDate`, inclusive `SeasonEndDate`, `SeasonLabel`,
+integer `SeasonSortKey` (`YYYYMM`), and nullable `IsCompleteSeason` and
+`IsPartialSeason`. Missing or invalid dates retain null features, including when
+the cleaner has preserved an invalid-date flag. Calendar days are not shifted
+by timezone offsets.
+
+Completeness is evaluated against the individual configured policy window
+containing the record, not the union of adjacent periods. An optional explicit
+`observation_end` caps observed exposure. Without an upper bound, completeness
+is unknown unless the season already starts before its policy window, proving
+it partial. Dates outside supplied windows, beyond the observation end, or with
+no supplied windows have unknown completeness. The CLI does not yet supply a
+snapshot observation end, so open-ended periods retain this uncertainty.
+
 | Season | Applied month | Season start |
 |---|---|---|
 | Fall | September, October, November | September 1 of the application year |

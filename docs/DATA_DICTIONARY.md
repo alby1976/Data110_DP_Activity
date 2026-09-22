@@ -59,6 +59,8 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `AppliedYearMonth` | date | first day of application month |
 | `Season` | category | Fall (Sep–Nov), Winter (Dec–Feb), Spring (Mar–May), or Summer (Jun–Aug) |
 | `SeasonStartDate` | date | first day of the season; Jan–Feb map to December 1 of the previous year |
+| `SeasonEndDate` | date | inclusive last calendar day of the three-month season |
+| `IsPartialSeason` | nullable Boolean | inverse of known season completeness; null when exposure cannot be established |
 | `SeasonLabel` | text | readable cross-year label, for example `Winter 2024–25` |
 | `SeasonSortKey` | integer/date | chronological sort value derived from `SeasonStartDate` |
 | `IsCompleteSeason` | Boolean | indicates whether the entire season is inside the applicable analysis window |
