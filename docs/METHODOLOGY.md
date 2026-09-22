@@ -168,6 +168,35 @@ Recommended sequence:
 
 Do not rely on a loose keyword such as `house` without reviewing false positives and false negatives.
 
+### Classification validation report
+
+`ClassificationValidator` is an injected Strategy that returns a pandas Result
+Table without changing permits or rules. Its `summary` row reports total,
+matched, unmatched, and review counts; coverage and review percentages; separate
+review/provisional/fallback status counts; overlapping-record and additional-match
+counts; and unknown-rule, disabled-rule, and inconsistent-audit counts. The count
+denominator is all input records. Empty inputs have undefined percentages rather
+than an assumed 100% coverage.
+
+The validator checks winning and additional recorded rule IDs, priority/ID order,
+match counts, review flags, and stored outcomes against the supplied rule set.
+It does not rerun matching predicates against source evidence. Missing audit
+columns produce a failed assessment with unavailable metrics left null. Unknown
+or disabled IDs and inconsistent audit evidence also fail. Unmatched or review
+records produce warnings. Multiple matches alone do not fail validation because
+broad fallback rules can intentionally overlap specific rules. The pipeline
+collects these findings; a failed result does not itself halt execution.
+
+For manual validation, supply an independent human-reviewed type column using
+`audit_label_column`. Null and blank labels are excluded. Additional `confusion`
+rows record observed expected/predicted class pairs and their `record_count`;
+summary metrics remain null on those rows to avoid repeating totals. Filter by
+`report_type` before aggregating the table. `audit_count`, `audit_error_count`,
+and `audit_accuracy_percentage` describe only the labelled subset, comparing
+labels exactly. A rule's validation-status text and its coverage are not evidence
+of predictive accuracy, and sample accuracy is not automatically population
+accuracy.
+
 ## 6. Rezoning-relevant classification
 
 `RezoningRelevant` will be a transparent analytical flag, not an official City designation. Candidate evidence includes:
