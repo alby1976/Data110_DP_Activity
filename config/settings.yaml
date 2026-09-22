@@ -44,7 +44,7 @@ storage:
     - csv
     # - json
     # - jgeojson
-    # - parquet
+    - parquet
   processed_output_formats:
     - csv
     # - json
@@ -117,13 +117,25 @@ quality_checks:
   warn_on_negative_processing_days: true
 
 outputs:
-  clean_permits: "permits_clean.csv"
-  monthly_summary: "monthly_summary.csv"
-  seasonal_summary: "seasonal_summary.csv"
-  community_summary: "community_summary.csv"
-  type_summary: "type_summary.csv"
-  processing_summary: "processing_summary.csv"
-  bias_audit: "bias_audit.csv"
+  # Extension-free labels appended to storage.output_base_name.
+  # Naming convention:
+  # <base>_<label>[_<study_period_label>][_<period>][_<timestamp>][_<current_date_time>].<format>
+  # Optional study_period_label comes from study_periods.*.label, made filename-safe.
+  # Optional period identifies the analysis period (for example, 2024-08).
+  # Add a UTC timestamp only
+  # when storage.include_timestamp is true, using storage.timestamp_format.
+  # Optional current_date_time is an additional UTC file-generation date/time.
+  # Its separate configuration and exporter support are not yet implemented.
+  # Formats come from storage.processed_output_formats, not these labels.
+  # Example: development_permits_monthly_summary.csv
+  # With study label and period: development_permits_monthly_summary_During_2024-08.csv
+  clean_permits: "permits_clean"
+  monthly_summary: "monthly_summary"
+  seasonal_summary: "seasonal_summary"
+  community_summary: "community_summary"
+  type_summary: "type_summary"
+  processing_summary: "processing_summary"
+  bias_audit: "bias_audit"
 
 logging:
   level: "INFO"

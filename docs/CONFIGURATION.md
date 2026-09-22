@@ -116,6 +116,27 @@ The `storage` section separates the output file stem from the file formats. For 
 names in code. The basename must not include a directory or extension because paths and
 formats are configured separately.
 
+The `outputs` mapping supplies extension-free labels for each generated table.
+Its naming convention is
+`<base>_<label>[_<study_period_label>][_<period>][_<timestamp>][_<current_date_time>].<format>`, where the base is
+`storage.output_base_name` and each format comes from
+`storage.processed_output_formats`. The optional study-period label comes from
+`study_periods.*.label`, normalized into a filename-safe token. The separate optional
+period identifies the analysis period, such as `2024-08`. Each optional component
+is preceded by a single underscore. A UTC timestamp is included only when `storage.include_timestamp`
+is true, formatted with `storage.timestamp_format`. For example,
+`monthly_summary: "monthly_summary"` with the current base and CSV format names
+the output `development_permits_monthly_summary.csv`.
+With the study-period label `During` and period `2024-08`, it becomes
+`development_permits_monthly_summary_During_2024-08.csv`.
+The additional optional `current_date_time` component records the UTC file-generation
+date/time after the optional timestamp. Its separate configuration and exporter
+support remain to be implemented.
+
+These labels define the configuration contract for processed exports.
+`PowerBIExporter.export` is currently a scaffold; consuming the labels and writing
+these filenames remains part of its implementation.
+
 The `overwrite_outputs` flag controls generated data products. When it is `true`, a
 writer may replace an existing configured output. When it is `false`, writers should
 preserve existing files and fail or choose a collision-safe alternative, depending on the
