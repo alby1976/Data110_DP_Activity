@@ -111,6 +111,35 @@ tables may have valid schemas; identifier values, date validity, and row-count
 checks belong to data-quality validation. The pipeline collects these findings;
 returning an error finding does not itself stop execution.
 
+`DataQualityValidator` implements record-level checks as a separate strategy and
+returns immutable `QualityCheckResult` objects containing `check_name`,
+`status` (`pass`, `warn`, or `fail`), `affected_rows`, and `message`. It never
+repairs, drops, or reorders records. Missing identifiers fail; duplicate counts
+include every member of a duplicate group, excluding null/blank identifiers.
+`require_unique_permit_number: false` downgrades duplicates to warnings.
+Missing application/decision dates and invalid dates are reported separately;
+cleaner invalid flags preserve evidence when malformed values have become nulls.
+A missing decision date does not alone establish that a permit is pending.
+
+The three `warn_on_*` quality options default to true; false disables the
+corresponding community, coordinate, or negative-duration check. Coordinate
+checks distinguish missing values from malformed, nonfinite, or out-of-range
+values, using latitude bounds of -90 to 90 and longitude bounds of -180 to 180.
+Each coordinate check counts a row once even when both coordinates are affected.
+Unavailable prerequisite columns produce failed results rather than silent
+passes. Schema prerequisites and empty-table failures can have zero affected
+rows, so consumers must inspect the status and message as well as the count.
+
+Optional `quality_checks.minimum_row_count` fails when too few records are
+loaded. Optional `max_data_age_days` requires an explicit ISO `reference_date`
+and warns when the latest valid application date is older than that limit;
+equality passes. These thresholds are nonnegative integers and are disabled
+when omitted. Historical snapshots require a reference date appropriate to
+their selected window, not an implicit comparison with today's date. Freshness
+cannot be assessed without a valid application date and returns a failure in
+that case. As with schema validation, result severity does not itself halt the
+current pipeline.
+
 The Python workflow should fail clearly or issue a documented warning for:
 
 1. missing required columns;

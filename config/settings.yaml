@@ -115,6 +115,12 @@ quality_checks:
   warn_on_missing_community: true
   warn_on_missing_coordinates: true
   warn_on_negative_processing_days: true
+  # Optional quality thresholds (disabled unless supplied).
+  # minimum_row_count: 1
+  # Freshness uses the latest applied_date and an explicit reference date.
+  # For a historical snapshot, choose a reference appropriate to its study window.
+  # max_data_age_days: 7
+  # reference_date: "2024-08-05"
 
 outputs:
   # Extension-free labels appended to storage.output_base_name.
