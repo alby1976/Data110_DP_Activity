@@ -310,8 +310,30 @@ They are useful when deciding whether classification rules are catching the righ
 
 ## 21. Schema validation
 
+The feature section runs immediately before the validators. It produces
+`period_permits`, `season_permits`, and finally `featured`, preserving all input
+columns, rows, and indexes. Its descriptive tables cover every loaded permit,
+not only included residential permits. The explicit observation horizon is
+September 22, 2026, derived from the snapshot retrieval timestamp in UTC.
+
+| Feature finding | Recorded result |
+|---|---|
+| Assigned application period | 16,637 Before records |
+| Application-to-decision boundary crossings | 1,166 records |
+| Records in complete seasons | 14,295 |
+| Records in partial boundary seasons | 2,342 |
+| Valid processing durations | 13,512 records; median 38 calendar days |
+| Excluded processing durations | 3,125 records |
+| Pending/right-censoring proxies | 3,125 records in each flag |
+
+Season completeness describes exposure within a policy window, not completeness
+of source records. Processing flags overlap and should not be added together.
+`IsPending` is an analytical proxy for a missing decision, not an official status.
+`FollowUpDays` uses a valid observed decision or the explicit horizon for censored
+records. These summaries do not replace the unfinished analysis strategies.
+
 `schema_report` displays immutable `SchemaIssue` results as a table with
-`severity`, `column`, and `message`. It checks the classified table against
+`severity`, `column`, and `message`. It checks the feature-enriched table against
 `quality_checks.required_columns`. Extra source, evidence, and derived columns
 are informational, not errors. The notebook displays all errors and up to ten
 informational examples; the complete report remains available in the kernel.
@@ -338,13 +360,13 @@ so audit accuracy remains unknown and no confusion matrix is produced.
 
 ### Recorded Before-snapshot validation results
 
-The September 22, 2026 run executed all nine code cells in a fresh kernel against
+The September 22, 2026 run executed all ten code cells in a fresh kernel against
 the pinned 16,637-record snapshot. These observations depend on that snapshot,
 settings, and rule version; consult refreshed notebook output after changes.
 
 | Finding | Result |
 |---|---|
-| Schema | 0 errors; 74 informational additional columns |
+| Schema | 0 errors; 96 informational additional columns, including new feature fields |
 | Quality checks | 7 pass, 3 warn, 0 fail |
 | Missing decision dates | 3,125 records |
 | Missing communities | 25 records |
@@ -375,8 +397,10 @@ validation returns a summary table and optional independently labelled confusion
 rows. None of them changes the permit records or automatically stops the pipeline
 on a failed finding. See [Methodology](../docs/METHODOLOGY.md) for their contracts
 and the [implementation plan](../docs/IMPLEMENTATION_PLAN.md) for the next work:
-period, season, and processing features, followed by analyses, exports, charts,
-and an end-to-end smoke test.
+analysis strategies, exports, charts, and an end-to-end smoke test. Period,
+season, and processing feature filters are now executed before validation.
+The notebook supplies the snapshot retrieval date in UTC as an explicit inclusive
+observation horizon. This does not yet change CLI observation-date wiring.
 
 ### Interpretation
 

@@ -49,10 +49,10 @@ binds configured period boundaries, season display labels, processing date field
 and minimum processing days. Passing an explicit snapshot observation horizon
 to the season and processing filters remains integration work. Pending flags are
 analytical proxies, and minimum-follow-up eligibility remains a planned policy.
-The exploratory notebook has not yet been extended to execute the feature filters.
+The exploratory notebook now executes all three feature filters before validation, using the snapshot retrieval date in UTC as its observation horizon.
 
 The Before snapshot and exploratory notebook are available. All three validator
-reports now run in the notebook; all nine code cells passed in a fresh kernel
+reports now run in the notebook; all ten code cells passed in a fresh kernel
 on September 22. There were no schema errors or classification audit inconsistencies.
 Warnings include missing decisions/geography and unmatched/review classifications.
 See the [notebook explanation](../notebooks/01_permit_exploration_explaination.md#recorded-before-snapshot-validation-results)

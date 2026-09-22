@@ -340,7 +340,7 @@ Project-wide dates, seasons, paths, warning thresholds, storage formats, overwri
 
 ## 10. Verification and testing
 
-On September 22, 2026, the exploratory notebook ran all nine code cells from a
+On September 22, 2026, the exploratory notebook ran all ten code cells from a
 fresh kernel against the frozen Before snapshot, including schema, data-quality,
 and classification validation. No schema errors or classification audit
 inconsistencies were found. Missing decision dates and geography, plus unmatched

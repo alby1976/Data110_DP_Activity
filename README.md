@@ -183,7 +183,7 @@ The `run` command accepts a raw snapshot path, but it cannot yet produce a compl
 
 The [exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
 against the pinned Before snapshot and now displays all three validator reports.
-All nine code cells passed in a fresh kernel on September 22, 2026; data-quality
+All ten code cells passed in a fresh kernel on September 22, 2026; data-quality
 and classification warnings remain for review. See the
 [notebook explanation](notebooks/01_permit_exploration_explaination.md) for report
 definitions and recorded findings. This does not replace the unfinished full
