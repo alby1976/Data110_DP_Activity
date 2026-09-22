@@ -10,7 +10,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Environment and secrets
-.env
+config/dp.env
 .env.*
 config/dp.env
 !.env.example

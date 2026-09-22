@@ -29,7 +29,7 @@ Configured repository paths are:
 
 | Setting | Current value | Purpose |
 |---|---|---|
-| `paths.env_file` | `.env` | local, ignored environment-variable file |
+| `paths.env_file` | `../config/dp.env` | local, ignored environment-variable file |
 | `paths.raw_data` | `data/raw` | immutable source snapshots |
 | `paths.interim_data` | `data/interim` | intermediate working data |
 | `paths.processed_data` | `data/processed` | cleaned and transformed analysis outputs |
@@ -46,11 +46,11 @@ Configured study periods are:
 | `during` | During | `2024-08-06` | `2026-08-03` |
 | `post_repeal` | Early Post-Repeal | `2026-08-04` | open-ended |
 
-The `.env` file is intentionally ignored by Git. It may define `SOCRATA_APP_TOKEN`,
+The `../config/dp.env` file is intentionally ignored by Git. It may define `SOCRATA_APP_TOKEN`,
 but the token value must not be copied into `settings.yaml`.
 The configuration loader reads simple `NAME=value` lines, ignores blank lines and
 comments, supports `export NAME=value`, and exposes the token through the
-configured `data_source.app_token_env` name. Missing `.env` files are treated as
+configured `data_source.app_token_env` name. Missing `../config/dp.env` files are treated as
 empty local settings so a fresh clone remains usable without credentials.
 
 The committed storage settings use `development_permits` as the shared output stem,

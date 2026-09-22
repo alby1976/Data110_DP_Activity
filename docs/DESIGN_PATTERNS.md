@@ -20,7 +20,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 | Specification and Value Object | `rule.py` | Represents each immutable classification predicate and outcome as auditable data |
 | Factory | `rule_loader.py`, `chart_factory.py` | Centralizes construction of validated rules and consistently styled figures |
 | Reflective Factory | `file_format_adapter.py` | Loads a custom output adapter from a configured Python class path while enforcing the adapter contract |
-| Immutable Value Object and Configuration Adapter | `config.py` | Prevents validated settings, period boundaries, and local `.env` values from changing during a run |
+| Immutable Value Object and Configuration Adapter | `config.py` | Prevents validated settings, period boundaries, and local `../config/dp.env` values from changing during a run |
 | Result Object/Table | validation and pipeline-result classes | Returns structured findings instead of relying on printed messages or hidden state |
 | Functional Core | feature modules | Keeps date and feature rules deterministic, side-effect-free, and boundary-testable |
 
@@ -32,7 +32,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 4. The classifier applies immutable rule specifications as an ordered chain of responsibility.
 5. Strategy objects calculate independent analytical and validation outputs without adding large conditional blocks to the pipeline.
 6. Repositories and the Power BI adapter persist project-owned results in external formats.
-7. The configuration loader adapts the local `.env` file into immutable value objects so credentials can be looked up by configured variable name without mutating process-wide environment state.
+7. The configuration loader adapts the local `../config/dp.env` file into immutable value objects so credentials can be looked up by configured variable name without mutating process-wide environment state.
 
 ## Implementation rules
 
@@ -45,7 +45,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 - Keep feature functions free of network and filesystem side effects.
 - Add an analysis by implementing the `Analysis` strategy contract instead of editing a central conditional statement.
 - Keep classification rules in `config/classification_rules.csv`; the chain executes rules but does not invent them.
-- Keep secret values in the ignored `.env` file; `config/settings.yaml` may name the file and variable but must not store the secret itself.
+- Keep secret values in the ignored `../config/dp.env` file; `config/settings.yaml` may name the file and variable but must not store the secret itself.
 - Return structured validation results and let the pipeline decide whether a finding is informational, a warning, or fatal.
 - Do not create an interface with only one foreseeable implementation unless it creates a useful testing or dependency boundary.
 
