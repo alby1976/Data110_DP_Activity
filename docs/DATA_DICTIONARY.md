@@ -49,6 +49,11 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | Field | Type | Description |
 |---|---|---|
 | `Period` | category | Before, During, Early Post-Repeal, or Outside Study Window |
+| `DecisionPeriod` | ordered category | configured period of decision; missing when unavailable or invalid |
+| `PeriodSortKey` | nullable integer | outside=0; configured periods=1 onward; missing for unknown application dates |
+| `PeriodDateMissing` | Boolean | genuinely absent primary date, excluding cleaner-flagged invalid values |
+| `PeriodDateInvalid` | Boolean | malformed primary date or retained cleaner invalid flag |
+| `CrossesPeriodBoundary` | nullable Boolean | nonnegative application-to-decision interval crosses a configured boundary; unknown when dates are unusable |
 | `AppliedYear` | integer | year from application date |
 | `AppliedMonthNumber` | integer | 1–12 month number |
 | `AppliedYearMonth` | date | first day of application month |

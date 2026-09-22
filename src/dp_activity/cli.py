@@ -348,6 +348,9 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
             add_period_features,
             date_column=analysis_settings.get("primary_date_field", "applied_date"),
             periods=list(config.periods),
+            decision_date_column=analysis_settings.get("processing_time", {}).get(
+                "end_field", "decision_date",
+            ),
         ),
         partial(
             add_season_features,

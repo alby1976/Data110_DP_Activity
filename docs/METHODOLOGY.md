@@ -29,6 +29,20 @@ The primary comparison is Before versus During. Early Post-Repeal is incomplete 
 
 ### Sensitivity check
 
+`add_period_features` is implemented as a pure table transformation. It uses
+configured `StudyPeriod` values in order, includes the entire final calendar day,
+and leaves missing/invalid dates unassigned. Valid dates in gaps or beyond closed
+windows receive `Outside Study Window`. ISO offsets preserve source calendar
+dates rather than shifting days. Cleaner invalid flags remain authoritative.
+
+The filter adds ordered categorical `Period` and `DecisionPeriod`, nullable
+`PeriodSortKey` (outside=0, configured periods=1 onward), and Boolean
+`PeriodDateMissing`/`PeriodDateInvalid`. Nullable `CrossesPeriodBoundary` records
+whether a nonnegative application-to-decision interval crosses a configured
+start or exclusive end. Missing/invalid decisions or decisions preceding the
+application leave this flag unknown. The CLI supplies the configured decision
+field. No record is dropped or reassigned according to its decision date.
+
 A secondary table should identify applications submitted before August 6, 2024 but decided afterward, and applications submitted before August 4, 2026 but decided afterward. These are not reclassified; they are reported so readers can see how applications cross policy boundaries.
 
 ## 3. Data acquisition
