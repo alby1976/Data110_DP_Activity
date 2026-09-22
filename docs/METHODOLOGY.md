@@ -44,6 +44,61 @@ The analysis should retrieve data from the City of Calgary Socrata API and recor
 
 The raw snapshot should remain unchanged. Cleaning and derived fields belong in processed outputs.
 
+### Data provenance and reproducibility
+
+The current exploratory review uses a frozen download of the City of Calgary's
+**Development Permits** dataset (`6933-unw5`), retrieved through the project's
+`SocrataAdapter` from `https://data.calgary.ca/resource/6933-unw5.json`.
+The following facts come from the saved snapshot metadata rather than a later
+query of the live source:
+
+| Provenance field | Recorded value |
+|---|---|
+| Retrieval time (UTC) | September 22, 2026, 00:18:29.189616 |
+| Study period | Before: August 6, 2022–August 5, 2024, inclusive |
+| Selection field | Source `applieddate`, mapped to project `applied_date` |
+| Downloaded records | 16,637; full selected-period download, not the earlier 500-record exploratory sample |
+| API page size | 50,000 records per request; not a total-record limit |
+| Raw storage | CSV and Parquet snapshots under `data/raw`, each with a `.metadata.json` sidecar |
+
+The saved query filter is:
+
+```sql
+(applieddate >= '2022-08-06T00:00:00' AND applieddate < '2024-08-06T00:00:00')
+```
+
+Both snapshots use the filename stem
+`development_permits_raw_Before_2022-08-06_2024-08-05_20260922_001829`.
+Their separate SHA-256 checksums identify the exact serialized files:
+
+| Format | SHA-256 |
+|---|---|
+| CSV | `1405729425ad356df41cff1cac46bef3f30a0709ce5d3cbd179baba953861005` |
+| Parquet | `649e5e5d95b80003543b03facc372a5beeaea15746687c542f89b52798eded32` |
+
+The [exploratory notebook](../notebooks/01_permit_exploration.ipynb) is pinned to
+the Parquet snapshot and runs without another download. It verifies the checksum,
+row count, dataset identity, saved query, and application dates against
+`config/settings.yaml`. It also records hashes of the settings and
+`config/classification_rules.csv` used for that execution. See the
+[notebook explanation](../notebooks/01_permit_exploration_explaination.md) for the
+meaning of the provenance and audit fields.
+
+Data lineage is explicit: frozen source records are loaded, profiled, cleaned,
+and classified using the versioned rule CSV. Cleaning retains source evidence in
+`raw_` columns and preserves the input records and row index; classification
+retains winning and additional matching rule IDs and review flags. Raw snapshots
+remain in the ignored data directory, while code, configuration, and rules are
+versioned. Credentials are excluded from the provenance record.
+
+These checks establish consistency with the saved download, not independent
+completeness or accuracy of the City's records. Source fields reflect the data
+available at retrieval time, not necessarily their historical values when an
+application was submitted. This snapshot covers only the Before period and does
+not yet supply the full before/during comparison or evidence of completed housing
+units. Subsequent downloads should retain their own metadata and checksums rather
+than replace this provenance record.
+
 ## 4. Data-quality checks
 
 The Python workflow should fail clearly or issue a documented warning for:
