@@ -64,7 +64,11 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `SeasonLabel` | text | readable cross-year label, for example `Winter 2024–25` |
 | `SeasonSortKey` | integer/date | chronological sort value derived from `SeasonStartDate` |
 | `IsCompleteSeason` | Boolean | indicates whether the entire season is inside the applicable analysis window |
-| `ProcessingDays` | integer | non-negative days from application to decision |
+| `ProcessingDays` | nullable integer | signed calendar days from application to decision; retain negatives for audit and filter HasValidProcessingDays for summaries |
+| `HasNegativeProcessingDays` | Boolean | decision calendar date precedes application date |
+| `ProcessingDateMissing` | Boolean | either required date genuinely absent, excluding invalid evidence |
+| `ProcessingDateInvalid` | Boolean | either date malformed or flagged invalid by the cleaner |
+| `IsAfterObservationEnd` | Boolean | either date exceeds an explicitly supplied observation horizon; false without a horizon |
 | `HasValidProcessingDays` | Boolean | validity flag for processing analysis |
 | `IsResidential` | Boolean | reviewed residential classification |
 | `ResidentialType` | category | standardized development/housing type |
@@ -77,9 +81,9 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `ClassificationConflictCount` | integer | additional matches after the winner; potential overlap even when outcomes agree |
 | `ClassificationMatchedRules` | tuple of text | all matching rule IDs in priority/ID order |
 | `HasGeography` | Boolean | usable community or coordinate data |
-| `IsPending` | Boolean | application has no final observed outcome at the snapshot date |
+| `IsPending` | Boolean | analytical proxy: usable application with genuinely missing decision; not an official status; excludes applications beyond an explicit horizon |
 | `FollowUpDays` | integer | days from application to decision or, if unresolved, to the snapshot date |
-| `HasMinimumFollowUp` | Boolean | record meets the documented follow-up requirement for its analysis |
+| `HasMinimumFollowUp` | Boolean, planned | record meets a future documented follow-up requirement; not yet generated |
 | `IsRightCensored` | Boolean | final processing duration is not yet observed |
 | `ExclusionReason` | text | explicit reason a record is omitted from a specific analytical subset |
 | `DataRetrievedUTC` | datetime | source retrieval timestamp |

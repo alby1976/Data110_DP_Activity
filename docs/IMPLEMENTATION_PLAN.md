@@ -4,12 +4,13 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 22
-baseline is `301 passed, 12 xfailed`, with no unexpected failures; see
+baseline is `334 passed, 9 xfailed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
 all three validators, CLI dispatch, log archiving, and pipeline orchestration are implemented.
-Features, analyses, charts, and Power BI export remain scaffolded. The timeline and
+Period, season, and processing feature filters are also implemented.
+Analyses, charts, and Power BI export remain scaffolded. The timeline and
 sprint tables below retain the original delivery plan; they are planning checklists,
 not a record that every listed implementation step is still outstanding. A complete
 run with real collaborators remains blocked by the unfinished stages.
@@ -31,17 +32,24 @@ decision before final outputs are accepted.
 
 Remaining Python work, in implementation order:
 
-1. Implement period assignment, including policy-boundary tests.
-2. Implement cross-year seasons and complete/partial-season flags.
-3. Implement processing durations, pending status, and censoring features.
-4. Implement the seven volume, type, geography, processing, rezoning, seasonal,
+1. Implement the seven volume, type, geography, processing, rezoning, seasonal,
    and sensitivity analysis strategies.
-5. Implement Power BI exports, validation/bias-audit/reconciliation tables, and
+2. Implement Power BI exports, validation/bias-audit/reconciliation tables, and
    configured output naming and formats. Manifest writing exists; assembling
    complete run provenance and connecting it to final outputs still needs work.
-6. Implement chart creation and saving.
-7. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
+3. Implement chart creation and saving; both `ChartFactory.monthly_volume()` and
+   `ChartFactory.save()` remain scaffolds.
+4. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
    real collaborators, including output formats and validation handling.
+
+Start with `analysis/volume_analysis.py`: implement monthly and total permit
+counts, including explicit zero months. All three feature filters are pure,
+input-preserving transformations with boundary and invalid-input tests. The CLI
+binds configured period boundaries, season display labels, processing date fields,
+and minimum processing days. Passing an explicit snapshot observation horizon
+to the season and processing filters remains integration work. Pending flags are
+analytical proxies, and minimum-follow-up eligibility remains a planned policy.
+The exploratory notebook has not yet been extended to execute the feature filters.
 
 The Before snapshot and exploratory notebook are available. All three validator
 reports now run in the notebook; all nine code cells passed in a fresh kernel

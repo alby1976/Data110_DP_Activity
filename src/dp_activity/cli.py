@@ -372,6 +372,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
                 "end_field",
                 "decision_date",
             ),
+            minimum_days=analysis_settings.get("processing_time", {}).get("minimum_days", 0),
         ),
     ]
     validators = [

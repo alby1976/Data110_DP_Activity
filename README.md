@@ -177,7 +177,7 @@ python -m dp_activity.cli --settings config/settings.yaml download
 
 The installed `dp-activity` command accepts the same arguments. Downloads require network access and write timestamped, immutable snapshots plus metadata sidecars to `data/raw`. The optional token is read from `config/dp.env`, using the name `SOCRATA_APP_TOKEN`; a missing file is allowed. See [Configuration](docs/CONFIGURATION.md) for filtering, credentials, and storage details.
 
-The `run` command accepts a raw snapshot path, but it cannot yet produce a complete analysis: period/season/processing features, analyses, and the Power BI exporter still raise `NotImplementedError`. The CLI reports these as errors and returns exit code 1. Profiling is available through `DataProfiler.profile()`; there is no `profile` or `analyse` CLI command.
+The `run` command accepts a raw snapshot path, but it cannot yet produce a complete analysis: analysis strategies and the Power BI exporter still raise `NotImplementedError`. The CLI reports these as errors and returns exit code 1. Profiling is available through `DataProfiler.profile()`; there is no `profile` or `analyse` CLI command.
 
 ## Running the tests
 
@@ -206,7 +206,7 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 22, 2026 baseline is **301 passed, 12 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 22, 2026 baseline is **334 passed, 9 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
@@ -250,7 +250,7 @@ The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITI
 
 ## Project status
 
-**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, CLI dispatch, log archiving, and pipeline orchestration are implemented. Feature derivation, analysis strategies, chart generation, and Power BI export remain scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
+**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Analysis strategies, chart generation, and Power BI export remain scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
 
 The next Python implementation is `features/period_features.py`, followed by
 season and processing-time features. The validators return reports without

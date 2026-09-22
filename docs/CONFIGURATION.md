@@ -156,7 +156,22 @@ not produce these artifacts.
 
 The settings file uses standardized, code-facing `snake_case` names such as `permit_number` and `applied_date`. The current rule file identifies source fields using the City's lowercase API names, such as `proposedusedescription`. The ingestion/classification workflow must therefore use an explicit, tested name map and apply each rule either before renaming or after translating its `Field` value. Mixing the two naming systems without a map would silently break classifications.
 
-### Validation before execution
+### Implemented feature configuration
+
+The CLI now binds `analysis.primary_date_field` and the configured study periods
+to the period filter. It passes `seasons.*.label` and each ordered month list to
+the season filter, and `analysis.processing_time.start_field`, `end_field`, and
+`minimum_days` to the processing filter. `minimum_days` must be a nonnegative
+integer; zero permits same-day decisions. Signed negative durations remain in
+the data for audit and are invalid for processing summaries.
+
+Both season and processing filters accept an optional explicit `observation_end`
+calendar date. This is not yet wired from snapshot metadata by the CLI and is
+not a new active YAML setting. Do not infer it from the clock or maximum observed
+application date. Without it, open-window season completeness and missing-decision
+follow-up can remain unknown. See [Methodology](METHODOLOGY.md) for feature semantics.
+
+### Validation reports and preconditions
 
 The CLI binds `quality_checks.required_columns` to `SchemaValidator`, the full
 `quality_checks` mapping to `DataQualityValidator`, and loaded classification

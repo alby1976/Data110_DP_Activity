@@ -7,8 +7,8 @@ The project uses a small set of design patterns to keep data access, analytical 
 Patterns are used only where they solve a concrete problem. A pattern name does not make code better by itself; if an abstraction does not improve testing, replacement, auditability, or clarity, it should not be added.
 
 This overview includes both implemented components and scaffolded contracts. Adapters,
-repositories, configuration, cleaning, profiling, classification, CLI dispatch, and
-pipeline orchestration, and all three validators are implemented. Feature functions, concrete
+repositories, configuration, cleaning, profiling, classification, CLI dispatch,
+pipeline orchestration, all three validators, and all three feature filters are implemented. Concrete
 analyses, chart operations, and Power BI export remain unfinished. The sequence below
 describes the intended complete workflow; see [Testing Framework](TESTING.md) for
 verified behavior and remaining expected failures. Profiling is available separately
@@ -58,6 +58,13 @@ and is not currently invoked by the CLI pipeline.
 - Do not create an interface with only one foreseeable implementation unless it creates a useful testing or dependency boundary.
 
 ## Pattern-focused testing
+
+The period, season, and processing filters implement Functional Core / Pipes
+and Filters: each returns a new table without filesystem, network, or clock
+access. Configuration is injected by the CLI; optional observation horizons
+must be supplied explicitly. Missing and invalid evidence stays visible through
+nullable outputs and flags rather than being silently dropped. Tests exercise
+these functions independently and check that input rows and indexes survive.
 
 Validation uses injected `validate` callables with configuration or rules bound
 by `functools.partial`. `SchemaValidator` and `DataQualityValidator` return lists

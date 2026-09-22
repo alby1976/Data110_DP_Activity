@@ -315,4 +315,5 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     assert exporter.output_formats == ("json", "csv")
     assert exporter.base_name == "configured_permits"
     assert exporter.include_timestamp is True
+    assert pipeline.dependencies["feature_builders"][2].keywords["minimum_days"] == settings["analysis"]["processing_time"]["minimum_days"]
     assert exporter.timestamp_format == "%Y%m%dT%H%M%SZ"

@@ -11,14 +11,14 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 22, 2026, `python -m pytest -q` with the configured Python 3.13.13 environment reports:
 
 ```text
-301 passed, 12 xfailed
+334 passed, 9 xfailed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
 
 Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
 
-The 12 expected failures cover seven analysis strategies, three feature modules, Power BI export, and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally.
+The 9 expected failures cover seven analysis strategies, Power BI export, and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally. Both chart construction and saving remain unfinished; XFAIL counts are not counts of every unfinished function.
 
 The completed validator test modules contain 16 schema tests, 19 data-quality
 tests, and 23 classification-validation tests. They cover input preservation,
@@ -27,9 +27,14 @@ coordinate edge cases, audit consistency, intentional rule overlap, and optional
 independent human-label comparisons. Their tests now call the implementations
 directly rather than using the scaffold-aware `implemented()` helper.
 
-The next unfinished test target is `tests/features/test_period_features.py`.
-After features, complete the remaining analyses, exporter, and chart tests, then
-the frozen-fixture end-to-end smoke test. The 12 XFAILs identify scaffold tests,
+The implemented feature modules now have 12 period, 12 season, and 9 processing tests.
+They cover calendar boundaries, cross-year/leap-year seasons, partial exposure,
+explicit observation horizons, signed durations, invalid evidence, nullable
+outputs, and input preservation. CLI tests check configured dependency wiring.
+
+The next unfinished test target is `tests/analysis/test_volume_analysis.py`.
+Complete the remaining analyses, exporter, and chart tests, then
+the frozen-fixture end-to-end smoke test. The 9 XFAILs identify scaffold tests,
 not an exhaustive count of remaining integration tasks.
 
 ## Installation and commands
