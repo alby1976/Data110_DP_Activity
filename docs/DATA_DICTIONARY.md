@@ -112,6 +112,15 @@ required nonempty dataset is empty. Inspect status and message as well as counts
 
 ### Planned exported products
 
+`VolumeAnalysis` now returns in-memory `permit_volume` (one row per period) and
+`monthly_volume` (one row per period/month), including zero months. Both contain
+`PermitCount`, `AllPermitCount`, `ExcludedCount`, `ResidentialShare`,
+`ExposureDays`, and `WindowSource`. Monthly rows add `YearMonth` and nullable
+`IsPartialMonth`. Period rows add `MonthCount`, `MeanMonthlyCount`,
+`MedianMonthlyCount`, `WindowStart`, `WindowEnd`, `BaselinePeriod`,
+`AbsoluteChange`, and `PercentChange`. Shares are fractions; changes are percent
+units. Final filename mapping and export remain pending.
+
 | File/table | Grain | Purpose |
 |---|---|---|
 | `permits_clean` | one permit | Power BI fact table |

@@ -273,6 +273,28 @@ The policy periods begin and end during August, so some Summer seasons are parti
 
 ### Permit volume
 
+`VolumeAnalysis` implements the volume Strategy and returns `permit_volume` and
+`monthly_volume`. Counts use `IncludeResidential=true`; `AllPermitCount` retains
+all input rows as the denominator, `ExcludedCount` counts non-included rows, and
+`ResidentialShare` is a fraction (null when the denominator is zero). No rows
+are silently dropped: missing dates, invalid inclusion flags, or records outside
+their assigned configured period require resolution before aggregation.
+
+Configured inclusive study windows define all months, including zero months at
+both edges and wholly empty periods. `ExposureDays` counts included calendar
+days; monthly `IsPartialMonth` flags boundary exposure. Period mean and median
+include zero months and are not normalized for partial exposure. The second
+configured period is compared with the first using `AbsoluteChange` and
+`PercentChange` (0–100 percent units); a zero baseline leaves percentage change
+null. Later periods are contextual and receive no automatic comparison.
+
+Open-ended periods require explicit `observation_end`; the CLI supplies periods
+and the primary date field but observation-horizon wiring remains pending.
+Exploratory use without configured periods can infer first/last observed months
+from `YearMonth` (or the primary date field). Such outputs are marked
+`WindowSource=inferred_observed_months` and have unknown exposure/completeness.
+They cannot establish zero months before or after the observed range.
+
 - total permits by period;
 - permits per month;
 - mean and median monthly permits;

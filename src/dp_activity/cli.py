@@ -384,7 +384,10 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
         partial(ClassificationValidator().validate, rules=rules),
     ]
     analyses = [
-        VolumeAnalysis(),
+        VolumeAnalysis(
+            periods=list(config.periods),
+            date_column=analysis_settings.get("primary_date_field", "applied_date"),
+        ),
         TypeAnalysis(),
         GeographyAnalysis(
             minimum_baseline_count=analysis_settings.get("community_analysis", {}).get(
