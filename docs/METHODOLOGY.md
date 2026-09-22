@@ -287,6 +287,16 @@ Project-wide dates, seasons, paths, warning thresholds, storage formats, overwri
 
 ## 10. Verification and testing
 
+On September 22, 2026, the exploratory notebook ran all nine code cells from a
+fresh kernel against the frozen Before snapshot, including schema, data-quality,
+and classification validation. No schema errors or classification audit
+inconsistencies were found. Missing decision dates and geography, plus unmatched
+and review classifications, remain warnings requiring investigation. Input
+preservation and classification count reconciliation assertions passed. This
+notebook execution is not the final pipeline smoke test and does not measure
+human-label accuracy. Recorded counts and interpretation are in the
+[notebook explanation](../notebooks/01_permit_exploration_explaination.md#recorded-before-snapshot-validation-results).
+
 The project uses the behavior-first `pytest` framework defined in [Testing Framework](TESTING.md). Each non-package Python module has a matching test module. During scaffolding, a test reports `XFAIL` only when the target still raises `NotImplementedError`; this records unfinished work and does not count as a passed analytical check.
 
 Verification will occur at five levels:

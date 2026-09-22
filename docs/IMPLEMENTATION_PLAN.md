@@ -43,9 +43,13 @@ Remaining Python work, in implementation order:
 7. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
    real collaborators, including output formats and validation handling.
 
-The Before snapshot and exploratory notebook are available. Displaying the new
-validator reports in the notebook and reviewing the findings remain follow-up
-work; this is distinct from implementing the validators themselves.
+The Before snapshot and exploratory notebook are available. All three validator
+reports now run in the notebook; all nine code cells passed in a fresh kernel
+on September 22. There were no schema errors or classification audit inconsistencies.
+Warnings include missing decisions/geography and unmatched/review classifications.
+See the [notebook explanation](../notebooks/01_permit_exploration_explaination.md#recorded-before-snapshot-validation-results)
+for counts. Manual warning investigation and independent human-label review remain
+follow-up work before final analysis.
 
 ### Final acceptance criteria
 

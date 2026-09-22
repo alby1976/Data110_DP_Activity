@@ -308,7 +308,77 @@ These examples help you understand what raw permit descriptions look like, such 
 
 They are useful when deciding whether classification rules are catching the right text patterns.
 
+## 21. Schema validation
+
+`schema_report` displays immutable `SchemaIssue` results as a table with
+`severity`, `column`, and `message`. It checks the classified table against
+`quality_checks.required_columns`. Extra source, evidence, and derived columns
+are informational, not errors. The notebook displays all errors and up to ten
+informational examples; the complete report remains available in the kernel.
+
+## 22. Data-quality validation
+
+`quality_report` contains `check_name`, `status`, `affected_rows`, and `message`
+for every enabled check. Status is `pass`, `warn`, or `fail`. Counts can overlap
+and must not be added together as a count of unique problematic permits.
+Missing and invalid values are distinguished using the cleaner's evidence flags.
+A missing decision date does not establish pending status. Optional minimum-row
+and freshness thresholds are not enabled in the current settings; the notebook
+prints that explicitly rather than implying those checks passed.
+
+## 23. Classification validation
+
+`classification_validation` is the validator's result table, distinct from the
+classifier's earlier grouped coverage table. Its summary checks all recorded
+rule IDs and audit consistency against the loaded rule set. The notebook
+transposes the summary for readability. Unknown or disabled IDs and inconsistent
+outcomes fail validation; unmatched and review records produce warnings.
+Overlaps alone are not errors. No independent human-labelled column is supplied,
+so audit accuracy remains unknown and no confusion matrix is produced.
+
+### Recorded Before-snapshot validation results
+
+The September 22, 2026 run executed all nine code cells in a fresh kernel against
+the pinned 16,637-record snapshot. These observations depend on that snapshot,
+settings, and rule version; consult refreshed notebook output after changes.
+
+| Finding | Result |
+|---|---|
+| Schema | 0 errors; 74 informational additional columns |
+| Quality checks | 7 pass, 3 warn, 0 fail |
+| Missing decision dates | 3,125 records |
+| Missing communities | 25 records |
+| Missing coordinates | 25 records |
+| Missing/duplicate identifiers, missing/invalid application dates, invalid decision dates, negative durations, invalid coordinates | 0 affected records in each enabled check |
+| Classification | Warning; 16,632 matched, 5 unmatched; 99.969947% coverage |
+| Needs review | 1,101: 718 review-status, 59 provisional, 319 fallback, and 5 unmatched |
+| Overlap | 15,914 records, containing 42,029 additional matches |
+| Unknown rules, disabled rules, inconsistent audit fields | 0 records in each category |
+| Human-label accuracy | Not assessed |
+
+Assertions verify that validation leaves the raw, cleaned, and classified inputs
+unchanged. Successful cell execution does not mean every data-quality check
+passed. Investigate the missing values and review records before final analysis.
+
 ## Main takeaway
+
+### Implementation status after the validator work
+
+As of September 22, 2026, `SchemaValidator`, `DataQualityValidator`, and
+`ClassificationValidator` are implemented in the Python package and executed in
+the notebook's validation section. The reports above document their results on
+the frozen Before snapshot. Manual investigation of warnings and independent
+human-label review remain outstanding.
+
+Schema and quality strategies return immutable result objects; classification
+validation returns a summary table and optional independently labelled confusion
+rows. None of them changes the permit records or automatically stops the pipeline
+on a failed finding. See [Methodology](../docs/METHODOLOGY.md) for their contracts
+and the [implementation plan](../docs/IMPLEMENTATION_PLAN.md) for the next work:
+period, season, and processing features, followed by analyses, exports, charts,
+and an end-to-end smoke test.
+
+### Interpretation
 
 The notebook shows that:
 
