@@ -31,7 +31,7 @@ DISTINCTCOUNT(FactPermits[PermitNum])
 Residential Permit Count =
 CALCULATE(
     [Permit Count],
-    FactPermits[IncludeResidential] = TRUE()
+    FactPermits[IsResidential] = TRUE()
 )
 ```
 
@@ -39,7 +39,6 @@ CALCULATE(
 Rezoning-Relevant Permit Count =
 CALCULATE(
     [Permit Count],
-    FactPermits[IncludeResidential] = TRUE(),
     FactPermits[RezoningRelevant] = TRUE()
 )
 ```
@@ -61,17 +60,6 @@ DIVIDE(
 ```
 
 Before/during change measures should be tested carefully so slicers do not accidentally remove one of the comparison periods.
-
-The implemented `rezoning_summary` uses all included residential records as its
-denominator, including review records. Display ReviewCount and RelevantReviewCount
-as overlapping audit counts, not additional relevance categories. Rule/type/district
-audits use group-local denominators. Imported RezoningRelevantShare is fractional;
-PercentChange and ShareChangePercentagePoints use percent/percentage-point units.
-Do not multiply imported percent-unit values by 100 again. Empty denominators and
-zero-baseline percent changes remain blank. Export is still pending. These Python
-counts are record counts; verify identifier uniqueness when reconciling the
-distinct-count DAX measures. Label relevance as project-defined, not an official
-City designation or evidence of a causal policy effect.
 
 ## Page 1 — Overview
 
