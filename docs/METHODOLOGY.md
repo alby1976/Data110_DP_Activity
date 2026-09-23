@@ -313,6 +313,22 @@ Percentage change will be blank where the baseline is zero. Community tables wil
 
 ### Development mix
 
+`TypeAnalysis` implements development-mix counts using all records with
+`IncludeResidential=true` in the denominator for each period. Included null or
+blank types appear as `Unknown` in the report; included `Review` types are
+retained. Input evidence is unchanged. The `type_summary` table fills absent
+period/type combinations with zero counts; shares are null when a period has
+no included residential records. `type_period_totals` retains all-record,
+residential, and excluded counts even when no included types exist.
+
+The CLI supplies configured period order. The second period is compared with
+the first using absolute count change, percent count change, and share change
+in percentage points. A zero baseline count leaves percent change null; a zero
+residential denominator leaves share change null. Later contextual periods have
+no automatic comparison. Without explicit period order, the strategy reports
+counts/shares only. Type-summary denominators repeat across types and must not
+be summed; use the separate period totals table instead.
+
 ```text
 TypeShare = PermitsOfType / AllResidentialPermits
 ```

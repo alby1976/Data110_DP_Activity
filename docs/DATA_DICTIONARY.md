@@ -112,6 +112,14 @@ required nonempty dataset is empty. Inspect status and message as well as counts
 
 ### Planned exported products
 
+`TypeAnalysis` returns in-memory `type_summary` (period × included residential
+type) with `PermitCount`, `PeriodResidentialCount`, fractional `TypeShare`,
+`BaselinePeriod`, `BaselinePermitCount`, `AbsoluteChange`, `PercentChange`, and
+`ShareChangePercentagePoints`. It also returns `type_period_totals` (one row per
+period) with `AllPermitCount`, `PeriodResidentialCount`, and `ExcludedCount`.
+Unknown types remain in the denominator; empty denominators produce null shares.
+Export mapping for these tables remains pending.
+
 `VolumeAnalysis` now returns in-memory `permit_volume` (one row per period) and
 `monthly_volume` (one row per period/month), including zero months. Both contain
 `PermitCount`, `AllPermitCount`, `ExcludedCount`, `ResidentialShare`,
