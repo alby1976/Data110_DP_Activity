@@ -112,6 +112,23 @@ required nonempty dataset is empty. Inspect status and message as well as counts
 
 ### Planned exported products
 
+`GeographyAnalysis` now returns in-memory `community_summary` and `ward_summary`
+at period × location grain. Both contain `PermitCount`, `PeriodResidentialCount`,
+fractional `PermitShare`, `IsMissingGeography`, `BaselinePeriod`,
+`BaselinePermitCount`, `AbsoluteChange`, `PercentChange`, and
+`SmallBaselineWarning`. Only the second configured period has change metrics
+against the first; later periods are contextual. Zero baselines produce null
+percentage changes. The warning flags counts strictly below the configured
+threshold in both primary periods. Missing/blank geography is a null location
+group, distinct from a literal `Unknown` label, and remains in residential
+denominators. Locations absent from a period receive zero counts. Geography
+labels are trimmed and represented as text; source records remain unchanged.
+`geography_period_totals` supplies one row per configured period with
+`AllPermitCount`, `PeriodResidentialCount`, `ExcludedCount`,
+`MissingCommunityCount`, and `MissingWardCount`. Missing counts refer to included
+residential records and can overlap. Repeated denominators in summary tables
+must not be summed across locations. File export remains unfinished.
+
 `TypeAnalysis` returns in-memory `type_summary` (period × included residential
 type) with `PermitCount`, `PeriodResidentialCount`, fractional `TypeShare`,
 `BaselinePeriod`, `BaselinePermitCount`, `AbsoluteChange`, `PercentChange`, and
@@ -135,7 +152,9 @@ units. Final filename mapping and export remain pending.
 | `monthly_summary` | period × month | trend validation and Python results |
 | `seasonal_summary` | period × season | seasonal volume and processing comparison |
 | `type_summary` | period × residential type | development-mix analysis |
-| `community_summary` | community | before/during geographic comparison |
+| `community_summary` | period × community | before/during geographic comparison |
+| `ward_summary` | period × ward | ward comparison including missing geography |
+| `geography_period_totals` | period | geography denominators and missing counts |
 | `processing_summary` | period and optional type | processing-time statistics |
 | `bias_audit` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
 

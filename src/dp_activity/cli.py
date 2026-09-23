@@ -18,7 +18,7 @@ Typical Usage:
 Note:
     Only ``download`` and ``run`` commands are exposed. Download writes one raw
     snapshot per configured format. Run assembles the pipeline for a supplied
-    snapshot, but unfinished feature, validation, analysis, and export stages
+    snapshot, but unfinished analysis and export stages
     currently prevent a complete analysis. Command errors are printed to stderr
     and converted to nonzero exit codes.
 """
@@ -393,7 +393,10 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
             minimum_baseline_count=analysis_settings.get("community_analysis", {}).get(
                 "minimum_baseline_count",
                 5,
-            )
+            ),
+            period_order=[period.name for period in config.periods],
+            community_column="community",
+            ward_column="ward",
         ),
         ProcessingAnalysis(),
         RezoningAnalysis(),

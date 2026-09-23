@@ -306,6 +306,12 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
 
     source_repository = pipeline.dependencies["source_repository"]
     exporter = pipeline.dependencies["exporter"]
+    geography = next(analysis for analysis in pipeline.dependencies["analyses"]
+                     if isinstance(analysis, cli.GeographyAnalysis))
+    assert geography.period_order == tuple(period.name for period in config.periods)
+    assert geography.community_column == "community"
+    assert geography.ward_column == "ward"
+    assert geography.minimum_baseline_count == settings["analysis"]["community_analysis"]["minimum_baseline_count"]
     assert pipeline.dependencies["classifier"].case_sensitive is True
     assert source_repository.raw_directory == config.raw_data_dir
     assert source_repository.file_format == "json"
