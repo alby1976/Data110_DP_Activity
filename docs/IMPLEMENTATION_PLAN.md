@@ -4,13 +4,13 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `399 passed, 5 xfailed`, with no unexpected failures; see
+baseline is `419 passed, 4 xfailed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
 all three validators, CLI dispatch, log archiving, and pipeline orchestration are implemented.
 Period, season, and processing feature filters are also implemented.
-Volume, type, geography, and processing-time analyses are implemented; three analysis strategies,
+Volume, type, geography, processing-time, and rezoning analyses are implemented; two analysis strategies,
 charts, and Power BI export remain scaffolded. The timeline and
 sprint tables below retain the original delivery plan; they are planning checklists,
 not a record that every listed implementation step is still outstanding. A complete
@@ -33,7 +33,7 @@ decision before final outputs are accepted.
 
 Remaining Python work, in implementation order:
 
-1. Implement the rezoning, seasonal, and sensitivity analysis strategies.
+1. Implement the seasonal and sensitivity analysis strategies.
 2. Implement Power BI exports, validation/bias-audit/reconciliation tables, and
    configured output naming and formats. Manifest writing exists; assembling
    complete run provenance and connecting it to final outputs still needs work.
@@ -42,7 +42,7 @@ Remaining Python work, in implementation order:
 4. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
    real collaborators, including output formats and validation handling.
 
-Start with `analysis/rezoning_analysis.py`: summarize rezoning-relevant counts and shares using all residential permits as the denominator. All three feature filters are pure,
+Start with `analysis/seasonal_analysis.py`: summarize seasonal activity while distinguishing complete, partial, and unknown exposure. All three feature filters are pure,
 input-preserving transformations with boundary and invalid-input tests. The CLI
 binds configured period boundaries, season display labels, processing date fields,
 and minimum processing days. Passing an explicit snapshot observation horizon

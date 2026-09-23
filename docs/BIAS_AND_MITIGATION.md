@@ -25,6 +25,15 @@ This project compares Calgary residential development-permit activity before and
 
 ## Required validation work
 
+### Implemented rezoning safeguards
+
+`RezoningAnalysis` retains included review records in residential denominators
+and reports ReviewCount and RelevantReviewCount separately. Rule/type/district
+audits preserve missing groups. This makes assigned flags auditable but does not
+validate their accuracy or establish causality. Missing review flags produce
+unknown audit counts rather than assumed zeros. Human-label review, alternative
+classification sensitivity checks, and final dashboard reconciliation remain required.
+
 ### Implemented processing safeguards
 
 `ProcessingAnalysis` reports pending and right-censored residential counts beside

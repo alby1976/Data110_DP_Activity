@@ -314,6 +314,10 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     processing = next(analysis for analysis in pipeline.dependencies["analyses"]
                       if isinstance(analysis, cli.ProcessingAnalysis))
     assert processing.period_order == tuple(period.name for period in config.periods)
+    rezoning = next(analysis for analysis in pipeline.dependencies["analyses"]
+                    if isinstance(analysis, cli.RezoningAnalysis))
+    assert rezoning.period_order == tuple(period.name for period in config.periods)
+    assert rezoning.district_column == "land_use_district"
     assert geography.minimum_baseline_count == settings["analysis"]["community_analysis"]["minimum_baseline_count"]
     assert pipeline.dependencies["classifier"].case_sensitive is True
     assert source_repository.raw_directory == config.raw_data_dir

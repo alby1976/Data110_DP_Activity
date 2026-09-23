@@ -399,7 +399,10 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
             ward_column="ward",
         ),
         ProcessingAnalysis(period_order=[period.name for period in config.periods]),
-        RezoningAnalysis(),
+        RezoningAnalysis(
+            period_order=[period.name for period in config.periods],
+            district_column="land_use_district",
+        ),
         SeasonalAnalysis(),
         SensitivityAnalysis(scenarios={}),
     ]
