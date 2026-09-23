@@ -2,6 +2,10 @@
 
 This document defines the analysis before results are calculated. Keeping these rules explicit reduces the risk of quietly changing the method after seeing the outcome.
 
+See [Calculation Assumptions and Simplifications](CALCULATION_ASSUMPTIONS.md)
+for the reasons behind the counting, exposure, classification, and processing
+conventions, their interpretation limits, and choices still awaiting implementation.
+
 ## 1. Scope
 
 ### Primary question

@@ -223,6 +223,7 @@ defined in the [Testing Framework](docs/TESTING.md).
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)
+- [Calculation assumptions and simplifications](docs/CALCULATION_ASSUMPTIONS.md)
 - [Data dictionary](docs/DATA_DICTIONARY.md)
 - [Power BI dashboard plan](docs/POWER_BI_PLAN.md)
 - [Presentation plan](docs/PRESENTATION_PLAN.md)
