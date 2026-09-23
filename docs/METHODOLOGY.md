@@ -221,29 +221,6 @@ accuracy.
 
 The final logic should be stored in `config/classification_rules.csv` and summarized in the report. Rules will be evaluated by ascending priority, the first match will be recorded in `ClassificationRule`, and unmatched records will default to `Review` as specified by `config/settings.yaml`. All unmatched, conflicting, or ambiguous records should remain auditable.
 
-### Implemented relevance analysis
-
-`RezoningAnalysis` now summarizes the classifier's assigned relevance flag
-without reclassifying records. Relevant and not-relevant counts partition all
-included residential records. `RezoningRelevantShare` uses that entire
-residential denominator, including review records. Review is an overlapping
-audit flag, not a third relevance category: `ReviewCount` counts included review
-records and `RelevantReviewCount` counts their relevant subset. Missing review
-flags yield null audit counts; missing or non-Boolean relevance flags are rejected.
-
-Configured period order determines the comparison: only the second period has
-relevant-count changes and share change in percentage points against the first.
-Later periods are contextual. Zero baseline relevant counts yield null percent
-changes; empty residential periods retain zero counts and null shares. Without
-explicit period order, no comparison is inferred.
-
-Optional rule, type, and district tables use residential denominators within each
-observed group. Null/blank labels remain null groups, keeping audit counts
-reconcilable to period totals. Input is preserved and not deduplicated. These
-outputs describe a project-defined flag, not official policy eligibility,
-classification accuracy, or causal effects. Export and sensitivity comparisons
-remain unfinished.
-
 ## 7. Derived fields
 
 | Field | Definition |

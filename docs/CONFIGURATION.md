@@ -112,13 +112,6 @@ analysis outputs rather than immutable raw snapshots.
 
 ### Storage and logging settings
 
-The CLI supplies study-period order and `land_use_district` to `RezoningAnalysis`.
-Direct callers default to the optional `LandUseDistrict` field. Rule, type, and
-district audits are generated when their source columns exist. The analysis uses
-classifier flags rather than another set of classification rules. Rezoning output
-names are not yet in the committed `outputs` mapping; naming and persistence
-remain exporter work.
-
 The CLI supplies configured period order to `ProcessingAnalysis`; configured empty
 periods remain visible. The feature builder applies
 `analysis.processing_time.minimum_days` and supplies eligibility flags, which the

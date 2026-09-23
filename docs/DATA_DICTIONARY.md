@@ -112,29 +112,6 @@ required nonempty dataset is empty. Inspect status and message as well as counts
 
 ### Planned exported products
 
-`RezoningAnalysis` returns `rezoning_summary`, one row per configured period
-(or observed period when no order is supplied).
-
-| Rezoning output field | Meaning |
-|---|---|
-| `AllPermitCount`, `ExcludedCount` | all input records and non-included records |
-| `ResidentialCount` | all included residential records, including review records |
-| `RezoningRelevantCount`, `NotRezoningRelevantCount` | true/false counts partitioning ResidentialCount |
-| `RezoningRelevantShare` | relevant / residential count; fractional, null for zero denominator |
-| `ReviewCount`, `RelevantReviewCount` | included review records and their relevant subset; null if the review flag is absent |
-| `BaselinePeriod`, `BaselineRelevantCount` | first configured period and relevant count, populated only on the second period |
-| `AbsoluteChange`, `PercentChange` | relevant-count difference and percent-unit change; percentage null for zero baseline |
-| `ShareChangePercentagePoints` | 100 × difference in shares; null if either residential denominator is zero |
-
-Optional `rezoning_rule_summary`, `rezoning_type_summary`, and
-`rezoning_district_summary` report observed residential period/group combinations
-when their source fields exist. They contain group-local residential/relevance
-counts, shares, and review counts, without period comparisons or all-record totals.
-Null/blank labels remain null groups. The district output column is
-`LandUseDistrict`, including when the source is the cleaned `land_use_district`.
-Review counts overlap relevance counts; do not add them as another category.
-These are in-memory analytical outputs; file export remains unfinished.
-
 `ProcessingAnalysis` returns `processing_summary` at period grain and
 `processing_period_totals` for denominator auditing. Statistics use only included
 residential records flagged `HasValidProcessingDays=true`.
