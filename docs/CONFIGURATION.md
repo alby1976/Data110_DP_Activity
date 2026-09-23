@@ -107,10 +107,23 @@ analysis outputs rather than immutable raw snapshots.
 - January and February belong to a winter that starts in December of the previous year.
 - `analysis.primary_date_field` determines policy-period and seasonal assignment.
 - `analysis.classification.unmatched_action: "Review"` labels unmatched records for review. The classifier retains them with residential inclusion and rezoning relevance set to false, together with audit fields.
-- `community_analysis.minimum_baseline_count` is a warning/filter threshold for unstable percentage changes, not a deletion rule for the source data.
+- `analysis.community_analysis.minimum_baseline_count` is a nonnegative integer warning threshold (default 5). Geography analysis flags community and ward baselines strictly below it; equality is not flagged, and zero disables the warning. It does not remove records or suppress percentage changes for positive baselines.
 - Output names identify generated files. They should not be edited manually because they must be reproducible from the snapshot, configuration, and code.
 
 ### Storage and logging settings
+
+The CLI passes configured study-period labels in order to `GeographyAnalysis`.
+The second period is compared with the first; later periods are contextual and
+have null comparison fields. The CLI also supplies the cleaned `community` and
+`ward` source names. Direct callers default to `Community`, `Ward`, and the
+`Before`/`During` comparison, or can supply explicit constructor arguments.
+Missing or unconfigured period labels must be resolved before aggregation.
+
+The strategy returns `community_summary`, `ward_summary`, and
+`geography_period_totals` in memory. Only `community_summary` currently has an
+entry in the committed `outputs` settings; exporter support and output naming
+for the additional tables remain implementation work. These result keys do not
+mean that corresponding files are already generated.
 
 The `storage` section separates the output file stem from the file formats. For example,
 `output_base_name: "development_permits"` with `processed_output_formats: ["csv",

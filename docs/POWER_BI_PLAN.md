@@ -117,6 +117,29 @@ Identify communities with the largest absolute and relative changes.
 
 Use both absolute and percentage change. Suppress or flag percentage rankings below a documented minimum baseline.
 
+### Python geography table contract
+
+The implemented strategy returns `community_summary` and `ward_summary` at
+period × location grain, plus `geography_period_totals` at period grain. Export
+and Power BI integration remain unfinished. Build the Before/During display by
+pivoting `PermitCount` on `Period`; use the second configured period's
+`AbsoluteChange` and `PercentChange`. Contextual periods have no change metrics.
+
+`PermitShare` is fractional and can use percentage formatting directly.
+`PercentChange` already uses percent units: divide by 100 before applying Power
+BI percentage formatting, or display it as a number with a percent suffix.
+Zero-baseline changes remain blank. Show `BaselinePermitCount` alongside
+`SmallBaselineWarning`; the default threshold is fewer than 5 permits and applies
+to both communities and wards. Any ranking filter must be disclosed.
+
+Retain null locations as an explicit missing-geography row in tables and show
+their counts beside maps. Do not geocode a missing group or confuse it with a
+literal `Unknown` label. Use `geography_period_totals` for residential and missing
+counts; repeated denominators in location summaries must not be summed.
+Geography summaries count included records, without deduplication. Verify unique
+permit identifiers before reconciling them with the distinct-count measures
+above; investigate any differences instead of silently changing denominators.
+
 ## Interaction requirements
 
 - synchronize the primary slicers across pages;
@@ -152,6 +175,10 @@ The dashboard should make important analytical risks visible instead of burying 
 - [ ] Period sort order is correct
 - [ ] Percentage measures use `DIVIDE`
 - [ ] Empty baselines do not produce infinite percentage change
+- [ ] Community and ward counts, including missing groups, each reconcile to period residential totals
+- [ ] Geography denominators are not summed across location rows
+- [ ] Imported `PercentChange` values are not multiplied by 100 a second time
+- [ ] Missing-location counts and any small-baseline ranking filters are visible
 - [ ] Median excludes invalid processing intervals
 - [ ] Map coordinates are numeric and categorized correctly
 - [ ] All page-level filters are documented

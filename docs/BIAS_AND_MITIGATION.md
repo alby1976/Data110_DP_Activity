@@ -25,6 +25,21 @@ This project compares Calgary residential development-permit activity before and
 
 ## Required validation work
 
+### Implemented geography safeguards
+
+`GeographyAnalysis` retains missing community and ward groups in residential
+denominators, reports their counts separately, and flags primary-period baselines
+below the configured threshold (default 5). Zero-baseline percentage changes
+are null; positive small baselines remain visible with warnings. Later periods
+are contextual and receive no automatic change calculation.
+
+These safeguards are unit-tested, but do not establish geographic accuracy.
+The current strategy groups trimmed source labels, not stable community codes,
+and does not reconcile historical ward boundaries, allocate multi-location
+permits, or deduplicate records. Source review, mapping checks, baseline-threshold
+sensitivity analysis, and dashboard reconciliation remain required. Missing
+community and ward counts can overlap and must not be added as a unique total.
+
 ### 1. Classification audit
 
 Create a reproducible validation sample using a fixed random seed. Include:

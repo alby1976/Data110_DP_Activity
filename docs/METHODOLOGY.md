@@ -306,10 +306,42 @@ They cannot establish zero months before or after the observed range.
 
 ```text
 AbsoluteChange = DuringCount - BeforeCount
-PercentChange = (DuringCount - BeforeCount) / BeforeCount
+PercentChange = 100 * (DuringCount - BeforeCount) / BeforeCount
 ```
 
-Percentage change will be blank where the baseline is zero. Community tables will show the baseline count and use a minimum-baseline warning or filter.
+`PercentChange` is in percent units: a value of 100 means a 100% increase.
+It is blank where the baseline is zero. Community and ward tables retain the
+baseline count and flag small baselines without removing them.
+
+### Community and ward comparisons
+
+`GeographyAnalysis` produces `community_summary` and `ward_summary` with one
+row per configured period and location observed among included residential
+records. Missing period/location combinations receive zero counts. The CLI
+supplies the cleaned `community` and `ward` fields and configured study order.
+The second period is compared with the first; later periods retain counts and
+shares but have null baseline, change, and warning fields.
+
+Counts use records with `IncludeResidential=true`. `PermitShare` is the location
+count divided by all included residential records in that period, including
+records missing geography; it is null for a zero denominator. Geography labels
+are converted to trimmed text, with nulls and blanks retained as a separate
+null group marked `IsMissingGeography`. A literal `Unknown` name is distinct
+from that group. The strategy does not harmonize spelling, join community codes,
+reassign ward boundaries, or deduplicate permit identifiers.
+
+`SmallBaselineWarning` is true in both primary periods when the first-period
+location count is strictly below `analysis.community_analysis.minimum_baseline_count`
+(default 5). Zero baselines have null percentage changes, while positive small
+baselines retain their changes and warning. Counts are not exposure-normalized.
+
+`geography_period_totals` records all, residential, excluded, missing-community,
+and missing-ward counts for every configured period. Missing counts describe
+included residential records and may overlap. Do not sum repeated residential
+denominators across summary rows. Inputs remain unchanged; malformed inclusion
+flags and missing or unconfigured periods raise errors rather than silently
+dropping records. See [Data Dictionary](DATA_DICTIONARY.md#planned-exported-products)
+for output fields. File export and real-data geographic review remain pending.
 
 ### Development mix
 
