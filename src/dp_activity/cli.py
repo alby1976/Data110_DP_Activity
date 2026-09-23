@@ -398,7 +398,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
             community_column="community",
             ward_column="ward",
         ),
-        ProcessingAnalysis(),
+        ProcessingAnalysis(period_order=[period.name for period in config.periods]),
         RezoningAnalysis(),
         SeasonalAnalysis(),
         SensitivityAnalysis(scenarios={}),

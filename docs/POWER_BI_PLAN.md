@@ -102,6 +102,15 @@ Show whether the composition of residential applications and typical processing 
 
 Avoid comparing processing times without displaying the number of valid observations.
 
+The implemented Python `processing_summary` supplies period-level median, mean,
+quartiles, IQR, and valid/ineligible/pending/censored counts. Use
+`processing_type_summary` for type-level statistics and `processing_period_totals`
+for residential and nonresidential denominators once export is implemented.
+Do not average subgroup medians or quartiles to obtain a period statistic.
+`ValidShare` is fractional; audit counts may overlap and must not be added.
+Preserve null statistics for empty valid cohorts. Pending/censored counts explain
+eligibility and do not establish that two cohorts have comparable follow-up.
+
 ## Page 3 — Geography
 
 ### Purpose

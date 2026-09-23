@@ -25,6 +25,17 @@ This project compares Calgary residential development-permit activity before and
 
 ## Required validation work
 
+### Implemented processing safeguards
+
+`ProcessingAnalysis` reports pending and right-censored residential counts beside
+valid-duration statistics and retains counts for ineligible intervals. Optional
+feature flags distinguish date errors, missing dates, negative durations, and
+records beyond an explicit observation horizon. Unknown audit counts remain null,
+and overlapping reasons are not a partition of the excluded population.
+The summaries do not correct for right-censoring or establish adequate follow-up.
+CLI observation-horizon wiring, minimum-follow-up eligibility, and cohort
+sensitivity analysis remain outstanding.
+
 ### Implemented geography safeguards
 
 `GeographyAnalysis` retains missing community and ward groups in residential

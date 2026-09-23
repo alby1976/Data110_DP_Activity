@@ -8,17 +8,17 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/geography-full-20260923` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/processing-full-20260923` with the configured Python 3.13.14 environment reports:
 
 ```text
-376 passed, 6 xfailed
+399 passed, 5 xfailed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
 
 Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
 
-The 6 expected failures cover four analysis strategies, Power BI export, and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally. Both chart construction and saving remain unfinished; XFAIL counts are not counts of every unfinished function.
+The 5 expected failures cover three analysis strategies, Power BI export, and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally. Both chart construction and saving remain unfinished; XFAIL counts are not counts of every unfinished function.
 
 The completed validator test modules contain 16 schema tests, 19 data-quality
 tests, and 23 classification-validation tests. They cover input preservation,
@@ -32,14 +32,22 @@ They cover calendar boundaries, cross-year/leap-year seasons, partial exposure,
 explicit observation horizons, signed durations, invalid evidence, nullable
 outputs, and input preservation. CLI tests check configured dependency wiring.
 
-The next unfinished test target is `tests/analysis/test_processing_analysis.py`.
+The next unfinished test target is `tests/analysis/test_rezoning_analysis.py`.
 Complete the remaining analyses, exporter, and chart tests, then
-the frozen-fixture end-to-end smoke test. The 6 XFAILs identify scaffold tests,
+the frozen-fixture end-to-end smoke test. The 5 XFAILs identify scaffold tests,
 not an exhaustive count of remaining integration tasks.
 
 Geography tests cover community and ward counts, zero and small baselines, missing geography denominators, contextual periods, empty inputs, invalid schemas/configuration, and input preservation. CLI tests verify configured study labels and cleaner field names. An isolated temporary directory avoids a permissions error in the shared pytest temporary-folder cleanup.
 
 ## Installation and commands
+
+Processing analysis tests verify exact means, medians, linearly interpolated
+quartiles and IQR, residential denominators, pending/censoring counts, optional
+audits, empty cohorts, missing subgroup labels, and input preservation. Integration
+with the real processing feature filter checks observation cutoffs and configured
+minimum days. Malformed flags, contradictory eligibility, nonfinite durations,
+and schema/configuration errors are rejected. The scaffold test now calls the
+implementation directly; CLI tests verify configured period ordering.
 
 From the repository root, create and activate a virtual environment, then install the pinned testing dependencies:
 

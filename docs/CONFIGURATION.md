@@ -112,6 +112,15 @@ analysis outputs rather than immutable raw snapshots.
 
 ### Storage and logging settings
 
+The CLI supplies configured period order to `ProcessingAnalysis`; configured empty
+periods remain visible. The feature builder applies
+`analysis.processing_time.minimum_days` and supplies eligibility flags, which the
+analysis consumes without applying a separate threshold. `ResidentialType`, when
+present, enables a type summary. Direct callers may pass `community_column` to
+request a community breakdown; the CLI leaves that optional breakdown disabled.
+The committed `outputs.processing_summary` names the period summary. Naming and
+export of processing denominator and subgroup tables remain exporter work.
+
 The CLI passes configured study-period labels in order to `GeographyAnalysis`.
 The second period is compared with the first; later periods are contextual and
 have null comparison fields. The CLI also supplies the cleaned `community` and

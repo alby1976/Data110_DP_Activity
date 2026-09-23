@@ -112,6 +112,36 @@ required nonempty dataset is empty. Inspect status and message as well as counts
 
 ### Planned exported products
 
+`ProcessingAnalysis` returns `processing_summary` at period grain and
+`processing_period_totals` for denominator auditing. Statistics use only included
+residential records flagged `HasValidProcessingDays=true`.
+
+| Processing output field | Meaning |
+|---|---|
+| `TotalCount` | included residential records in the period or subgroup |
+| `ValidCount` | residential records eligible for duration statistics |
+| `InvalidCount` | `TotalCount - ValidCount`; includes pending, censored, and other ineligible records |
+| `PendingCount`, `RightCensoredCount` | residential counts of the corresponding feature flags; may overlap |
+| `ValidShare` | `ValidCount / TotalCount`, fractional; null for an empty cohort |
+| `NegativeCount`, `MissingDateCount`, `InvalidDateCount`, `AfterObservationEndCount` | counts of optional feature flags; null when the flag is unavailable |
+| `MedianProcessingDays`, `MeanProcessingDays` | median and arithmetic mean of valid durations |
+| `Q1ProcessingDays`, `Q3ProcessingDays` | 25th and 75th percentiles using linear interpolation |
+| `IQRProcessingDays` | `Q3ProcessingDays - Q1ProcessingDays` |
+
+Statistics are null when `ValidCount` is zero; a valid zero-day duration remains
+zero. The period totals table includes the counts and shares above plus
+`AllPermitCount`, `PeriodResidentialCount` (equal to `TotalCount`), and
+`ExcludedCount` (nonresidential records). ExcludedCount and InvalidCount describe
+different populations. Audit reasons may overlap and must not be summed.
+Configured periods appear even when empty.
+
+`processing_type_summary` is returned when `ResidentialType` exists, preserving
+Review and mapping null/blank labels to Unknown. An explicit `community_column`
+enables `processing_community_summary`, preserving null/blank communities as a
+null group. Both contain the summary fields above for observed residential
+period/group combinations only. They do not repeat the all-record denominators.
+These are in-memory outputs; file export remains unfinished.
+
 `GeographyAnalysis` now returns in-memory `community_summary` and `ward_summary`
 at period × location grain. Both contain `PermitCount`, `PeriodResidentialCount`,
 fractional `PermitShare`, `IsMissingGeography`, `BaselinePeriod`,
@@ -155,7 +185,10 @@ units. Final filename mapping and export remain pending.
 | `community_summary` | period × community | before/during geographic comparison |
 | `ward_summary` | period × ward | ward comparison including missing geography |
 | `geography_period_totals` | period | geography denominators and missing counts |
-| `processing_summary` | period and optional type | processing-time statistics |
+| `processing_summary` | period | residential processing statistics and eligibility counts |
+| `processing_period_totals` | period | source, residential, excluded, and duration-eligibility counts |
+| `processing_type_summary` | observed period × type | residential processing statistics by type |
+| `processing_community_summary` | observed period × community, opt-in | residential processing statistics by community |
 | `bias_audit` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
 
 These extension-free labels are configured in `config/settings.yaml`. Additional analytical tables,
