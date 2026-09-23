@@ -314,6 +314,12 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     processing = next(analysis for analysis in pipeline.dependencies["analyses"]
                       if isinstance(analysis, cli.ProcessingAnalysis))
     assert processing.period_order == tuple(period.name for period in config.periods)
+    seasonal = next(analysis for analysis in pipeline.dependencies["analyses"]
+                    if isinstance(analysis, cli.SeasonalAnalysis))
+    assert seasonal.periods == list(config.periods)
+    assert seasonal.date_column == settings["analysis"]["primary_date_field"]
+    assert seasonal.season_months == {value.get("label", key): value["months"]
+                                     for key, value in settings["seasons"].items()}
     assert geography.minimum_baseline_count == settings["analysis"]["community_analysis"]["minimum_baseline_count"]
     assert pipeline.dependencies["classifier"].case_sensitive is True
     assert source_repository.raw_directory == config.raw_data_dir

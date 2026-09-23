@@ -400,7 +400,15 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
         ),
         ProcessingAnalysis(period_order=[period.name for period in config.periods]),
         RezoningAnalysis(),
-        SeasonalAnalysis(),
+        SeasonalAnalysis(
+            periods=list(config.periods),
+            date_column=analysis_settings.get("primary_date_field", "applied_date"),
+            season_months={
+                value.get("label", key): value["months"]
+                for key, value in seasons_settings.items()
+                if isinstance(value, dict) and "months" in value
+            },
+        ),
         SensitivityAnalysis(scenarios={}),
     ]
     output_repository = OutputRepository(

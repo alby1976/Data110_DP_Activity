@@ -302,6 +302,59 @@ They cannot establish zero months before or after the observed range.
 - permit counts and monthly average within each meteorological season;
 - complete-season comparisons between the Before and During periods.
 
+### Implemented seasonal summaries
+
+The period, monthly, and seasonal tables expose a standardized activity rate:
+
+```text
+DP_Rate30 = PermitCount / ExposureDays * 30
+```
+
+The numerator is included residential application records. The denominator is
+inclusive exposed calendar days, including days with no permits, bounded by the
+configured window and any explicit observation cutoff. Positive exposure with no
+permits yields zero; unknown or nonpositive exposure yields null. One exposed day
+with two residential applications yields 60 applications per 30 days. This is a
+rate, not a prediction that 60 applications will occur or a count of homes.
+When combining disjoint time intervals, divide summed counts by summed exposure;
+do not take an unweighted mean of rates. Geography/type subgroups sharing the same
+time window must not duplicate exposed days in a combined denominator.
+
+`SeasonalAnalysis` counts residential records by period and season start date,
+retaining all-record and nonresidential exclusion counts. Configured study windows
+generate a calendar independently of observed permits, so zero-activity seasons
+remain visible. `ExposureDays` is the inclusive overlap with the individual policy
+window and explicit observation cutoff. Cross-year winter remains one season;
+summer split by a policy boundary remains separate in each period.
+
+`seasonal_summary` is partitioned into `complete_seasons`, `partial_seasons`, and
+`unknown_seasons` using nullable `IsCompleteSeason`. Unknown is never treated as
+partial or complete. Complete-season rows are eligible for like-season inspection;
+later contextual policy periods must still be presented separately. Raw counts
+remain unchanged; DP_Rate30 adjusts for exposed days but does not remove seasonal
+variation, confounding, or uncertainty from short windows.
+
+Optional processing features produce per-season statistics through the implemented
+processing analysis, preserving its validity, censoring, and denominator rules.
+Missing valid durations yield null statistics, not zero-day processing.
+
+When application dates exist, `seasonal_monthly_volume` and
+`calendar_month_summary` support like-month inspection. The latter groups period
+and month-of-year, reporting complete, partial, and unknown month counts separately.
+`MeanCompleteMonthlyCount` includes configured zero months but excludes partial
+and unknown months; it is null when no complete month exists.
+`calendar_month_summary` also pools ExposureDays across all its months and reports
+DP_Rate30 from their total residential count and exposure, including partial months.
+If any contributing exposure is unknown, pooled exposure and the rate are null.
+This rate is distinct from the complete-month-only mean.
+
+Without configured windows, only observed seasons are summarized, exposure days
+remain unknown, and missing zero-activity seasons are not inferred. Configured
+open windows require an explicit observation cutoff. The CLI supplies windows,
+season labels/months, and the application field, but cutoff wiring remains pending
+for volume, seasonal, and feature stages. Contradictory completeness flags or
+season identities raise errors rather than entering headline summaries.
+
 ### Change
 
 ```text

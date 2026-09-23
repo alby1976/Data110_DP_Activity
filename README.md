@@ -73,6 +73,7 @@ Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or 
 
 ## Key measures
 
+- residential applications per 30 exposed calendar days (`DP_Rate30 = PermitCount / ExposureDays × 30`), null when exposure is unknown;
 - total and monthly residential permit counts;
 - average and median monthly permit counts;
 - absolute and percentage change between periods;
@@ -206,7 +207,7 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 23, 2026 baseline is **399 passed, 5 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 23, 2026 baseline is **415 passed, 4 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
@@ -250,10 +251,10 @@ The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITI
 
 ## Project status
 
-**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, and processing-time analyses are implemented. Rezoning, seasonal, and sensitivity analyses, chart generation, and Power BI export remain scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
+**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, and seasonal analyses are implemented. Rezoning and sensitivity analyses, chart generation, and Power BI export remain scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
 
 The next Python implementation is `analysis/rezoning_analysis.py`, followed by
-seasonal and sensitivity analyses. The validators return reports without
+sensitivity analysis. The validators return reports without
 changing records; failed report statuses do not yet stop the pipeline. See the
 [current implementation checkpoint](docs/IMPLEMENTATION_PLAN.md#current-implementation-checkpoint-september-23)
 for the remaining sequence and integration work.

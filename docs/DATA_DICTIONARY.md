@@ -112,6 +112,34 @@ required nonempty dataset is empty. Inspect status and message as well as counts
 
 ### Planned exported products
 
+`DP_Rate30` is the nullable numeric rate `PermitCount / ExposureDays * 30`, in
+included residential applications per 30 exposed calendar days. It is present in
+`permit_volume`, `monthly_volume`, `seasonal_summary`, all three seasonal
+partitions, `seasonal_monthly_volume`, and `calendar_month_summary`. Unknown or
+nonpositive exposure yields null; zero activity over positive exposure yields 0.
+Calendar-month summaries additionally include pooled `ExposureDays`, which is
+null if any contributing month has unknown exposure. Their rate uses summed counts
+and days, including partial months, rather than averaging monthly rates.
+
+`SeasonalAnalysis` returns `seasonal_summary` at period × season-instance grain,
+with `Season`, `SeasonStartDate`, `SeasonEndDate`, nullable `IsCompleteSeason`,
+`ExposureDays`, `WindowSource`, residential `PermitCount`, `AllPermitCount`, and
+nonresidential `ExcludedCount`. `WindowSource` is `configured` or
+`observed_seasons`; exploratory exposure days remain null. Configured calendars
+retain zero-activity seasons. `complete_seasons`, `partial_seasons`, and
+`unknown_seasons` partition the same rows by true, false, and null completeness.
+Do not append these partitions to the full summary and sum them again.
+
+When processing features exist, season tables also contain the ProcessingAnalysis
+summary fields described below; `TotalCount` equals residential `PermitCount`.
+Optional `seasonal_monthly_volume` follows the monthly volume schema.
+`calendar_month_summary` reports Period, CalendarMonth (1–12), PermitCount,
+MonthCount, CompleteMonthCount, PartialMonthCount, UnknownMonthCount,
+CompleteMonthPermitCount, and MeanCompleteMonthlyCount. The last mean uses complete
+months only, including configured zero months, and is null when none exist.
+Monthly tables use month-completeness counts instead of a season-completeness flag.
+All tables are in-memory results; file export remains unfinished.
+
 `ProcessingAnalysis` returns `processing_summary` at period grain and
 `processing_period_totals` for denominator auditing. Statistics use only included
 residential records flagged `HasValidProcessingDays=true`.

@@ -9,8 +9,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 This overview includes both implemented components and scaffolded contracts. Adapters,
 repositories, configuration, cleaning, profiling, classification, CLI dispatch,
 pipeline orchestration, all three validators, all three feature filters, and volume,
-development-type, geography, and processing-time analyses are implemented. Rezoning,
-seasonal, and sensitivity analyses, chart operations, and Power BI export remain
+development-type, geography, processing-time, and seasonal analyses are implemented. Rezoning and sensitivity analyses, chart operations, and Power BI export remain
 unfinished. The sequence below
 describes the intended complete workflow; see [Testing Framework](TESTING.md) for
 verified behavior and remaining expected failures. Profiling is available separately
@@ -60,6 +59,13 @@ and is not currently invoked by the CLI pipeline.
 - Do not create an interface with only one foreseeable implementation unless it creates a useful testing or dependency boundary.
 
 ## Pattern-focused testing
+
+`SeasonalAnalysis` implements Strategy and composes existing season features,
+VolumeAnalysis, and ProcessingAnalysis to keep calendar and duration rules
+consistent. It generates configured exposure independently of observed records,
+returns separate complete/partial/unknown tables, and performs no I/O. The CLI
+injects season definitions and study windows. Tests exercise boundary splits,
+cross-year winter, zero seasons, unknown exposure, and processing eligibility.
 
 `ProcessingAnalysis` is an implemented Strategy consuming feature-stage validity
 and censoring flags. It returns period and optional subgroup summaries plus a

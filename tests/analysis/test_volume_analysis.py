@@ -52,11 +52,13 @@ def test_configured_edges_denominators_and_partial_months() -> None:
     assert monthly["AllPermitCount"].tolist() == [0, 3, 0]
     assert monthly["ExposureDays"].tolist() == [17, 29, 5]
     assert monthly["IsPartialMonth"].tolist() == [True, False, True]
+    assert monthly["DP_Rate30"].tolist() == pytest.approx([0, 60 / 29, 0])
     total = tables["permit_volume"].iloc[0]
     assert total["MeanMonthlyCount"] == pytest.approx(2 / 3)
     assert total["MedianMonthlyCount"] == 0
     assert total["ResidentialShare"] == pytest.approx(2 / 3)
     assert total["ExposureDays"] == 51
+    assert total["DP_Rate30"] == pytest.approx(60 / 51)
     assert_frame_equal(table, before)
 
 
@@ -67,6 +69,7 @@ def test_zero_baseline_and_empty_configured_periods() -> None:
     table = pd.DataFrame({"Period": ["During"], "IncludeResidential": [True], "applied_date": ["2024-01-01"]})
     totals = VolumeAnalysis(periods).run(table)["permit_volume"]
     assert totals["PermitCount"].tolist() == [0, 1]
+    assert totals["DP_Rate30"].tolist() == pytest.approx([0, 30 / 31])
     assert totals.iloc[1]["AbsoluteChange"] == 1
     assert pd.isna(totals.iloc[1]["PercentChange"])
     empty = VolumeAnalysis(periods).run(table.iloc[:0])
@@ -94,6 +97,7 @@ def test_open_period_requires_horizon() -> None:
     monthly = VolumeAnalysis(periods, observation_end=date(2024, 2, 5)).run(table)["monthly_volume"]
     assert monthly["ExposureDays"].tolist() == [17, 5]
     assert monthly["PermitCount"].tolist() == [1, 0]
+    assert monthly["DP_Rate30"].tolist() == pytest.approx([30 / 17, 0])
 
 
 def test_inferred_exposure_remains_unknown() -> None:
@@ -103,6 +107,18 @@ def test_inferred_exposure_remains_unknown() -> None:
     assert monthly["ExposureDays"].isna().all()
     assert monthly["IsPartialMonth"].isna().all()
     assert monthly.iloc[0]["PermitCount"] == 0
+    assert monthly["DP_Rate30"].isna().all()
+    assert VolumeAnalysis().run(table)["permit_volume"]["DP_Rate30"].isna().all()
+
+
+def test_single_day_exposure_rate() -> None:
+    """Count one inclusive exposed day rather than a zero-length interval."""
+    table = pd.DataFrame({"Period": ["A"] * 3, "IncludeResidential": [True, True, False],
+                          "applied_date": ["2024-02-29"] * 3})
+    result = VolumeAnalysis([StudyPeriod("A", date(2024, 2, 29), date(2024, 2, 29))]).run(table)
+    for key in ("permit_volume", "monthly_volume"):
+        assert result[key]["ExposureDays"].item() == 1
+        assert result[key]["DP_Rate30"].item() == 60
 
 
 @pytest.mark.parametrize("value", [None, "bad", 20240101, "2024-02-01"])

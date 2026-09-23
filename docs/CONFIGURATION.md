@@ -112,6 +112,15 @@ analysis outputs rather than immutable raw snapshots.
 
 ### Storage and logging settings
 
+The CLI supplies configured study windows, season labels and ordered month lists,
+and `analysis.primary_date_field` to `SeasonalAnalysis`. Direct callers may supply
+an explicit `observation_end`; open-ended windows require it. The CLI does not yet
+wire snapshot observation cutoffs. Without configured windows, the strategy
+summarizes observed seasons only and cannot establish zero-activity exposure.
+`outputs.seasonal_summary` names the full season table. Naming and persistence
+for complete/partial/unknown partitions and supporting month tables remain
+exporter work; no new output settings are implemented by this change.
+
 The CLI supplies configured period order to `ProcessingAnalysis`; configured empty
 periods remain visible. The feature builder applies
 `analysis.processing_time.minimum_days` and supplies eligibility flags, which the

@@ -95,6 +95,9 @@ class VolumeAnalysis(Analysis):
             IsPartialMonth. Period tables include zero-month mean/median and
             comparisons of the second period against the first, leaving percent
             change null when the baseline is zero. Later periods are contextual.
+            DP_Rate30 is PermitCount / ExposureDays * 30: residential application
+            records per 30 exposed calendar days. Unknown or nonpositive exposure
+            yields null; zero activity with positive exposure yields zero.
 
         Raises:
             TypeError: Input is not a DataFrame or inclusion is not Boolean.
@@ -192,8 +195,12 @@ class VolumeAnalysis(Analysis):
         total_columns = ["Period", "PermitCount", "AllPermitCount", "ExcludedCount", "ResidentialShare",
                          "MonthCount", "MeanMonthlyCount", "MedianMonthlyCount", "ExposureDays",
                          "WindowStart", "WindowEnd", "WindowSource", "BaselinePeriod", "AbsoluteChange", "PercentChange"]
-        return {"permit_volume": pd.DataFrame(totals, columns=total_columns).convert_dtypes(),
-                "monthly_volume": pd.DataFrame(monthly_rows, columns=monthly_columns).convert_dtypes()}
+        results = {"permit_volume": pd.DataFrame(totals, columns=total_columns).convert_dtypes(),
+                   "monthly_volume": pd.DataFrame(monthly_rows, columns=monthly_columns).convert_dtypes()}
+        for table in results.values():
+            exposure = table["ExposureDays"].astype("Float64")
+            table["DP_Rate30"] = table["PermitCount"].astype("Float64").div(exposure.where(exposure.gt(0))) * 30
+        return results
 
 
 def _calendar_date(value: Any) -> Any:

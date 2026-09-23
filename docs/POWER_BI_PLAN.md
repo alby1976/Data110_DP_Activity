@@ -20,6 +20,25 @@ Use an active relationship for `AppliedDate`. If decision-date analysis is neede
 
 ## Core measures
 
+The Python volume and seasonal tables now include `DP_Rate30`, residential
+applications per 30 exposed days. Display this as a numeric rate, not a percentage.
+Keep PermitCount and ExposureDays visible in tooltips. For disjoint time rows at a
+consistent grain, recompute `30 * DIVIDE(SUM(PermitCount), SUM(ExposureDays))`
+only when every contributing exposure is known and the sum is positive. Otherwise
+return blank. Do not average rates, mix period totals with their monthly rows,
+double-count seasonal partitions, or sum repeated exposure across geography/type
+groups. Partial-period flags remain relevant even after normalization. Import
+and file export are still pending.
+
+The implemented seasonal tables distinguish true, false, and unknown completeness.
+Use `complete_seasons` for complete-season comparisons, with partial and unknown
+rows shown separately. Keep contextual policy periods separate even when a season
+is complete. Preserve configured zero counts; do not convert null processing
+statistics to zero. Supporting calendar-month means use complete months only.
+Season completeness depends on the policy window and observation cutoff, so it
+must remain at period × season grain; a single global date-dimension flag cannot
+represent a summer split by a policy boundary. Export is still pending.
+
 Final column names may change, but the measure logic should follow this pattern.
 
 ```DAX

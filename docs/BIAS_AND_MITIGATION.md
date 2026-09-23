@@ -25,6 +25,16 @@ This project compares Calgary residential development-permit activity before and
 
 ## Required validation work
 
+### Implemented seasonal safeguards
+
+`SeasonalAnalysis` separates complete, partial, and unknown seasonal exposure,
+retains configured zero-activity seasons, and reports like-month complete-exposure
+means separately from partial and unknown months. Policy-boundary fragments are
+not merged into a complete season. These controls do not remove temporal
+confounding or make contextual periods equivalent. Snapshot cutoff wiring,
+sensitivity comparisons, source review, and final dashboard reconciliation remain
+required before accepting final findings.
+
 ### Implemented processing safeguards
 
 `ProcessingAnalysis` reports pending and right-censored residential counts beside

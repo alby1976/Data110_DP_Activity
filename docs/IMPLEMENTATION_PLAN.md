@@ -4,13 +4,13 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `399 passed, 5 xfailed`, with no unexpected failures; see
+baseline is `415 passed, 4 xfailed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
 all three validators, CLI dispatch, log archiving, and pipeline orchestration are implemented.
 Period, season, and processing feature filters are also implemented.
-Volume, type, geography, and processing-time analyses are implemented; three analysis strategies,
+Volume, type, geography, processing-time, and seasonal analyses are implemented; two analysis strategies,
 charts, and Power BI export remain scaffolded. The timeline and
 sprint tables below retain the original delivery plan; they are planning checklists,
 not a record that every listed implementation step is still outstanding. A complete
@@ -33,7 +33,7 @@ decision before final outputs are accepted.
 
 Remaining Python work, in implementation order:
 
-1. Implement the rezoning, seasonal, and sensitivity analysis strategies.
+1. Implement the rezoning and sensitivity analysis strategies.
 2. Implement Power BI exports, validation/bias-audit/reconciliation tables, and
    configured output naming and formats. Manifest writing exists; assembling
    complete run provenance and connecting it to final outputs still needs work.
