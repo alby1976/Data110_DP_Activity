@@ -43,8 +43,8 @@ feature flags distinguish date errors, missing dates, negative durations, and
 records beyond an explicit observation horizon. Unknown audit counts remain null,
 and overlapping reasons are not a partition of the excluded population.
 The summaries do not correct for right-censoring or establish adequate follow-up.
-CLI observation-horizon wiring, minimum-follow-up eligibility, and cohort
-sensitivity analysis remain outstanding.
+CLI and notebook observation-horizon wiring are implemented. Minimum-follow-up
+eligibility and configured cohort sensitivity analysis remain outstanding.
 
 ### Implemented geography safeguards
 

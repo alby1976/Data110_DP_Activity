@@ -52,6 +52,14 @@ Geography tests cover community and ward counts, zero and small baselines, missi
 
 ## Installation and commands
 
+On September 24, 2026, the exploratory notebook completed all 16 code cells from
+a fresh kernel against its pinned 16,637-record Before snapshot. Five analysis
+strategies reconcile to 7,940 residential records; the monthly line chart and
+three heatmaps render successfully and were visually reviewed. Only Before
+coverage is supplied. All-permit validation reports retain three quality warnings
+and no failures. External exports were disabled; the optional enabled export
+branch was not exercised during this notebook verification.
+
 The exporter has 17 passing tests covering clean/analysis/validator outputs,
 independent residential denominators, missing audit evidence, empty tables,
 CSV/JSON/Parquet round trips, one shared timestamp, overwrite protection, invalid

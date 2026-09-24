@@ -195,12 +195,15 @@ there is no `profile` or `analyse` CLI command.
 ## Running the tests
 
 The [exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
-against the pinned Before snapshot and now displays all three validator reports.
-All ten code cells passed in a fresh kernel on September 22, 2026; data-quality
-and classification warnings remain for review. See the
+against the pinned Before snapshot. All 16 code cells passed in a fresh kernel
+on September 24, 2026, including validators, five residential analysis strategies,
+a monthly line chart, and three heatmaps. Summaries reconcile to 7,940 residential
+records. Seasonal charts use complete seasons by default; only Before coverage is
+available. External notebook exports are disabled by default. Data-quality and
+classification warnings remain for review. See the
 [notebook explanation](notebooks/01_permit_exploration_explaination.md) for report
-definitions and recorded findings. This does not replace the unfinished full
-pipeline smoke test.
+definitions and recorded findings. The separate synthetic CLI smoke test also
+passes; neither establishes independent classification accuracy or policy impact.
 
 Install the development dependencies and run the complete suite from the repository root:
 

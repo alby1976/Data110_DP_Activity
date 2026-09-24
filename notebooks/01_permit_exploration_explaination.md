@@ -1,6 +1,11 @@
 # Explanation of values in `01_permit_exploration.ipynb`
 
-The notebook is an exploratory review of the frozen **Before** development-permit snapshot. The values shown are mostly **data-quality, provenance, cleaning, and classification summaries**. They describe the permit records in the downloaded file, not housing units built.
+The notebook is an exploratory review of the frozen **Before** development-permit
+snapshot. It now displays provenance, profiling, cleaning, classification, features,
+validation, residential analysis summaries, a monthly line chart, and three heatmaps.
+The September 24, 2026 verification ran all **16 code cells** from a fresh kernel.
+The snapshot remains the same 16,637-record Before download; no During or Post
+coverage is inferred. Results describe application records, not housing units built.
 
 ## 1. Settings table
 
@@ -330,7 +335,8 @@ Season completeness describes exposure within a policy window, not completeness
 of source records. Processing flags overlap and should not be added together.
 `IsPending` is an analytical proxy for a missing decision, not an official status.
 `FollowUpDays` uses a valid observed decision or the explicit horizon for censored
-records. These summaries do not replace the unfinished analysis strategies.
+records. These all-permit feature summaries differ from the residential-only
+analysis summaries now displayed later in the notebook.
 
 `schema_report` displays immutable `SchemaIssue` results as a table with
 `severity`, `column`, and `message`. It checks the feature-enriched table against
@@ -360,7 +366,7 @@ so audit accuracy remains unknown and no confusion matrix is produced.
 
 ### Recorded Before-snapshot validation results
 
-The September 22, 2026 run executed all ten code cells in a fresh kernel against
+The September 24, 2026 run executed all sixteen code cells in a fresh kernel against
 the pinned 16,637-record snapshot. These observations depend on that snapshot,
 settings, and rule version; consult refreshed notebook output after changes.
 
@@ -382,25 +388,84 @@ Assertions verify that validation leaves the raw, cleaned, and classified inputs
 unchanged. Successful cell execution does not mean every data-quality check
 passed. Investigate the missing values and review records before final analysis.
 
+## 24. Residential analyses and reconciliation
+
+The notebook executes VolumeAnalysis, TypeAnalysis, ProcessingAnalysis,
+RezoningAnalysis, and SeasonalAnalysis, producing 18 in-memory tables. Each is
+given only the verified Before coverage, rather than the full configured list of
+policy periods. Otherwise an unobserved During period could incorrectly appear
+as zero activity. Assertions reconcile volume, monthly, seasonal, and type counts
+to the same residential denominator and verify that inputs remain unchanged.
+
+| Residential finding | September 24 result |
+|---|---|
+| Included residential records | 7,940 |
+| Excluded records | 8,697 |
+| Before exposure | 731 inclusive calendar days |
+| DP_Rate30 | 325.855 permits per 30 exposed days |
+| Calendar months touched | 25, including partial August 2022 and August 2024 |
+| Mean monthly count | 317.6; includes partial months and is not DP_Rate30 |
+| Valid residential processing durations | 6,505 |
+| Ineligible residential processing durations | 1,435 |
+| Median processing time | 47 days |
+| Q1 / Q3 / IQR | 32 / 86 / 54 days |
+| Rezoning-relevant residential records | 7,433 of 7,940 (93.6146%) |
+| Residential records flagged for classification review | 124; retained in denominators |
+| Complete / partial season instances | 7 / 2 |
+| Residential counts in complete seasons | 6,760 |
+
+Processing statistics include only valid residential durations; they do not
+correct censoring or implement minimum-follow-up eligibility. The relevance flag
+is project-defined, not an official designation. Geography comparisons are not
+run here because the current strategy requires at least two periods. No
+study-specific sensitivity scenarios are configured.
+
+## 25. Charts and heatmaps
+
+| Chart | Rows / horizontal axis | Columns / vertical axis | Value and interpretation |
+|---|---|---|---|
+| Monthly line | Application month (horizontal) | Residential count (vertical) | Partial-month markers disclose unequal coverage; the During start boundary is just beyond the last covered day |
+| Month × Year | Jan–Dec rows | Calendar-year columns | Residential count; zero and missing cells are distinct |
+| Season × Year | Winter, Spring, Summer, Fall rows | Season-year columns | Count by default; set SEASON_YEAR_METRIC to DP_Rate30 for rates |
+| Season × Policy Period | Season rows | Policy-period columns | Pooled sum(count) / sum(exposure days) × 30 |
+
+Winter December 2023–February 2024 is labelled **2024**. Seasonal charts default
+to complete seasons. Set `INCLUDE_PARTIAL_SEASONS=True` to include known partial
+seasons with `*` annotations; unknown completeness is always excluded. Gray/dash
+cells mean missing/excluded data or unusable rate exposure, not zero activity.
+Monthly `?` marks unknown coverage. The month/year and season/year charts keep
+policy fragments in separate panels when provided multiple covered periods.
+
+The current policy-period heatmap has **one Before column**. Its complete-season
+rates, rounded to one decimal, are Winter 292.4, Spring 337.7, Summer 347.6, and
+Fall 306.4 permits per 30 days. These use unequal numbers of complete season
+instances (one summer and two of each other season), disclosed by the seasonal
+table. They do not compare policies. August 2024's 44 permits cover only five
+days; the line-chart drop is not evidence of a full-month activity decline.
+
+The figures are rendered from the reusable ChartFactory through PNG buffers.
+They are displayed in the notebook without saving external chart files. All four
+rendered figures were visually reviewed. Period-average lines, processing
+box plots/distributions, and grouped seasonal bars remain unimplemented.
+
+## 26. Optional export and implementation status
+
+`EXPORT_EXPLORATORY_OUTPUTS=False` is the verified default. No external tables or
+figures were written during this notebook run. Setting it true invokes the real
+PowerBIExporter under `reports/notebook_before/tables/`, respecting configured
+formats and labels with overwrite disabled; figures go into a new uniquely named
+subdirectory under `reports/notebook_before/figures/`. The enabled branch was not
+executed in this verification. It does not create a full run provenance manifest.
+
+The package now implements the analysis strategies, chart API, and table exporter,
+and its synthetic offline CLI smoke tests pass. Both notebook and CLI resolve the
+same explicit snapshot observation horizon. The remaining work includes
+study-specific sensitivity scenarios, minimum follow-up, fatal-validation policy,
+full provenance, automatic CLI charts, independent classification review, final
+study-data acceptance, and Power BI dashboard/reconciliation. The notebook's
+final table maps these limits to the six supporting study questions.
+
 ## Main takeaway
-
-### Implementation status after the validator work
-
-As of September 22, 2026, `SchemaValidator`, `DataQualityValidator`, and
-`ClassificationValidator` are implemented in the Python package and executed in
-the notebook's validation section. The reports above document their results on
-the frozen Before snapshot. Manual investigation of warnings and independent
-human-label review remain outstanding.
-
-Schema and quality strategies return immutable result objects; classification
-validation returns a summary table and optional independently labelled confusion
-rows. None of them changes the permit records or automatically stops the pipeline
-on a failed finding. See [Methodology](../docs/METHODOLOGY.md) for their contracts
-and the [implementation plan](../docs/IMPLEMENTATION_PLAN.md) for the next work:
-analysis strategies, exports, charts, and an end-to-end smoke test. Period,
-season, and processing feature filters are now executed before validation.
-The notebook supplies the snapshot retrieval date in UTC as an explicit inclusive
-observation horizon. This does not yet change CLI observation-date wiring.
 
 ### Interpretation
 

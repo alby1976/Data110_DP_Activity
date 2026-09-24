@@ -519,13 +519,17 @@ Project-wide dates, seasons, paths, warning thresholds, storage formats, overwri
 
 ## 10. Verification and testing
 
-On September 22, 2026, the exploratory notebook ran all ten code cells from a
+On September 24, 2026, the exploratory notebook ran all 16 code cells from a
 fresh kernel against the frozen Before snapshot, including schema, data-quality,
-and classification validation. No schema errors or classification audit
+and classification validation, five residential analysis strategies, a monthly
+line chart, and all three heatmaps. Analysis counts reconcile to 7,940 residential
+records. Only verified Before coverage is supplied to analyses; missing During
+coverage is not represented as zero. Seasonal charts default to complete seasons.
+External table/figure exports remain disabled by default. No schema errors or classification audit
 inconsistencies were found. Missing decision dates and geography, plus unmatched
 and review classifications, remain warnings requiring investigation. Input
 preservation and classification count reconciliation assertions passed. This
-notebook execution is not the final pipeline smoke test and does not measure
+notebook execution is separate from the passing synthetic CLI smoke test and does not measure
 human-label accuracy. Recorded counts and interpretation are in the
 [notebook explanation](../notebooks/01_permit_exploration_explaination.md#recorded-before-snapshot-validation-results).
 

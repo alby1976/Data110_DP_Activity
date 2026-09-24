@@ -62,9 +62,12 @@ season/processing features and volume/seasonal analyses. Pending flags are
 analytical proxies, and minimum-follow-up eligibility remains a planned policy.
 The exploratory notebook now executes all three feature filters before validation, using the snapshot retrieval date in UTC as its observation horizon.
 
-The Before snapshot and exploratory notebook are available. All three validator
-reports now run in the notebook; all ten code cells passed in a fresh kernel
-on September 22. There were no schema errors or classification audit inconsistencies.
+The Before exploratory notebook now runs all three validators, five residential
+analysis strategies, the monthly line chart, and three heatmaps. All 16 code cells
+passed in a fresh kernel on September 24, reconciling 7,940 residential records.
+Only the verified Before window enters analyses; other periods are not invented
+as zeros. Notebook exports are disabled by default. There were no schema errors
+or classification audit inconsistencies.
 Warnings include missing decisions/geography and unmatched/review classifications.
 See the [notebook explanation](../notebooks/01_permit_exploration_explaination.md#recorded-before-snapshot-validation-results)
 for counts. Manual warning investigation and independent human-label review remain
