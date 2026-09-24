@@ -62,7 +62,8 @@ package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["dp_activity*"]
+include = ["dp_activity", "dp_activity.*"]
+namespaces = false
 
 [tool.pytest.ini_options]
 minversion = "9.1"
