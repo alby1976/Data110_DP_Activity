@@ -103,6 +103,16 @@ count makes missingness visible; it does not correct missing-data bias.
 
 ## 7. Scope limits and choices still requiring implementation
 
+`SensitivityAnalysis` now evaluates injected named scenarios against an explicit
+reference. Each scenario returns the same scalar metric under a caller-defined
+alternative. All results are retained, including weaker or missing results;
+each scenario receives an independent input copy. AbsoluteChange is the signed
+difference from the reference, and PercentChange uses the absolute reference
+magnitude as its denominator. Zero/missing reference values leave percentage
+changes null. These comparisons do not establish statistical significance.
+The CLI currently supplies no scenarios and therefore produces an empty
+sensitivity table; this is not evidence that study sensitivity checks were run.
+
 The project is descriptive. It does not assume that all observed change was
 caused by rezoning, that applications are independent physical developments, or
 that review flags establish classification accuracy. Exposure normalization is
@@ -111,7 +121,8 @@ not a substitute for a causal model or a sensitivity analysis.
 The following remain outstanding in the current checkout and must not be
 described as completed safeguards:
 
-- minimum-follow-up eligibility and sensitivity comparisons;
+- minimum-follow-up eligibility and configuration/execution of study-specific
+  sensitivity comparisons (the named-scenario runner is implemented);
 - a policy for stopping the pipeline on fatal validation reports; collecting a
   report currently does not itself halt execution;
 - final exporter integration, full pipeline smoke testing, and Python/Power BI

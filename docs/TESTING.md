@@ -8,17 +8,17 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/cutoff-full` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/sensitivity-full` with the configured Python 3.13.14 environment reports:
 
 ```text
-441 passed, 3 xfailed
+461 passed, 2 xfailed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
 
 Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
 
-The 3 expected failures cover sensitivity analysis, Power BI export, and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally. Both chart construction and saving remain unfinished; XFAIL counts are not counts of every unfinished function.
+The 2 expected failures cover Power BI export and chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally. Both chart construction and saving remain unfinished; XFAIL counts are not counts of every unfinished function.
 
 The completed validator test modules contain 16 schema tests, 19 data-quality
 tests, and 23 classification-validation tests. They cover input preservation,
@@ -32,14 +32,20 @@ They cover calendar boundaries, cross-year/leap-year seasons, partial exposure,
 explicit observation horizons, signed durations, invalid evidence, nullable
 outputs, and input preservation. CLI tests check configured dependency wiring.
 
-The next unfinished test target is `tests/analysis/test_sensitivity_analysis.py`.
+The next unfinished test target is `tests/export/test_powerbi_exporter.py`.
 Complete the remaining analyses, exporter, and chart tests, then
-the frozen-fixture end-to-end smoke test. The 3 XFAILs identify scaffold tests,
+the frozen-fixture end-to-end smoke test. The 2 XFAILs identify scaffold tests,
 not an exhaustive count of remaining integration tasks.
 
 Geography tests cover community and ward counts, zero and small baselines, missing geography denominators, contextual periods, empty inputs, invalid schemas/configuration, and input preservation. CLI tests verify configured study labels and cleaner field names. An isolated temporary directory avoids a permissions error in the shared pytest temporary-folder cleanup.
 
 ## Installation and commands
+
+Sensitivity analysis has 20 passing tests for named alternatives, explicit
+references, signed and percentage changes, missing/zero baselines, input-copy
+isolation, invalid configurations/results, and visible scenario failures.
+Classification-review and complete-season fixtures demonstrate injected policies;
+the CLI's empty scenario mapping does not yet execute study sensitivity checks.
 
 CLI cutoff tests cover UTC date conversion, explicit overrides, missing and
 malformed metadata, invalid dates, and dependency wiring. A real feature/analysis

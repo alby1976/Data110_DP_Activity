@@ -33,6 +33,19 @@ The primary comparison is Before versus During. Early Post-Repeal is incomplete 
 
 ### Sensitivity check
 
+`SensitivityAnalysis(scenarios, reference="reference")` accepts named callables
+returning comparable real scalar metrics. A nonempty mapping must contain the
+reference name. `sensitivity_summary` preserves insertion order and reports
+Scenario, Result, ReferenceScenario, IsReference, ReferenceResult, AbsoluteChange,
+PercentChange, and ChangeDirection. AbsoluteChange is signed; PercentChange is
+100 times that difference divided by the absolute reference value. Missing
+results remain visible; zero or missing references have null percentage changes.
+Direction describes numeric increase/decrease, not stronger causal evidence.
+Invalid results or failing scenarios raise errors identifying the scenario.
+An empty configuration returns an empty table, not a completed sensitivity audit.
+The CLI still requires study-specific scenarios to be configured. Tests exercise
+review-excluded and complete-season populations without adopting them as study policy.
+
 `add_period_features` is implemented as a pure table transformation. It uses
 configured `StudyPeriod` values in order, includes the entire final calendar day,
 and leaves missing/invalid dates unassigned. Valid dates in gaps or beyond closed
