@@ -152,3 +152,10 @@ unknown exposure has cross markers. Each policy period is a separate series.
 Exact policy boundaries are optional caller-supplied dates, never inferred from
 the first application. Charts do not adjust for unequal month lengths or establish
 policy causation. Figure saving is explicit and supports PNG, SVG, and PDF.
+
+`ChartFactory.monthly_heatmap` uses the same count and exposure conventions.
+Years form rows and months form columns, with separate policy-period panels
+sharing a zero-based color scale. Boundary-month fragments are never combined.
+Missing months are gray and labelled with a dash; supplied zeros remain colored
+and labelled zero. Partial and unknown exposure are marked with `*` and `?`.
+Heatmap color represents residential record counts, not exposure-adjusted rates.

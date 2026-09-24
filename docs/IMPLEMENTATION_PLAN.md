@@ -4,7 +4,7 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `496 passed`, with no unexpected failures; see
+baseline is `512 passed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
@@ -47,7 +47,7 @@ Remaining Python work, in implementation order:
 Rezoning analysis is complete: period counts and shares use all residential permits
 as the denominator, with unknown relevance, overlapping review audits, and optional
 rule/type/district breakdowns. The sensitivity runner and 20 focused tests are
-complete. The exporter has 17 passing tests and the chart factory has 18.
+complete. The exporter has 17 passing tests and the chart factory has 34.
 No scaffold XFAILs remain. The next verification target is a frozen-fixture CLI
 smoke test; study-specific sensitivity definitions remain integration work.
 All three feature filters are pure,

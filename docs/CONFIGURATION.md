@@ -17,6 +17,23 @@ IsPartialMonth. Call `save(figure, path)` explicitly for PNG, SVG, or PDF at
 a headless canvas and does not change global plotting settings. Matplotlib
 3.10.8 is pinned as a runtime dependency.
 
+`ChartFactory.monthly_heatmap(table)` uses the same monthly analysis columns.
+It creates one year-by-month panel per policy period with a shared count scale.
+Gray cells and dashes mean no supplied data, not zero permits. Asterisks mark
+partial months; question marks indicate unknown coverage. Saving is explicit:
+
+```python
+from pathlib import Path
+from dp_activity.visualization.chart_factory import ChartFactory
+
+charts = ChartFactory()
+figure = charts.monthly_heatmap(analysis_tables["monthly_volume"])
+charts.save(figure, Path("reports/monthly_heatmap.png"))
+```
+
+SVG and PDF destinations are also supported. Heatmaps are available through
+the Python API; the CLI does not yet automatically create chart outputs.
+
 | Section | Purpose | Important settings |
 |---|---|---|
 | `project` | Identifies the project and author | project name, course, author |

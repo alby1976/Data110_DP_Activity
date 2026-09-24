@@ -111,6 +111,7 @@ def test_empty_chart_has_no_fabricated_series() -> None:
     assert any(text.get_text() == "No monthly permit data" for text in figure.axes[0].texts)
 
 
+@pytest.mark.parametrize("method", ["monthly_volume", "monthly_heatmap"])
 @pytest.mark.parametrize("field,value", [
     ("PermitCount", -1), ("PermitCount", 1.5), ("PermitCount", float("inf")),
     ("PermitCount", None), ("PermitCount", True), ("PermitCount", "1"),
@@ -118,17 +119,18 @@ def test_empty_chart_has_no_fabricated_series() -> None:
     ("YearMonth", "2024-08-01T00:00:00Z"), ("YearMonth", 123),
     ("Period", " "), ("IsPartialMonth", "False"),
 ])
-def test_invalid_monthly_values_are_rejected(field, value) -> None:
+def test_invalid_monthly_values_are_rejected(field, value, method) -> None:
     """Reject inputs that could misstate counts or exposure.
 
     Args:
         field: Column to replace with invalid data.
         value: Invalid scalar value.
+        method: Chart API sharing the monthly data contract.
     """
     table = pd.DataFrame({"Period": ["During"], "YearMonth": ["2024-08-01"], "PermitCount": [1]})
     table[field] = value
     with pytest.raises((ValueError, TypeError)):
-        ChartFactory().monthly_volume(table)
+        getattr(ChartFactory(), method)(table)
 
 
 def test_invalid_structure_and_save_requests(tmp_path) -> None:
@@ -152,3 +154,70 @@ def test_invalid_structure_and_save_requests(tmp_path) -> None:
     with pytest.raises(TypeError, match="savefig"):
         factory.save(object(), tmp_path / "bad.png")
     assert not list(tmp_path.iterdir())
+
+
+def test_heatmap_keeps_period_fragments_and_missing_months_distinct(tmp_path) -> None:
+    """Share a scale across panels without summing boundary-month fragments.
+
+    Args:
+        tmp_path: Isolated destination for a rendered PNG.
+    """
+    table = pd.DataFrame({
+        "Period": ["During", "Before", "Before", "During"],
+        "YearMonth": ["2024-08-01", "2024-08-01", "2023-12-01", "2025-01-01"],
+        "PermitCount": [20, 3, 0, 8],
+        "IsPartialMonth": pd.array([True, True, False, None], dtype="boolean"),
+    })
+    original = table.copy(deep=True)
+    old_font = mpl.rcParams["font.size"]
+    figure = ChartFactory({"font.size": 11}).monthly_heatmap(table)
+    before, during = figure.axes[:2]
+    assert [before.get_title(), during.get_title()] == ["Before", "During"]
+    bvalues = before.images[0].get_array()
+    dvalues = during.images[0].get_array()
+    assert bvalues[0, 11] == 0
+    assert bvalues[1, 7] == 3
+    assert dvalues[0, 7] == 20
+    assert np.ma.getmaskarray(bvalues)[0, 0]
+    assert not np.ma.getmaskarray(bvalues)[0, 11]
+    assert before.images[0].norm is during.images[0].norm
+    assert before.images[0].norm.vmin == 0
+    assert before.images[0].norm.vmax == 20
+    assert "3*" in [text.get_text() for text in before.texts]
+    assert "8?" in [text.get_text() for text in during.texts]
+    assert [tick.get_text() for tick in before.get_xticklabels()] == [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    ]
+    pd.testing.assert_frame_equal(table, original)
+    assert mpl.rcParams["font.size"] == old_font
+    path = ChartFactory().save(figure, tmp_path / "heatmap.png")
+    assert path.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
+
+
+@pytest.mark.parametrize("extension", ["svg", "pdf"])
+def test_heatmap_zero_only_and_unknown_coverage(tmp_path, extension) -> None:
+    """Keep an all-zero heatmap usable and avoid assuming complete exposure.
+
+    Args:
+        tmp_path: Isolated output directory.
+        extension: Supported vector destination.
+    """
+    figure = ChartFactory().monthly_heatmap(pd.DataFrame({
+        "Period": ["During"], "YearMonth": ["2024-01-01"], "PermitCount": [0],
+    }))
+    assert figure.axes[0].images[0].norm.vmax == 1
+    assert "0?" in [text.get_text() for text in figure.axes[0].texts]
+    path = ChartFactory().save(figure, tmp_path / f"heatmap.{extension}")
+    assert path.stat().st_size > 100
+
+
+def test_heatmap_empty_and_duplicate_inputs() -> None:
+    """Explain empty data and reject ambiguous keys instead of aggregating silently."""
+    empty = pd.DataFrame(columns=["Period", "YearMonth", "PermitCount"])
+    figure = ChartFactory().monthly_heatmap(empty)
+    assert not figure.axes[0].images
+    assert figure.axes[0].texts[0].get_text() == "No monthly permit data"
+    duplicate = pd.DataFrame({"Period": ["Before"] * 2,
+                              "YearMonth": ["2024-01-01"] * 2, "PermitCount": [1, 2]})
+    with pytest.raises(ValueError, match="once"):
+        ChartFactory().monthly_heatmap(duplicate)
