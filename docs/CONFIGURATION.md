@@ -18,7 +18,7 @@ a headless canvas and does not change global plotting settings. Matplotlib
 3.10.8 is pinned as a runtime dependency.
 
 `ChartFactory.monthly_heatmap(table)` uses the same monthly analysis columns.
-It creates one year-by-month panel per policy period with a shared count scale.
+It creates one month-by-year panel per policy period with a shared count scale.
 Gray cells and dashes mean no supplied data, not zero permits. Asterisks mark
 partial months; question marks indicate unknown coverage. Saving is explicit:
 
@@ -33,6 +33,26 @@ charts.save(figure, Path("reports/monthly_heatmap.png"))
 
 SVG and PDF destinations are also supported. Heatmaps are available through
 the Python API; the CLI does not yet automatically create chart outputs.
+
+Two seasonal APIs consume `analysis_tables["seasonal_summary"]`:
+
+```python
+season_year = charts.seasonal_year_heatmap(analysis_tables["seasonal_summary"])
+season_year_rate = charts.seasonal_year_heatmap(
+    analysis_tables["seasonal_summary"], metric="DP_Rate30"
+)
+season_period = charts.seasonal_period_heatmap(analysis_tables["seasonal_summary"])
+```
+
+In Jupyter, use `display(figure)` for any returned figure. Seasonal rows are
+Winter, Spring, Summer, Fall. Year charts keep policy-period panels separate;
+Winter December 2023–February 2024 appears under 2024. These APIs require the
+standard meteorological season labels and starts. Complete seasons are included
+by default. `include_partial=True` includes known partial seasons and marks cells
+with `*`; unknown completeness is always excluded. Policy-period cells pool
+counts and exposure days before multiplying by 30. Unknown or nonpositive
+contributing exposure leaves a rate cell missing. Existing `DP_Rate30` values
+are not averaged or trusted as inputs. Missing/excluded cells remain gray.
 
 | Section | Purpose | Important settings |
 |---|---|---|

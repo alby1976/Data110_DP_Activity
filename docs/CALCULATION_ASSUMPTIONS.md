@@ -154,8 +154,18 @@ the first application. Charts do not adjust for unequal month lengths or establi
 policy causation. Figure saving is explicit and supports PNG, SVG, and PDF.
 
 `ChartFactory.monthly_heatmap` uses the same count and exposure conventions.
-Years form rows and months form columns, with separate policy-period panels
+Months form rows and years form columns, with separate policy-period panels
 sharing a zero-based color scale. Boundary-month fragments are never combined.
 Missing months are gray and labelled with a dash; supplied zeros remain colored
 and labelled zero. Partial and unknown exposure are marked with `*` and `?`.
 Heatmap color represents residential record counts, not exposure-adjusted rates.
+
+Season × Year heatmaps have Winter/Spring/Summer/Fall rows and season-year
+columns, with separate policy-period panels. Winter is labelled by its
+January/February year (December 2023–February 2024 is winter 2024). They support
+PermitCount or DP_Rate30. Season × Policy Period heatmaps use pooled
+`sum(PermitCount) / sum(ExposureDays) * 30`, never averaged seasonal rates.
+Both seasonal charts default to complete seasons; an explicit include_partial
+option adds known partial seasons with `*` markers. Unknown completeness is
+excluded. Missing, excluded, or unusable-rate cells remain gray rather than zero.
+These APIs use standard meteorological labels and calendar starts.

@@ -33,7 +33,7 @@ The analysis will compare monthly and seasonal permit volume, development-type m
 
 As of September 23, 2026, volume, development-type, geography, processing-time, seasonal, and rezoning analysis strategies are implemented. Geography outputs include community and ward counts,
 Before/During changes, small-baseline warnings, and missing-geography totals.
-The latest full suite reports **512 passed, no expected failures** for unfinished
+The latest full suite reports **518 passed, no expected failures** for unfinished
 stages. The sensitivity runner is implemented; study-specific scenarios still need CLI configuration. Table export is implemented. The chart API is implemented. CLI chart integration, the full pipeline smoke test, and Power BI
 reconciliation remain pending; implemented summaries are not final study findings.
 

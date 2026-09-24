@@ -175,17 +175,17 @@ def test_heatmap_keeps_period_fragments_and_missing_months_distinct(tmp_path) ->
     assert [before.get_title(), during.get_title()] == ["Before", "During"]
     bvalues = before.images[0].get_array()
     dvalues = during.images[0].get_array()
-    assert bvalues[0, 11] == 0
-    assert bvalues[1, 7] == 3
-    assert dvalues[0, 7] == 20
+    assert bvalues[11, 0] == 0
+    assert bvalues[7, 1] == 3
+    assert dvalues[7, 0] == 20
     assert np.ma.getmaskarray(bvalues)[0, 0]
-    assert not np.ma.getmaskarray(bvalues)[0, 11]
+    assert not np.ma.getmaskarray(bvalues)[11, 0]
     assert before.images[0].norm is during.images[0].norm
     assert before.images[0].norm.vmin == 0
     assert before.images[0].norm.vmax == 20
     assert "3*" in [text.get_text() for text in before.texts]
     assert "8?" in [text.get_text() for text in during.texts]
-    assert [tick.get_text() for tick in before.get_xticklabels()] == [
+    assert [tick.get_text() for tick in before.get_yticklabels()] == [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     ]
     pd.testing.assert_frame_equal(table, original)
@@ -221,3 +221,101 @@ def test_heatmap_empty_and_duplicate_inputs() -> None:
                               "YearMonth": ["2024-01-01"] * 2, "PermitCount": [1, 2]})
     with pytest.raises(ValueError, match="once"):
         ChartFactory().monthly_heatmap(duplicate)
+
+
+@pytest.fixture
+def seasonal_table() -> pd.DataFrame:
+    """Provide unequal exposure, winter rollover, partial seasons, and unknown coverage.
+
+    Returns:
+        Seasonal summary with deliberately misleading precomputed rates to verify pooling.
+    """
+    return pd.DataFrame({
+        "Period": ["Before", "Before", "Before", "During", "During", "During"],
+        "Season": ["Winter", "Winter", "Summer", "Summer", "Fall", "Spring"],
+        "SeasonStartDate": ["2022-12-01", "2023-12-01", "2024-06-01", "2024-06-01", "2024-09-01", "2024-03-01"],
+        "PermitCount": [90, 182, 10, 20, 0, 5],
+        "ExposureDays": pd.array([90, 91, 20, 40, 91, None], dtype="Int64"),
+        "IsCompleteSeason": pd.array([True, True, False, False, True, None], dtype="boolean"),
+        "DP_Rate30": [999] * 6,
+    })
+
+
+def test_season_year_orientation_winter_and_default_cohort(seasonal_table, tmp_path) -> None:
+    """Label winter by its ending year and retain excluded seasons as missing cells.
+
+    Args:
+        seasonal_table: Fixture with complete, partial, and unknown seasons.
+        tmp_path: Destination for visual inspection output.
+    """
+    original = seasonal_table.copy(deep=True)
+    factory = ChartFactory()
+    figure = factory.seasonal_year_heatmap(seasonal_table)
+    before, during = figure.axes[:2]
+    assert [v.get_text() for v in before.get_yticklabels()] == ["Winter", "Spring", "Summer", "Fall"]
+    assert [v.get_text() for v in before.get_xticklabels()] == ["2023", "2024"]
+    assert before.images[0].get_array()[0, 0] == 90
+    assert before.images[0].get_array()[0, 1] == 182
+    assert np.ma.getmaskarray(before.images[0].get_array())[2, 1]
+    assert during.images[0].get_array()[3, 0] == 0
+    assert np.ma.getmaskarray(during.images[0].get_array())[1, 0]
+    pd.testing.assert_frame_equal(seasonal_table, original)
+    factory.save(figure, tmp_path / "season_year.png")
+
+
+def test_season_period_pools_exposure_and_flags_partial(seasonal_table, tmp_path) -> None:
+    """Use pooled exposure rather than averaging rates or mixing policy fragments.
+
+    Args:
+        seasonal_table: Unequal winter exposure fixture.
+        tmp_path: Destination for visual inspection output.
+    """
+    factory = ChartFactory()
+    figure = factory.seasonal_period_heatmap(seasonal_table)
+    values = figure.axes[0].images[0].get_array()
+    assert values[0, 0] == pytest.approx(272 / 181 * 30)
+    assert np.ma.getmaskarray(values)[2, :].all()
+    included = factory.seasonal_period_heatmap(seasonal_table, include_partial=True)
+    values = included.axes[0].images[0].get_array()
+    assert values[2, 0] == 15
+    assert values[2, 1] == 15
+    assert np.ma.getmaskarray(values)[1, 1]
+    assert "15.0*" in [text.get_text() for text in included.axes[0].texts]
+    factory.save(included, tmp_path / "season_period.png")
+    year = factory.seasonal_year_heatmap(seasonal_table, metric="DP_Rate30", include_partial=True)
+    assert year.axes[0].images[0].get_array()[0, 1] == 60
+
+
+@pytest.mark.parametrize("exposure", [None, 0])
+def test_season_rate_missing_exposure_is_not_zero(seasonal_table, exposure) -> None:
+    """Keep the whole pooled rate unknown when contributing exposure is unusable.
+
+    Args:
+        seasonal_table: Seasonal summary fixture.
+        exposure: Missing or zero exposure for an eligible winter.
+    """
+    seasonal_table.loc[0, "ExposureDays"] = exposure
+    figure = ChartFactory().seasonal_period_heatmap(seasonal_table)
+    assert np.ma.getmaskarray(figure.axes[0].images[0].get_array())[0, 0]
+
+
+@pytest.mark.parametrize("method", ["seasonal_year_heatmap", "seasonal_period_heatmap"])
+def test_seasonal_heatmap_empty_and_invalid_inputs(seasonal_table, method) -> None:
+    """Reject ambiguous seasonal identity and invalid count contracts.
+
+    Args:
+        seasonal_table: Valid seasonal summary to modify independently.
+        method: Seasonal chart API under test.
+    """
+    render = getattr(ChartFactory(), method)
+    assert not render(seasonal_table.iloc[:0]).axes[0].images
+    with pytest.raises(ValueError, match="once"):
+        render(pd.concat([seasonal_table, seasonal_table.iloc[:1]]))
+    for field, value in [("Season", "Autumn"), ("SeasonStartDate", "2024-01-01"),
+                         ("PermitCount", -1), ("ExposureDays", -1), ("IsCompleteSeason", "True")]:
+        invalid = seasonal_table.copy()
+        invalid[field] = value
+        with pytest.raises((ValueError, TypeError)):
+            render(invalid)
+    with pytest.raises(TypeError):
+        render(seasonal_table, include_partial="yes")

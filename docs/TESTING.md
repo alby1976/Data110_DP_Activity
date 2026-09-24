@@ -8,23 +8,27 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/heatmap-full` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 24, 2026, `python -m pytest -q --basetemp=.pytest_cache/season-heatmaps-full` with the configured Python 3.13.14 environment reports:
 
 ```text
-512 passed
+518 passed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
 
 Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
 
-No scaffold-related expected failures remain. Chart creation and saving have 34
+No scaffold-related expected failures remain. Chart creation and saving have 40
 passing tests, including real PNG/SVG/PDF rendering, missing-month gaps, explicit
 boundary annotations, partial/unknown exposure markers, empty data, input
 preservation, and invalid values. A rendered fixture was also visually inspected.
 Heatmap tests additionally verify separate boundary-month fragments, a shared
 color scale, missing-versus-zero cells, partial/unknown labels, empty and all-zero
 data, and real PNG/SVG/PDF output. A rendered heatmap fixture was visually checked.
+Seasonal heatmap tests verify the agreed row/column orientation, winter ending-year
+labels, complete-season defaults, marked partial-season inclusion, missing exposure,
+and pooled policy-period rates from unequal exposures. All three heatmap layouts
+were visually inspected using synthetic fixtures.
 Matplotlib 3.10.8 emits 143 NumPy 2.5.3 deprecation warnings from its date conversion
 code in this environment; these are upstream warnings, not test failures.
 
