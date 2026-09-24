@@ -13,3 +13,15 @@ Pattern Rationale:
 Typical Usage:
     Import and use these components during the permit-classification stage.
 """
+
+from .classifier import PermitClassifier
+from .rule import ClassificationRule, InvalidRuleError, MatchType
+from .rule_loader import RuleLoader
+
+__all__ = [
+    "ClassificationRule",
+    "InvalidRuleError",
+    "MatchType",
+    "PermitClassifier",
+    "RuleLoader",
+]

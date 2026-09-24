@@ -25,12 +25,16 @@ from .file_format_adapter import (
     SocrataFileWriter,
 )
 
+from .socrata_adapter import DownloadMetadata, SocrataAdapter
+
 __all__ = [
     "CsvFileAdapter",
+    "DownloadMetadata",
     "FileFormatAdapter",
     "JsonGeoFileAdapter",
     "JsonFileAdapter",
     "ParquetFileAdapter",
     "ReflectiveFileAdapterFactory",
+    "SocrataAdapter",
     "SocrataFileWriter",
 ]

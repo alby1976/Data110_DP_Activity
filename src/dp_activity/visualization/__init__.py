@@ -14,3 +14,9 @@ Typical Usage:
     Build charts from finalized analysis tables and save the resulting figures
     explicitly.
 """
+
+from .chart_factory import ChartFactory
+
+__all__ = [
+    "ChartFactory",
+]

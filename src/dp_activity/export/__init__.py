@@ -13,3 +13,9 @@ Pattern Rationale:
 Typical Usage:
     Use these components after validation to prepare stable downstream reporting files.
 """
+
+from .powerbi_exporter import PowerBIExporter
+
+__all__ = [
+    "PowerBIExporter",
+]

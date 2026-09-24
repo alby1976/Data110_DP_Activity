@@ -14,3 +14,10 @@ Typical Usage:
     Construct the pipeline with concrete collaborators and run it for one immutable
     snapshot.
 """
+
+from .analysis_pipeline import AnalysisPipeline, PipelineResult
+
+__all__ = [
+    "AnalysisPipeline",
+    "PipelineResult",
+]

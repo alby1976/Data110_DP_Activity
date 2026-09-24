@@ -14,3 +14,9 @@ Typical Usage:
     Apply these components to a raw snapshot before classification and feature
     derivation.
 """
+
+from .permit_cleaner import PermitCleaner
+
+__all__ = [
+    "PermitCleaner",
+]

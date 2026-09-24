@@ -14,3 +14,9 @@ Typical Usage:
     Run these components against source records before finalizing cleaning and
     classification rules.
 """
+
+from .data_profiler import DataProfiler
+
+__all__ = [
+    "DataProfiler",
+]
