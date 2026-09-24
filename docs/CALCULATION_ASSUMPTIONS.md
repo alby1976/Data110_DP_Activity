@@ -135,11 +135,20 @@ described as completed safeguards:
   sensitivity comparisons (the named-scenario runner is implemented);
 - a policy for stopping the pipeline on fatal validation reports; collecting a
   report currently does not itself halt execution;
-- full run provenance, full pipeline smoke testing, and Python/Power BI
+- full run provenance, final study-data acceptance testing, and Python/Power BI
   reconciliation;
 - CLI integration of the implemented chart factory with explicit policy boundaries;
 - independent classification review and investigation of missing, duplicate, or
   geographically ambiguous source records before accepting final findings.
+
+The offline CLI table workflow now passes smoke tests with seven frozen synthetic
+records and real collaborators in CSV, JSON, and Parquet. Tests verify boundaries,
+residential denominators, missing-month zeros, cutoff censoring, exposure rates,
+validator exports, log archiving, and repeatable overwrite behavior. A separate
+duplicate-identifier case confirms that validation failures currently still allow
+export. This is integration evidence, not validation of source data or study
+findings; manifest reconciliation, charts, and configured sensitivity checks are
+not covered as completed CLI outputs.
 
 When an assumption changes, update this document, the corresponding methodology
 and field definitions, and behavior tests. Record the configuration and source

@@ -178,7 +178,19 @@ python -m dp_activity.cli --settings config/settings.yaml download
 
 The installed `dp-activity` command accepts the same arguments. Downloads require network access and write timestamped, immutable snapshots plus metadata sidecars to `data/raw`. The optional token is read from `config/dp.env`, using the name `SOCRATA_APP_TOKEN`; a missing file is allowed. See [Configuration](docs/CONFIGURATION.md) for filtering, credentials, and storage details.
 
-The `run` command accepts a raw snapshot path, but it cannot yet produce a complete analysis: analysis strategies and the Power BI exporter still raise `NotImplementedError`. The CLI reports these as errors and returns exit code 1. Profiling is available through `DataProfiler.profile()`; there is no `profile` or `analyse` CLI command.
+The `run` command executes the table pipeline from a frozen raw snapshot:
+
+```bash
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/SNAPSHOT.csv
+```
+
+It uses the snapshot sidecar's UTC retrieval date, or an explicit
+`--observation-end YYYY-MM-DD` override. Offline smoke tests exercise the real
+pipeline with synthetic records and CSV, JSON, and Parquet exports. This does not
+establish final study validity: failed validation reports still allow export,
+sensitivity scenarios remain unconfigured, and full provenance and automatic
+charts remain pending. Profiling is available through `DataProfiler.profile()`;
+there is no `profile` or `analyse` CLI command.
 
 ## Running the tests
 
@@ -207,7 +219,7 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 24, 2026 baseline is **518 passed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 24, 2026 baseline is **522 passed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
@@ -252,9 +264,9 @@ The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITI
 
 ## Project status
 
-**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Power BI table export is implemented; chart creation and saving are implemented as an explicit Python API. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
+**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Power BI table export is implemented; chart creation and saving are implemented as an explicit Python API. Pipeline unit tests use injected collaborators; offline CLI smoke tests also exercise real collaborators with synthetic data. These do not establish final real-data findings. Classification review against source data, Power BI development, and result writing remain outstanding.
 
-The next verification target is a frozen-fixture CLI smoke test. Study-specific
+The frozen-fixture CLI smoke test passes. Study-specific
 sensitivity scenarios, chart workflow integration, and full run provenance remain
 unfinished. The validators return reports without
 changing records; failed report statuses do not yet stop the pipeline. See the

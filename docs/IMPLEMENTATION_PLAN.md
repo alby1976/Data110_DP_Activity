@@ -4,7 +4,7 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `518 passed`, with no unexpected failures; see
+baseline is `522 passed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
@@ -15,7 +15,8 @@ sensitivity runner are implemented. Power BI table export is implemented; charts
 are implemented as a Python API, with CLI integration pending. The timeline and
 sprint tables below retain the original delivery plan; they are planning checklists,
 not a record that every listed implementation step is still outstanding. A complete
-run with real collaborators remains blocked by the unfinished stages.
+table run with real collaborators now passes the frozen synthetic CLI smoke test.
+Final study execution still needs the integration and validation policies below.
 
 The plan prioritizes the executable Python pipeline first, then validation, analysis
 outputs, Power BI readiness, and final reproducibility checks. The final deadline is
@@ -41,15 +42,17 @@ Remaining Python work, in implementation order:
    naming/formats are implemented; manifest persistence exists separately.
 3. Integrate the implemented chart factory into the reporting workflow with
    configured policy boundaries and chart destinations; the CLI does not call it yet.
-4. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
-   real collaborators, including output formats and validation handling.
+4. Extend the passing frozen-fixture CLI smoke test as provenance, chart output,
+   and fatal-validation policy are integrated. CSV/JSON/Parquet tables, log
+   archiving, repeated-run overwrite behavior, and collect-only validation are verified.
 
 Rezoning analysis is complete: period counts and shares use all residential permits
 as the denominator, with unknown relevance, overlapping review audits, and optional
 rule/type/district breakdowns. The sensitivity runner and 20 focused tests are
 complete. The exporter has 17 passing tests and the chart factory has 40.
-No scaffold XFAILs remain. The next verification target is a frozen-fixture CLI
-smoke test; study-specific sensitivity definitions remain integration work.
+No scaffold XFAILs remain. Four offline CLI smoke cases now pass with real
+collaborators and frozen synthetic data; study-specific sensitivity definitions
+remain integration work.
 All three feature filters are pure,
 input-preserving transformations with boundary and invalid-input tests. The CLI
 binds configured period boundaries, season display labels, processing date fields,
@@ -333,7 +336,7 @@ sanity checks that will later be converted into source code, tests, or documente
 - [ ] Full test suite has no unexpected failures.
 - [ ] Scaffold-related `XFAIL` results are resolved or explicitly documented as out of
   scope.
-- [ ] CLI smoke test runs from a frozen snapshot.
+- [x] CLI table smoke test runs from a frozen synthetic snapshot.
 - [ ] Generated outputs match configured storage formats.
 - [ ] Pipeline log is archived for the final run.
 - [ ] Manifest records snapshot, config, rule file, checksums, and output paths.

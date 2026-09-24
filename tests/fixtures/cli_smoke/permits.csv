@@ -1,0 +1,8 @@
+permitnum,applieddate,decisiondate,category,description,proposedusecode,proposedusedescription,landusedistrict,communityname,ward,latitude,longitude
+SYN-B1,2023-01-15,2023-01-25,Residential - Multi-Family,Synthetic rowhouse,TEST,ROWHOUSE BUILDING,R-CG,ALPHA,1,51.05,-114.07
+SYN-B2,2024-08-05,2024-08-15,Residential - New Single / Semi / Duplex,Synthetic dwelling,TEST,SEMI-DETACHED DWELLING,R-CG,ALPHA,1,51.05,-114.07
+SYN-D1,2024-08-06,2024-08-16,Residential - Multi-Family,Synthetic rowhouse,TEST,ROWHOUSE BUILDING,R-CG,BETA,2,51.06,-114.08
+SYN-D2,2026-08-03,,Residential - Multi-Family,Synthetic dwelling,TEST,TOWNHOUSE,R-CG,BETA,2,51.06,-114.08
+SYN-P1,2026-08-04,2026-10-01,Residential - New Single / Semi / Duplex,Synthetic dwelling,TEST,DUPLEX DWELLING,R-CG,ALPHA,1,51.05,-114.07
+SYN-P2,2026-09-01,2026-09-03,Residential - Multi-Family,Synthetic rowhouse,TEST,ROWHOUSE BUILDING,R-CG,,,,
+SYN-X1,2026-09-02,2026-09-04,Synthetic Other,Synthetic unknown,TEST,UNSPECIFIED,C-COR,BETA,2,51.06,-114.08

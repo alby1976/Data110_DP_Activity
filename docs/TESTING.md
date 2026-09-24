@@ -8,15 +8,15 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 24, 2026, `python -m pytest -q --basetemp=.pytest_cache/season-heatmaps-full` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 24, 2026, `python -m pytest -q --basetemp=.pytest_cache/cli-smoke-full` with the configured Python 3.13.14 environment reports:
 
 ```text
-518 passed
+522 passed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
 
-Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
+Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. Offline CLI smoke tests additionally verify the complete table workflow with real collaborators and frozen synthetic data, not production-data validity.
 
 No scaffold-related expected failures remain. Chart creation and saving have 40
 passing tests, including real PNG/SVG/PDF rendering, missing-month gaps, explicit
@@ -44,7 +44,7 @@ They cover calendar boundaries, cross-year/leap-year seasons, partial exposure,
 explicit observation horizons, signed durations, invalid evidence, nullable
 outputs, and input preservation. CLI tests check configured dependency wiring.
 
-The next verification target is a frozen-fixture end-to-end CLI smoke test.
+Four frozen-fixture CLI smoke cases now pass with real pipeline collaborators.
 Study-specific sensitivity scenarios, run provenance, fatal-validation policy,
 and CLI chart generation remain integration work despite the passing unit suite.
 
@@ -192,7 +192,21 @@ Before submission, Python headline totals must be compared with the correspondin
 
 ### End-to-end smoke test
 
-A final smoke test should run the pipeline from a named frozen snapshot and configuration version through generated outputs in every configured format. It must verify that expected files exist, contain required columns, respect overwrite settings, preserve or archive the active pipeline log as configured, and agree with manifest counts.
+Run `python -m pytest tests/test_cli_smoke.py -q`. The versioned synthetic fixture
+is documented in [tests/fixtures/cli_smoke/README.md](../tests/fixtures/cli_smoke/README.md).
+Tests copy settings, committed classification rules, and the snapshot into isolated
+temporary directories, prohibit network connections, and invoke `cli.main` with
+real repositories, cleaning, classification, features, validators, analyses, and
+exporter. CSV, JSON, and Parquet cases verify policy boundaries, totals, zero
+months, rates, censoring, audit reports, log archiving, and repeat-run overwrite
+behavior. Parquet is skipped only if its optional engine is unavailable.
+
+A fourth case confirms current collect-only validation: duplicate identifiers
+produce a failure report but do not prevent export or CLI success. This limitation
+must remain visible until a fatal-validation policy is implemented. The tests
+exercise CLI dispatch in-process; they do not validate shell installation,
+production data, chart generation, sensitivity policy, Power BI measures, or run
+manifest contents. Extend them as those integration stages are added.
 
 ## Test-data rules
 
