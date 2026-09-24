@@ -8,10 +8,10 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/rezoning-full` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/cutoff-full` with the configured Python 3.13.14 environment reports:
 
 ```text
-430 passed, 3 xfailed
+441 passed, 3 xfailed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
@@ -40,6 +40,12 @@ not an exhaustive count of remaining integration tasks.
 Geography tests cover community and ward counts, zero and small baselines, missing geography denominators, contextual periods, empty inputs, invalid schemas/configuration, and input preservation. CLI tests verify configured study labels and cleaner field names. An isolated temporary directory avoids a permissions error in the shared pytest temporary-folder cleanup.
 
 ## Installation and commands
+
+CLI cutoff tests cover UTC date conversion, explicit overrides, missing and
+malformed metadata, invalid dates, and dependency wiring. A real feature/analysis
+integration test verifies that the frozen cutoff censors later decisions and
+gives matching partial-season/month exposure and DP_Rate30 values. This bypasses
+the unfinished exporter and does not establish a complete pipeline smoke test.
 
 DP_Rate30 checks cover a single inclusive day, leap-year month exposure, partial
 months and seasons, residential-only counts, zero activity, unknown exposure,

@@ -276,8 +276,8 @@ containing the record, not the union of adjacent periods. An optional explicit
 `observation_end` caps observed exposure. Without an upper bound, completeness
 is unknown unless the season already starts before its policy window, proving
 it partial. Dates outside supplied windows, beyond the observation end, or with
-no supplied windows have unknown completeness. The CLI does not yet supply a
-snapshot observation end, so open-ended periods retain this uncertainty.
+no supplied windows have unknown completeness. The CLI supplies the UTC retrieval
+date from snapshot metadata or an explicit `--observation-end` override.
 
 | Season | Applied month | Season start |
 |---|---|---|
@@ -372,7 +372,7 @@ This rate is distinct from the complete-month-only mean.
 Without configured windows, only observed seasons are summarized, exposure days
 remain unknown, and missing zero-activity seasons are not inferred. Configured
 open windows require an explicit observation cutoff. The CLI supplies windows,
-season labels/months, and the application field, but cutoff wiring remains pending
+season labels/months, the application field, and a shared snapshot cutoff
 for volume, seasonal, and feature stages. Contradictory completeness flags or
 season identities raise errors rather than entering headline summaries.
 
@@ -460,7 +460,7 @@ known inclusive snapshot horizon and exclude applications after that horizon.
 nonnegative observed interval or, for censored records, exposure to the supplied
 horizon. Signed source durations are retained even when excluded by that horizon.
 
-The CLI does not yet supply an observation horizon. Without one, missing
+The CLI supplies a reproducible observation horizon. For direct callers without one, missing
 decisions are provisionally flagged `IsRightCensored`, but their follow-up is
 unknown. No current date or latest-record date is inferred. Minimum-follow-up
 eligibility (`HasMinimumFollowUp`) remains a planned analytical policy and is

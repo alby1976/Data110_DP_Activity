@@ -4,7 +4,7 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `430 passed, 3 xfailed`, with no unexpected failures; see
+baseline is `441 passed, 3 xfailed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
@@ -48,8 +48,9 @@ rule/type/district breakdowns. Start next with `analysis/sensitivity_analysis.py
 All three feature filters are pure,
 input-preserving transformations with boundary and invalid-input tests. The CLI
 binds configured period boundaries, season display labels, processing date fields,
-and minimum processing days. Passing an explicit snapshot observation horizon
-to the season and processing filters remains integration work. Pending flags are
+and minimum processing days. The CLI now resolves the snapshot retrieval date in
+UTC (or an explicit `--observation-end` override) and passes the same cutoff to
+season/processing features and volume/seasonal analyses. Pending flags are
 analytical proxies, and minimum-follow-up eligibility remains a planned policy.
 The exploratory notebook now executes all three feature filters before validation, using the snapshot retrieval date in UTC as its observation horizon.
 

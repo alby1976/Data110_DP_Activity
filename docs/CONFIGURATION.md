@@ -114,8 +114,17 @@ analysis outputs rather than immutable raw snapshots.
 
 The CLI supplies configured study windows, season labels and ordered month lists,
 and `analysis.primary_date_field` to `SeasonalAnalysis`. Direct callers may supply
-an explicit `observation_end`; open-ended windows require it. The CLI does not yet
-wire snapshot observation cutoffs. Without configured windows, the strategy
+an explicit `observation_end`; open-ended windows require it. The CLI reads
+`retrieved_at_utc` from `<snapshot extension>.metadata.json` beside the snapshot
+and converts its timezone-aware timestamp to a UTC calendar date. For example,
+`frozen.csv` uses `frozen.csv.metadata.json`. The `run` option
+`--observation-end YYYY-MM-DD` overrides metadata, including missing or invalid
+sidecars. Without either source, command assembly fails with an actionable error.
+The cutoff is inclusive and shared by season/processing features and
+volume/seasonal analyses. Configured windows beginning after the cutoff are
+still rejected by analyses; select study windows appropriate to snapshot coverage.
+This does not verify publication completeness or sidecar checksums.
+Without configured windows, the strategy
 summarizes observed seasons only and cannot establish zero-activity exposure.
 `outputs.seasonal_summary` names the full season table. Naming and persistence
 for complete/partial/unknown partitions and supporting month tables remain

@@ -26,6 +26,7 @@ Note:
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
@@ -155,6 +156,10 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Path to the immutable raw snapshot to analyze.",
     )
+    run_parser.add_argument(
+        "--observation-end", type=date.fromisoformat,
+        help="Inclusive observation date (YYYY-MM-DD); overrides snapshot retrieval metadata.",
+    )
 
     return parser
 
@@ -235,19 +240,67 @@ def _download_where(config: ProjectConfig) -> str:
     return " OR ".join(intervals)
 
 
-def build_run_command(config: ProjectConfig, snapshot_path: Path) -> RunPipelineCommand:
+def build_run_command(
+    config: ProjectConfig, snapshot_path: Path, *, observation_end: date | None = None,
+) -> RunPipelineCommand:
     """Assemble concrete dependencies for the run workflow.
 
     Args:
         config: Validated project configuration.
         snapshot_path: Raw snapshot path supplied by the user.
+        observation_end: Explicit inclusive cutoff, overriding retrieval metadata.
 
     Returns:
         A command object wired to the configured pipeline. Assembly does not
         establish that every stage is implemented or that execution will succeed.
+
+    Raises:
+        ValueError: No usable retrieval timestamp or explicit cutoff is supplied.
+        TypeError: The explicit cutoff is not a calendar date.
     """
-    pipeline = _build_pipeline(config)
+    cutoff = _snapshot_observation_end(snapshot_path, observation_end)
+    pipeline = _build_pipeline(config, observation_end=cutoff)
     return RunPipelineCommand(pipeline=pipeline, snapshot_path=snapshot_path)
+
+
+def _snapshot_observation_end(snapshot_path: Path, explicit: date | None) -> date:
+    """Resolve a reproducible observation horizon without inspecting record dates.
+
+    Args:
+        snapshot_path: Snapshot whose adjacent metadata sidecar describes retrieval.
+        explicit: Caller-selected inclusive date, taking precedence over metadata.
+
+    Returns:
+        Explicit date or the UTC calendar date of retrieved_at_utc.
+
+    Raises:
+        TypeError: An explicit cutoff is not a date (datetimes are not accepted).
+        ValueError: The sidecar or its timezone-aware retrieval timestamp is missing
+            or malformed, with no explicit cutoff to use instead.
+
+    Note:
+        Retrieval time is a coverage convention, not proof of source completeness.
+        Neither file modification time nor the latest application date is used.
+    """
+    if explicit is not None:
+        if type(explicit) is not date:
+            raise TypeError("observation_end must be a calendar date.")
+        return explicit
+    sidecar = snapshot_path.with_suffix(f"{snapshot_path.suffix}.metadata.json")
+    try:
+        metadata = json.loads(sidecar.read_text(encoding="utf-8"))
+        timestamp = metadata.get("retrieved_at_utc") if isinstance(metadata, dict) else None
+        if not isinstance(timestamp, str):
+            raise ValueError("Missing retrieval timestamp.")
+        retrieved = datetime.fromisoformat(timestamp)
+        if retrieved.tzinfo is None or retrieved.utcoffset() is None:
+            raise ValueError("Retrieval timestamp must include a timezone.")
+        return retrieved.astimezone(timezone.utc).date()
+    except (OSError, ValueError) as exc:
+        raise ValueError(
+            f"Cannot resolve observation cutoff from {sidecar}; "
+            "supply --observation-end YYYY-MM-DD or valid retrieved_at_utc metadata."
+        ) from exc
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -289,7 +342,11 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print("error: the run command requires snapshot_path", file=sys.stderr)
                 return 2
             _archive_existing_log(config.log_archive)
-            command = build_run_command(config, arguments.snapshot_path)
+            cutoff_options = (
+                {"observation_end": arguments.observation_end}
+                if arguments.observation_end is not None else {}
+            )
+            command = build_run_command(config, arguments.snapshot_path, **cutoff_options)
             result = command.execute()
             _print_run_summary(result)
             return 0
@@ -308,11 +365,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 1
 
 
-def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
+def _build_pipeline(
+    config: ProjectConfig, *, observation_end: date | None = None,
+) -> AnalysisPipeline:
     """Construct the concrete pipeline graph at the application boundary.
 
     Args:
         config: Validated project configuration.
+        observation_end: Inclusive snapshot horizon shared by features and analyses.
 
     Returns:
         A fully assembled analysis-pipeline facade.
@@ -361,6 +421,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
                 if isinstance(value, dict) and "months" in value
             },
             analysis_windows=list(config.periods),
+            observation_end=observation_end,
         ),
         partial(
             add_processing_features,
@@ -373,6 +434,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
                 "decision_date",
             ),
             minimum_days=analysis_settings.get("processing_time", {}).get("minimum_days", 0),
+            observation_end=observation_end,
         ),
     ]
     validators = [
@@ -387,6 +449,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
         VolumeAnalysis(
             periods=list(config.periods),
             date_column=analysis_settings.get("primary_date_field", "applied_date"),
+            observation_end=observation_end,
         ),
         TypeAnalysis(period_order=[period.name for period in config.periods]),
         GeographyAnalysis(
@@ -403,6 +466,7 @@ def _build_pipeline(config: ProjectConfig) -> AnalysisPipeline:
         SeasonalAnalysis(
             periods=list(config.periods),
             date_column=analysis_settings.get("primary_date_field", "applied_date"),
+            observation_end=observation_end,
             season_months={
                 value.get("label", key): value["months"]
                 for key, value in seasons_settings.items()

@@ -29,7 +29,7 @@ are expanded in [Biases and Mitigation](BIAS_AND_MITIGATION.md).
 | Calculations use source calendar dates, preserving the local date written in an ISO timestamp. | Avoids time-of-day and timezone conversion changing period membership. | These are calendar-day calculations, not elapsed-hour measurements. |
 | Exposure includes every calendar day in the observed window, including weekends, holidays, and days with no applications. | Provides a simple, consistent denominator. | Rates are not permits per business day or per day the permitting office was open. |
 | Configured exposure is treated as covered by the supplied snapshot. | Allows zero-activity months and seasons to be generated independently of observed records. | A zero means no included record in that interval; it is not evidence that the source had no publication gap. Snapshot coverage must be checked separately. |
-| Open-ended windows need an explicit observation cutoff. | Prevents treating the last application date or today's date as evidence of coverage. | Volume and seasonal analysis reject open windows without a cutoff. CLI cutoff wiring remains unfinished. |
+| Open-ended windows need an explicit observation cutoff. | Prevents treating the last application date or today's date as evidence of coverage. | The CLI uses the UTC retrieval date from the snapshot sidecar, or an explicit `--observation-end YYYY-MM-DD` override, for season/processing features and volume/seasonal analyses. Missing or invalid metadata requires the override. Retrieval is a coverage convention, not proof of publication completeness. |
 | Exploratory analysis without configured windows does not establish full exposure. | Allows inspection without inventing observation boundaries. | Exposure-based rates remain null. Observed seasons cannot establish unobserved zero-activity seasons. |
 
 ## 3. The standardized 30-day rate
@@ -111,8 +111,6 @@ not a substitute for a causal model or a sensitivity analysis.
 The following remain outstanding in the current checkout and must not be
 described as completed safeguards:
 
-- wiring a frozen snapshot's observation cutoff through the CLI analyses and
-  feature stages;
 - minimum-follow-up eligibility and sensitivity comparisons;
 - a policy for stopping the pipeline on fatal validation reports; collecting a
   report currently does not itself halt execution;

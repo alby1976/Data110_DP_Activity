@@ -14,10 +14,11 @@ Typical Usage:
     deterministic inputs.
 """
 
-from datetime import datetime
+from datetime import date, datetime
 import hashlib
 import json
 
+import pandas as pd
 import pytest
 import yaml
 
@@ -302,7 +303,8 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     monkeypatch.setattr(cli, "RuleLoader", StubRuleLoader)
     monkeypatch.setattr(cli, "AnalysisPipeline", CapturingPipeline)
 
-    pipeline = cli._build_pipeline(config)
+    cutoff = date(2026, 9, 22)
+    pipeline = cli._build_pipeline(config, observation_end=cutoff)
 
     source_repository = pipeline.dependencies["source_repository"]
     exporter = pipeline.dependencies["exporter"]
@@ -317,6 +319,13 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     seasonal = next(analysis for analysis in pipeline.dependencies["analyses"]
                     if isinstance(analysis, cli.SeasonalAnalysis))
     assert seasonal.periods == list(config.periods)
+    assert seasonal.observation_end == cutoff
+    assert seasonal.volume.observation_end == cutoff
+    volume = next(analysis for analysis in pipeline.dependencies["analyses"]
+                  if isinstance(analysis, cli.VolumeAnalysis))
+    assert volume.observation_end == cutoff
+    assert pipeline.dependencies["feature_builders"][1].keywords["observation_end"] == cutoff
+    assert pipeline.dependencies["feature_builders"][2].keywords["observation_end"] == cutoff
     assert seasonal.date_column == settings["analysis"]["primary_date_field"]
     assert seasonal.season_months == {value.get("label", key): value["months"]
                                      for key, value in settings["seasons"].items()}
@@ -332,3 +341,108 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     assert exporter.include_timestamp is True
     assert pipeline.dependencies["feature_builders"][2].keywords["minimum_days"] == settings["analysis"]["processing_time"]["minimum_days"]
     assert exporter.timestamp_format == "%Y%m%dT%H%M%SZ"
+
+
+@pytest.mark.parametrize("timestamp,expected", [
+    ("2026-09-22T12:30:00Z", date(2026, 9, 22)),
+    ("2026-09-22T23:30:00-06:00", date(2026, 9, 23)),
+])
+def test_snapshot_cutoff_uses_utc_retrieval_date(tmp_path, timestamp, expected) -> None:
+    """Use retrieval metadata consistently even when its offset crosses midnight.
+
+    Args:
+        tmp_path: Isolated snapshot directory.
+        timestamp: Timezone-aware metadata timestamp.
+        expected: Corresponding UTC calendar date.
+    """
+    snapshot = tmp_path / "frozen.csv"
+    snapshot.with_suffix(".csv.metadata.json").write_text(
+        json.dumps({"retrieved_at_utc": timestamp}), encoding="utf-8",
+    )
+    assert cli._snapshot_observation_end(snapshot, None) == expected
+
+
+@pytest.mark.parametrize("metadata", [None, "{", "[]", "{}",
+    '{"retrieved_at_utc": 123}', '{"retrieved_at_utc": "2026-09-22"}',
+    '{"retrieved_at_utc": "bad"}'])
+def test_missing_or_invalid_cutoff_requires_explicit_date(tmp_path, metadata) -> None:
+    """Reject unknown horizons rather than substituting wall-clock time.
+
+    Args:
+        tmp_path: Isolated snapshot directory.
+        metadata: Missing or invalid sidecar content.
+    """
+    snapshot = tmp_path / "frozen.csv"
+    if metadata is not None:
+        snapshot.with_suffix(".csv.metadata.json").write_text(metadata, encoding="utf-8")
+    with pytest.raises(ValueError, match="--observation-end"):
+        cli._snapshot_observation_end(snapshot, None)
+    assert cli._snapshot_observation_end(snapshot, date(2026, 9, 21)) == date(2026, 9, 21)
+
+
+def test_explicit_cutoff_validation_and_cli_dispatch(monkeypatch, tmp_path) -> None:
+    """Pass a validated CLI date through command construction.
+
+    Args:
+        monkeypatch: Replaces execution with a capture of the requested date.
+        tmp_path: Isolated path for cutoff validation.
+    """
+    with pytest.raises(TypeError, match="calendar date"):
+        cli._snapshot_observation_end(tmp_path / "x.csv", datetime(2026, 9, 22))
+    assert cli.main(["run", "x.csv", "--observation-end", "2026-02-30"]) == 2
+    received = {}
+
+    def capture(config, snapshot_path, *, observation_end):
+        """Record the cutoff before interrupting unfinished downstream execution.
+
+        Args:
+            config: Loaded project settings.
+            snapshot_path: Selected immutable snapshot.
+            observation_end: Parsed inclusive cutoff.
+
+        Raises:
+            ValueError: Stops this dispatch-only test after capture.
+        """
+        received["cutoff"] = observation_end
+        raise ValueError("captured")
+
+    monkeypatch.setattr(cli, "build_run_command", capture)
+    monkeypatch.setattr(cli, "_archive_existing_log", lambda config: None)
+    assert cli.main(["run", "x.csv", "--observation-end", "2026-09-22"]) == 1
+    assert received["cutoff"] == date(2026, 9, 22)
+
+
+def test_snapshot_horizon_controls_real_features_and_rates(tmp_path) -> None:
+    """Apply one frozen horizon to season exposure and processing censoring.
+
+    Args:
+        tmp_path: Directory holding synthetic retrieval metadata.
+    """
+    snapshot = tmp_path / "frozen.csv"
+    snapshot.with_suffix(".csv.metadata.json").write_text(
+        json.dumps({"retrieved_at_utc": "2026-09-22T12:00:00Z"}), encoding="utf-8",
+    )
+    command = cli.build_run_command(cli.load_config(cli.DEFAULT_SETTINGS_PATH), snapshot)
+    frame = pd.DataFrame({
+        "applied_date": ["2026-09-01"], "decision_date": ["2026-10-01"],
+        "IncludeResidential": [True],
+    })
+    for builder in command.pipeline.feature_builders:
+        frame = builder(frame)
+    assert bool(frame.iloc[0]["IsRightCensored"])
+    assert not bool(frame.iloc[0]["HasValidProcessingDays"])
+    assert not bool(frame.iloc[0]["IsCompleteSeason"])
+    volume = next(a for a in command.pipeline.analyses if isinstance(a, cli.VolumeAnalysis))
+    monthly = volume.run(frame)["monthly_volume"]
+    september = monthly.loc[monthly["YearMonth"].eq(pd.Timestamp("2026-09-01"))].iloc[0]
+    assert september["ExposureDays"] == 22
+    assert september["DP_Rate30"] == pytest.approx(30 / 22)
+    seasonal = next(a for a in command.pipeline.analyses if isinstance(a, cli.SeasonalAnalysis))
+    fall = seasonal.run(frame)["partial_seasons"]
+    fall = fall.loc[fall["SeasonStartDate"].eq(pd.Timestamp("2026-09-01"))].iloc[0]
+    assert fall["ExposureDays"] == 22
+    assert fall["DP_Rate30"] == pytest.approx(30 / 22)
+    override = cli.build_run_command(
+        cli.load_config(cli.DEFAULT_SETTINGS_PATH), snapshot, observation_end=date(2026, 9, 21),
+    )
+    assert override.pipeline.feature_builders[1].keywords["observation_end"] == date(2026, 9, 21)
