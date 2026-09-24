@@ -118,6 +118,16 @@ caused by rezoning, that applications are independent physical developments, or
 that review flags establish classification accuracy. Exposure normalization is
 not a substitute for a causal model or a sensitivity analysis.
 
+The Power BI exporter now persists clean permits, supplied analysis and validator
+tables, a record-based reconciliation table, and an overlapping Boolean-flag bias
+audit. Reconciliation totals are calculated from permits independently of analysis
+summaries; exporting them does not establish agreement with Power BI. Missing audit
+flags have null counts, and known true counts are reported beside unknown counts.
+The audit covers supplied flags, not every bias or source-quality concern.
+Dates use ISO text and missing values remain missing. Files are atomic individually;
+an I/O failure can leave earlier files from the same export. No complete run
+provenance manifest is assembled yet.
+
 The following remain outstanding in the current checkout and must not be
 described as completed safeguards:
 
@@ -125,7 +135,7 @@ described as completed safeguards:
   sensitivity comparisons (the named-scenario runner is implemented);
 - a policy for stopping the pipeline on fatal validation reports; collecting a
   report currently does not itself halt execution;
-- final exporter integration, full pipeline smoke testing, and Python/Power BI
+- full run provenance, full pipeline smoke testing, and Python/Power BI
   reconciliation;
 - independent classification review and investigation of missing, duplicate, or
   geographically ambiguous source records before accepting final findings.

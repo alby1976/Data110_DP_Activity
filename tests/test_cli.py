@@ -341,6 +341,7 @@ def test_build_pipeline_wires_storage_settings(monkeypatch, tmp_path) -> None:
     assert exporter.include_timestamp is True
     assert pipeline.dependencies["feature_builders"][2].keywords["minimum_days"] == settings["analysis"]["processing_time"]["minimum_days"]
     assert exporter.timestamp_format == "%Y%m%dT%H%M%SZ"
+    assert exporter.output_names == settings["outputs"]
 
 
 @pytest.mark.parametrize("timestamp,expected", [

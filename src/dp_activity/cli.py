@@ -485,6 +485,7 @@ def _build_pipeline(
         base_name=config.output_base_name,
         include_timestamp=config.output_include_timestamp,
         timestamp_format=config.output_timestamp_format,
+        output_names=config.raw.get("outputs", {}),
     )
 
     return AnalysisPipeline(

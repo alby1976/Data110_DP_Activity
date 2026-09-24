@@ -138,7 +138,7 @@ MonthCount, CompleteMonthCount, PartialMonthCount, UnknownMonthCount,
 CompleteMonthPermitCount, and MeanCompleteMonthlyCount. The last mean uses complete
 months only, including configured zero months, and is null when none exist.
 Monthly tables use month-completeness counts instead of a season-completeness flag.
-All tables are in-memory results; file export remains unfinished.
+All tables are returned in memory and can be persisted by the Power BI exporter.
 
 `ProcessingAnalysis` returns `processing_summary` at period grain and
 `processing_period_totals` for denominator auditing. Statistics use only included
@@ -168,7 +168,7 @@ Review and mapping null/blank labels to Unknown. An explicit `community_column`
 enables `processing_community_summary`, preserving null/blank communities as a
 null group. Both contain the summary fields above for observed residential
 period/group combinations only. They do not repeat the all-record denominators.
-These are in-memory outputs; file export remains unfinished.
+These outputs can be persisted by the Power BI exporter.
 
 `GeographyAnalysis` now returns in-memory `community_summary` and `ward_summary`
 at period × location grain. Both contain `PermitCount`, `PeriodResidentialCount`,
@@ -185,7 +185,7 @@ labels are trimmed and represented as text; source records remain unchanged.
 `AllPermitCount`, `PeriodResidentialCount`, `ExcludedCount`,
 `MissingCommunityCount`, and `MissingWardCount`. Missing counts refer to included
 residential records and can overlap. Repeated denominators in summary tables
-must not be summed across locations. File export remains unfinished.
+must not be summed across locations. The Power BI exporter persists these tables.
 
 `TypeAnalysis` returns in-memory `type_summary` (period × included residential
 type) with `PermitCount`, `PeriodResidentialCount`, fractional `TypeShare`,
@@ -217,18 +217,25 @@ units. Final filename mapping and export remain pending.
 | `processing_period_totals` | period | source, residential, excluded, and duration-eligibility counts |
 | `processing_type_summary` | observed period × type | residential processing statistics by type |
 | `processing_community_summary` | observed period × community, opt-in | residential processing statistics by community |
-| `bias_audit` | period × audit category | missingness, exclusions, pending cases, classification review, and valid denominators |
+| `bias_audit` | audit flag, all records | Available, TrueCount, UnknownCount for optional Boolean audit evidence; flags overlap |
 
-These extension-free labels are configured in `config/settings.yaml`. Additional analytical tables,
-such as a future `sensitivity_summary`, should be added to `outputs` before they are
-treated as pipeline products. The configured storage formats may produce CSV, JSON,
-JGeoJSON, Parquet files, or a combination. `storage.output_base_name` controls the
-shared stem used for generated data products when a repository/exporter derives
-filenames from the storage settings.
-The documented naming convention is
-`base_label[_study_period_label][_period][_timestamp][_current_date_time].format`;
-consuming output labels and the additional optional current-date/time component
-remain exporter work. See [Configuration](CONFIGURATION.md) for implementation limits.
+Configured labels override exact logical output names; additional tables, including
+`sensitivity_summary`, use their logical names by default. Processed formats are
+CSV, JSON, or Parquet. Filenames use `base_label[_timestamp].format`.
+See [Configuration](CONFIGURATION.md) for naming and persistence limits.
+
+`reconciliation` has columns `Scope`, `Group`, `Metric`, `PythonValue`. Global
+AllPermitCount, ResidentialCount and ExcludedCount count source records directly.
+Period, YearMonth and ResidentialType scopes count included residential records,
+retaining missing labels as null groups. Optional flag counts use All and
+Residential scopes; scopes overlap and must not be summed together.
+`bias_audit` uses `Flag`, `Available`, `TrueCount`, `UnknownCount`; unavailable
+flags have null counts. TrueCount counts known true values even when other values
+are unknown. Neither table proves source completeness or Power BI agreement.
+Validation outputs use `validation_<validator>` names and retain DataFrame columns
+or fields from SchemaIssue/QualityCheckResult records. Empty report lists have
+the union of those finding columns. Source/analysis columns retain their supplied
+order; dates become ISO text, Booleans remain Boolean, and no index is exported.
 
 ## Configuration files
 

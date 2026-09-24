@@ -4,14 +4,15 @@
 
 This plan defines the work needed to move the project from the current scaffolded
 baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `461 passed, 2 xfailed`, with no unexpected failures; see
+baseline is `478 passed, 1 xfailed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
 all three validators, CLI dispatch, log archiving, and pipeline orchestration are implemented.
 Period, season, and processing feature filters are also implemented.
 Volume, type, geography, processing-time, seasonal, rezoning, and the injected
-sensitivity runner are implemented; charts and Power BI export remain scaffolded. The timeline and
+sensitivity runner are implemented. Power BI table export is implemented; charts
+remain scaffolded. The timeline and
 sprint tables below retain the original delivery plan; they are planning checklists,
 not a record that every listed implementation step is still outstanding. A complete
 run with real collaborators remains blocked by the unfinished stages.
@@ -35,9 +36,9 @@ Remaining Python work, in implementation order:
 
 1. Configure study-specific sensitivity scenarios using the implemented runner;
    the CLI currently supplies an empty scenario mapping.
-2. Implement Power BI exports, validation/bias-audit/reconciliation tables, and
-   configured output naming and formats. Manifest writing exists; assembling
-   complete run provenance and connecting it to final outputs still needs work.
+2. Assemble complete run provenance and connect it to final outputs. Power BI
+   table exports, validation/bias-audit/reconciliation tables, and configured
+   naming/formats are implemented; manifest persistence exists separately.
 3. Implement chart creation and saving; both `ChartFactory.monthly_volume()` and
    `ChartFactory.save()` remain scaffolds.
 4. Complete a frozen-fixture CLI smoke test and verify the entire workflow with
@@ -46,7 +47,8 @@ Remaining Python work, in implementation order:
 Rezoning analysis is complete: period counts and shares use all residential permits
 as the denominator, with unknown relevance, overlapping review audits, and optional
 rule/type/district breakdowns. The sensitivity runner and 20 focused tests are
-complete. The next scaffold test is `tests/export/test_powerbi_exporter.py`;
+complete. The exporter now has 17 passing tests. The next scaffold test is
+`tests/visualization/test_chart_factory.py`;
 study-specific sensitivity definitions remain integration work.
 All three feature filters are pure,
 input-preserving transformations with boundary and invalid-input tests. The CLI

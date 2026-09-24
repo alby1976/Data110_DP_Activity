@@ -69,7 +69,7 @@ Python and Power BI serve different roles while using the same definitions:
 - **Python:** retrieve, profile, clean, classify, validate, summarize, visualize, and export the data.
 - **Power BI:** provide interactive comparisons by period, community, ward, permit type, status, and land-use district.
 
-Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and CSV processed outputs. Processed export remains scaffolded. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
+Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and CSV processed outputs. Processed table export supports CSV, JSON, and Parquet. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
 
 ## Key measures
 
@@ -207,7 +207,7 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 23, 2026 baseline is **461 passed, 2 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 23, 2026 baseline is **478 passed, 1 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
@@ -252,7 +252,7 @@ The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITI
 
 ## Project status
 
-**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Chart generation and Power BI export remain scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
+**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Power BI table export is implemented; chart generation remains scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
 
 The next Python implementation is `analysis/rezoning_analysis.py`, followed by
 sensitivity analysis. The validators return reports without

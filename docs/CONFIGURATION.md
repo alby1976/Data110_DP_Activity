@@ -58,7 +58,7 @@ allow generated outputs to overwrite previous generated files, and request CSV a
 Parquet for raw snapshots and CSV for processed outputs. JSON and JGeoJSON are
 commented out; Parquet is enabled only for raw snapshots. Install the Parquet extra
 with `python -m pip install -e ".[parquet]"`, or use `requirements-dev.txt`, which
-includes it. Processed export remains scaffolded.
+includes it. Processed table export supports CSV, JSON, and Parquet.
 Timestamped output names are disabled by default. When `storage.include_timestamp` is
 `true`, the writer appends the current UTC date/time using
 `storage.timestamp_format` before the file extension. When the caller supplies an
@@ -126,9 +126,8 @@ still rejected by analyses; select study windows appropriate to snapshot coverag
 This does not verify publication completeness or sidecar checksums.
 Without configured windows, the strategy
 summarizes observed seasons only and cannot establish zero-activity exposure.
-`outputs.seasonal_summary` names the full season table. Naming and persistence
-for complete/partial/unknown partitions and supporting month tables remain
-exporter work; no new output settings are implemented by this change.
+`outputs.seasonal_summary` names the full season table. Other returned tables use
+their logical names as filename labels unless overridden in `outputs`.
 
 The CLI supplies configured period order to `ProcessingAnalysis`; configured empty
 periods remain visible. The feature builder applies
@@ -136,8 +135,8 @@ periods remain visible. The feature builder applies
 analysis consumes without applying a separate threshold. `ResidentialType`, when
 present, enables a type summary. Direct callers may pass `community_column` to
 request a community breakdown; the CLI leaves that optional breakdown disabled.
-The committed `outputs.processing_summary` names the period summary. Naming and
-export of processing denominator and subgroup tables remain exporter work.
+The committed `outputs.processing_summary` names the period summary. Processing
+denominator and subgroup tables are exported using their logical names by default.
 
 The CLI passes configured study-period labels in order to `GeographyAnalysis`.
 The second period is compared with the first; later periods are contextual and
@@ -148,9 +147,8 @@ Missing or unconfigured period labels must be resolved before aggregation.
 
 The strategy returns `community_summary`, `ward_summary`, and
 `geography_period_totals` in memory. Only `community_summary` currently has an
-entry in the committed `outputs` settings; exporter support and output naming
-for the additional tables remain implementation work. These result keys do not
-mean that corresponding files are already generated.
+entry in the committed `outputs` settings; other returned tables use their logical
+names as filename labels unless an exact-key override is supplied.
 
 The `storage` section separates the output file stem from the file formats. For example,
 `output_base_name: "development_permits"` with `processed_output_formats: ["csv",
@@ -176,9 +174,20 @@ The additional optional `current_date_time` component records the UTC file-gener
 date/time after the optional timestamp. Its separate configuration and exporter
 support remain to be implemented.
 
-These labels define the configuration contract for processed exports.
-`PowerBIExporter.export` is currently a scaffold; consuming the labels and writing
-these filenames remains part of its implementation.
+The implemented exporter uses `<base>_<label>[_<timestamp>].<format>` and writes
+whole tables, not separate period files. The study-period, period, and additional
+current-date/time suffixes described above remain planned. Exact logical-key
+labels from `outputs` override defaults; absent labels fall back to table names.
+For example, `monthly_volume` is exported under that name; `monthly_summary`
+does not implicitly rename it. Labels use letters, digits, underscores or hyphens.
+Supported processed formats are CSV, JSON, and Parquet (`parquet` or `pq`).
+Dates/datetimes are ISO text in every format, Boolean values remain Boolean, and
+missing cells remain missing. Parquet requires an installed compatible engine.
+One UTC timestamp is shared across the export. Returned path keys are logical
+names for one format, or `name.format` for multiple formats. Case-insensitive
+filename collisions are rejected before writing. Writes are atomic per file;
+the exporter is not transactional across files. Overwrite-disabled repositories
+choose numbered sibling filenames and return those actual paths.
 
 The `overwrite_outputs` flag controls generated data products. When it is `true`, a
 writer may replace an existing configured output. When it is `false`, writers should
