@@ -33,8 +33,8 @@ The analysis will compare monthly and seasonal permit volume, development-type m
 
 As of September 23, 2026, volume, development-type, geography, processing-time, seasonal, and rezoning analysis strategies are implemented. Geography outputs include community and ward counts,
 Before/During changes, small-baseline warnings, and missing-geography totals.
-The latest full suite reports **478 passed, 1 expected failure** for unfinished
-stages. The sensitivity runner is implemented; study-specific scenarios still need CLI configuration. Table export is implemented. Charts, the full pipeline smoke test, and Power BI
+The latest full suite reports **496 passed, no expected failures** for unfinished
+stages. The sensitivity runner is implemented; study-specific scenarios still need CLI configuration. Table export is implemented. The chart API is implemented. CLI chart integration, the full pipeline smoke test, and Power BI
 reconciliation remain pending; implemented summaries are not final study findings.
 
 The City of Calgary already publishes planning-application statistics by community and ward, demonstrating the value of permit data for monitoring development activity. CMHC research also examines how land-use regulation and permitting relate to housing supply, affordability, and the pace of development. This project is narrower: it builds a reproducible, Calgary-specific before/during comparison of permit applications, documents its classification rules, and combines Python analysis with an interactive Power BI dashboard. It does not treat permit applications as completed housing units or attempt to reproduce CMHC's causal claims.

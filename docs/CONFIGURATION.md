@@ -8,6 +8,15 @@ Both files are present in the repository. The classification file includes valid
 
 This YAML file is the central source for project metadata, data access, analysis boundaries, quality checks, seasons, and output locations.
 
+Chart creation is currently a Python API rather than a CLI output stage.
+`ChartFactory(style={...})` accepts local Matplotlib rcParams overrides.
+`monthly_volume(table, policy_boundaries={label: date(...)})` consumes the
+`monthly_volume` result columns Period, YearMonth, PermitCount, and optional
+IsPartialMonth. Call `save(figure, path)` explicitly for PNG, SVG, or PDF at
+150 DPI with tight bounds; existing chart files are replaced. The factory uses
+a headless canvas and does not change global plotting settings. Matplotlib
+3.10.8 is pinned as a runtime dependency.
+
 | Section | Purpose | Important settings |
 |---|---|---|
 | `project` | Identifies the project and author | project name, course, author |

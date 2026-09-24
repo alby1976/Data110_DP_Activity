@@ -8,17 +8,22 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/export-full` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 23, 2026, `python -m pytest -q --basetemp=.pytest_cache/charts-full` with the configured Python 3.13.14 environment reports:
 
 ```text
-478 passed, 1 xfailed
+496 passed
 ```
 
 The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
 
 Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. They do not establish that a complete production pipeline can run.
 
-The remaining expected failure covers chart saving. An unfinished function that raises `NotImplementedError` is reported as `XFAIL` by the shared `implemented()` helper in `tests/conftest.py`. Once the placeholder is removed, the actual assertions run and the test must either pass or fail normally. Both chart construction and saving remain unfinished; XFAIL counts are not counts of every unfinished function.
+No scaffold-related expected failures remain. Chart creation and saving have 18
+passing tests, including real PNG/SVG/PDF rendering, missing-month gaps, explicit
+boundary annotations, partial/unknown exposure markers, empty data, input
+preservation, and invalid values. A rendered fixture was also visually inspected.
+Matplotlib 3.10.8 emits 143 NumPy 2.5.3 deprecation warnings from its date conversion
+code in this environment; these are upstream warnings, not test failures.
 
 The completed validator test modules contain 16 schema tests, 19 data-quality
 tests, and 23 classification-validation tests. They cover input preservation,
@@ -32,10 +37,9 @@ They cover calendar boundaries, cross-year/leap-year seasons, partial exposure,
 explicit observation horizons, signed durations, invalid evidence, nullable
 outputs, and input preservation. CLI tests check configured dependency wiring.
 
-The next unfinished test target is `tests/visualization/test_chart_factory.py`.
-Complete the remaining analyses, exporter, and chart tests, then
-the frozen-fixture end-to-end smoke test. The remaining XFAIL identifies a scaffold test,
-not an exhaustive count of remaining integration tasks.
+The next verification target is a frozen-fixture end-to-end CLI smoke test.
+Study-specific sensitivity scenarios, run provenance, fatal-validation policy,
+and CLI chart generation remain integration work despite the passing unit suite.
 
 Geography tests cover community and ward counts, zero and small baselines, missing geography denominators, contextual periods, empty inputs, invalid schemas/configuration, and input preservation. CLI tests verify configured study labels and cleaner field names. An isolated temporary directory avoids a permissions error in the shared pytest temporary-folder cleanup.
 

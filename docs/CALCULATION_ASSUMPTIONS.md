@@ -137,9 +137,18 @@ described as completed safeguards:
   report currently does not itself halt execution;
 - full run provenance, full pipeline smoke testing, and Python/Power BI
   reconciliation;
+- CLI integration of the implemented chart factory with explicit policy boundaries;
 - independent classification review and investigation of missing, duplicate, or
   geographically ambiguous source records before accepting final findings.
 
 When an assumption changes, update this document, the corresponding methodology
 and field definitions, and behavior tests. Record the configuration and source
 snapshot used so the revised results can be reproduced.
+
+`ChartFactory.monthly_volume` plots supplied residential record counts, not rates.
+It does not infer zero activity for missing months: missing months break lines,
+while supplied zero counts remain zero. Partial exposure has triangle markers;
+unknown exposure has cross markers. Each policy period is a separate series.
+Exact policy boundaries are optional caller-supplied dates, never inferred from
+the first application. Charts do not adjust for unequal month lengths or establish
+policy causation. Figure saving is explicit and supports PNG, SVG, and PDF.

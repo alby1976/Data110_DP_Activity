@@ -207,7 +207,7 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 23, 2026 baseline is **478 passed, 1 xfailed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 23, 2026 baseline is **496 passed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
@@ -252,10 +252,11 @@ The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITI
 
 ## Project status
 
-**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Power BI table export is implemented; chart generation remains scaffolded. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
+**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Power BI table export is implemented; chart creation and saving are implemented as an explicit Python API. Pipeline tests use injected collaborators; they do not demonstrate a complete real-data analysis. Classification review against source data, Power BI development, and result writing remain outstanding.
 
-The next Python implementation is `analysis/rezoning_analysis.py`, followed by
-sensitivity analysis. The validators return reports without
+The next verification target is a frozen-fixture CLI smoke test. Study-specific
+sensitivity scenarios, chart workflow integration, and full run provenance remain
+unfinished. The validators return reports without
 changing records; failed report statuses do not yet stop the pipeline. See the
 [current implementation checkpoint](docs/IMPLEMENTATION_PLAN.md#current-implementation-checkpoint-september-23)
 for the remaining sequence and integration work.
