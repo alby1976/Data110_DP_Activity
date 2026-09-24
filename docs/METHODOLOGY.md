@@ -217,6 +217,23 @@ accuracy.
 
 ## 6. Rezoning-relevant classification
 
+`RezoningAnalysis` implements `rezoning_summary` by observed policy period.
+`RezoningRelevantShare` is the number of included residential records flagged
+true divided by **all included residential records in that period**. False and
+unknown relevance have separate counts and shares; the three shares sum to one
+when the denominator is positive. Zero residential records produce null shares.
+`ReviewCount` overlaps these categories and does not remove records from the
+denominator; it is null when the optional review flag is absent or incomplete.
+Periods absent from the input are not inferred.
+
+Optional `rezoning_by_rule`, `rezoning_by_type`, and `rezoning_by_district`
+tables use `ClassificationRule`, `ResidentialType`, and cleaned
+`land_use_district`, respectively. They retain missing/blank labels as Unknown.
+Their shares use the period-wide denominator, not the subgroup count;
+`GroupResidentialCount` gives subgroup size. Repeated `PeriodResidentialCount`
+values must not be summed across subgroups. Inputs are neither mutated nor
+deduplicated, and relevance is not evidence that rezoning caused an application.
+
 `RezoningRelevant` will be a transparent analytical flag, not an official City designation. Candidate evidence includes:
 
 - land-use district values involving `R-CG`, `R-G`, or `H-GO`;

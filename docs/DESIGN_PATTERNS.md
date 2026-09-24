@@ -9,7 +9,7 @@ Patterns are used only where they solve a concrete problem. A pattern name does 
 This overview includes both implemented components and scaffolded contracts. Adapters,
 repositories, configuration, cleaning, profiling, classification, CLI dispatch,
 pipeline orchestration, all three validators, all three feature filters, and volume,
-development-type, geography, processing-time, and seasonal analyses are implemented. Rezoning and sensitivity analyses, chart operations, and Power BI export remain
+development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. Sensitivity analysis, chart operations, and Power BI export remain
 unfinished. The sequence below
 describes the intended complete workflow; see [Testing Framework](TESTING.md) for
 verified behavior and remaining expected failures. Profiling is available separately

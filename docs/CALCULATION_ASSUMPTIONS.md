@@ -114,8 +114,6 @@ described as completed safeguards:
 - wiring a frozen snapshot's observation cutoff through the CLI analyses and
   feature stages;
 - minimum-follow-up eligibility and sensitivity comparisons;
-- rezoning summary analysis, although the classifier already produces the
-  project-defined relevance flag;
 - a policy for stopping the pipeline on fatal validation reports; collecting a
   report currently does not itself halt execution;
 - final exporter integration, full pipeline smoke testing, and Python/Power BI
