@@ -194,7 +194,7 @@ there is no `profile` or `analyse` CLI command.
 
 ## Running the tests
 
-The [exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
+The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
 against the pinned Before snapshot. All 16 code cells passed in a fresh kernel
 on September 24, 2026, including validators, five residential analysis strategies,
 a monthly line chart, and three heatmaps. Summaries reconcile to 7,940 residential
@@ -204,6 +204,24 @@ classification warnings remain for review. See the
 [notebook explanation](notebooks/01_permit_exploration_explaination.md) for report
 definitions and recorded findings. The separate synthetic CLI smoke test also
 passes; neither establishes independent classification accuracy or policy impact.
+
+The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
+uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
+and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
+the snapshot's UTC retrieval date, September 25, defines the observation horizon.
+Six analysis strategies produce 21 tables, reconciling to 14,277 residential
+records, plus a monthly line chart and three heatmaps. All 15 analysis/setup/chart
+code cells executed successfully; the added optional export cell was separately
+verified with exports disabled, bringing the notebook to 16 code cells.
+
+Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
+section to save permit, analysis, validation, reconciliation, and bias-audit tables
+plus four PNG charts. Each enabled run uses a unique directory under
+`reports/notebook_complete_period/`, with `tables/` and `figures/` subdirectories.
+The enabled export branch has not been exercised in this notebook verification.
+See the [complete-period guide](notebooks/02_complete_period_exploration_explanation.md)
+for refresh instructions, output definitions, findings, and limitations. The
+short post-repeal window remains contextual, and validation warnings remain open.
 
 Install the development dependencies and run the complete suite from the repository root:
 

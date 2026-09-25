@@ -1,0 +1,10 @@
+{
+  "created_at_utc": "2026-09-25T04:52:41.479091+00:00",
+  "dataset_id": "6933-unw5",
+  "endpoint": "https://data.calgary.ca/resource/6933-unw5.json",
+  "query": "{\"page_size\": 50000, \"where\": \"(applieddate >= '2022-08-06T00:00:00' AND applieddate < '2024-08-06T00:00:00') OR (applieddate >= '2024-08-06T00:00:00' AND applieddate < '2026-08-04T00:00:00') OR (applieddate >= '2026-08-04T00:00:00')\"}",
+  "retrieved_at_utc": "2026-09-25 04:52:41.094573+00:00",
+  "row_count": 31339,
+  "sha256": "e401f9a4649dd776da73a23fe61c093eedc24120899fbfd28fa9f426b20b10ab",
+  "snapshot_file": "development_permits_20260925_045241.csv"
+}

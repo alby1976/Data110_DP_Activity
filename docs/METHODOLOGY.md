@@ -533,6 +533,30 @@ notebook execution is separate from the passing synthetic CLI smoke test and doe
 human-label accuracy. Recorded counts and interpretation are in the
 [notebook explanation](../notebooks/01_permit_exploration_explaination.md#recorded-before-snapshot-validation-results).
 
+The separate [complete-period exploration](../notebooks/02_complete_period_exploration.ipynb)
+extends this review to all configured periods using a new frozen snapshot:
+16,637 Before, 13,866 During, and 836 Early Post-Repeal records. Application dates
+extend through September 23, 2026; exposure is capped at the UTC retrieval date,
+September 25. That cutoff includes the retrieval day and is a coverage convention,
+not proof that reporting is complete through that date. The open-ended post-repeal
+window remains contextual rather than an equivalent third comparison period.
+
+Six analysis strategies produce 21 tables and four charts. Residential counts
+reconcile to 7,940 Before, 6,038 During, and 299 Early Post-Repeal records.
+Geography comparisons retain missing groups and small-baseline flags. Seasonal
+charts default to complete seasons; gray post-repeal cells indicate no eligible
+complete season, not zero activity. Processing summaries retain exclusion and
+pending counts and do not correct unequal follow-up.
+
+All 15 analysis/setup/chart cells passed. A sixteenth, optional export cell was
+subsequently verified in its disabled default mode. When enabled, it saves permit,
+analysis, validation, reconciliation, and bias-audit tables plus PNG charts in a
+unique directory under `reports/notebook_complete_period/`. The enabled branch
+has not been verified on this snapshot. Exporting does not clear validation
+warnings or certify Power BI agreement. See the
+[complete-period guide](../notebooks/02_complete_period_exploration_explanation.md)
+for the recorded findings and remaining review.
+
 The project uses the behavior-first `pytest` framework defined in [Testing Framework](TESTING.md). Each non-package Python module has a matching test module. During scaffolding, a test reports `XFAIL` only when the target still raises `NotImplementedError`; this records unfinished work and does not count as a passed analytical check.
 
 Verification will occur at five levels:

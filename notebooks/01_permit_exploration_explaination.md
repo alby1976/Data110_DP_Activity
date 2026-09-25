@@ -1,5 +1,10 @@
 # Explanation of values in `01_permit_exploration.ipynb`
 
+For the separate Before/During/Early Post-Repeal review, see the
+[complete-period notebook](02_complete_period_exploration.ipynb) and its
+[companion guide](02_complete_period_exploration_explanation.md), including optional
+table and chart exports. The results below remain specific to the Before snapshot.
+
 The notebook is an exploratory review of the frozen **Before** development-permit
 snapshot. It now displays provenance, profiling, cleaning, classification, features,
 validation, residential analysis summaries, a monthly line chart, and three heatmaps.

@@ -347,6 +347,38 @@ Before classification, the workflow should verify:
 
 ## Audit and change control
 
+### Complete-period notebook controls
+
+The [complete-period notebook](../notebooks/02_complete_period_exploration.ipynb)
+reads study periods, classification rules, formats, and output labels from the
+project configuration. Its interactive controls are cell variables, not additional
+YAML settings:
+
+| Variable | Default | Effect |
+|---|---|---|
+| `SNAPSHOT_FILENAME` | `development_permits_20260925_045241.parquet` | Pins the offline analysis snapshot |
+| `REFRESH_DOWNLOAD` | `False` | Set true to download all configured periods into new immutable snapshots |
+| `REVIEW_LIMIT` | `10` | Limits examples displayed, not the analyzed population |
+| `INCLUDE_PARTIAL_SEASONS` | `False` | Excludes partial seasons from seasonal charts |
+| `SEASON_YEAR_METRIC` | `"PermitCount"` | Selects counts; `"DP_Rate30"` selects exposure-adjusted rates |
+| `EXPORT_EXPLORATORY_OUTPUTS` | `False` | Enables optional table and PNG exports |
+
+After a refresh, copy the printed Parquet filename into the cell source and reset
+`REFRESH_DOWNLOAD=False` to preserve repeatable offline runs. Settings and rules
+remain live project files; their displayed hashes record which versions were used.
+
+Each enabled export creates `reports/notebook_complete_period/<unique-run-id>/`
+with `tables/` and `figures/` subdirectories. Tables use
+`config.processed_output_formats` and configured `outputs` labels, with the
+`complete_period_exploration` basename. The notebook explicitly disables table
+overwrite and uses a new run directory, independently of the global
+`storage.overwrite_outputs` setting. Charts are PNG files. The output-path table
+lists generated artifacts. Writes are per file, so an unsuccessful export can
+leave a partially populated run directory. The default disabled branch has been
+verified; the enabled branch has not been run against this snapshot.
+
+### Recording analysis inputs
+
 Each processed permit should retain `ClassificationRule`, `ClassificationNeedsReview`, and the rule's `ValidationStatus` alongside its original category, use, description, and district fields. The pipeline should also report rule coverage, unmatched counts, review counts, provisional/fallback counts, and potential conflicts by study period.
 
 Changes to either configuration file can change reported results. Each final analysis should therefore record:

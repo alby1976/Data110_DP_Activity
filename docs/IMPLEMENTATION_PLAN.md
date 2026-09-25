@@ -73,6 +73,25 @@ See the [notebook explanation](../notebooks/01_permit_exploration_explaination.m
 for counts. Manual warning investigation and independent human-label review remain
 follow-up work before final analysis.
 
+### Complete-period exploratory checkpoint
+
+The [complete-period notebook](../notebooks/02_complete_period_exploration.ipynb)
+now uses a separate 31,339-record snapshot covering Before, During, and Early
+Post-Repeal. Its six analysis strategies include geography comparisons and produce
+21 tables reconciling to 14,277 residential records. All 15 original code cells
+executed successfully and four charts were visually reviewed. The additional
+optional export cell was verified with exports disabled; its enabled branch has
+not been exercised against this snapshot.
+
+Optional exports use the existing exporter and chart API, creating a unique run
+directory under `reports/notebook_complete_period/` with configured table formats
+and PNG figures. This notebook workflow does not complete CLI chart integration,
+full run provenance, final validation acceptance, or Power BI reconciliation.
+The post-repeal window is contextual and source/classification warnings still
+need review. See the
+[complete-period guide](../notebooks/02_complete_period_exploration_explanation.md)
+for coverage, output definitions, and recorded findings.
+
 ### Final acceptance criteria
 
 The project is complete when:

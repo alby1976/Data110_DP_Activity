@@ -60,6 +60,25 @@ coverage is supplied. All-permit validation reports retain three quality warning
 and no failures. External exports were disabled; the optional enabled export
 branch was not exercised during this notebook verification.
 
+The separate [complete-period notebook](../notebooks/02_complete_period_exploration.ipynb)
+was verified against `development_permits_20260925_045241.parquet`: 31,339 raw
+records across all three configured periods, including 14,277 residential records.
+All 15 setup, analysis, and chart code cells executed in order; six strategies
+produced 21 tables, and all four charts rendered and were visually reviewed.
+Assertions checked checksum/query identity, coverage, input preservation, and
+residential-count reconciliation. Quality validation reported 7 passes, 3 warnings,
+and no failures; 2,635 classifications require review.
+
+The added optional export cell brings that notebook to 16 code cells. Its default
+`EXPORT_EXPLORATORY_OUTPUTS=False` branch executed successfully without writing
+table or chart files. The enabled branch, which writes to a unique directory under
+`reports/notebook_complete_period/`, was not run in this verification. Existing
+exporter unit tests are separate evidence and do not verify this enabled notebook
+branch against the complete-period snapshot. This notebook work did not rerun or
+change the recorded full-suite baseline. See the
+[companion guide](../notebooks/02_complete_period_exploration_explanation.md)
+for the snapshot dates, results, and interpretation limits.
+
 The exporter has 17 passing tests covering clean/analysis/validator outputs,
 independent residential denominators, missing audit evidence, empty tables,
 CSV/JSON/Parquet round trips, one shared timestamp, overwrite protection, invalid
