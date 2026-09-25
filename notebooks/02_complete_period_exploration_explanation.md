@@ -202,7 +202,7 @@ The default is `EXPORT_EXPLORATORY_OUTPUTS=False`, which writes no export files.
 
 ## 11. Verification and remaining limitations
 
-The original 15 analysis and chart code cells executed successfully in order against the pinned snapshot, including checksum/query checks, preserved-input assertions, reconciliation checks, and chart generation. The added optional export cell brings the notebook to 16 code cells. Its default disabled branch executed successfully without writing table or chart files; the enabled export branch has not been exercised against this snapshot. This was a notebook execution check; it was not a new full project test-suite run or an independent audit of source completeness.
+The original 15 analysis and chart code cells executed successfully in order against the pinned snapshot, including checksum/query checks, preserved-input assertions, reconciliation checks, and chart generation. The added optional export cell brings the notebook to 16 code cells. This was a notebook execution check; it was not a new full project test-suite run or an independent audit of source completeness.
 
 Before using the exploration in final reporting, resolve or explain classification review records and missing fields, assess reporting lag and processing follow-up, and examine reasonable alternative classification assumptions. The early post-repeal period remains short and incomplete. Interest rates, population, housing demand, costs, seasonality, and other changes can also affect observed activity.
 
