@@ -12,11 +12,11 @@ __pycache__/
 # Environment and secrets
 config/dp.env
 .env.*
-config/dp.env
+#config/dp.env
 !.env.example
 
 # Raw and temporary data
-data/raw/
+#data/raw/
 data/interim/
 *.tmp
 ~$*
