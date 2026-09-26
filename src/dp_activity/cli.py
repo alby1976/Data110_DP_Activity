@@ -482,6 +482,7 @@ def _build_pipeline(
     exporter = PowerBIExporter(
         output_repository=output_repository,
         output_formats=config.processed_output_formats,
+        excel_layout=config.excel_layout,
         base_name=config.output_base_name,
         include_timestamp=config.output_include_timestamp,
         timestamp_format=config.output_timestamp_format,

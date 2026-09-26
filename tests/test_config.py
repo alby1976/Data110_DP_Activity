@@ -24,6 +24,49 @@ from conftest import REPOSITORY_ROOT, implemented
 from dp_activity.config import load_config
 
 
+@pytest.mark.parametrize("layout", ["one_file_per_table", "one_workbook", "invalid"])
+def test_excel_layout_configuration(tmp_path, layout) -> None:
+    """Validate both workbook layouts and reject unknown values.
+
+    Args:
+        tmp_path: Isolated configuration directory.
+        layout: Requested Excel layout.
+    """
+    (tmp_path / "config").mkdir()
+    settings = _copy_project_settings(tmp_path)
+    settings["storage"]["excel_layout"] = layout
+    path = tmp_path / "config" / "settings.yaml"
+    path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+    if layout == "invalid":
+        with pytest.raises(ValueError, match="excel_layout"):
+            load_config(path)
+    else:
+        assert load_config(path).excel_layout == layout
+
+
+@pytest.mark.parametrize("raw_excel", [False, True])
+def test_excel_is_supported_only_for_processed_outputs(tmp_path, raw_excel) -> None:
+    """Accept configured Excel exports without promising an Excel raw adapter.
+
+    Args:
+        tmp_path: Isolated project configuration directory.
+        raw_excel: Whether to request unsupported raw Excel storage.
+    """
+    (tmp_path / "config").mkdir()
+    settings = _copy_project_settings(tmp_path)
+    settings["storage"]["processed_output_formats"] = ["csv", "xlsx"]
+    if raw_excel:
+        settings["storage"]["raw_snapshot_formats"] = ["xlsx"]
+    settings_path = tmp_path / "config" / "settings.yaml"
+    settings_path.parent.mkdir(exist_ok=True)
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+    if raw_excel:
+        with pytest.raises(ValueError, match="raw_snapshot_formats"):
+            load_config(settings_path)
+    else:
+        assert load_config(settings_path).processed_output_formats == ("csv", "xlsx")
+
+
 def test_loads_project_settings_and_periods(tmp_path) -> None:
     """Load project defaults without reading a developer's real credentials.
 

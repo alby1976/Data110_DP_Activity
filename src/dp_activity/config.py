@@ -139,6 +139,7 @@ class ProjectConfig:
         output_timestamp_format: ``strftime`` format for generated output timestamps.
         raw_snapshot_formats: Storage formats requested for immutable source snapshots.
         processed_output_formats: Storage formats requested for processed output tables.
+        excel_layout: Separate Excel files or one workbook containing all tables.
         periods: Ordered policy-period definitions.
         raw: Complete validated settings mapping.
     """
@@ -158,6 +159,7 @@ class ProjectConfig:
     processed_output_formats: tuple[str, ...]
     periods: tuple[StudyPeriod, ...]
     raw: dict[str, Any]
+    excel_layout: str = "one_file_per_table"
 
     @property
     def socrata_app_token(self) -> str | None:
@@ -274,6 +276,9 @@ def load_config(settings_path: Path) -> ProjectConfig:
         "processed_output_formats",
         field_name="storage.processed_output_formats",
     )
+    excel_layout = storage.get("excel_layout", "one_file_per_table")
+    if excel_layout not in ("one_file_per_table", "one_workbook"):
+        raise ValueError("storage.excel_layout must be one_file_per_table or one_workbook.")
     periods = _parse_study_periods(periods_mapping)
     _validate_seasons(seasons_mapping)
 
@@ -291,6 +296,7 @@ def load_config(settings_path: Path) -> ProjectConfig:
         output_timestamp_format=output_timestamp_format,
         raw_snapshot_formats=raw_snapshot_formats,
         processed_output_formats=processed_output_formats,
+        excel_layout=excel_layout,
         periods=periods,
         raw=raw,
     )
@@ -431,8 +437,11 @@ def _parse_storage_formats(
             raise TypeError(f"All values in '{field_name}' must be non-blank strings.")
 
         normalized_format = configured_format.strip().lower()
-        if normalized_format not in SUPPORTED_STORAGE_FORMATS:
-            supported = ", ".join(sorted(SUPPORTED_STORAGE_FORMATS))
+        supported_formats = SUPPORTED_STORAGE_FORMATS
+        if key == "processed_output_formats":
+            supported_formats = supported_formats | {"xlsx"}
+        if normalized_format not in supported_formats:
+            supported = ", ".join(sorted(supported_formats))
             raise ValueError(
                 f"Unsupported storage format in '{field_name}': "
                 f"{configured_format!r}. Supported formats: {supported}."

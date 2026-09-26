@@ -45,8 +45,12 @@ storage:
     # - json
     # - jgeojson
     - parquet
+  # Excel layout: one_file_per_table or one_workbook (one table per sheet).
+  excel_layout: "one_file_per_table"
   processed_output_formats:
     - csv
+    # Excel workbook per table; install optional dependencies with pip install ".[excel]".
+    # - xlsx
     # - json
     # - jgeojson
     # - parquet

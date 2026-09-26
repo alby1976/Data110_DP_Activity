@@ -18,12 +18,88 @@ Typical Usage:
 import pandas as pd
 import pytest
 from datetime import datetime, timezone
+from zipfile import ZipFile
+from xml.etree import ElementTree
 
 from dp_activity.export import powerbi_exporter as exporter_module
 from dp_activity.export.powerbi_exporter import PowerBIExporter
 from dp_activity.repositories.output_repository import OutputRepository
 from dp_activity.validation.schema_validator import SchemaIssue
 from dp_activity.validation.data_quality_validator import QualityCheckResult
+
+
+def test_excel_export_preserves_text_and_writes_all_tables(tmp_path, permits) -> None:
+    """Verify Excel cell types, table coverage, and collision-safe repeated exports.
+
+    Args:
+        tmp_path: Isolated export directory.
+        permits: Mixed permit fixture with nullable audit evidence.
+    """
+    permits = permits.assign(description=["=1+1", "https://example.com", "plain"])
+    original = permits.copy(deep=True)
+    exporter = PowerBIExporter(
+        output_repository=OutputRepository(tmp_path, overwrite_outputs=False),
+        output_formats=("csv", "xlsx"),
+    )
+    analyses = {"volume": pd.DataFrame({"PermitCount": [2]})}
+    reports = {"schema": []}
+    paths = exporter.export(permits, analyses, reports)
+    assert len(paths) == 10
+    ns = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    for key, path in paths.items():
+        if key.endswith(".xlsx"):
+            with ZipFile(path) as archive:
+                workbook = ElementTree.fromstring(archive.read("xl/workbook.xml"))
+                assert workbook.find("s:sheets/s:sheet", ns).attrib["name"] == "Data"
+    with ZipFile(paths["clean_permits.xlsx"]) as archive:
+        sheet = ElementTree.fromstring(archive.read("xl/worksheets/sheet1.xml"))
+        strings = ElementTree.fromstring(archive.read("xl/sharedStrings.xml"))
+        values = ["".join(item.itertext()) for item in strings]
+        assert "=1+1" in values
+        assert "https://example.com" in values
+        assert "2024-08-06T00:00:00" in values
+        assert sheet.findall(".//s:f", ns) == []
+        assert sheet.findall(".//s:hyperlink", ns) == []
+        assert len(sheet.find("s:sheetData/s:row", ns)) == len(permits.columns)
+        assert len(sheet.findall("s:sheetData/s:row", ns)) == len(permits) + 1
+        assert sheet.find(".//s:c[@r='C2']", ns).attrib["t"] == "b"
+    repeated = exporter.export(permits, analyses, reports)
+    assert repeated["clean_permits.xlsx"] != paths["clean_permits.xlsx"]
+    assert not list(tmp_path.glob("*.tmp"))
+    pd.testing.assert_frame_equal(permits, original)
+
+
+@pytest.mark.parametrize("formats", [("xlsx",), ("csv", "xlsx")])
+def test_combined_workbook_has_unique_sheets(tmp_path, permits, formats) -> None:
+    """Verify workbook consolidation, mixed formats, and safe long sheet names.
+
+    Args:
+        tmp_path: Isolated output directory.
+        permits: Small permit fixture.
+        formats: Excel-only or mixed CSV/Excel export selection.
+    """
+    exporter = PowerBIExporter(
+        output_repository=OutputRepository(tmp_path, overwrite_outputs=False),
+        output_formats=formats, excel_layout="one_workbook",
+        output_names={"first": "a" * 40, "second": "A" * 39 + "B", "third": "History"},
+    )
+    tables = {name: pd.DataFrame({"value": [index]})
+              for index, name in enumerate(("first", "second", "third"))}
+    paths = exporter.export(permits, tables, {"schema": []})
+    assert len(list(tmp_path.glob("*.xlsx"))) == 1
+    assert len(paths) == (8 if "csv" in formats else 1)
+    ns = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    with ZipFile(paths["workbook.xlsx"]) as archive:
+        workbook = ElementTree.fromstring(archive.read("xl/workbook.xml"))
+        names = [sheet.attrib["name"] for sheet in workbook.find("s:sheets", ns)]
+        assert len(names) == 7
+        assert len({name.casefold() for name in names}) == 7
+        assert all(len(name) <= 31 for name in names)
+        assert "History_1" in names
+        sheet = ElementTree.fromstring(archive.read("xl/worksheets/sheet2.xml"))
+        assert sheet.find(".//s:c[@r='A2']/s:v", ns).text == "0"
+    assert exporter.export(permits, tables, {})["workbook.xlsx"] != paths["workbook.xlsx"]
+    assert not list(tmp_path.glob("*.tmp"))
 
 
 def test_export_writes_clean_and_reconciliation_tables(tmp_path) -> None:
@@ -193,7 +269,7 @@ def test_invalid_exports_write_nothing(tmp_path, permits, kind) -> None:
 
 
 @pytest.mark.parametrize("options", [
-    {"output_formats": ["xlsx"]}, {"output_formats": ["csv", "csv"]},
+    {"output_formats": ["xls"]}, {"output_formats": ["csv", "csv"]},
     {"base_name": "../escape"}, {"output_names": {"clean_permits": "../escape"}},
 ])
 def test_invalid_configuration_is_rejected(tmp_path, options) -> None:

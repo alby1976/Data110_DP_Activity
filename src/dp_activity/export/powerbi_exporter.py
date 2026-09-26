@@ -35,7 +35,7 @@ class PowerBIExporter:
     """Adapt project tables to stable Power BI input files.
 
     This class participates in the Adapter pattern by translating in-memory analytical
-    tables into explicit CSV schemas and reconciliation metadata.
+    tables into reporting schemas and reconciliation metadata.
 
     Attributes:
         output_directory: Directory that receives exported tables.
@@ -45,6 +45,7 @@ class PowerBIExporter:
         include_timestamp: Whether generated output names should include timestamps.
         timestamp_format: ``strftime`` format used for generated output timestamps.
         output_names: Optional logical-name to filename-label mapping.
+        excel_layout: One file per table or a single workbook with multiple sheets.
     """
 
     def __init__(
@@ -57,6 +58,7 @@ class PowerBIExporter:
         include_timestamp: bool = False,
         timestamp_format: str = "%Y%m%d_%H%M%S",
         output_names: dict[str, str] | None = None,
+        excel_layout: str = "one_file_per_table",
     ) -> None:
         """Configure the Power BI export adapter.
 
@@ -69,6 +71,7 @@ class PowerBIExporter:
             include_timestamp: Whether generated output names should include timestamps.
             timestamp_format: ``strftime`` format used for generated output timestamps.
             output_names: Optional filename labels for logical table names.
+            excel_layout: one_file_per_table (default) or one_workbook.
 
         Raises:
             ValueError: Neither an output directory nor repository is supplied, or the
@@ -84,12 +87,15 @@ class PowerBIExporter:
         self.include_timestamp = include_timestamp
         self.timestamp_format = timestamp_format
         self.output_names = dict(output_names or {})
+        if excel_layout not in ("one_file_per_table", "one_workbook"):
+            raise ValueError("excel_layout must be one_file_per_table or one_workbook.")
+        self.excel_layout = excel_layout
 
         if not self.output_formats or any(not format_name for format_name in self.output_formats):
             raise ValueError("PowerBIExporter output formats cannot be blank.")
         if not self.base_name:
             raise ValueError("PowerBIExporter base name cannot be blank.")
-        if set(self.output_formats) - {"csv", "json", "parquet", "pq"}:
+        if set(self.output_formats) - {"csv", "json", "parquet", "pq", "xlsx"}:
             raise ValueError("Unsupported processed output format.")
         if len(set(self.output_formats)) != len(self.output_formats):
             raise ValueError("Output formats must be unique.")
@@ -117,6 +123,8 @@ class PowerBIExporter:
             validation_<validator>, reconciliation, and bias_audit. Filenames use
             base_name, configured label (or logical name), and one optional UTC
             timestamp shared by the whole export.
+            Combined Excel output uses the key workbook.xlsx and filename
+            <base>_workbook[_<timestamp>].xlsx instead of per-table Excel paths.
 
         Raises:
             TypeError: Tables, validation reports, or inclusion/audit flags have
@@ -126,6 +134,11 @@ class PowerBIExporter:
             OSError: Persistence fails; earlier files may already have been written.
 
         Note:
+            Excel output uses separate Data worksheets by default, or one workbook
+            with sheets named from output labels. Long labels are shortened to 31
+            characters and case-insensitive collisions receive numeric suffixes.
+            Excel requires the optional excel dependencies. Source text remains literal,
+            including values that resemble formulas or URLs.
             Validates and prepares every table before writing. Writes are atomic
             per file, not transactional across the export. Preserves row order,
             column order, missing values, and all source records; never exports
@@ -168,17 +181,33 @@ class PowerBIExporter:
             _filename_label(timestamp)
         pending = []
         seen = set()
+        sheets = {}
+        sheet_names = set()
         for name, table in tables.items():
             label = self.output_names.get(name, name)
             stem = f"{self.base_name}_{label}" + (f"_{timestamp}" if timestamp else "")
             for format_name in self.output_formats:
+                if format_name == "xlsx" and self.excel_layout == "one_workbook":
+                    sheet = label[:31]
+                    counter = 1
+                    while sheet.casefold() in sheet_names or sheet.casefold() == "history":
+                        suffix = f"_{counter}"
+                        sheet = label[:31 - len(suffix)] + suffix
+                        counter += 1
+                    sheet_names.add(sheet.casefold())
+                    sheets[sheet] = table
+                    continue
                 filename = f"{stem}.{format_name}"
                 if filename.casefold() in seen:
                     raise ValueError(f"Duplicate export destination: {filename}")
                 seen.add(filename.casefold())
                 key = name if len(self.output_formats) == 1 else f"{name}.{format_name}"
                 pending.append((key, table, filename))
-        return {key: self.output_repository.write_table(table, filename) for key, table, filename in pending}
+        paths = {key: self.output_repository.write_table(table, filename) for key, table, filename in pending}
+        if sheets:
+            filename = f"{self.base_name}_workbook" + (f"_{timestamp}" if timestamp else "") + ".xlsx"
+            paths["workbook.xlsx"] = self.output_repository.write_workbook(sheets, filename)
+        return paths
 
 
 def _filename_label(value: str) -> None:

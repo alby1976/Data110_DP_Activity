@@ -46,6 +46,9 @@ Issues = "https://github.com/alby1976/Data110_DP_Activity/issues"
 Data = "https://data.calgary.ca/Business-and-Economic-Activity/Development-Permits/6933-unw5"
 
 [project.optional-dependencies]
+excel = [
+    "XlsxWriter>=3.2,<4",
+]
 dev = [
     "pytest==9.1.1",
     "requests-mock==1.12.1",

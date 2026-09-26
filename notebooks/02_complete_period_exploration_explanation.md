@@ -194,6 +194,13 @@ All four figures rendered successfully and were visually reviewed. They are embe
 
 ## Optional exploratory exports
 
+Excel layout is controlled by `storage.excel_layout` when `xlsx` is included in
+`storage.processed_output_formats`: `one_file_per_table` writes separate workbooks;
+`one_workbook` writes `complete_period_exploration_workbook.xlsx` with one table
+per sheet (27 sheets for this notebook). CSV and other selected formats continue
+to use separate table files. Reload configuration after changing YAML, and restart
+the kernel after updating the package code. The default layout is separate files.
+
 The notebook's `## Optional exploratory exports` section follows the charts. Run the preceding analysis and chart cells first, then set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the export cell to save the featured permit table, all 21 analysis tables, three validation reports, reconciliation totals, a bias audit, and four PNG charts.
 
 Each enabled run uses a unique directory under `reports/notebook_complete_period/`, containing `tables/` and `figures/`. Table formats and labels come from project settings; the current table format is CSV. Table overwrite is disabled, and separate run directories preserve earlier chart exports. The displayed output-path table lists the generated files.

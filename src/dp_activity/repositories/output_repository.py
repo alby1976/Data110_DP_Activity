@@ -72,6 +72,59 @@ class OutputRepository:
 
         return target
 
+    def write_workbook(self, tables: dict[str, Any], filename: str) -> Path:
+        """Persist related tables as sheets in one atomic Excel workbook.
+
+        Args:
+            tables: Valid Excel sheet names mapped to DataFrame-like tables.
+            filename: Relative .xlsx destination; collision policy is preserved.
+
+        Returns:
+            Path of the completed workbook.
+
+        Raises:
+            ValueError: No tables are supplied or the extension is not .xlsx.
+            ImportError: The optional Excel writer dependency is unavailable.
+            OSError: The workbook cannot be written or replaced.
+        """
+        if not tables or Path(filename).suffix.lower() != ".xlsx":
+            raise ValueError("A workbook requires tables and an .xlsx filename.")
+        target = self._collision_safe_path(self._target_path(filename))
+        temporary_path = self._temporary_path(target)
+        try:
+            self._write_excel(tables, temporary_path)
+            temporary_path.replace(target)
+        finally:
+            if temporary_path.exists():
+                temporary_path.unlink()
+        return target
+
+    @staticmethod
+    def _write_excel(tables: dict[str, Any], path: Path) -> None:
+        """Serialize sheets with literal source text and no implicit index.
+
+        Args:
+            tables: Sheet names mapped to tables.
+            path: Temporary binary output destination.
+
+        Raises:
+            ImportError: XlsxWriter is unavailable.
+            ValueError: Sheet names or table dimensions violate Excel limits.
+        """
+        try:
+            import xlsxwriter  # noqa: F401
+        except ImportError as exc:
+            raise ImportError('Excel export requires pip install ".[excel]".') from exc
+        with path.open("wb") as stream:
+            with pd.ExcelWriter(
+                stream, engine="xlsxwriter",
+                engine_kwargs={"options": {
+                    "strings_to_formulas": False, "strings_to_urls": False,
+                }},
+            ) as writer:
+                for sheet, table in tables.items():
+                    table.to_excel(writer, sheet_name=sheet, index=False)
+
     def write_manifest(self, manifest: dict[str, Any], filename: str) -> Path:
         """Record inputs, settings, Git revision, checksums, and outputs.
 
@@ -183,7 +236,12 @@ class OutputRepository:
         Raises:
             TypeError: The table does not support the requested write operation.
             ValueError: The suffix is unsupported.
+            ImportError: Excel output is requested without XlsxWriter installed.
         """
+        if suffix == ".xlsx":
+            OutputRepository._require_writer(table, "to_excel")
+            OutputRepository._write_excel({"Data": table}, path)
+            return
         if suffix == ".csv":
             OutputRepository._require_writer(table, "to_csv")
             table.to_csv(path, index=False, encoding="utf-8")

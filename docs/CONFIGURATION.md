@@ -347,6 +347,38 @@ Before classification, the workflow should verify:
 
 ## Audit and change control
 
+### Excel processed-output option
+
+Install the optional writer with `pip install ".[excel]"`, then uncomment `xlsx`
+under `storage.processed_output_formats` in `config/settings.yaml`:
+
+```yaml
+  processed_output_formats:
+    - csv
+    - xlsx
+  excel_layout: one_workbook
+```
+
+Use only `xlsx` in that list for Excel-only output. Choose `storage.excel_layout`:
+
+- `one_file_per_table` (default): one workbook per table, each with a `Data` sheet.
+- `one_workbook`: one `<base>_workbook[_<timestamp>].xlsx` file containing one sheet
+  per permit, analysis, validation, reconciliation, and bias-audit table.
+
+Combined sheets use configured output labels, shortened to Excel's 31-character
+limit. Case-insensitive collisions and the reserved `History` name receive numeric
+suffixes. The returned output-path key is `workbook.xlsx`. Other formats still
+produce separate files per table. No implicit index column is written.
+Naming and overwrite rules are the same as other formats. Dates retain
+the exporter's ISO-text representation; text resembling formulas or URLs remains
+literal. Excel worksheet size and cell-length limits apply; use CSV or Parquet
+for tables that exceed Excel's limits. Excel is not a raw snapshot format.
+
+The CLI and notebook optional export cells use this setting. Reload the notebook's
+configuration cell after changing YAML; restart the kernel after updating the
+installed code. CSV remains the committed default. Workbook writes are atomic:
+a failed workbook write does not replace an existing destination.
+
 ### Complete-period notebook controls
 
 The [complete-period notebook](../notebooks/02_complete_period_exploration.ipynb)
