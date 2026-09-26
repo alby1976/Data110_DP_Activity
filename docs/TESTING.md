@@ -79,6 +79,12 @@ change the recorded full-suite baseline. See the
 [companion guide](../notebooks/02_complete_period_exploration_explanation.md)
 for the snapshot dates, results, and interpretation limits.
 
+The September 25 documentation review confirmed the saved export cell's successful
+execution 18 with exports disabled. No analysis or export was rerun for that review.
+The current CSV configuration would produce 27 tables and four PNG charts on a
+successful enabled run; that expected inventory is documented in the companion
+guide and is not an observed export-test result.
+
 The exporter has 17 passing tests covering clean/analysis/validator outputs,
 independent residential denominators, missing audit evidence, empty tables,
 CSV/JSON/Parquet round trips, one shared timestamp, overwrite protection, invalid
