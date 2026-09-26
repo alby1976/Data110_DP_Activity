@@ -48,4 +48,5 @@ src/dp_activity/validation/schema_validator.py
 src/dp_activity/visualization/__init__.py
 src/dp_activity/visualization/chart_factory.py
 tests/test_cli.py
+tests/test_cli_smoke.py
 tests/test_config.py

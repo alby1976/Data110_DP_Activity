@@ -26,6 +26,7 @@ Note:
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import sys
 from collections.abc import Sequence
@@ -175,7 +176,9 @@ def build_download_command(config: ProjectConfig) -> DownloadCommand:
 
     Raises:
         ValueError: Source settings, page size, or study-date settings are invalid.
+        ImportError: A configured snapshot format requires an unavailable dependency.
     """
+    _check_format_dependencies(config.raw_snapshot_formats)
     source = config.raw["data_source"]
     for key in ("source_type", "api_base_url", "dataset_id", "format"):
         if not isinstance(source.get(key), str) or not source[key].strip():
@@ -257,10 +260,43 @@ def build_run_command(
     Raises:
         ValueError: No usable retrieval timestamp or explicit cutoff is supplied.
         TypeError: The explicit cutoff is not a calendar date.
+        ImportError: An input or output format requires an unavailable dependency.
     """
+    _check_format_dependencies((*config.processed_output_formats, snapshot_path.suffix))
     cutoff = _snapshot_observation_end(snapshot_path, observation_end)
     pipeline = _build_pipeline(config, observation_end=cutoff)
     return RunPipelineCommand(pipeline=pipeline, snapshot_path=snapshot_path)
+
+
+def _check_format_dependencies(formats: Sequence[str]) -> None:
+    """Reject unavailable format dependencies before starting expensive workflows.
+
+    Args:
+        formats: Output formats and input suffixes used by the selected command.
+
+    Raises:
+        ImportError: Excel or Parquet support cannot be loaded. The message names
+            the project extra to install and preserves the original import cause.
+    """
+    normalized = {value.lower().lstrip(".") for value in formats}
+    if normalized & {"parquet", "pq"}:
+        from pandas.io.parquet import get_engine
+
+        try:
+            get_engine("auto")
+        except ImportError as exc:
+            raise ImportError(
+                'Parquet input/output requires a usable pyarrow or fastparquet engine. '
+                'Install the optional dependencies with pip install ".[parquet]".'
+            ) from exc
+    if "xlsx" in normalized:
+        try:
+            importlib.import_module("xlsxwriter")
+        except ImportError as exc:
+            raise ImportError(
+                'Excel output requires XlsxWriter. '
+                'Install the optional dependencies with pip install ".[excel]".'
+            ) from exc
 
 
 def _snapshot_observation_end(snapshot_path: Path, explicit: date | None) -> date:
@@ -317,8 +353,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     Note:
         Writes summaries to stdout and errors to stderr. Download persists raw
-        snapshots; run archives an existing configured log before assembling
-        and executing the pipeline, even if a later stage fails.
+        snapshots; run checks format dependencies and assembles the command before
+        archiving the configured log and executing the pipeline.
     """
     parser = build_parser()
     try:
@@ -341,12 +377,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             if arguments.snapshot_path is None:
                 print("error: the run command requires snapshot_path", file=sys.stderr)
                 return 2
-            _archive_existing_log(config.log_archive)
             cutoff_options = (
                 {"observation_end": arguments.observation_end}
                 if arguments.observation_end is not None else {}
             )
             command = build_run_command(config, arguments.snapshot_path, **cutoff_options)
+            _archive_existing_log(config.log_archive)
             result = command.execute()
             _print_run_summary(result)
             return 0

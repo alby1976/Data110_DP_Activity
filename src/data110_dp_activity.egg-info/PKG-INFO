@@ -49,10 +49,13 @@ Classifier: Topic :: Scientific/Engineering :: Information Analysis
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE.md
+Requires-Dist: matplotlib==3.10.8
 Requires-Dist: pandas==2.2.3
 Requires-Dist: PyYAML==6.0.3
 Requires-Dist: requests==2.34.2
 Requires-Dist: sodapy==2.2.0
+Provides-Extra: excel
+Requires-Dist: XlsxWriter<4,>=3.2; extra == "excel"
 Provides-Extra: dev
 Requires-Dist: pytest==9.1.1; extra == "dev"
 Requires-Dist: requests-mock==1.12.1; extra == "dev"
@@ -131,10 +134,11 @@ Python and Power BI serve different roles while using the same definitions:
 - **Python:** retrieve, profile, clean, classify, validate, summarize, visualize, and export the data.
 - **Power BI:** provide interactive comparisons by period, community, ward, permit type, status, and land-use district.
 
-Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. Project settings can request CSV, JSON, JGeoJSON, and/or Parquet storage for raw snapshots and processed outputs. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
+Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and CSV processed outputs. Processed table export supports CSV, JSON, Parquet, and Excel (`xlsx`). Enable the commented `xlsx` option in `storage.processed_output_formats` after installing `pip install ".[excel]"`; `storage.excel_layout` selects `one_file_per_table` (default) or `one_workbook` with one table per sheet. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
 
 ## Key measures
 
+- residential applications per 30 exposed calendar days (`DP_Rate30 = PermitCount / ExposureDays × 30`), null when exposure is unknown;
 - total and monthly residential permit counts;
 - average and median monthly permit counts;
 - absolute and percentage change between periods;
@@ -210,7 +214,7 @@ The Python modules also identify their architectural or object-oriented pattern 
 
 ## Getting started
 
-The executable analysis has not been added yet. Once implemented, the intended setup will be:
+Use Python 3.10 or newer. From a fresh checkout, create a virtual environment:
 
 ```bash
 git clone https://github.com/alby1976/Data110_DP_Activity.git
@@ -224,9 +228,65 @@ Activate the environment on Windows PowerShell:
 .venv\Scripts\Activate.ps1
 ```
 
-Then install the pinned dependencies and run the analysis commands documented in a future reproducibility section. Commands will not be advertised as working until the corresponding files exist.
+Install the package, pinned development dependencies, and Parquet support (required by the committed raw-storage settings):
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m dp_activity.cli --help
+```
+
+Download the configured study periods from the repository root:
+
+```bash
+python -m dp_activity.cli --settings config/settings.yaml download
+```
+
+The installed `dp-activity` command accepts the same arguments. Downloads require network access and write timestamped, immutable snapshots plus metadata sidecars to `data/raw`. The optional token is read from `config/dp.env`, using the name `SOCRATA_APP_TOKEN`; a missing file is allowed. See [Configuration](docs/CONFIGURATION.md) for filtering, credentials, and storage details.
+
+The `run` command executes the table pipeline from a frozen raw snapshot:
+
+```bash
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/SNAPSHOT.csv
+```
+
+It uses the snapshot sidecar's UTC retrieval date, or an explicit
+`--observation-end YYYY-MM-DD` override. Offline smoke tests exercise the real
+pipeline with synthetic records and CSV, JSON, and Parquet exports. This does not
+establish final study validity: failed validation reports still allow export,
+sensitivity scenarios remain unconfigured, and full provenance and automatic
+charts remain pending. Profiling is available through `DataProfiler.profile()`;
+there is no `profile` or `analyse` CLI command.
 
 ## Running the tests
+
+The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
+against the pinned Before snapshot. All 16 code cells passed in a fresh kernel
+on September 24, 2026, including validators, five residential analysis strategies,
+a monthly line chart, and three heatmaps. Summaries reconcile to 7,940 residential
+records. Seasonal charts use complete seasons by default; only Before coverage is
+available. External notebook exports are disabled by default. Data-quality and
+classification warnings remain for review. See the
+[notebook explanation](notebooks/01_permit_exploration_explaination.md) for report
+definitions and recorded findings. The separate synthetic CLI smoke test also
+passes; neither establishes independent classification accuracy or policy impact.
+
+The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
+uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
+and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
+the snapshot's UTC retrieval date, September 25, defines the observation horizon.
+Six analysis strategies produce 21 tables, reconciling to 14,277 residential
+records, plus a monthly line chart and three heatmaps. All 15 analysis/setup/chart
+code cells executed successfully; the added optional export cell was separately
+verified with exports disabled, bringing the notebook to 16 code cells.
+
+Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
+section to save permit, analysis, validation, reconciliation, and bias-audit tables
+plus four PNG charts. Each enabled run uses a unique directory under
+`reports/notebook_complete_period/`, with `tables/` and `figures/` subdirectories.
+The enabled export branch has not been exercised in this notebook verification.
+See the [complete-period guide](notebooks/02_complete_period_exploration_explanation.md)
+for refresh instructions, output definitions, findings, and limitations. The
+short post-repeal window remains contextual, and validation warnings remain open.
 
 Install the development dependencies and run the complete suite from the repository root:
 
@@ -245,11 +305,15 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
+The September 24, 2026 baseline is **522 passed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
 
 ## Documentation
 
+- [Complete-period notebook guide](notebooks/02_complete_period_exploration_explanation.md)
+- [Before-period notebook guide](notebooks/01_permit_exploration_explaination.md)
 - [Copyright notice](LICENSE.md)
 - [Academic integrity policy](ACADEMIC_INTEGRITY.md)
 - [Configuration and classification-rules guide](docs/CONFIGURATION.md)
@@ -259,6 +323,7 @@ defined in the [Testing Framework](docs/TESTING.md).
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)
+- [Calculation assumptions and simplifications](docs/CALCULATION_ASSUMPTIONS.md)
 - [Data dictionary](docs/DATA_DICTIONARY.md)
 - [Power BI dashboard plan](docs/POWER_BI_PLAN.md)
 - [Presentation plan](docs/PRESENTATION_PLAN.md)
@@ -287,7 +352,14 @@ The analysis will use a documented [bias and mitigation plan](docs/BIAS_AND_MITI
 
 ## Project status
 
-**Planning and documentation.** The research design is defined; data profiling, classification validation, Python analysis, Power BI development, and result writing remain to be completed.
+**Partial implementation.** Configuration, Socrata downloads, file-format adapters, raw/output repositories, cleaning, profiling, rule loading and classification, all three validators, period/season/processing feature filters, CLI dispatch, log archiving, and pipeline orchestration are implemented. Volume, development-type, geography, processing-time, seasonal, and rezoning analyses are implemented. The injected sensitivity runner is also implemented; study-specific scenarios remain unconfigured in the CLI. Power BI table export is implemented; chart creation and saving are implemented as an explicit Python API. Pipeline unit tests use injected collaborators; offline CLI smoke tests also exercise real collaborators with synthetic data. These do not establish final real-data findings. Classification review against source data, Power BI development, and result writing remain outstanding.
+
+The frozen-fixture CLI smoke test passes. Study-specific
+sensitivity scenarios, chart workflow integration, and full run provenance remain
+unfinished. The validators return reports without
+changing records; failed report statuses do not yet stop the pipeline. See the
+[current implementation checkpoint](docs/IMPLEMENTATION_PLAN.md#current-implementation-checkpoint-september-23)
+for the remaining sequence and integration work.
 
 ## Author
 

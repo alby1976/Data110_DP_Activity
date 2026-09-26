@@ -447,3 +447,89 @@ def test_snapshot_horizon_controls_real_features_and_rates(tmp_path) -> None:
         cli.load_config(cli.DEFAULT_SETTINGS_PATH), snapshot, observation_end=date(2026, 9, 21),
     )
     assert override.pipeline.feature_builders[1].keywords["observation_end"] == date(2026, 9, 21)
+
+
+@pytest.mark.parametrize("command,output_format,suffix,extra", [
+    ("download", "parquet", ".csv", "parquet"),
+    ("run", "parquet", ".csv", "parquet"),
+    ("run", "xlsx", ".csv", "excel"),
+    ("run", "csv", ".parquet", "parquet"),
+    ("run", "csv", ".pq", "parquet"),
+])
+def test_missing_optional_dependency_fails_before_work(
+    download_settings, monkeypatch, capsys, command, output_format, suffix, extra,
+) -> None:
+    """Reject missing engines before network, pipeline, or log mutations.
+
+    Args:
+        download_settings: Isolated settings path and mapping.
+        monkeypatch: Replaces optional dependency loading deterministically.
+        capsys: Captures the CLI diagnostic.
+        command: Workflow requiring the unavailable dependency.
+        output_format: Format selected in that workflow's settings.
+        suffix: Input snapshot extension.
+        extra: Project extra suggested by the error.
+    """
+    from pandas.io import parquet
+
+    settings_path, settings = download_settings
+    settings["storage"]["raw_snapshot_formats"] = (
+        ["csv", output_format] if command == "download" else ["csv"]
+    )
+    settings["storage"]["processed_output_formats"] = [output_format]
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+    config = cli.load_config(settings_path)
+    snapshot = settings_path.parent.parent / ("snapshot" + suffix)
+    missing = ModuleNotFoundError("Simulated missing optional engine")
+
+    def unavailable(*args, **kwargs):
+        """Simulate an unavailable dependency without changing installed packages."""
+        raise missing
+
+    monkeypatch.setattr(parquet, "get_engine", unavailable)
+    monkeypatch.setattr(cli.importlib, "import_module", unavailable)
+    log = config.log_archive.log_file
+    log.parent.mkdir(parents=True, exist_ok=True)
+    log.write_text("existing log", encoding="utf-8")
+
+    with pytest.raises(ImportError, match=extra) as caught:
+        if command == "download":
+            cli.build_download_command(config)
+        else:
+            cli.build_run_command(config, snapshot, observation_end=date(2026, 9, 22))
+    assert caught.value.__cause__ is missing
+
+    arguments = ["--settings", str(settings_path), command]
+    if command == "run":
+        arguments += [str(snapshot), "--observation-end", "2026-09-22"]
+    assert cli.main(arguments) == 1
+    output = capsys.readouterr()
+    assert 'pip install ".[' + extra + ']"' in output.err
+    assert not output.out
+    assert not config.raw_data_dir.exists()
+    assert log.read_text(encoding="utf-8") == "existing log"
+
+
+def test_download_ignores_unavailable_processed_formats(
+    download_settings, monkeypatch,
+) -> None:
+    """Allow basic downloads even when optional processed formats cannot load.
+
+    Args:
+        download_settings: Isolated settings path and mapping.
+        monkeypatch: Blocks optional engine loading.
+    """
+    from pandas.io import parquet
+
+    settings_path, settings = download_settings
+    settings["storage"]["processed_output_formats"] = ["xlsx", "parquet"]
+    settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
+
+    def unexpected(*args, **kwargs):
+        """Fail if an unused output dependency is inspected."""
+        raise AssertionError("Unused dependency was checked")
+
+    monkeypatch.setattr(parquet, "get_engine", unexpected)
+    monkeypatch.setattr(cli.importlib, "import_module", unexpected)
+    command = cli.build_download_command(cli.load_config(settings_path))
+    assert len(command.repositories) == 2

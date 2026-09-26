@@ -1,3 +1,4 @@
+matplotlib==3.10.8
 pandas==2.2.3
 PyYAML==6.0.3
 requests==2.34.2
@@ -6,6 +7,9 @@ sodapy==2.2.0
 [dev]
 pytest==9.1.1
 requests-mock==1.12.1
+
+[excel]
+XlsxWriter<4,>=3.2
 
 [parquet]
 pyarrow==25.0.1
