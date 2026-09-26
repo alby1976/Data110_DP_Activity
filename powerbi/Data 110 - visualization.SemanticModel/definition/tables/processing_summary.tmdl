@@ -1,0 +1,164 @@
+table processing_summary
+	lineageTag: b8f82c6f-884f-4939-91a5-1ab0f23a8ace
+
+	column Period
+		dataType: string
+		lineageTag: 025bc0ec-b594-4950-a735-69a74459190d
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalCount
+		dataType: int64
+		formatString: 0
+		lineageTag: c0d68184-e385-4e80-bb00-2f6b8957e38e
+		summarizeBy: sum
+		sourceColumn: TotalCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidCount
+		dataType: int64
+		formatString: 0
+		lineageTag: b7fe6014-eade-41bc-9f70-1038a6a00f2c
+		summarizeBy: sum
+		sourceColumn: ValidCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvalidCount
+		dataType: int64
+		formatString: 0
+		lineageTag: d502318a-a736-4716-8b40-31df83e25a55
+		summarizeBy: sum
+		sourceColumn: InvalidCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PendingCount
+		dataType: int64
+		formatString: 0
+		lineageTag: cf22daa0-128b-4f1c-bc49-25a16d8cda01
+		summarizeBy: sum
+		sourceColumn: PendingCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column RightCensoredCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cbd92b4-5b75-4a5a-8b83-73af252a2f78
+		summarizeBy: sum
+		sourceColumn: RightCensoredCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidShare
+		dataType: double
+		lineageTag: eb8ffde2-508c-4513-8b21-0698999e09ce
+		summarizeBy: sum
+		sourceColumn: ValidShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NegativeCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 8e32ab29-1581-4ddc-9a9a-e675ad0060f3
+		summarizeBy: sum
+		sourceColumn: NegativeCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MissingDateCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 85fd40bf-26ef-4fcb-9f6c-f9e1066053dc
+		summarizeBy: sum
+		sourceColumn: MissingDateCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvalidDateCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 8dadd612-1720-4bed-a2ac-ce8fc9c89e22
+		summarizeBy: sum
+		sourceColumn: InvalidDateCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AfterObservationEndCount
+		dataType: int64
+		formatString: 0
+		lineageTag: dd2fe7cb-3032-4efc-8e2c-59b1fc113c33
+		summarizeBy: sum
+		sourceColumn: AfterObservationEndCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MedianProcessingDays
+		dataType: int64
+		formatString: 0
+		lineageTag: a4d1966a-1a6c-48dd-8770-f3d4dc5c8e69
+		summarizeBy: sum
+		sourceColumn: MedianProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeanProcessingDays
+		dataType: double
+		lineageTag: 43c91019-10e3-4832-9803-9508e1387970
+		summarizeBy: sum
+		sourceColumn: MeanProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Q1ProcessingDays
+		dataType: double
+		lineageTag: ae4cd044-db45-42e4-93fe-db7eb0e82c05
+		summarizeBy: sum
+		sourceColumn: Q1ProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Q3ProcessingDays
+		dataType: double
+		lineageTag: b3ee79b7-42fd-4349-aab1-4e25af9125a0
+		summarizeBy: sum
+		sourceColumn: Q3ProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IQRProcessingDays
+		dataType: double
+		lineageTag: 66c24688-f9e1-4454-88e8-ba468868c5c0
+		summarizeBy: sum
+		sourceColumn: IQRProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition processing_summary = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    processing_summary_Sheet = Source{[Item="processing_summary",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(processing_summary_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", Int64.Type}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", type number}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

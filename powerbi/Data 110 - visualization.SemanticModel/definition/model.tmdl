@@ -1,0 +1,74 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-CA
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["development_permits_20260925_045241","bias_audit","calendar_month_summary","community_summary","complete_seasons","geography_period_totals","monthly_volume","partial_seasons","permit_volume","permits_clean","processing_period_totals","processing_summary","processing_type_summary","reconciliation","rezoning_by_district","rezoning_by_rule","rezoning_by_type","rezoning_summary","seasonal_monthly_volume","seasonal_summary","sensitivity_summary","type_period_totals","type_summary","unknown_seasons","validation_classification_valid","validation_data_quality_validat","validation_schema_validator","ward_summary"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table bias_audit
+ref table calendar_month_summary
+ref table community_summary
+ref table complete_seasons
+ref table DateTableTemplate_8585e1bf-534b-43ed-ad04-83a880a93ee6
+ref table LocalDateTable_ca7e6eb5-fd87-466e-a7b1-0dc9d73c0b09
+ref table LocalDateTable_4ceb25dc-8219-4135-a75d-3457599fd477
+ref table geography_period_totals
+ref table monthly_volume
+ref table LocalDateTable_38107d8c-a538-4d2b-9c2d-0603f1743c25
+ref table partial_seasons
+ref table LocalDateTable_acfb46f6-2855-4029-a200-dbcba3a4ab2a
+ref table LocalDateTable_5bba6670-406e-43ac-a985-8c0e83312e1e
+ref table permit_volume
+ref table LocalDateTable_b847fc60-f818-4cdb-a0b6-aaa12fd1825b
+ref table LocalDateTable_7db7b01e-4773-409d-8c33-99a5353d156a
+ref table permits_clean
+ref table LocalDateTable_f2241aea-deaa-4fdd-bde2-06747e7d2102
+ref table LocalDateTable_a2d02d8e-68a6-4083-a9fe-9099322250b7
+ref table LocalDateTable_d15aab30-2b2e-40ed-91ef-ba2b01c7b08e
+ref table LocalDateTable_9f97b44b-47ee-4dda-a0c9-2ad7befaed7e
+ref table LocalDateTable_d4c0d763-4e45-4d0d-b2d0-20ca4b538b6d
+ref table LocalDateTable_b5fbd310-084a-4962-91ac-e76123f51553
+ref table LocalDateTable_50ccaffe-ae5c-49cb-95e6-04294b7dcceb
+ref table LocalDateTable_5e4585a7-462f-4fa7-b0f9-ec456bbf8904
+ref table LocalDateTable_ab8ab4b4-7a8f-4b9c-8898-1b3bc1ad20de
+ref table LocalDateTable_4a1c3254-34db-408d-9718-5fed1b54cd3d
+ref table LocalDateTable_b9f58ffd-dcf9-486a-a178-71821c8a3866
+ref table LocalDateTable_9e952f09-caf4-4350-b8bf-ec806cc911b6
+ref table processing_period_totals
+ref table processing_summary
+ref table processing_type_summary
+ref table reconciliation
+ref table rezoning_by_district
+ref table rezoning_by_rule
+ref table rezoning_by_type
+ref table rezoning_summary
+ref table seasonal_monthly_volume
+ref table LocalDateTable_8153b07a-983a-4fb5-9640-5ad6751ed0db
+ref table seasonal_summary
+ref table LocalDateTable_ddc51160-187b-48ee-816a-1fb4a0488f2d
+ref table LocalDateTable_c073e644-6cc8-4b03-bb1f-83b3f676d920
+ref table sensitivity_summary
+ref table type_period_totals
+ref table type_summary
+ref table unknown_seasons
+ref table validation_classification_valid
+ref table validation_data_quality_validat
+ref table validation_schema_validator
+ref table ward_summary
+ref table development_permits_20260925_045241
+ref table LocalDateTable_58743b17-c430-4382-92b8-59598bf00d78
+ref table LocalDateTable_5fbc8c37-5a47-4391-a313-80848a6e8eea
+ref table LocalDateTable_e712b260-5486-4bbb-ba0e-2d64ffa2d0de
+ref table LocalDateTable_f78d6c42-1b30-4159-b3e9-64593276f515
+ref table LocalDateTable_9b8acc0a-0e9c-4410-b894-0ed881251475
+
+ref cultureInfo en-US
+

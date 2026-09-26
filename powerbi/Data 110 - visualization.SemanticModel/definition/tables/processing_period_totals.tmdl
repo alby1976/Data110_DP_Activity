@@ -1,0 +1,142 @@
+table processing_period_totals
+	lineageTag: 78e517e7-ac62-4d35-aed0-80db386b3a1d
+
+	column Period
+		dataType: string
+		lineageTag: 17ebfee3-5e60-4cf2-a604-739ac580f28b
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllPermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 46d8acd2-a707-46a2-a340-8e8f0647f794
+		summarizeBy: sum
+		sourceColumn: AllPermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodResidentialCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 2725823a-c865-4d1f-9a88-948c2e9936d7
+		summarizeBy: sum
+		sourceColumn: PeriodResidentialCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExcludedCount
+		dataType: int64
+		formatString: 0
+		lineageTag: a5e305a5-1a9e-480c-8d00-f0b74724a9f5
+		summarizeBy: sum
+		sourceColumn: ExcludedCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 942aaaad-c896-4759-9fe7-9c9cc7644139
+		summarizeBy: sum
+		sourceColumn: TotalCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidCount
+		dataType: int64
+		formatString: 0
+		lineageTag: af03ba7c-caa8-4212-8760-664c7a537939
+		summarizeBy: sum
+		sourceColumn: ValidCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvalidCount
+		dataType: int64
+		formatString: 0
+		lineageTag: d0b3c75f-cb69-41ef-bc8d-41fd2a5cbdcb
+		summarizeBy: sum
+		sourceColumn: InvalidCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PendingCount
+		dataType: int64
+		formatString: 0
+		lineageTag: a4704ceb-8a59-4dc9-8edd-da2da32e7ca2
+		summarizeBy: sum
+		sourceColumn: PendingCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column RightCensoredCount
+		dataType: int64
+		formatString: 0
+		lineageTag: c2b26868-7c72-4308-ad52-dae972d704fa
+		summarizeBy: sum
+		sourceColumn: RightCensoredCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidShare
+		dataType: double
+		lineageTag: 254fc57e-639c-4927-b7a9-9af658f12770
+		summarizeBy: sum
+		sourceColumn: ValidShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NegativeCount
+		dataType: int64
+		formatString: 0
+		lineageTag: ba943792-267d-453b-91b0-46e32a1ab4ca
+		summarizeBy: sum
+		sourceColumn: NegativeCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MissingDateCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 58496d15-02f7-46fa-bba8-7a5e3785df0f
+		summarizeBy: sum
+		sourceColumn: MissingDateCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvalidDateCount
+		dataType: int64
+		formatString: 0
+		lineageTag: dc89ef0f-0d46-4473-ae4f-1969dfc1794f
+		summarizeBy: sum
+		sourceColumn: InvalidDateCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AfterObservationEndCount
+		dataType: int64
+		formatString: 0
+		lineageTag: bc154a53-86d1-4455-a36b-302a5017e252
+		summarizeBy: sum
+		sourceColumn: AfterObservationEndCount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition processing_period_totals = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    processing_period_totals_Sheet = Source{[Item="processing_period_totals",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(processing_period_totals_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

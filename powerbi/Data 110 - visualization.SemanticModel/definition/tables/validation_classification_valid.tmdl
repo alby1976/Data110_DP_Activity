@@ -1,0 +1,235 @@
+table validation_classification_valid
+	lineageTag: 417fe116-833b-4474-971a-a71af0e7738b
+
+	column report_type
+		dataType: string
+		lineageTag: 16f961c7-8f1a-48ec-8a48-ba55cfa8228c
+		summarizeBy: none
+		sourceColumn: report_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 2d682d9c-b156-40a8-848d-03b66530824b
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column record_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 82dbf471-e0a0-48ff-b97e-af238c56db7d
+		summarizeBy: sum
+		sourceColumn: record_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column matched_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 485b4753-0fa0-4ff5-96da-fabd9fb1d216
+		summarizeBy: sum
+		sourceColumn: matched_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column unmatched_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 088c6d9d-c350-46a0-a868-f80ae03f5862
+		summarizeBy: sum
+		sourceColumn: unmatched_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column coverage_percentage
+		dataType: double
+		lineageTag: a79275c6-643f-4cfd-9eb0-e7549a48fac4
+		summarizeBy: sum
+		sourceColumn: coverage_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unmatched_percentage
+		dataType: double
+		lineageTag: 39c897cf-8e5e-4f1a-a4f2-c600fa9b0a84
+		summarizeBy: sum
+		sourceColumn: unmatched_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column review_count
+		dataType: int64
+		formatString: 0
+		lineageTag: a6999754-de07-4334-a341-572e7d927e45
+		summarizeBy: sum
+		sourceColumn: review_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_percentage
+		dataType: double
+		lineageTag: f0438a61-fc60-40a9-a6e0-ecc81d85010d
+		summarizeBy: sum
+		sourceColumn: review_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column overlap_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 597db298-d507-4f8a-9c09-96bdf5866176
+		summarizeBy: sum
+		sourceColumn: overlap_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column additional_match_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 43868059-964f-4979-a018-005ca9b0e449
+		summarizeBy: sum
+		sourceColumn: additional_match_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column unknown_rule_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 1470b4bd-6e89-49f1-8da4-d62b41f85bce
+		summarizeBy: sum
+		sourceColumn: unknown_rule_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column disabled_rule_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 167c21b2-f616-42d7-91ed-ca744c46fc52
+		summarizeBy: sum
+		sourceColumn: disabled_rule_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column inconsistent_audit_count
+		dataType: int64
+		formatString: 0
+		lineageTag: f729e292-f1cb-4f20-b100-d1efcc3fc842
+		summarizeBy: sum
+		sourceColumn: inconsistent_audit_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column missing_audit_columns
+		dataType: string
+		lineageTag: 40ca2c86-5666-4d75-8044-b6ea0620ba3c
+		summarizeBy: none
+		sourceColumn: missing_audit_columns
+
+		annotation SummarizationSetBy = Automatic
+
+	column enabled_rule_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 5566dea6-7d80-40c2-b489-54d9a82a63fb
+		summarizeBy: sum
+		sourceColumn: enabled_rule_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column audit_count
+		dataType: string
+		lineageTag: 00e437a1-9ac3-4219-a4f5-ae4dc299071b
+		summarizeBy: none
+		sourceColumn: audit_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column audit_error_count
+		dataType: string
+		lineageTag: 515d8f9b-f80c-49e6-8001-68d40a2536b8
+		summarizeBy: none
+		sourceColumn: audit_error_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column audit_accuracy_percentage
+		dataType: string
+		lineageTag: 14a919e3-d3ca-430f-84b9-ab7dbebeaf2c
+		summarizeBy: none
+		sourceColumn: audit_accuracy_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+	column expected_type
+		dataType: string
+		lineageTag: 983d5108-dcf4-4789-b628-0d7cd0b7a869
+		summarizeBy: none
+		sourceColumn: expected_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column predicted_type
+		dataType: string
+		lineageTag: 12141418-1609-4278-8611-786f8a5a7c35
+		summarizeBy: none
+		sourceColumn: predicted_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_status_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 2480feb7-2673-4325-997e-f4394dceb913
+		summarizeBy: sum
+		sourceColumn: review_status_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column provisional_status_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c65ffe5-361e-4dc2-87ce-0be5502055ec
+		summarizeBy: sum
+		sourceColumn: provisional_status_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column fallback_status_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 77d3fd13-2214-403f-9e92-5ca6dc613b70
+		summarizeBy: sum
+		sourceColumn: fallback_status_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column message
+		dataType: string
+		lineageTag: 7242e6a9-0f2c-4742-acf4-6c1aa6184337
+		summarizeBy: none
+		sourceColumn: message
+
+		annotation SummarizationSetBy = Automatic
+
+	partition validation_classification_valid = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    validation_classification_valid_Sheet = Source{[Item="validation_classification_valid",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(validation_classification_valid_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"report_type", type text}, {"status", type text}, {"record_count", Int64.Type}, {"matched_count", Int64.Type}, {"unmatched_count", Int64.Type}, {"coverage_percentage", type number}, {"unmatched_percentage", type number}, {"review_count", Int64.Type}, {"review_percentage", type number}, {"overlap_count", Int64.Type}, {"additional_match_count", Int64.Type}, {"unknown_rule_count", Int64.Type}, {"disabled_rule_count", Int64.Type}, {"inconsistent_audit_count", Int64.Type}, {"missing_audit_columns", type any}, {"enabled_rule_count", Int64.Type}, {"audit_count", type any}, {"audit_error_count", type any}, {"audit_accuracy_percentage", type any}, {"expected_type", type any}, {"predicted_type", type any}, {"review_status_count", Int64.Type}, {"provisional_status_count", Int64.Type}, {"fallback_status_count", Int64.Type}, {"message", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

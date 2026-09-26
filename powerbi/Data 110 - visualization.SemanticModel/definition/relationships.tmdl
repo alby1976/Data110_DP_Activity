@@ -1,0 +1,319 @@
+relationship bfeb0ca0-de98-4498-b923-325084d69be1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: complete_seasons.SeasonStartDate
+	toColumn: LocalDateTable_ca7e6eb5-fd87-466e-a7b1-0dc9d73c0b09.Date
+
+relationship 5d1c056d-3a8a-4bb6-abbc-8015733bf6eb
+	joinOnDateBehavior: datePartOnly
+	fromColumn: complete_seasons.SeasonEndDate
+	toColumn: LocalDateTable_4ceb25dc-8219-4135-a75d-3457599fd477.Date
+
+relationship c259dbbc-4ce6-4e67-a0fd-116e25932727
+	joinOnDateBehavior: datePartOnly
+	fromColumn: monthly_volume.YearMonth
+	toColumn: LocalDateTable_38107d8c-a538-4d2b-9c2d-0603f1743c25.Date
+
+relationship ffbc7ac3-5dc1-4caf-8d5d-e756dcc0342e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: partial_seasons.SeasonStartDate
+	toColumn: LocalDateTable_acfb46f6-2855-4029-a200-dbcba3a4ab2a.Date
+
+relationship 345e462d-38f0-4842-8d86-d917b6b9ca7c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: partial_seasons.SeasonEndDate
+	toColumn: LocalDateTable_5bba6670-406e-43ac-a985-8c0e83312e1e.Date
+
+relationship 04245477-9213-4025-a21b-faa9e8e51c42
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permit_volume.WindowStart
+	toColumn: LocalDateTable_b847fc60-f818-4cdb-a0b6-aaa12fd1825b.Date
+
+relationship 31ff9f94-d7bb-4d74-b4d3-a4725f79e6c6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permit_volume.WindowEnd
+	toColumn: LocalDateTable_7db7b01e-4773-409d-8c33-99a5353d156a.Date
+
+relationship 26fe6333-4e1f-462b-b936-bfa03e1908b4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.applied_date
+	toColumn: LocalDateTable_f2241aea-deaa-4fdd-bde2-06747e7d2102.Date
+
+relationship 3a629c06-d7bc-4d4a-9278-a0a85b354f74
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.decision_date
+	toColumn: LocalDateTable_a2d02d8e-68a6-4083-a9fe-9099322250b7.Date
+
+relationship ed769a20-9253-432a-8562-87088835527a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.releasedate
+	toColumn: LocalDateTable_d15aab30-2b2e-40ed-91ef-ba2b01c7b08e.Date
+
+relationship d72d510b-8251-4628-a83e-4caa95df802d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.mustcommencedate
+	toColumn: LocalDateTable_9f97b44b-47ee-4dda-a0c9-2ad7befaed7e.Date
+
+relationship 45403e74-30b8-4bc2-a770-78f4fcb08548
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.canceledrefuseddate
+	toColumn: LocalDateTable_d4c0d763-4e45-4d0d-b2d0-20ca4b538b6d.Date
+
+relationship 8711f924-cf8b-4449-8d8b-5765f1c60b7f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.raw_applied_date
+	toColumn: LocalDateTable_b5fbd310-084a-4962-91ac-e76123f51553.Date
+
+relationship 7a107661-efc4-435f-a71d-4e971a2be00c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.raw_decision_date
+	toColumn: LocalDateTable_50ccaffe-ae5c-49cb-95e6-04294b7dcceb.Date
+
+relationship a57a0ae4-ae2f-45c6-b972-289cac993215
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.raw_releasedate
+	toColumn: LocalDateTable_5e4585a7-462f-4fa7-b0f9-ec456bbf8904.Date
+
+relationship 3bb597c8-2827-4803-9528-edaa8a5ff5f6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.raw_mustcommencedate
+	toColumn: LocalDateTable_ab8ab4b4-7a8f-4b9c-8898-1b3bc1ad20de.Date
+
+relationship 315846c2-90fd-4429-ab4e-a52bf36fae4b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.raw_canceledrefuseddate
+	toColumn: LocalDateTable_4a1c3254-34db-408d-9718-5fed1b54cd3d.Date
+
+relationship 7a9174ee-babc-4cee-b07b-df5708308ce1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.SeasonStartDate
+	toColumn: LocalDateTable_b9f58ffd-dcf9-486a-a178-71821c8a3866.Date
+
+relationship fb913515-09f7-4000-9c47-68f0c720be56
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.SeasonEndDate
+	toColumn: LocalDateTable_9e952f09-caf4-4350-b8bf-ec806cc911b6.Date
+
+relationship AutoDetected_0885f537-fd74-46ec-9c14-436548de3f3e
+	fromColumn: calendar_month_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_dfb784a9-6044-4b74-8fd2-10558d129c7f
+	fromColumn: community_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_32118770-ff12-4b30-b9ff-c58e5ef25d73
+	fromColumn: complete_seasons.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_7bd07c88-5501-4924-9a51-bbac73aa8dcf
+	fromColumn: monthly_volume.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_0927a968-d978-491a-b8a1-fa40d40afa52
+	fromColumn: partial_seasons.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_8ccb32ff-4dee-46ed-9ebe-e216c338783c
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: permit_volume.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_06d83b5a-e75c-442f-a8ee-50f3671d810f
+	fromColumn: permits_clean.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_833870d0-124e-47b0-9b02-435230a8cffd
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: processing_period_totals.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_e6e606ec-23dc-46c2-8f50-bd1baa012732
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: processing_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_632fa7c2-3be9-417a-bf29-0f877abc879c
+	fromColumn: processing_type_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_a5231936-f2f4-42de-bb57-68e71efacd55
+	fromColumn: rezoning_by_district.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_4e426598-dca5-4d6d-9678-f2d0ac351ce7
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: partial_seasons.PermitCount
+	toColumn: calendar_month_summary.PermitCount
+
+relationship AutoDetected_12ae590d-ed63-42ea-9499-3396572246f0
+	isActive: false
+	fromColumn: community_summary.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_571ffc78-1d37-4f9a-b3b9-afac9d72c628
+	isActive: false
+	fromColumn: rezoning_by_district.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_7ff884f5-1b94-42a0-a326-418af8f465bc
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: processing_period_totals.AllPermitCount
+	toColumn: permit_volume.AllPermitCount
+
+relationship AutoDetected_8f4570ed-2847-4d69-a80b-d3f6eff5d513
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: processing_summary.TotalCount
+	toColumn: processing_period_totals.TotalCount
+
+relationship 4ae62297-f646-4886-8d89-9be1dae5db18
+	joinOnDateBehavior: datePartOnly
+	fromColumn: seasonal_monthly_volume.YearMonth
+	toColumn: LocalDateTable_8153b07a-983a-4fb5-9640-5ad6751ed0db.Date
+
+relationship 6cb77f40-8657-402e-8349-3092f9f87fd1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: seasonal_summary.SeasonStartDate
+	toColumn: LocalDateTable_ddc51160-187b-48ee-816a-1fb4a0488f2d.Date
+
+relationship f25a249e-c74e-471d-a79e-6b5658b22172
+	joinOnDateBehavior: datePartOnly
+	fromColumn: seasonal_summary.SeasonEndDate
+	toColumn: LocalDateTable_c073e644-6cc8-4b03-bb1f-83b3f676d920.Date
+
+relationship AutoDetected_fbedd718-a4c4-4e8c-a459-a70c0457e695
+	fromColumn: rezoning_by_rule.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_934f61fa-915c-47b9-9706-1aa8c11e5f91
+	fromColumn: rezoning_by_type.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_555eaf93-14fc-4e1c-a673-239268422c65
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: rezoning_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_b57d1d28-6206-4681-86b0-fb951129f63e
+	fromColumn: seasonal_monthly_volume.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_1486e73d-8018-4e2e-bc8c-963c3730904b
+	fromColumn: seasonal_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_b80da35c-a00e-409a-8f26-774e55594e40
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: type_period_totals.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_2998e2fb-523e-4b07-baac-90511e832111
+	fromColumn: type_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_5e1cb8f2-30bd-491e-a0db-d262df5d8cc8
+	fromColumn: ward_summary.Period
+	toColumn: geography_period_totals.Period
+
+relationship AutoDetected_f26f7ccb-f869-4183-b5c1-929e25369b4d
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: seasonal_summary.PermitCount
+	toColumn: calendar_month_summary.PermitCount
+
+relationship AutoDetected_c5f28212-4aac-4591-b765-9ecc161274d7
+	isActive: false
+	fromColumn: rezoning_by_rule.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_fcc0d455-571a-4ba7-a52d-b84813c277a7
+	isActive: false
+	fromColumn: rezoning_by_type.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_2dbfe2c0-84bc-4ac2-a0c1-3de5eaab62d6
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: rezoning_summary.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_aee08e39-0dbf-4d45-bdca-06d9f8c3970f
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: type_period_totals.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_c6271789-efca-4c04-87bb-e926878e0f9c
+	isActive: false
+	fromColumn: type_summary.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_fe57ef49-1c47-4dbb-b967-b88d70c70c1b
+	isActive: false
+	fromColumn: ward_summary.PeriodResidentialCount
+	toColumn: processing_period_totals.PeriodResidentialCount
+
+relationship AutoDetected_fda833bb-aaa5-43b8-aef2-2a6523db50f5
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: rezoning_summary.AllPermitCount
+	toColumn: permit_volume.AllPermitCount
+
+relationship AutoDetected_f64376d9-75fc-4c10-addb-605e0cc4c137
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: type_period_totals.AllPermitCount
+	toColumn: permit_volume.AllPermitCount
+
+relationship AutoDetected_72a0343d-50f5-4c9a-b662-fc67b698d261
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: type_period_totals.ExcludedCount
+	toColumn: rezoning_summary.ExcludedCount
+
+relationship AutoDetected_b7bcfac8-d56f-489e-bb32-41495c71789f
+	isActive: false
+	fromColumn: seasonal_summary.InvalidCount
+	toColumn: partial_seasons.InvalidCount
+
+relationship 36480e88-fc01-473d-ad4e-17ffd0b900b1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: development_permits_20260925_045241.applieddate
+	toColumn: LocalDateTable_58743b17-c430-4382-92b8-59598bf00d78.Date
+
+relationship 55669dc9-204f-4872-be2b-bd29d8030dd2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: development_permits_20260925_045241.decisiondate
+	toColumn: LocalDateTable_5fbc8c37-5a47-4391-a313-80848a6e8eea.Date
+
+relationship 43645a04-5acb-416b-8159-b8fac0a63811
+	joinOnDateBehavior: datePartOnly
+	fromColumn: development_permits_20260925_045241.releasedate
+	toColumn: LocalDateTable_e712b260-5486-4bbb-ba0e-2d64ffa2d0de.Date
+
+relationship e803087d-1fbb-445b-92bc-b43e493009de
+	joinOnDateBehavior: datePartOnly
+	fromColumn: development_permits_20260925_045241.mustcommencedate
+	toColumn: LocalDateTable_f78d6c42-1b30-4159-b3e9-64593276f515.Date
+
+relationship b57d84b8-310f-4fab-bbb6-48290d8c38b5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: development_permits_20260925_045241.canceledrefuseddate
+	toColumn: LocalDateTable_9b8acc0a-0e9c-4410-b894-0ed881251475.Date
+

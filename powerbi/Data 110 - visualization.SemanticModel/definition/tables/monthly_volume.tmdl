@@ -1,0 +1,117 @@
+table monthly_volume
+	lineageTag: b549ca9e-57bd-4007-a91d-f23785dce6f4
+
+	column Period
+		dataType: string
+		lineageTag: 3beb8f16-bdec-453c-b0c2-094e1ee34857
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5324af99-ea11-4f0e-96cb-be4a70f0a56b
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		variation Variation
+			isDefault
+			relationship: c259dbbc-4ce6-4e67-a0fd-116e25932727
+			defaultHierarchy: LocalDateTable_38107d8c-a538-4d2b-9c2d-0603f1743c25.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 794177fe-b306-4c8a-afc3-af5589f38be5
+		summarizeBy: none
+		sourceColumn: PermitCount
+
+		annotation SummarizationSetBy = User
+
+	column AllPermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 41cbc87f-8989-4f4a-80cb-5b3f1c986029
+		summarizeBy: sum
+		sourceColumn: AllPermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExcludedCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 955fd854-7976-49f4-83da-ef9ec32623ed
+		summarizeBy: sum
+		sourceColumn: ExcludedCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResidentialShare
+		dataType: double
+		lineageTag: 2c74dcc5-121f-48a4-8eb4-02149011d493
+		summarizeBy: sum
+		sourceColumn: ResidentialShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ExposureDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 10688816-c50f-4cdf-bb7b-b2ea94f9554d
+		summarizeBy: sum
+		sourceColumn: ExposureDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPartialMonth
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 227b4866-252a-4e82-9ba5-e9bf1e4f9b31
+		summarizeBy: none
+		sourceColumn: IsPartialMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column WindowSource
+		dataType: string
+		lineageTag: e36f30a4-8aa6-4295-be09-5a41eb62086e
+		summarizeBy: none
+		sourceColumn: WindowSource
+
+		annotation SummarizationSetBy = Automatic
+
+	column DP_Rate30
+		dataType: double
+		lineageTag: 189bf8a2-d1a8-4d32-98df-16df817956b6
+		summarizeBy: none
+		sourceColumn: DP_Rate30
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MonthName = Format (monthly_volume[YearMonth], "MMM")
+		lineageTag: b1cf2828-056c-4a52-b5f1-905753a8a3bc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition monthly_volume = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    monthly_volume_Sheet = Source{[Item="monthly_volume",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(monthly_volume_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"YearMonth", type datetime}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"ExposureDays", Int64.Type}, {"IsPartialMonth", type logical}, {"WindowSource", type text}, {"DP_Rate30", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

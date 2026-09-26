@@ -1,0 +1,39 @@
+table validation_schema_validator
+	lineageTag: 60276b5d-9910-4728-a196-0ba36d05617e
+
+	column Column1
+		dataType: string
+		lineageTag: d5e854bd-eb18-4be8-b79b-27f9ce3f704a
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column2
+		dataType: string
+		lineageTag: c145a7de-39b4-45ae-9689-92be6c7db7d8
+		summarizeBy: none
+		sourceColumn: Column2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column3
+		dataType: string
+		lineageTag: 7505549a-5146-4fdc-a0f4-28bdceb449ba
+		summarizeBy: none
+		sourceColumn: Column3
+
+		annotation SummarizationSetBy = Automatic
+
+	partition validation_schema_validator = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    validation_schema_validator_Sheet = Source{[Item="validation_schema_validator",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(validation_schema_validator_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

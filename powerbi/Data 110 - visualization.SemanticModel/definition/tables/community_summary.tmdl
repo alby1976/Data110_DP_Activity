@@ -1,0 +1,111 @@
+table community_summary
+	lineageTag: 89c1e6b6-e9a8-4f2e-aa74-5e04abefa00f
+
+	column Period
+		dataType: string
+		lineageTag: db9b16a1-d6cd-4a5a-9362-b22dafeeaff9
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column Community
+		dataType: string
+		lineageTag: f0f21461-a911-429c-bc24-542439df0154
+		summarizeBy: none
+		sourceColumn: Community
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsMissingGeography
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 15b4d53e-b10a-4b7e-9064-5ac0a69a0b9d
+		summarizeBy: none
+		sourceColumn: IsMissingGeography
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: f9c3ecab-1949-46b1-aa56-64c0abf1cc08
+		summarizeBy: sum
+		sourceColumn: PermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodResidentialCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 9efef34e-a12c-413c-80d4-d29a68ae4f9d
+		summarizeBy: sum
+		sourceColumn: PeriodResidentialCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitShare
+		dataType: double
+		lineageTag: a70916e1-8c34-4592-9c50-38d28fd711b2
+		summarizeBy: sum
+		sourceColumn: PermitShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BaselinePeriod
+		dataType: string
+		lineageTag: f1ae1554-0f7c-4c34-a641-d92e764aa366
+		summarizeBy: none
+		sourceColumn: BaselinePeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column BaselinePermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 92d144c4-18a3-47d6-955f-01736de3f369
+		summarizeBy: sum
+		sourceColumn: BaselinePermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AbsoluteChange
+		dataType: string
+		lineageTag: 2aa3c3d3-bc7a-417e-ba70-94d86b954e93
+		summarizeBy: none
+		sourceColumn: AbsoluteChange
+
+		annotation SummarizationSetBy = Automatic
+
+	column PercentChange
+		dataType: string
+		lineageTag: ab904c2a-a6a7-441f-a24f-ce2c1ddf1350
+		summarizeBy: none
+		sourceColumn: PercentChange
+
+		annotation SummarizationSetBy = Automatic
+
+	column SmallBaselineWarning
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9172b926-1268-435d-bf0c-cbdbaafaf77d
+		summarizeBy: none
+		sourceColumn: SmallBaselineWarning
+
+		annotation SummarizationSetBy = Automatic
+
+	partition community_summary = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    community_summary_Sheet = Source{[Item="community_summary",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(community_summary_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Community", type text}, {"IsMissingGeography", type logical}, {"PermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"PermitShare", type number}, {"BaselinePeriod", type text}, {"BaselinePermitCount", Int64.Type}, {"AbsoluteChange", type any}, {"PercentChange", type any}, {"SmallBaselineWarning", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

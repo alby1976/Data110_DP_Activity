@@ -1,0 +1,117 @@
+table ward_summary
+	lineageTag: e423585a-66d3-4d30-a137-f92361135e8f
+
+	column Period
+		dataType: string
+		lineageTag: 0e824643-bf53-47de-be13-9093522fb9eb
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ward
+		dataType: int64
+		formatString: 0
+		lineageTag: 013006cc-0ef8-4d86-89ee-2098c3abd749
+		summarizeBy: sum
+		sourceColumn: Ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsMissingGeography
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 3c34db5f-eca0-43dd-acf6-2ed1138169b1
+		summarizeBy: none
+		sourceColumn: IsMissingGeography
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: b1990f1d-baba-4935-9ab4-d8a7c55b33fc
+		summarizeBy: sum
+		sourceColumn: PermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodResidentialCount
+		dataType: int64
+		formatString: 0
+		lineageTag: a2e1f5a1-48f2-4deb-a8ae-39ac81d24824
+		summarizeBy: sum
+		sourceColumn: PeriodResidentialCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitShare
+		dataType: double
+		lineageTag: b88bb004-4f5c-45e7-8b7e-e9999aa28600
+		summarizeBy: sum
+		sourceColumn: PermitShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BaselinePeriod
+		dataType: string
+		lineageTag: 3285ebe8-9b35-4569-938d-50a7692bd6fb
+		summarizeBy: none
+		sourceColumn: BaselinePeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column BaselinePermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 2159e752-d5ee-43fd-8b2f-589bbfbd711a
+		summarizeBy: sum
+		sourceColumn: BaselinePermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AbsoluteChange
+		dataType: int64
+		formatString: 0
+		lineageTag: d1d7bdf1-f1ff-44bb-949a-740feef637c1
+		summarizeBy: sum
+		sourceColumn: AbsoluteChange
+
+		annotation SummarizationSetBy = Automatic
+
+	column PercentChange
+		dataType: double
+		lineageTag: 617fea18-1467-45c0-9967-cfad597cefc5
+		summarizeBy: sum
+		sourceColumn: PercentChange
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SmallBaselineWarning
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 678d3af7-b103-4fb7-98ee-6d04a879d1e9
+		summarizeBy: none
+		sourceColumn: SmallBaselineWarning
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ward_summary = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    ward_summary_Sheet = Source{[Item="ward_summary",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(ward_summary_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Ward", Int64.Type}, {"IsMissingGeography", type logical}, {"PermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"PermitShare", type number}, {"BaselinePeriod", type text}, {"BaselinePermitCount", Int64.Type}, {"AbsoluteChange", Int64.Type}, {"PercentChange", type number}, {"SmallBaselineWarning", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

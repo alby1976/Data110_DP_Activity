@@ -1,0 +1,949 @@
+table permits_clean
+	lineageTag: 65ae370d-636d-47f9-9a15-175313c5d341
+
+	column point
+		dataType: string
+		lineageTag: d1df3a5a-b7e3-4846-a827-ab85abaca58b
+		summarizeBy: none
+		sourceColumn: point
+
+		annotation SummarizationSetBy = Automatic
+
+	column permit_number
+		dataType: string
+		lineageTag: 8075225d-a9b4-4fcc-b85f-49c056f215ce
+		summarizeBy: none
+		sourceColumn: permit_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column address
+		dataType: string
+		lineageTag: fd56cb6e-9e45-4a4f-b1af-b903edbe4430
+		summarizeBy: none
+		sourceColumn: address
+
+		annotation SummarizationSetBy = Automatic
+
+	column applicant
+		dataType: string
+		lineageTag: 23adb1ca-078e-4f0a-b22e-48e60c255d82
+		summarizeBy: none
+		sourceColumn: applicant
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: c0a2d2a1-995c-4b53-84e2-c95c23208196
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: 3105b73a-219e-4cda-9cfc-00ae1dedb521
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column proposed_use_code
+		dataType: string
+		lineageTag: e6f2d876-8a11-41bb-9511-b42dbc206571
+		summarizeBy: none
+		sourceColumn: proposed_use_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column proposed_use_description
+		dataType: string
+		lineageTag: 7bd620bf-0241-42d3-ad91-d3831856ebf0
+		summarizeBy: none
+		sourceColumn: proposed_use_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column permitteddiscretionary
+		dataType: string
+		lineageTag: 94b77d9e-7cfb-4832-9741-66ad6899de5f
+		summarizeBy: none
+		sourceColumn: permitteddiscretionary
+
+		annotation SummarizationSetBy = Automatic
+
+	column land_use_district
+		dataType: string
+		lineageTag: c7f3a3c5-4756-4858-abc5-80c9c83107c7
+		summarizeBy: none
+		sourceColumn: land_use_district
+
+		annotation SummarizationSetBy = Automatic
+
+	column landusedistrictdescription
+		dataType: string
+		lineageTag: ff90eb36-4111-41a1-a0a8-f3cf4a2b4ca1
+		summarizeBy: none
+		sourceColumn: landusedistrictdescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column statuscurrent
+		dataType: string
+		lineageTag: d8229232-2680-4c93-890a-4ba2e9bea528
+		summarizeBy: none
+		sourceColumn: statuscurrent
+
+		annotation SummarizationSetBy = Automatic
+
+	column applied_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 990a7002-d8ff-4f3c-85ae-3a2d2d04a3b0
+		summarizeBy: none
+		sourceColumn: applied_date
+
+		variation Variation
+			isDefault
+			relationship: 26fe6333-4e1f-462b-b936-bfa03e1908b4
+			defaultHierarchy: LocalDateTable_f2241aea-deaa-4fdd-bde2-06747e7d2102.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column decision_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d1d26ef1-867c-4c89-a55c-7e3a72fe161d
+		summarizeBy: none
+		sourceColumn: decision_date
+
+		variation Variation
+			isDefault
+			relationship: 3a629c06-d7bc-4d4a-9278-a0a85b354f74
+			defaultHierarchy: LocalDateTable_a2d02d8e-68a6-4083-a9fe-9099322250b7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column releasedate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 42aeb345-000a-4357-be8e-78c9f462443e
+		summarizeBy: none
+		sourceColumn: releasedate
+
+		variation Variation
+			isDefault
+			relationship: ed769a20-9253-432a-8562-87088835527a
+			defaultHierarchy: LocalDateTable_d15aab30-2b2e-40ed-91ef-ba2b01c7b08e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mustcommencedate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f8279505-ded8-4bab-abbb-b2bc643fd10d
+		summarizeBy: none
+		sourceColumn: mustcommencedate
+
+		variation Variation
+			isDefault
+			relationship: d72d510b-8251-4628-a83e-4caa95df802d
+			defaultHierarchy: LocalDateTable_9f97b44b-47ee-4dda-a0c9-2ad7befaed7e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column decision
+		dataType: string
+		lineageTag: b19bf1fe-a3ef-44e0-a748-2c40d02d041d
+		summarizeBy: none
+		sourceColumn: decision
+
+		annotation SummarizationSetBy = Automatic
+
+	column decisionby
+		dataType: string
+		lineageTag: bdbe56bd-b18b-44f9-b634-eedc0936048c
+		summarizeBy: none
+		sourceColumn: decisionby
+
+		annotation SummarizationSetBy = Automatic
+
+	column communitycode
+		dataType: string
+		lineageTag: 5171279c-daaf-44da-bb0a-843adc5a3b3e
+		summarizeBy: none
+		sourceColumn: communitycode
+
+		annotation SummarizationSetBy = Automatic
+
+	column community
+		dataType: string
+		lineageTag: 72ec6b01-b5a3-494f-afac-29a913fc05d8
+		summarizeBy: none
+		sourceColumn: community
+
+		annotation SummarizationSetBy = Automatic
+
+	column ward
+		dataType: int64
+		formatString: 0
+		lineageTag: 4ad65f99-c6ad-4d81-9c36-0ae98c3fed51
+		summarizeBy: sum
+		sourceColumn: ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column quadrant
+		dataType: string
+		lineageTag: 8eec9e71-3b05-4964-8c6f-b3e94ea6ac81
+		summarizeBy: none
+		sourceColumn: quadrant
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 5781b970-4084-44a7-97bb-ad68f68994e7
+		summarizeBy: sum
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 8d35b442-a36b-443e-9f8f-1c5bee9985a4
+		summarizeBy: sum
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column locationcount
+		dataType: int64
+		formatString: 0
+		lineageTag: bc267f46-7f38-4c0c-837b-b17c3c59d7fa
+		summarizeBy: sum
+		sourceColumn: locationcount
+
+		annotation SummarizationSetBy = Automatic
+
+	column locationtypes
+		dataType: string
+		lineageTag: 276a3939-0a88-4ed1-887d-f5a93f619953
+		summarizeBy: none
+		sourceColumn: locationtypes
+
+		annotation SummarizationSetBy = Automatic
+
+	column locationaddresses
+		dataType: string
+		lineageTag: 2c20caa7-085b-401d-97e6-29b9ce7016de
+		summarizeBy: none
+		sourceColumn: locationaddresses
+
+		annotation SummarizationSetBy = Automatic
+
+	column locationsgeojson
+		dataType: string
+		lineageTag: 32a994c5-fb8b-49bd-9ff6-155dc717ed4b
+		summarizeBy: none
+		sourceColumn: locationsgeojson
+
+		annotation SummarizationSetBy = Automatic
+
+	column locationswkt
+		dataType: string
+		lineageTag: f42014e8-a141-4cd7-8e81-6946aec0fca2
+		summarizeBy: none
+		sourceColumn: locationswkt
+
+		annotation SummarizationSetBy = Automatic
+
+	column canceledrefuseddate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8de5c06b-5b76-4220-9569-535907065f63
+		summarizeBy: none
+		sourceColumn: canceledrefuseddate
+
+		variation Variation
+			isDefault
+			relationship: 45403e74-30b8-4bc2-a770-78f4fcb08548
+			defaultHierarchy: LocalDateTable_d4c0d763-4e45-4d0d-b2d0-20ca4b538b6d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column sdabnumber
+		dataType: string
+		lineageTag: 833e7794-5fb0-4c73-95ae-b911070891fe
+		summarizeBy: none
+		sourceColumn: sdabnumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column sdabhearingdate
+		dataType: string
+		lineageTag: fd1f5adf-8daa-410d-b0cc-78c726128442
+		summarizeBy: none
+		sourceColumn: sdabhearingdate
+
+		annotation SummarizationSetBy = Automatic
+
+	column sdabdecision
+		dataType: string
+		lineageTag: 186462e6-cef7-4473-9a7b-bb60f612d95f
+		summarizeBy: none
+		sourceColumn: sdabdecision
+
+		annotation SummarizationSetBy = Automatic
+
+	column sdabdecisiondate
+		dataType: string
+		lineageTag: b098c835-3f88-473c-a33f-e35d905a6694
+		summarizeBy: none
+		sourceColumn: sdabdecisiondate
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_point
+		dataType: string
+		lineageTag: 1b7354e6-32fd-4b65-8702-a047bc204008
+		summarizeBy: none
+		sourceColumn: raw_point
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_permit_number
+		dataType: string
+		lineageTag: a2f05aaf-9f7e-49cf-a308-874cf2b81037
+		summarizeBy: none
+		sourceColumn: raw_permit_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_address
+		dataType: string
+		lineageTag: dc21ad0b-6ca5-4706-80dc-596449869c5f
+		summarizeBy: none
+		sourceColumn: raw_address
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_applicant
+		dataType: string
+		lineageTag: c0b10260-c5b4-47dc-9eed-b2e8d08b9537
+		summarizeBy: none
+		sourceColumn: raw_applicant
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_category
+		dataType: string
+		lineageTag: 9c0895c6-818e-469f-9436-dffa5d248119
+		summarizeBy: none
+		sourceColumn: raw_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_description
+		dataType: string
+		lineageTag: 01c6f667-9025-4a9a-bfcc-00992320638c
+		summarizeBy: none
+		sourceColumn: raw_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_proposed_use_code
+		dataType: string
+		lineageTag: 0651b7c0-6485-4083-8f5a-4c3d52defb9c
+		summarizeBy: none
+		sourceColumn: raw_proposed_use_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_proposed_use_description
+		dataType: string
+		lineageTag: 684e6bd4-f5e4-46e4-93e7-dfae8389e941
+		summarizeBy: none
+		sourceColumn: raw_proposed_use_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_permitteddiscretionary
+		dataType: string
+		lineageTag: 1cdbd889-a891-4db1-94b6-d8757100b67f
+		summarizeBy: none
+		sourceColumn: raw_permitteddiscretionary
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_land_use_district
+		dataType: string
+		lineageTag: c5071e65-e15d-4571-9435-eb681f22f7ce
+		summarizeBy: none
+		sourceColumn: raw_land_use_district
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_landusedistrictdescription
+		dataType: string
+		lineageTag: 0d142e87-a414-4b80-b0ac-a7ceec8a05b7
+		summarizeBy: none
+		sourceColumn: raw_landusedistrictdescription
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_statuscurrent
+		dataType: string
+		lineageTag: a598bc8a-40f4-4838-ac93-841bee5c5a27
+		summarizeBy: none
+		sourceColumn: raw_statuscurrent
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_applied_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f309e725-8141-4f36-96ff-94302cc81be9
+		summarizeBy: none
+		sourceColumn: raw_applied_date
+
+		variation Variation
+			isDefault
+			relationship: 8711f924-cf8b-4449-8d8b-5765f1c60b7f
+			defaultHierarchy: LocalDateTable_b5fbd310-084a-4962-91ac-e76123f51553.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_decision_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 9952a778-baaa-47eb-ad36-369bca4ef443
+		summarizeBy: none
+		sourceColumn: raw_decision_date
+
+		variation Variation
+			isDefault
+			relationship: 7a107661-efc4-435f-a71d-4e971a2be00c
+			defaultHierarchy: LocalDateTable_50ccaffe-ae5c-49cb-95e6-04294b7dcceb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_releasedate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a746f835-5f80-4a3b-940a-6ce36270899e
+		summarizeBy: none
+		sourceColumn: raw_releasedate
+
+		variation Variation
+			isDefault
+			relationship: a57a0ae4-ae2f-45c6-b972-289cac993215
+			defaultHierarchy: LocalDateTable_5e4585a7-462f-4fa7-b0f9-ec456bbf8904.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_mustcommencedate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 263e5ef9-7731-43fc-8fdd-0dde5352c1ee
+		summarizeBy: none
+		sourceColumn: raw_mustcommencedate
+
+		variation Variation
+			isDefault
+			relationship: 3bb597c8-2827-4803-9528-edaa8a5ff5f6
+			defaultHierarchy: LocalDateTable_ab8ab4b4-7a8f-4b9c-8898-1b3bc1ad20de.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_decision
+		dataType: string
+		lineageTag: fca06160-1dd3-4d88-ada6-ec35b82c0442
+		summarizeBy: none
+		sourceColumn: raw_decision
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_decisionby
+		dataType: string
+		lineageTag: 07ebdad3-5b87-4966-b86f-ebf4c0962194
+		summarizeBy: none
+		sourceColumn: raw_decisionby
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_communitycode
+		dataType: string
+		lineageTag: 697b0968-ab98-4498-8102-4bf814832d12
+		summarizeBy: none
+		sourceColumn: raw_communitycode
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_community
+		dataType: string
+		lineageTag: b7d0495d-0432-40aa-9029-1b155429d127
+		summarizeBy: none
+		sourceColumn: raw_community
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_ward
+		dataType: int64
+		formatString: 0
+		lineageTag: 49a0c8d3-1979-41b1-a11b-3784e9cc4d5a
+		summarizeBy: sum
+		sourceColumn: raw_ward
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_quadrant
+		dataType: string
+		lineageTag: c7e602af-d34b-4ba8-a8d4-4944e18e2856
+		summarizeBy: none
+		sourceColumn: raw_quadrant
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_latitude
+		dataType: double
+		lineageTag: 3e11a977-8bf0-4783-85b9-f35fe0053d68
+		summarizeBy: sum
+		sourceColumn: raw_latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column raw_longitude
+		dataType: double
+		lineageTag: d5258001-e5b7-4053-a168-ffba042572b7
+		summarizeBy: sum
+		sourceColumn: raw_longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column raw_locationcount
+		dataType: int64
+		formatString: 0
+		lineageTag: 17bba4e6-0677-4524-baf5-d4bdf7e922f9
+		summarizeBy: sum
+		sourceColumn: raw_locationcount
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_locationtypes
+		dataType: string
+		lineageTag: 38d62ec6-0d30-4dd4-9ece-42070586645a
+		summarizeBy: none
+		sourceColumn: raw_locationtypes
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_locationaddresses
+		dataType: string
+		lineageTag: 7cff6a48-533a-4dff-9ad2-278866a50845
+		summarizeBy: none
+		sourceColumn: raw_locationaddresses
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_locationsgeojson
+		dataType: string
+		lineageTag: 8ca16192-a05d-4df1-acb9-bbb3105ec7c1
+		summarizeBy: none
+		sourceColumn: raw_locationsgeojson
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_locationswkt
+		dataType: string
+		lineageTag: 10220ec3-c2f4-4ac4-ae38-9b4fc73d67bc
+		summarizeBy: none
+		sourceColumn: raw_locationswkt
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_canceledrefuseddate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: aa34508b-5d20-42cc-878c-597c30c529c3
+		summarizeBy: none
+		sourceColumn: raw_canceledrefuseddate
+
+		variation Variation
+			isDefault
+			relationship: 315846c2-90fd-4429-ab4e-a52bf36fae4b
+			defaultHierarchy: LocalDateTable_4a1c3254-34db-408d-9718-5fed1b54cd3d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_sdabnumber
+		dataType: string
+		lineageTag: fe75c56c-15e7-4ae7-a6b9-1fd7c9e7f420
+		summarizeBy: none
+		sourceColumn: raw_sdabnumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_sdabhearingdate
+		dataType: string
+		lineageTag: 153ef40b-74f4-444b-97cc-3638893e030f
+		summarizeBy: none
+		sourceColumn: raw_sdabhearingdate
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_sdabdecision
+		dataType: string
+		lineageTag: c5b20fdd-a3d9-46b5-a75e-63ed573871e0
+		summarizeBy: none
+		sourceColumn: raw_sdabdecision
+
+		annotation SummarizationSetBy = Automatic
+
+	column raw_sdabdecisiondate
+		dataType: string
+		lineageTag: f7a18819-6be5-406a-8a1b-41afd95e4b7f
+		summarizeBy: none
+		sourceColumn: raw_sdabdecisiondate
+
+		annotation SummarizationSetBy = Automatic
+
+	column applied_date_invalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d69206fd-fa1b-4ba0-beb7-34667460e7b3
+		summarizeBy: none
+		sourceColumn: applied_date_invalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column decision_date_invalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ee634484-b172-46c8-b0cb-8f000a6eaf2f
+		summarizeBy: none
+		sourceColumn: decision_date_invalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude_invalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 61d7ad5d-8877-46ab-a54d-ac9abed98d26
+		summarizeBy: none
+		sourceColumn: latitude_invalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column longitude_invalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 40c86ec5-41db-469e-a090-4dce5926160d
+		summarizeBy: none
+		sourceColumn: longitude_invalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassificationRule
+		dataType: string
+		lineageTag: 8d43363b-fb5a-4a6c-b412-81d4a05d8a3d
+		summarizeBy: none
+		sourceColumn: ClassificationRule
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidationStatus
+		dataType: string
+		lineageTag: 82d7f699-54d0-451c-93e2-6c9285351743
+		summarizeBy: none
+		sourceColumn: ValidationStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncludeResidential
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4bbc0be9-71a3-42ce-bd04-a84e51acb392
+		summarizeBy: none
+		sourceColumn: IncludeResidential
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResidentialType
+		dataType: string
+		lineageTag: 16c84d11-4398-4a57-b5d0-de0ae78a41f8
+		summarizeBy: none
+		sourceColumn: ResidentialType
+
+		annotation SummarizationSetBy = Automatic
+
+	column RezoningRelevant
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f4d8a2be-b62f-441e-8865-6d58ad01d055
+		summarizeBy: none
+		sourceColumn: RezoningRelevant
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassificationNeedsReview
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e1fc1044-d445-44c3-a68a-9a82eeb56855
+		summarizeBy: none
+		sourceColumn: ClassificationNeedsReview
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassificationMatchCount
+		dataType: int64
+		formatString: 0
+		lineageTag: d3fac412-950e-4809-84a8-05dee424e9a4
+		summarizeBy: sum
+		sourceColumn: ClassificationMatchCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassificationConflictCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b025ae4-4c84-4cd2-a916-c852b4d0a04d
+		summarizeBy: sum
+		sourceColumn: ClassificationConflictCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassificationMatchedRules
+		dataType: string
+		lineageTag: 5e8a7685-e441-4548-96e8-8b846b274878
+		summarizeBy: none
+		sourceColumn: ClassificationMatchedRules
+
+		annotation SummarizationSetBy = Automatic
+
+	column Period
+		dataType: string
+		lineageTag: 17189d25-fbbd-475f-9295-908be50855b6
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column DecisionPeriod
+		dataType: string
+		lineageTag: ee288465-4f5b-45f1-813b-5b7915a49965
+		summarizeBy: none
+		sourceColumn: DecisionPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodSortKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 99a8485c-dd8a-4555-8a27-00aef911101d
+		summarizeBy: count
+		sourceColumn: PeriodSortKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodDateMissing
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 57434182-f873-417d-82c4-76b0e34ddb1f
+		summarizeBy: none
+		sourceColumn: PeriodDateMissing
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodDateInvalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5b81e603-35c3-45bb-9ecd-2862e2c08b05
+		summarizeBy: none
+		sourceColumn: PeriodDateInvalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column CrossesPeriodBoundary
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dde86181-e6f9-4814-8232-70cb99653f17
+		summarizeBy: none
+		sourceColumn: CrossesPeriodBoundary
+
+		annotation SummarizationSetBy = Automatic
+
+	column Season
+		dataType: string
+		lineageTag: 9fcf8574-6907-4013-b86f-d566e9defb7e
+		summarizeBy: none
+		sourceColumn: Season
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonStartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 26953f3b-dae8-4ac3-b95f-9189fba3adbd
+		summarizeBy: none
+		sourceColumn: SeasonStartDate
+
+		variation Variation
+			isDefault
+			relationship: 7a9174ee-babc-4cee-b07b-df5708308ce1
+			defaultHierarchy: LocalDateTable_b9f58ffd-dcf9-486a-a178-71821c8a3866.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonEndDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c9502c98-6937-4d57-92cc-9154b4ed156c
+		summarizeBy: none
+		sourceColumn: SeasonEndDate
+
+		variation Variation
+			isDefault
+			relationship: fb913515-09f7-4000-9c47-68f0c720be56
+			defaultHierarchy: LocalDateTable_9e952f09-caf4-4350-b8bf-ec806cc911b6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonLabel
+		dataType: string
+		lineageTag: 015ee597-09ca-4132-b61b-6015790a7b15
+		summarizeBy: none
+		sourceColumn: SeasonLabel
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonSortKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 943710bd-edfe-4362-b0ca-048381554dcf
+		summarizeBy: count
+		sourceColumn: SeasonSortKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCompleteSeason
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: dfb53050-4297-4017-9bfd-fa1a5c798c0a
+		summarizeBy: none
+		sourceColumn: IsCompleteSeason
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPartialSeason
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: df10f604-992b-46b9-a12e-853ba10f31d6
+		summarizeBy: none
+		sourceColumn: IsPartialSeason
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcessingDays
+		dataType: int64
+		formatString: 0
+		lineageTag: ccea64e3-cef1-4241-a697-3ee7f373674b
+		summarizeBy: sum
+		sourceColumn: ProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasValidProcessingDays
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 32172e6d-e0cd-4ebe-80ac-60e3a5fd7b72
+		summarizeBy: none
+		sourceColumn: HasValidProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasNegativeProcessingDays
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 34b7e5d2-e272-4c28-8365-5751e27dac0f
+		summarizeBy: none
+		sourceColumn: HasNegativeProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsPending
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 0fccb8b5-beba-4def-b9f6-11028715b654
+		summarizeBy: none
+		sourceColumn: IsPending
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsRightCensored
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 15e11578-afb5-45b1-9769-c67d8a9d0d43
+		summarizeBy: none
+		sourceColumn: IsRightCensored
+
+		annotation SummarizationSetBy = Automatic
+
+	column FollowUpDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 7eee7b66-90ca-4d6e-9d05-8f3489270c86
+		summarizeBy: sum
+		sourceColumn: FollowUpDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcessingDateMissing
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 37dd56b6-ffe3-46dd-bbbb-e957c3601fa7
+		summarizeBy: none
+		sourceColumn: ProcessingDateMissing
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProcessingDateInvalid
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 727fdd11-61f7-4ceb-8263-65f318f19a5e
+		summarizeBy: none
+		sourceColumn: ProcessingDateInvalid
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsAfterObservationEnd
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d3d7ca54-a66d-45fd-a37e-3d4d99094f96
+		summarizeBy: none
+		sourceColumn: IsAfterObservationEnd
+
+		annotation SummarizationSetBy = Automatic
+
+	partition permits_clean = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    permits_clean_Sheet = Source{[Item="permits_clean",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(permits_clean_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"point", type text}, {"permit_number", type text}, {"address", type text}, {"applicant", type text}, {"category", type text}, {"description", type text}, {"proposed_use_code", type text}, {"proposed_use_description", type text}, {"permitteddiscretionary", type text}, {"land_use_district", type text}, {"landusedistrictdescription", type text}, {"statuscurrent", type text}, {"applied_date", type datetime}, {"decision_date", type datetime}, {"releasedate", type datetime}, {"mustcommencedate", type datetime}, {"decision", type text}, {"decisionby", type text}, {"communitycode", type text}, {"community", type text}, {"ward", Int64.Type}, {"quadrant", type text}, {"latitude", type number}, {"longitude", type number}, {"locationcount", Int64.Type}, {"locationtypes", type text}, {"locationaddresses", type text}, {"locationsgeojson", type text}, {"locationswkt", type text}, {"canceledrefuseddate", type datetime}, {"sdabnumber", type any}, {"sdabhearingdate", type any}, {"sdabdecision", type any}, {"sdabdecisiondate", type any}, {"raw_point", type text}, {"raw_permit_number", type text}, {"raw_address", type text}, {"raw_applicant", type text}, {"raw_category", type text}, {"raw_description", type text}, {"raw_proposed_use_code", type text}, {"raw_proposed_use_description", type text}, {"raw_permitteddiscretionary", type text}, {"raw_land_use_district", type text}, {"raw_landusedistrictdescription", type text}, {"raw_statuscurrent", type text}, {"raw_applied_date", type datetime}, {"raw_decision_date", type datetime}, {"raw_releasedate", type datetime}, {"raw_mustcommencedate", type datetime}, {"raw_decision", type text}, {"raw_decisionby", type text}, {"raw_communitycode", type text}, {"raw_community", type text}, {"raw_ward", Int64.Type}, {"raw_quadrant", type text}, {"raw_latitude", type number}, {"raw_longitude", type number}, {"raw_locationcount", Int64.Type}, {"raw_locationtypes", type text}, {"raw_locationaddresses", type text}, {"raw_locationsgeojson", type text}, {"raw_locationswkt", type text}, {"raw_canceledrefuseddate", type datetime}, {"raw_sdabnumber", type any}, {"raw_sdabhearingdate", type any}, {"raw_sdabdecision", type any}, {"raw_sdabdecisiondate", type any}, {"applied_date_invalid", type logical}, {"decision_date_invalid", type logical}, {"latitude_invalid", type logical}, {"longitude_invalid", type logical}, {"ClassificationRule", type text}, {"ValidationStatus", type text}, {"IncludeResidential", type logical}, {"ResidentialType", type text}, {"RezoningRelevant", type logical}, {"ClassificationNeedsReview", type logical}, {"ClassificationMatchCount", Int64.Type}, {"ClassificationConflictCount", Int64.Type}, {"ClassificationMatchedRules", type text}, {"Period", type text}, {"DecisionPeriod", type text}, {"PeriodSortKey", Int64.Type}, {"PeriodDateMissing", type logical}, {"PeriodDateInvalid", type logical}, {"CrossesPeriodBoundary", type logical}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"SeasonLabel", type text}, {"SeasonSortKey", Int64.Type}, {"IsCompleteSeason", type logical}, {"IsPartialSeason", type logical}, {"ProcessingDays", Int64.Type}, {"HasValidProcessingDays", type logical}, {"HasNegativeProcessingDays", type logical}, {"IsPending", type logical}, {"IsRightCensored", type logical}, {"FollowUpDays", Int64.Type}, {"ProcessingDateMissing", type logical}, {"ProcessingDateInvalid", type logical}, {"IsAfterObservationEnd", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

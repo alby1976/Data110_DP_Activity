@@ -1,0 +1,69 @@
+table geography_period_totals
+	lineageTag: f05704e3-427c-4551-8faa-77f2f77931d6
+
+	column Period
+		dataType: string
+		lineageTag: 336a7d87-0c0d-4833-b311-bc080bbfe337
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllPermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: d6458b34-c2ee-44e4-8097-029747d54040
+		summarizeBy: sum
+		sourceColumn: AllPermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodResidentialCount
+		dataType: int64
+		formatString: 0
+		lineageTag: f1a24f02-9a8d-443a-9365-a4de1aeae726
+		summarizeBy: sum
+		sourceColumn: PeriodResidentialCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExcludedCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 99b24046-4ba5-4da4-94d2-1625675c4b4b
+		summarizeBy: sum
+		sourceColumn: ExcludedCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MissingCommunityCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 89c61c76-07a7-44c2-b94e-60fc462bbf9c
+		summarizeBy: sum
+		sourceColumn: MissingCommunityCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MissingWardCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 38f45830-2839-45d7-9bda-2a867ec827e6
+		summarizeBy: sum
+		sourceColumn: MissingWardCount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition geography_period_totals = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    geography_period_totals_Sheet = Source{[Item="geography_period_totals",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(geography_period_totals_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"MissingCommunityCount", Int64.Type}, {"MissingWardCount", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

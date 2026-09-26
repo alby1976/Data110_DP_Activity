@@ -1,0 +1,80 @@
+table sensitivity_summary
+	lineageTag: d574b60d-9ec1-463e-a2f4-34f1aaff5560
+
+	column Scenario
+		dataType: string
+		lineageTag: 79b964fa-5ea3-41e2-9947-968bec82cb70
+		summarizeBy: none
+		sourceColumn: Scenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column Result
+		dataType: string
+		lineageTag: 4488559c-a698-4ece-98c7-5a78a963eeee
+		summarizeBy: none
+		sourceColumn: Result
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReferenceScenario
+		dataType: string
+		lineageTag: f637012d-9865-4401-b1d7-076cac25ca96
+		summarizeBy: none
+		sourceColumn: ReferenceScenario
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsReference
+		dataType: string
+		lineageTag: 6bc0ab14-248e-4fba-96b8-fcf2fd05f2dd
+		summarizeBy: none
+		sourceColumn: IsReference
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReferenceResult
+		dataType: string
+		lineageTag: 33e518ee-5f60-4656-a9d5-14b93da962eb
+		summarizeBy: none
+		sourceColumn: ReferenceResult
+
+		annotation SummarizationSetBy = Automatic
+
+	column AbsoluteChange
+		dataType: string
+		lineageTag: dbeab089-0dee-4f86-a629-b6141a339bb5
+		summarizeBy: none
+		sourceColumn: AbsoluteChange
+
+		annotation SummarizationSetBy = Automatic
+
+	column PercentChange
+		dataType: string
+		lineageTag: afb10706-d78c-4dfe-a775-82398a9fe456
+		summarizeBy: none
+		sourceColumn: PercentChange
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChangeDirection
+		dataType: string
+		lineageTag: bbb0528f-a6f9-4016-b271-a72e6cbc2d16
+		summarizeBy: none
+		sourceColumn: ChangeDirection
+
+		annotation SummarizationSetBy = Automatic
+
+	partition sensitivity_summary = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    sensitivity_summary_Sheet = Source{[Item="sensitivity_summary",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(sensitivity_summary_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Scenario", type any}, {"Result", type any}, {"ReferenceScenario", type any}, {"IsReference", type any}, {"ReferenceResult", type any}, {"AbsoluteChange", type any}, {"PercentChange", type any}, {"ChangeDirection", type any}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

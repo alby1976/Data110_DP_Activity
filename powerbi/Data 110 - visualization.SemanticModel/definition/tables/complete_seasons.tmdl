@@ -1,0 +1,263 @@
+table complete_seasons
+	lineageTag: 139c537a-2f72-4f65-af60-63a78844e369
+
+	column Period
+		dataType: string
+		lineageTag: 257c2a66-e712-4f26-9fe1-50e7b3461bf3
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column Season
+		dataType: string
+		lineageTag: d5dbaba1-f0f4-466d-a37a-f4843a94ff8a
+		summarizeBy: none
+		sourceColumn: Season
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonStartDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 53d1ac4e-0ed9-4b93-b4c8-d1050dd46bdb
+		summarizeBy: none
+		sourceColumn: SeasonStartDate
+
+		variation Variation
+			isDefault
+			relationship: bfeb0ca0-de98-4498-b923-325084d69be1
+			defaultHierarchy: LocalDateTable_ca7e6eb5-fd87-466e-a7b1-0dc9d73c0b09.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SeasonEndDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3760d736-db71-4d49-940d-21aef04b0103
+		summarizeBy: none
+		sourceColumn: SeasonEndDate
+
+		variation Variation
+			isDefault
+			relationship: 5d1c056d-3a8a-4bb6-abbc-8015733bf6eb
+			defaultHierarchy: LocalDateTable_4ceb25dc-8219-4135-a75d-3457599fd477.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsCompleteSeason
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 6ca64fb4-6634-4998-aa04-b513c582d655
+		summarizeBy: none
+		sourceColumn: IsCompleteSeason
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExposureDays
+		dataType: int64
+		formatString: 0
+		lineageTag: c51ec1f2-8bb0-4898-8ab9-570ed64c67b2
+		summarizeBy: sum
+		sourceColumn: ExposureDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column WindowSource
+		dataType: string
+		lineageTag: dc828790-ddad-499b-84a2-53d0a37de538
+		summarizeBy: none
+		sourceColumn: WindowSource
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 90a08aaf-b3b3-4699-b9e2-a2b73f48378b
+		summarizeBy: sum
+		sourceColumn: PermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllPermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: bd52e3dd-aa60-4e11-9637-227408c7df33
+		summarizeBy: sum
+		sourceColumn: AllPermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExcludedCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 31f56ff9-9cd4-4af1-ab9f-591f09477137
+		summarizeBy: sum
+		sourceColumn: ExcludedCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column TotalCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 82903dd5-bc17-4dbf-9f19-48b9b2b8be12
+		summarizeBy: sum
+		sourceColumn: TotalCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 43fa6069-1a4d-4a68-81b9-ca79cbf3208b
+		summarizeBy: sum
+		sourceColumn: ValidCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvalidCount
+		dataType: int64
+		formatString: 0
+		lineageTag: ed38cce5-8937-42ed-870d-27cbda4a07b2
+		summarizeBy: sum
+		sourceColumn: InvalidCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PendingCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 15887459-c780-494c-97e2-83c864d97150
+		summarizeBy: sum
+		sourceColumn: PendingCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column RightCensoredCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 566919df-6c7e-4eb6-9fde-9d791b258eaf
+		summarizeBy: sum
+		sourceColumn: RightCensoredCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValidShare
+		dataType: double
+		lineageTag: b586a03d-f4a6-4236-88e5-f4e190808dd0
+		summarizeBy: sum
+		sourceColumn: ValidShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NegativeCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 39ea5490-3cf3-4e81-b62c-c2034b156c72
+		summarizeBy: sum
+		sourceColumn: NegativeCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MissingDateCount
+		dataType: int64
+		formatString: 0
+		lineageTag: b46cbe0d-5b23-46f9-adf1-35d029ebfafd
+		summarizeBy: sum
+		sourceColumn: MissingDateCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvalidDateCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 81811c36-8816-4c65-8e3c-7116b125229b
+		summarizeBy: sum
+		sourceColumn: InvalidDateCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AfterObservationEndCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 2b68fce6-6b39-4dc2-944f-3a7590ad6c8d
+		summarizeBy: sum
+		sourceColumn: AfterObservationEndCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MedianProcessingDays
+		dataType: double
+		lineageTag: 8a30ad2d-319b-416b-92e4-62ccd61f7d8f
+		summarizeBy: sum
+		sourceColumn: MedianProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MeanProcessingDays
+		dataType: double
+		lineageTag: 17053584-686e-40eb-86b3-a25fba569d64
+		summarizeBy: sum
+		sourceColumn: MeanProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Q1ProcessingDays
+		dataType: int64
+		formatString: 0
+		lineageTag: 72361559-96f0-4c05-a834-6452eaa07e02
+		summarizeBy: sum
+		sourceColumn: Q1ProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column Q3ProcessingDays
+		dataType: double
+		lineageTag: b924cb6f-ede2-42d4-947c-ab0e00cd127a
+		summarizeBy: sum
+		sourceColumn: Q3ProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IQRProcessingDays
+		dataType: double
+		lineageTag: de355951-7e5b-446a-998c-c3097a873f41
+		summarizeBy: sum
+		sourceColumn: IQRProcessingDays
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DP_Rate30
+		dataType: double
+		lineageTag: 0e59f3de-11f9-4b37-90f1-f563ba6fb4da
+		summarizeBy: sum
+		sourceColumn: DP_Rate30
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition complete_seasons = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    complete_seasons_Sheet = Source{[Item="complete_seasons",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(complete_seasons_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"IsCompleteSeason", type logical}, {"ExposureDays", Int64.Type}, {"WindowSource", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", type number}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", Int64.Type}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}, {"DP_Rate30", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

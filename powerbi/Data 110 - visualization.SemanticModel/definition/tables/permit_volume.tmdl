@@ -1,0 +1,172 @@
+table permit_volume
+	lineageTag: ab41cb70-5b10-4aaa-9b83-b3c30e4baa40
+
+	column Period
+		dataType: string
+		lineageTag: 01783540-d94b-4261-a4f2-9dbc1e415ae9
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: a5e3b4a5-f391-4d75-8248-4d03edfbaa8a
+		summarizeBy: sum
+		sourceColumn: PermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column AllPermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 90940fe6-3b45-44d3-986f-443a88f7408d
+		summarizeBy: sum
+		sourceColumn: AllPermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExcludedCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 83240921-c07e-41a9-8d96-39697f840b09
+		summarizeBy: sum
+		sourceColumn: ExcludedCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ResidentialShare
+		dataType: double
+		lineageTag: 1bb8cc16-ad80-4ee6-81be-3fc031dcef19
+		summarizeBy: sum
+		sourceColumn: ResidentialShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MonthCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 743a715a-54f6-488e-aa9c-c03a342fc66b
+		summarizeBy: sum
+		sourceColumn: MonthCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeanMonthlyCount
+		dataType: double
+		lineageTag: f9dd5538-929e-4e60-ac68-efde2fc01d4b
+		summarizeBy: sum
+		sourceColumn: MeanMonthlyCount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MedianMonthlyCount
+		dataType: double
+		lineageTag: bdb067a0-a9a7-46f6-a4e5-4050c2f003eb
+		summarizeBy: sum
+		sourceColumn: MedianMonthlyCount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ExposureDays
+		dataType: int64
+		formatString: 0
+		lineageTag: a893c054-801c-4fce-99c1-ac034df85478
+		summarizeBy: sum
+		sourceColumn: ExposureDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column WindowStart
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8339cc6d-7b65-4625-a933-de2e2c6b937c
+		summarizeBy: none
+		sourceColumn: WindowStart
+
+		variation Variation
+			isDefault
+			relationship: 04245477-9213-4025-a21b-faa9e8e51c42
+			defaultHierarchy: LocalDateTable_b847fc60-f818-4cdb-a0b6-aaa12fd1825b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column WindowEnd
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 02430d0a-35a8-4e2a-9143-460f7d9b781a
+		summarizeBy: none
+		sourceColumn: WindowEnd
+
+		variation Variation
+			isDefault
+			relationship: 31ff9f94-d7bb-4d74-b4d3-a4725f79e6c6
+			defaultHierarchy: LocalDateTable_7db7b01e-4773-409d-8c33-99a5353d156a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column WindowSource
+		dataType: string
+		lineageTag: 99b823ec-2f8b-4d86-bfe4-cb3179256c8c
+		summarizeBy: none
+		sourceColumn: WindowSource
+
+		annotation SummarizationSetBy = Automatic
+
+	column BaselinePeriod
+		dataType: string
+		lineageTag: ed678078-325a-4b13-968b-bf6a87acdd6c
+		summarizeBy: none
+		sourceColumn: BaselinePeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column AbsoluteChange
+		dataType: int64
+		formatString: 0
+		lineageTag: c72365e1-00d3-47bf-8ac5-9ca361dd6216
+		summarizeBy: sum
+		sourceColumn: AbsoluteChange
+
+		annotation SummarizationSetBy = Automatic
+
+	column PercentChange
+		dataType: double
+		lineageTag: 38173f4f-bfba-4755-b9e0-d552f8dd315e
+		summarizeBy: sum
+		sourceColumn: PercentChange
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DP_Rate30
+		dataType: double
+		lineageTag: 045e6840-a6eb-431e-9578-c19b45dbb863
+		summarizeBy: sum
+		sourceColumn: DP_Rate30
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition permit_volume = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    permit_volume_Sheet = Source{[Item="permit_volume",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(permit_volume_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"MonthCount", Int64.Type}, {"MeanMonthlyCount", type number}, {"MedianMonthlyCount", type number}, {"ExposureDays", Int64.Type}, {"WindowStart", type datetime}, {"WindowEnd", type datetime}, {"WindowSource", type text}, {"BaselinePeriod", type text}, {"AbsoluteChange", Int64.Type}, {"PercentChange", type number}, {"DP_Rate30", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,116 @@
+table calendar_month_summary
+	lineageTag: 4768750d-054d-440e-9c0f-e19609a7250a
+
+	column Period
+		dataType: string
+		lineageTag: f8758881-37c0-4b66-9f53-97e40261d56b
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: d3b113a8-8557-4983-81c0-95c98ea7249a
+		summarizeBy: sum
+		sourceColumn: CalendarMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column PermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: e115a02a-9390-4b64-9474-338a881d5238
+		summarizeBy: sum
+		sourceColumn: PermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthCount
+		dataType: int64
+		formatString: 0
+		lineageTag: aa9777b8-d4c4-4925-a7fc-7c5938d13543
+		summarizeBy: sum
+		sourceColumn: MonthCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column ExposureDays
+		dataType: int64
+		formatString: 0
+		lineageTag: c38c4866-d52d-4723-8054-ac2eb02f3fd4
+		summarizeBy: sum
+		sourceColumn: ExposureDays
+
+		annotation SummarizationSetBy = Automatic
+
+	column DP_Rate30
+		dataType: double
+		lineageTag: 368c4aa1-19a0-427a-8118-1a9875d0fc21
+		summarizeBy: sum
+		sourceColumn: DP_Rate30
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CompleteMonthCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 12d8a16e-c55c-4b13-8fe9-bd736bdb01fb
+		summarizeBy: sum
+		sourceColumn: CompleteMonthCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PartialMonthCount
+		dataType: int64
+		formatString: 0
+		lineageTag: f508c705-11db-4209-b3da-d70e26ba734b
+		summarizeBy: sum
+		sourceColumn: PartialMonthCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnknownMonthCount
+		dataType: int64
+		formatString: 0
+		lineageTag: afbc6a16-e76a-4615-849f-a38491f07911
+		summarizeBy: sum
+		sourceColumn: UnknownMonthCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompleteMonthPermitCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 00258b55-19c3-46df-b086-74465108e8f7
+		summarizeBy: sum
+		sourceColumn: CompleteMonthPermitCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column MeanCompleteMonthlyCount
+		dataType: double
+		lineageTag: 08fea36d-3e38-4fba-a49a-85d5de08b798
+		summarizeBy: sum
+		sourceColumn: MeanCompleteMonthlyCount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition calendar_month_summary = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    calendar_month_summary_Sheet = Source{[Item="calendar_month_summary",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(calendar_month_summary_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"CalendarMonth", Int64.Type}, {"PermitCount", Int64.Type}, {"MonthCount", Int64.Type}, {"ExposureDays", Int64.Type}, {"DP_Rate30", type number}, {"CompleteMonthCount", Int64.Type}, {"PartialMonthCount", Int64.Type}, {"UnknownMonthCount", Int64.Type}, {"CompleteMonthPermitCount", Int64.Type}, {"MeanCompleteMonthlyCount", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

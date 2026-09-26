@@ -1,0 +1,115 @@
+table rezoning_by_rule
+	lineageTag: ea2bd959-5b4e-448d-a48c-52c162d6822d
+
+	column Period
+		dataType: string
+		lineageTag: eeeb3f72-f645-464e-829e-97739870eefe
+		summarizeBy: none
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClassificationRule
+		dataType: string
+		lineageTag: 36f81901-277b-4a7f-8ca7-3e10d7cc6103
+		summarizeBy: none
+		sourceColumn: ClassificationRule
+
+		annotation SummarizationSetBy = Automatic
+
+	column GroupResidentialCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 82a6b3e3-8a33-4a1c-8c0d-36520c17adb6
+		summarizeBy: sum
+		sourceColumn: GroupResidentialCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column PeriodResidentialCount
+		dataType: int64
+		formatString: 0
+		lineageTag: e8f83682-c615-4d94-b99f-53eea7792e54
+		summarizeBy: sum
+		sourceColumn: PeriodResidentialCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column RezoningRelevantCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d9033f4-3188-4cc4-b5c4-0a222662803d
+		summarizeBy: sum
+		sourceColumn: RezoningRelevantCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column NotRezoningRelevantCount
+		dataType: int64
+		formatString: 0
+		lineageTag: cb418b1c-31cd-4156-aba9-fca3cde58f32
+		summarizeBy: sum
+		sourceColumn: NotRezoningRelevantCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnknownRelevanceCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 681d6289-59bd-4ea4-ba27-a098c4868660
+		summarizeBy: sum
+		sourceColumn: UnknownRelevanceCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column RezoningRelevantShare
+		dataType: double
+		lineageTag: 1a1f3e0d-b08b-4730-af35-f190b252823d
+		summarizeBy: sum
+		sourceColumn: RezoningRelevantShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NotRezoningRelevantShare
+		dataType: double
+		lineageTag: 30259518-c6a1-4d5c-b2b6-e96ef28f90e8
+		summarizeBy: sum
+		sourceColumn: NotRezoningRelevantShare
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnknownRelevanceShare
+		dataType: int64
+		formatString: 0
+		lineageTag: 1da2cccd-164d-43e3-a7c6-77f03aefd269
+		summarizeBy: sum
+		sourceColumn: UnknownRelevanceShare
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReviewCount
+		dataType: int64
+		formatString: 0
+		lineageTag: c6a4dafd-9d02-4ba6-92cd-a2d87c5bb868
+		summarizeBy: sum
+		sourceColumn: ReviewCount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition rezoning_by_rule = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    rezoning_by_rule_Sheet = Source{[Item="rezoning_by_rule",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(rezoning_by_rule_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"ClassificationRule", type text}, {"GroupResidentialCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"RezoningRelevantCount", Int64.Type}, {"NotRezoningRelevantCount", Int64.Type}, {"UnknownRelevanceCount", Int64.Type}, {"RezoningRelevantShare", type number}, {"NotRezoningRelevantShare", type number}, {"UnknownRelevanceShare", Int64.Type}, {"ReviewCount", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
