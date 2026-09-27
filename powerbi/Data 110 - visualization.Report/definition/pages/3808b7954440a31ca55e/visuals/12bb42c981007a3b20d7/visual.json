@@ -4,10 +4,10 @@
   "position": {
     "x": 10,
     "y": 290,
-    "z": 1,
+    "z": 1000,
     "height": 280,
     "width": 280,
-    "tabOrder": 1
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "lineChart",
@@ -87,67 +87,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "be5657f6e1e22b0a59e5",
-        "field": {
-          "HierarchyLevel": {
-            "Expression": {
-              "Hierarchy": {
-                "Expression": {
-                  "PropertyVariationSource": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "monthly_volume"
-                      }
-                    },
-                    "Name": "Variation",
-                    "Property": "YearMonth"
-                  }
-                },
-                "Hierarchy": "Date Hierarchy"
-              }
-            },
-            "Level": "Month"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "a8f0c7f730d574e8611e",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "monthly_volume"
-                  }
-                },
-                "Property": "DP_Rate30"
-              }
-            },
-            "Function": 1
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2304e1e20a9abda04986",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "monthly_volume"
-              }
-            },
-            "Property": "Period"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

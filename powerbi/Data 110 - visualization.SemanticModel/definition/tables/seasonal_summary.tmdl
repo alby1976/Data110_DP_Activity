@@ -75,10 +75,10 @@ table seasonal_summary
 		dataType: int64
 		formatString: 0
 		lineageTag: 829dc7da-c026-4a22-ac38-eb74a4d309da
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: PermitCount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column AllPermitCount
 		dataType: int64
