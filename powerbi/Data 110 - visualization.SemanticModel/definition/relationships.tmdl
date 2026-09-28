@@ -197,18 +197,8 @@ relationship AutoDetected_934f61fa-915c-47b9-9706-1aa8c11e5f91
 	fromColumn: rezoning_by_type.Period
 	toColumn: geography_period_totals.Period
 
-relationship AutoDetected_555eaf93-14fc-4e1c-a673-239268422c65
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: rezoning_summary.Period
-	toColumn: geography_period_totals.Period
-
 relationship AutoDetected_b57d1d28-6206-4681-86b0-fb951129f63e
 	fromColumn: seasonal_monthly_volume.Period
-	toColumn: geography_period_totals.Period
-
-relationship AutoDetected_1486e73d-8018-4e2e-bc8c-963c3730904b
-	fromColumn: seasonal_summary.Period
 	toColumn: geography_period_totals.Period
 
 relationship AutoDetected_b80da35c-a00e-409a-8f26-774e55594e40
@@ -316,4 +306,22 @@ relationship b57d84b8-310f-4fab-bbb6-48290d8c38b5
 	joinOnDateBehavior: datePartOnly
 	fromColumn: development_permits_20260925_045241.canceledrefuseddate
 	toColumn: LocalDateTable_9b8acc0a-0e9c-4410-b894-0ed881251475.Date
+
+relationship a520e2a0-352b-0cac-41a9-b68d129e27e2
+	fromColumn: permits_clean.Period
+	toColumn: Period.Period
+
+relationship b606bdd9-de9b-e9b5-af2e-4c2ae70477b3
+	fromColumn: monthly_volume.Period
+	toColumn: Period.Period
+
+relationship cd1ca179-974b-0990-6f37-74d9e538cbcb
+	fromColumn: seasonal_summary.Period
+	toColumn: Period.Period
+
+relationship c261b158-f6af-fe88-f805-89ac74192dc9
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: rezoning_summary.Period
+	toColumn: Period.Period
 

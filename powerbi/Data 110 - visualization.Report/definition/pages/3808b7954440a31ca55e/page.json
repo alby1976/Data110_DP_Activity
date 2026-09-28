@@ -8,6 +8,14 @@
   "pageBinding": {
     "name": "8c0871f108e95a1d4811",
     "type": "Default",
-    "parameters": []
-  }
+    "parameters": [],
+    "referenceScope": "CrossReport"
+  },
+  "visualInteractions": [
+    {
+      "source": "c708b8e075ee8cb34775",
+      "target": "668d748828ed56ec0d3b",
+      "type": "NoFilter"
+    }
+  ]
 }

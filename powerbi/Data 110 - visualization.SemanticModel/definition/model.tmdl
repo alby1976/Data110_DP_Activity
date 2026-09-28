@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["development_permits_20260925_045241","bias_audit","calendar_month_summary","community_summary","complete_seasons","geography_period_totals","monthly_volume","partial_seasons","permit_volume","permits_clean","processing_period_totals","processing_summary","processing_type_summary","reconciliation","rezoning_by_district","rezoning_by_rule","rezoning_by_type","rezoning_summary","seasonal_monthly_volume","seasonal_summary","sensitivity_summary","type_period_totals","type_summary","unknown_seasons","validation_classification_valid","validation_data_quality_validat","validation_schema_validator","ward_summary"]
+annotation PBI_QueryOrder = ["development_permits_20260925_045241","bias_audit","calendar_month_summary","community_summary","complete_seasons","geography_period_totals","monthly_volume","partial_seasons","permit_volume","permits_clean","processing_period_totals","processing_summary","processing_type_summary","reconciliation","rezoning_by_district","rezoning_by_rule","rezoning_by_type","rezoning_summary","seasonal_monthly_volume","seasonal_summary","sensitivity_summary","type_period_totals","type_summary","unknown_seasons","validation_classification_valid","validation_data_quality_validat","validation_schema_validator","ward_summary","PythonTest"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -69,6 +69,9 @@ ref table LocalDateTable_5fbc8c37-5a47-4391-a313-80848a6e8eea
 ref table LocalDateTable_e712b260-5486-4bbb-ba0e-2d64ffa2d0de
 ref table LocalDateTable_f78d6c42-1b30-4159-b3e9-64593276f515
 ref table LocalDateTable_9b8acc0a-0e9c-4410-b894-0ed881251475
+ref table Period
+ref table PythonTest
+ref table Python_Monthly_Heatmap
 
 ref cultureInfo en-US
 
