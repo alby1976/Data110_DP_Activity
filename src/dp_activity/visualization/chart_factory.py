@@ -134,14 +134,18 @@ class ChartFactory:
             figure.tight_layout(rect=(0, .05, 1, 1))
         return figure
 
-    def monthly_heatmap(self, table: Any) -> Figure:
-        """Compare monthly residential counts without merging policy-period fragments.
+    def monthly_heatmap(self, table: Any, *, metric: str = "PermitCount") -> Figure:
+        """Compare monthly residential counts or rates within policy periods.
 
         Args:
             table: Monthly analysis DataFrame with Period, YearMonth, PermitCount,
                 and optional nullable Boolean IsPartialMonth. Counts must be
                 finite nonnegative integers, with unique period/month keys and
                 timezone-free month starts, as for monthly_volume.
+                DP_Rate30 requires numeric ExposureDays; missing or nonpositive
+                exposure produces an unavailable cell rather than a zero rate.
+            metric: PermitCount or DP_Rate30. Rates are calculated from counts
+                and exposure, ignoring any supplied precomputed rate column.
 
         Returns:
             Headless Figure with a month-by-year panel for each policy period,
@@ -153,15 +157,31 @@ class ChartFactory:
 
         Raises:
             TypeError: Table or field types are unsupported.
-            ValueError: Required columns, month starts, counts, or row keys are invalid.
+            ValueError: Required columns, month starts, counts, exposure, metric,
+                or row keys are invalid.
 
         Note:
-            Counts are not rates, dwellings, or evidence of policy causation.
+            DP_Rate30 means applications per 30 exposed calendar days, not a
+            calendar-month forecast. Neither metric counts dwellings or proves causation.
             Periods sharing a boundary month remain separate panels. Absent
             exposure flags mean unknown coverage, never complete coverage.
             The input and global Matplotlib settings are preserved.
         """
         frame = _monthly_frame(table)
+        if metric not in {"PermitCount", "DP_Rate30"}:
+            raise ValueError("metric must be PermitCount or DP_Rate30.")
+        frame["HeatmapValue"] = frame["PermitCount"].astype(float)
+        if metric == "DP_Rate30":
+            if "ExposureDays" not in frame:
+                raise ValueError("DP_Rate30 requires ExposureDays.")
+            exposure = frame["ExposureDays"]
+            if not pd.api.types.is_numeric_dtype(exposure) or pd.api.types.is_bool_dtype(exposure):
+                raise TypeError("ExposureDays must be numeric.")
+            if not np.isfinite(exposure.dropna().to_numpy(dtype=float)).all():
+                raise ValueError("ExposureDays must be finite or missing.")
+            frame["HeatmapValue"] = frame["HeatmapValue"].div(
+                exposure.astype(float).where(exposure.gt(0))
+            ) * 30
         groups = list(frame.sort_values(["YearMonth", "Period"], kind="stable").groupby(
             "Period", sort=False, observed=True,
         ))
@@ -173,14 +193,16 @@ class ChartFactory:
             markers = {}
             for row in group.itertuples(index=False):
                 cell = (row.YearMonth.month - 1, row.YearMonth.year - years[0])
-                values[cell] = row.PermitCount
+                values[cell] = row.HeatmapValue
                 markers[cell] = "?" if pd.isna(row.IsPartialMonth) else "*" if row.IsPartialMonth else ""
             panels.append((str(period), months, years, values, markers))
         return _heatmap_figure(
             panels, self.style, "Monthly residential development-permit applications",
-            "Residential application records", "Year", "Month", 0,
-            "* Partial month    ? Unknown exposure    – No supplied data\n"
-            "Counts are not adjusted for month length or partial coverage.",
+            "Residential application records" if metric == "PermitCount" else "Permits per 30 exposed days (DP30)",
+            "Year", "Month", 0 if metric == "PermitCount" else 1,
+            "* Partial month    ? Unknown exposure    – No supplied data or unavailable rate\n"
+            + ("Counts are not adjusted for month length or partial coverage."
+               if metric == "PermitCount" else "DP30 = PermitCount / ExposureDays × 30; partial coverage remains flagged."),
         )
 
     def seasonal_year_heatmap(

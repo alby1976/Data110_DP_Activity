@@ -86,6 +86,13 @@ analysis:
   community_analysis:
     minimum_baseline_count: 5
 
+  # Shared notebook Month x Year and Season x Year heatmap measures.
+  # DP_Rate30 (DP30) = residential applications / exposed calendar days * 30.
+  # Unknown/nonpositive exposure is unavailable, not zero; partials stay flagged.
+  # Season x Policy Period already displays pooled DP_Rate30.
+  heatmaps:
+    metrics: [PermitCount, DP_Rate30]
+
   classification:
     # Study definition of a residential development permit application:
     # an application whose winning rule sets IncludeResidential=true in

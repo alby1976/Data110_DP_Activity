@@ -41,7 +41,7 @@ Run cells from top to bottom with the project's configured Python environment. T
 | `REFRESH_DOWNLOAD` | `False`: reuses the snapshot offline |
 | `REVIEW_LIMIT` | `10`: limits displayed examples, not analyzed records |
 | `INCLUDE_PARTIAL_SEASONS` | `False`: seasonal charts use complete seasons |
-| `SEASON_YEAR_METRIC` | `"PermitCount"`: season/year heatmap shows counts; `"DP_Rate30"` selects rates |
+| `HEATMAP_METRICS` | From `analysis.heatmaps.metrics`; defaults to `[PermitCount, DP_Rate30]` for monthly/year and seasonal/year heatmaps |
 | `EXPORT_EXPLORATORY_OUTPUTS` | `False`: set true in the optional export cell to save tables and PNG charts |
 
 To deliberately obtain a new snapshot:
@@ -189,7 +189,15 @@ Eligible-duration medians describe applications with usable decisions. They do n
 
 The rezoning-relevance flag is a project classification, not an official City designation. Community tables rank both increases and decreases, retaining small-baseline warnings and missing geography. Review those flags before interpreting percentage changes.
 
-## 10. Reading the four charts
+## 10. Reading the charts
+
+The default `analysis.heatmaps.metrics: [PermitCount, DP_Rate30]` now produces
+both count and DP30 views for Month × Year and Season × Year. DP30 is
+`PermitCount / ExposureDays * 30`, residential applications per 30 exposed
+calendar days. Missing/nonpositive exposure remains gray rather than zero;
+partial coverage remains marked. Season × Policy Period already shows pooled
+DP30. There are six figures with these defaults, and optional exports include
+the additional `month_year_dp30.png` and `season_year_dp30.png` files.
 
 | Chart | Axes / panels | Displayed measure |
 |---|---|---|
@@ -215,7 +223,7 @@ per sheet (27 sheets for this notebook). CSV and other selected formats continue
 to use separate table files. Reload configuration after changing YAML, and restart
 the kernel after updating the package code. The default layout is separate files.
 
-The notebook's `## Optional exploratory exports` section follows the charts. Run the preceding analysis and chart cells first, then set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the export cell to save the residential-only cleaned permit table, all 21 analysis tables, three validation reports, reconciliation totals, a bias audit, and four PNG charts. The exporter explicitly uses `residential_only=True`. Validation, reconciliation, and bias-audit exports retain full-source evidence; residential analysis tables and charts use the filtered population.
+The notebook's `## Optional exploratory exports` section follows the charts. Run the preceding analysis and chart cells first, then set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the export cell to save the residential-only cleaned permit table, all 21 analysis tables, three validation reports, reconciliation totals, a bias audit, and six PNG charts with the default heatmap settings. The exporter explicitly uses `residential_only=True`. Validation, reconciliation, and bias-audit exports retain full-source evidence; residential analysis tables and charts use the filtered population.
 
 Each enabled run uses a unique directory under `reports/notebook_complete_period/`, containing `tables/` and `figures/`. Table formats and labels come from project settings; the current table format is CSV. Table overwrite is disabled, and separate run directories preserve earlier chart exports. The displayed output-path table lists the generated files.
 

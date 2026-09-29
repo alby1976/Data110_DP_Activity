@@ -426,6 +426,15 @@ a failed workbook write does not replace an existing destination.
 
 ### Complete-period notebook controls
 
+Both exploration notebooks read `analysis.heatmaps.metrics`, defaulting to
+`[PermitCount, DP_Rate30]`. The list must be nonempty and contain unique supported
+measures. Month × Year and Season × Year display one heatmap per measure.
+DP30 means `PermitCount / ExposureDays * 30`, calculated from residential counts
+and exposed calendar days. Missing/nonpositive exposure remains unavailable;
+partial coverage stays marked. Season × Policy Period always displays pooled
+DP30. With both measures enabled, each notebook produces six figures in memory;
+optional exports include `month_year_dp30.png` and `season_year_dp30.png`.
+
 The [complete-period notebook](../notebooks/02_complete_period_exploration.ipynb)
 reads study periods, classification rules, formats, and output labels from the
 project configuration. Its interactive controls are cell variables, not additional
@@ -437,7 +446,7 @@ YAML settings:
 | `REFRESH_DOWNLOAD` | `False` | Set true to download all configured periods into new immutable snapshots |
 | `REVIEW_LIMIT` | `10` | Limits examples displayed, not the analyzed population |
 | `INCLUDE_PARTIAL_SEASONS` | `False` | Excludes partial seasons from seasonal charts |
-| `SEASON_YEAR_METRIC` | `"PermitCount"` | Selects counts; `"DP_Rate30"` selects exposure-adjusted rates |
+| `analysis.heatmaps.metrics` | `[PermitCount, DP_Rate30]` | Both count and DP30 views in monthly/year and seasonal/year heatmaps |
 | `EXPORT_EXPLORATORY_OUTPUTS` | `False` | Enables optional table and PNG exports |
 
 After a refresh, copy the printed Parquet filename into the cell source and reset

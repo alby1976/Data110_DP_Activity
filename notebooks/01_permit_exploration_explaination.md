@@ -443,11 +443,19 @@ study-specific sensitivity scenarios are configured.
 
 ## 25. Charts and heatmaps
 
+Both Month × Year and Season × Year now display count and DP30 views by default,
+controlled by `analysis.heatmaps.metrics: [PermitCount, DP_Rate30]` in settings.
+DP30 is residential applications per 30 exposed calendar days, calculated as
+`PermitCount / ExposureDays * 30`. Missing/nonpositive exposure is unavailable,
+not zero; partial coverage remains marked. Season × Policy Period already shows
+pooled DP30. Six figures are produced under these defaults, including the new
+`month_year_dp30` and `season_year_dp30` figures in optional exports.
+
 | Chart | Rows / horizontal axis | Columns / vertical axis | Value and interpretation |
 |---|---|---|---|
 | Monthly line | Application month (horizontal) | Residential count (vertical) | Partial-month markers disclose unequal coverage; the During start boundary is just beyond the last covered day |
 | Month × Year | Jan–Dec rows | Calendar-year columns | Residential count; zero and missing cells are distinct |
-| Season × Year | Winter, Spring, Summer, Fall rows | Season-year columns | Count by default; set SEASON_YEAR_METRIC to DP_Rate30 for rates |
+| Season × Year | Winter, Spring, Summer, Fall rows | Season-year columns | Count and DP30 views by default; configured by analysis.heatmaps.metrics |
 | Season × Policy Period | Season rows | Policy-period columns | Pooled sum(count) / sum(exposure days) × 30 |
 
 Winter December 2023–February 2024 is labelled **2024**. Seasonal charts default

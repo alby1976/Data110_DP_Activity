@@ -25,6 +25,37 @@ import pytest
 from dp_activity.visualization.chart_factory import ChartFactory
 
 
+def test_monthly_dp30_uses_exposure_and_preserves_missing_cells() -> None:
+    """Distinguish partial rates, real zeros, and unavailable exposure."""
+    table = pd.DataFrame({
+        "Period": ["Before"] * 5,
+        "YearMonth": pd.date_range("2024-01-01", periods=5, freq="MS"),
+        "PermitCount": [10, 0, 5, 5, 5],
+        "ExposureDays": pd.array([5, 29, None, 0, -1], dtype="Float64"),
+        "IsPartialMonth": pd.array([True, False, None, True, True], dtype="boolean"),
+        "DP_Rate30": [999] * 5,
+    })
+    original = table.copy(deep=True)
+    figure = ChartFactory().monthly_heatmap(table, metric="DP_Rate30")
+    values = figure.axes[0].images[0].get_array()
+    assert values[0, 0] == 60
+    assert values[1, 0] == 0
+    assert np.ma.getmaskarray(values)[2:, 0].all()
+    assert "60.0*" in [label.get_text() for label in figure.axes[0].texts]
+    assert "DP30" in figure.axes[-1].get_ylabel()
+    pd.testing.assert_frame_equal(table, original)
+    counts = ChartFactory().monthly_heatmap(table)
+    assert counts.axes[0].images[0].get_array()[0, 0] == 10
+    with pytest.raises(ValueError, match="ExposureDays"):
+        ChartFactory().monthly_heatmap(table.drop(columns="ExposureDays"), metric="DP_Rate30")
+    with pytest.raises(ValueError, match="metric"):
+        ChartFactory().monthly_heatmap(table, metric="invalid")
+    with pytest.raises(TypeError, match="numeric"):
+        ChartFactory().monthly_heatmap(table.assign(ExposureDays="five"), metric="DP_Rate30")
+    with pytest.raises(ValueError, match="finite"):
+        ChartFactory().monthly_heatmap(table.assign(ExposureDays=float("inf")), metric="DP_Rate30")
+
+
 class FakeFigure:
     """Provide a minimal figure test double.
 
