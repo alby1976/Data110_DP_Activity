@@ -70,12 +70,11 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `ProcessingDateInvalid` | Boolean | either date malformed or flagged invalid by the cleaner |
 | `IsAfterObservationEnd` | Boolean | either date exceeds an explicitly supplied observation horizon; false without a horizon |
 | `HasValidProcessingDays` | Boolean | validity flag for processing analysis |
-| `IsResidential` | Boolean | reviewed residential classification |
 | `ResidentialType` | category | standardized development/housing type |
 | `RezoningRelevant` | Boolean | documented analytical relevance flag |
 | `ClassificationRule` | text | rule or lookup entry producing the classification |
 | `ClassificationNeedsReview` | Boolean | ambiguous or unmatched classification |
-| `IncludeResidential` | Boolean | first matching rule's inclusion decision; false for unmatched records pending review |
+| `IncludeResidential` | Boolean | implemented residential membership: first enabled matching rule's inclusion decision; false for unmatched records pending review; see [population definition](CONFIGURATION.md#residential-population-definition) |
 | `ValidationStatus` | text | winning rule's evidence status, or `unmatched` |
 | `ClassificationMatchCount` | integer | number of enabled rules matching the permit |
 | `ClassificationConflictCount` | integer | additional matches after the winner; potential overlap even when outcomes agree |
@@ -90,6 +89,19 @@ The source is the City of Calgary Development Permits dataset (`6933-unw5`). Fie
 | `SourceSnapshotID` | text | identifier connecting outputs to the frozen source extract |
 
 ## Configured and planned output tables
+
+`IncludeResidential` is the residential filter used by the code and exports;
+there is no separate implemented `IsResidential` field. `RezoningRelevant` and
+`ClassificationNeedsReview` do not substitute for this filter.
+
+`AllPermitCount` and `ExcludedCount` describe the input to each analysis, not
+necessarily the raw download. The notebooks supply only `residential_permits`, so
+their analysis exclusions are zero and all-input counts are residential counts.
+Their `population_counts` table instead has `AllApplications`,
+`ResidentialApplications`, and `ExcludedApplications` at period grain for the
+full source. The CLI supplies all classified records to analyses. Excluded rows
+can be non-residential, accessory/non-housing, or unclassified; exclusion does
+not prove that every such application is non-residential.
 
 ### Implemented validation results
 
@@ -124,7 +136,7 @@ and days, including partial months, rather than averaging monthly rates.
 `SeasonalAnalysis` returns `seasonal_summary` at period × season-instance grain,
 with `Season`, `SeasonStartDate`, `SeasonEndDate`, nullable `IsCompleteSeason`,
 `ExposureDays`, `WindowSource`, residential `PermitCount`, `AllPermitCount`, and
-nonresidential `ExcludedCount`. `WindowSource` is `configured` or
+rule-excluded `ExcludedCount`. `WindowSource` is `configured` or
 `observed_seasons`; exploratory exposure days remain null. Configured calendars
 retain zero-activity seasons. `complete_seasons`, `partial_seasons`, and
 `unknown_seasons` partition the same rows by true, false, and null completeness.
@@ -159,7 +171,7 @@ residential records flagged `HasValidProcessingDays=true`.
 Statistics are null when `ValidCount` is zero; a valid zero-day duration remains
 zero. The period totals table includes the counts and shares above plus
 `AllPermitCount`, `PeriodResidentialCount` (equal to `TotalCount`), and
-`ExcludedCount` (nonresidential records). ExcludedCount and InvalidCount describe
+`ExcludedCount` (input rows excluded by residential classification). ExcludedCount and InvalidCount describe
 different populations. Audit reasons may overlap and must not be summed.
 Configured periods appear even when empty.
 
@@ -206,7 +218,7 @@ units. Final filename mapping and export remain pending.
 
 | File/table | Grain | Purpose |
 |---|---|---|
-| `permits_clean` | one permit | Power BI fact table |
+| `permits_clean` | one application row | Power BI fact table; residential-only with committed `storage.residential_only: true`, all cleaned rows when false |
 | `monthly_summary` | period × month | trend validation and Python results |
 | `seasonal_summary` | period × season | seasonal volume and processing comparison |
 | `type_summary` | period × residential type | development-mix analysis |

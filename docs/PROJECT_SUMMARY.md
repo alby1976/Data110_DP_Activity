@@ -21,6 +21,17 @@ Data from August 4, 2026 onward may be shown as an incomplete early post-repeal 
 
 ### Analytics plan
 
+The City's source contains both residential and non-residential applications.
+This study includes applications assigned `IncludeResidential=true` by its
+ordered CSV rules: dwellings and suites, qualifying residential renovations and
+additions, and mixed-use applications with qualifying housing evidence. It excludes
+accessory/non-housing and unclassified applications when their rules win. The
+[full definition](CONFIGURATION.md#residential-population-definition) specifies
+precedence and review treatment; counts are not restricted to newly created homes.
+Both notebooks retain separate all-permit source exploration and residential-only
+profiles, analyses, and charts. Cleaned exports are residential-only by default,
+while raw snapshots and full-source audit evidence remain available.
+
 Python will retrieve and profile the source data; standardize dates and text; remove or flag invalid records; classify residential and rezoning-relevant permits; calculate derived measures; create exploratory charts; and export validated tables for Power BI. Power BI will present an interactive dashboard with synchronized filters for period, community, ward, development type, permit status, and land-use district.
 
 The Python design separates external systems from the analytical core through adapters and repositories, composes deterministic cleaning and feature stages as pipes and filters, applies ordered classification specifications as a chain of responsibility, and implements analyses as interchangeable strategies. The command-line module acts as the composition root, while the analysis pipeline provides a single facade over the workflow. These choices make the code easier to test and keep methodological rules auditable; they are documented in [Python Design Patterns](DESIGN_PATTERNS.md).

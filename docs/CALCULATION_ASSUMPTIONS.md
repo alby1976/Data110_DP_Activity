@@ -4,7 +4,7 @@ This document records the choices that keep the development-permit analysis
 manageable and reproducible. These are analytical conventions, not claims that
 the underlying development process is simple or that source records are perfect.
 It describes the implemented calculations and committed configuration as of
-September 23, 2026. Planned work is identified separately.
+September 29, 2026. Planned work is identified separately.
 
 For calculation details, see [Methodology](METHODOLOGY.md); for field definitions,
 see [Data Dictionary](DATA_DICTIONARY.md). The consequences and mitigation work
@@ -18,6 +18,20 @@ are expanded in [Biases and Mitigation](BIAS_AND_MITIGATION.md).
 | The study population is published development-permit applications. | Uses one accessible administrative source. | It does not represent all construction, building permits, unsubmitted proposals, or housing demand. |
 | Residential inclusion is determined by `IncludeResidential` from the rule classifier. | Gives all implemented summaries a reproducible population definition. | Headline counts depend on classification choices; they do not establish the true residential population independently. |
 | Source fields describe the frozen snapshot at retrieval. | Avoids reconstructing the history of every mutable administrative field. | Current status, decisions, and geography may differ from their values when an application was submitted. Snapshot consistency is not proof of source accuracy or completeness. |
+
+Residential membership follows the
+[documented rule definition](CONFIGURATION.md#residential-population-definition),
+including qualifying renovations, additions, and mixed-use housing. It is not
+limited to new dwelling construction. Classification review flags and
+`RezoningRelevant` do not override `IncludeResidential`.
+
+Both notebooks pass an explicit residential-only table to their analysis
+strategies, after retaining all-permit source and validation sections. Thus
+analysis `AllPermitCount` counts residential input rows and `ExcludedCount` is
+zero there. Notebook `population_counts` retains the original source denominator
+and exclusions. The CLI still analyzes the full classified input and its denominator
+tables retain those source counts. `storage.residential_only` filters only cleaned
+exports; reconciliation and bias audits retain their full supplied input.
 
 ## 2. Dates, policy windows, and exposure
 

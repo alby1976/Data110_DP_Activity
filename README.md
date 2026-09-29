@@ -141,6 +141,18 @@ Folders and planned files shown above that are not yet present will be added as 
 
 ## Configuration
 
+Residential applications are those assigned `IncludeResidential=true` by the
+ordered classification rules. Included forms cover dwellings, multi-residential
+development, and suites, plus qualifying residential renovations and additions.
+Mixed-use housing may qualify through housing evidence. Accessory structures,
+non-housing uses, and unmatched records are excluded when their rules determine
+the outcome. See the [full population definition](docs/CONFIGURATION.md#residential-population-definition).
+
+Both notebooks separate all-permit source exploration from residential-only
+profiles, summaries, and charts. `storage.residential_only: true` also restricts
+cleaned exports to included residential applications; raw snapshots and full-source
+validation/reconciliation remain available. Application counts are not new-home counts.
+
 Analysis choices are kept outside the Python code where practical. [`config/settings.yaml`](config/settings.yaml) contains the data source, study periods, season definitions, quality checks, storage formats, output naming and overwrite behavior, and pipeline-log archive settings. [`config/classification_rules.csv`](config/classification_rules.csv) contains ordered, auditable rules for residential inclusion, housing type, and rezoning-relevance classification. Provisional, fallback, and review rules remain subject to the validation process; being committed does not magically make a rule correct.
 
 See the [configuration and classification-rules guide](docs/CONFIGURATION.md) for the file schemas, validation requirements, rule precedence, and audit process.

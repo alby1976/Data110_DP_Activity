@@ -158,6 +158,22 @@ analysis outputs rather than immutable raw snapshots.
 
 ### Storage and logging settings
 
+`storage.residential_only: true` restricts the cleaned permit export to rows with
+`IncludeResidential=true`. It applies to every processed format, including the
+cleaned-permit sheet in a combined Excel workbook. It does not filter downloads,
+raw snapshots, validation reports, or the full-input reconciliation and bias audit.
+The CLI still passes all classified records to its analysis strategies, which
+select residential rows for residential measures. If this setting is omitted or
+false, the CLI exports all cleaned rows. Direct `PowerBIExporter` callers default
+to false; both exploration notebooks explicitly enable residential-only exports.
+
+The notebooks separately retain all-permit source exploration and create
+`residential_permits` for residential profiles, analyses, and charts. Their
+analysis-table denominators therefore refer to residential input rows. Use each
+notebook's `population_counts` or full-source export reconciliation for original
+and excluded counts. Changing the export setting does not change membership;
+edit the classification rules to change which applications qualify.
+
 The CLI supplies configured study windows, season labels and ordered month lists,
 and `analysis.primary_date_field` to `SeasonalAnalysis`. Direct callers may supply
 an explicit `observation_end`; open-ended windows require it. The CLI reads
@@ -300,7 +316,33 @@ The Python workflow should stop with a clear message when:
 
 This CSV holds the ordered, data-driven rules used to classify records as residential or non-residential, assign a standardized residential type, and identify records that may be relevant to citywide rezoning. `RezoningRelevant` is an analytical flag, not an official City of Calgary designation.
 
-### Current schema
+### Residential population definition
+
+An application belongs to this study's residential population when its first
+matching enabled rule sets `IncludeResidential=true`. This is an analytical
+definition, not a separate official City designation or a measure of new homes.
+The executable definition is [classification_rules.csv](../config/classification_rules.csv);
+comments under `analysis.classification` in [settings.yaml](../config/settings.yaml)
+summarize it.
+
+| Development or evidence | Current treatment |
+|---|---|
+| Rowhouse, townhouse, semi-detached dwelling, duplex, single-detached dwelling (including contextual), multi-residential development, backyard suite, secondary suite | Included by housing-form rules HF-001 through HF-017 using proposed-use or description evidence |
+| Residential category fallbacks | HF-100 through HF-106 include identified residential categories, multi-family renovations, additions over 10 sq metres, and remaining `Residential -` categories when no earlier rule matches |
+| Mixed-use or change-of-use application with qualifying housing evidence | Included when an earlier housing rule wins; the category alone does not establish inclusion |
+| Accessory buildings such as garages/sheds, signs, home occupations, commercial/industrial uses, mixed use or changes of use without qualifying housing evidence, and non-housing relaxations | Excluded when their exclusion rule wins |
+| Unclassified or unmatched application | Excluded from residential analysis and retained for review |
+
+Rules run by ascending `Priority`, then `RuleID`; the first match wins. Specific
+housing evidence currently precedes category exclusions. Matching is
+case-insensitive under the committed settings. An included application remains
+included even when flagged for classification review. `RezoningRelevant` is
+separate and must not be used as a residential filter. Inclusion does not require
+a valid decision date: processing-duration eligibility is a later restriction.
+Counts cover all included applications, including qualifying renovations and
+additions, rather than only new construction or completed dwellings.
+
+### Rule-file columns
 
 | Column | Type | Purpose |
 |---|---|---|
@@ -330,7 +372,10 @@ The allowed values and field names must be enforced in code. `ValidationStatus` 
 7. Set `ClassificationNeedsReview` for unmatched records and winning rules whose `ValidationStatus` is `review`, `provisional`, or `fallback`. Preserve the status so these review reasons can be reported separately. Report additional matches separately as potential conflicts; intentional fallback/catch-all overlaps do not automatically change the winning rule's review flag.
 8. Log conflicting potential matches so priority does not conceal rule overlap.
 
-Specific exclusions and exact matches should normally have higher priority than broad `contains` or `regex` rules. A district name by itself should not automatically prove the proposed use or number of homes.
+The committed rules place specific housing-form evidence before category exclusions,
+allowing qualifying housing in mixed-use applications. Changing that order changes
+membership and requires review of affected records. A district name by itself does
+not prove the proposed use or number of homes.
 
 ### Required rule-file checks
 

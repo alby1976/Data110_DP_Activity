@@ -395,6 +395,22 @@ passed. Investigate the missing values and review records before final analysis.
 
 ## 24. Residential analyses and reconciliation
 
+The residential exploration section explicitly selects every row with
+`IncludeResidential=True` into `residential_permits`. The
+[population definition](../docs/CONFIGURATION.md#residential-population-definition)
+covers housing forms, suites, qualifying renovations/additions, and mixed-use
+housing evidence under the ordered CSV rules. Review flags do not remove included
+rows, and `REVIEW_LIMIT` limits displayed examples only.
+
+The section profiles residential missingness, identifier uniqueness, category,
+proposed use, housing type, community, processing flags, and valid durations.
+Earlier source profiles and validation still cover all applications.
+`population_counts` reconciles 16,637 source applications to 7,940 included and
+8,697 excluded applications in the pinned snapshot. All residential analysis
+strategies receive `residential_permits`; their `AllPermitCount` therefore counts
+residential rows and their `ExcludedCount` is zero. Use `population_counts`, not
+those analysis denominators, to assess exclusions from the full source.
+
 The notebook executes VolumeAnalysis, TypeAnalysis, ProcessingAnalysis,
 RezoningAnalysis, and SeasonalAnalysis, producing 18 in-memory tables. Each is
 given only the verified Before coverage, rather than the full configured list of
@@ -454,6 +470,11 @@ rendered figures were visually reviewed. Period-average lines, processing
 box plots/distributions, and grouped seasonal bars remain unimplemented.
 
 ## 26. Optional export and implementation status
+
+The notebook explicitly uses `residential_only=True` for its cleaned permit
+export. Analysis tables and charts use residential input; validation,
+reconciliation, and bias-audit exports retain full-source evidence. This matches
+the committed CLI cleaned-export setting `storage.residential_only: true`.
 
 `EXPORT_EXPLORATORY_OUTPUTS=False` is the verified default. No external tables or
 figures were written during this notebook run. Setting it true invokes the real

@@ -20,6 +20,21 @@ Use an active relationship for `AppliedDate`. If decision-date analysis is neede
 
 ## Core measures
 
+Use the implemented `IncludeResidential` field and the
+[documented residential definition](CONFIGURATION.md#residential-population-definition).
+The committed `storage.residential_only: true` setting means the cleaned
+`FactPermits` input contains only included residential applications. Full-source
+and excluded counts must come from the separate reconciliation export, not from
+counting this filtered fact table. If cleaned exports are configured to include
+all records, retain the inclusion filter in residential measures.
+
+Notebook analysis tables receive residential-only input, so their
+`AllPermitCount` and `ExcludedCount` differ in scope from CLI analysis tables,
+which receive all classified records. Record the producing workflow when
+importing tables and use full-source reconciliation for source totals.
+Python counts application rows without deduplicating permit identifiers; use
+`COUNTROWS` for matching counts and investigate duplicates separately.
+
 The Python volume and seasonal tables now include `DP_Rate30`, residential
 applications per 30 exposed days. Display this as a numeric rate, not a percentage.
 Keep PermitCount and ExposureDays visible in tooltips. For disjoint time rows at a
@@ -43,14 +58,14 @@ Final column names may change, but the measure logic should follow this pattern.
 
 ```DAX
 Permit Count =
-DISTINCTCOUNT(FactPermits[PermitNum])
+COUNTROWS(FactPermits)
 ```
 
 ```DAX
 Residential Permit Count =
 CALCULATE(
     [Permit Count],
-    FactPermits[IsResidential] = TRUE()
+    FactPermits[IncludeResidential] = TRUE()
 )
 ```
 
@@ -58,7 +73,8 @@ CALCULATE(
 Rezoning-Relevant Permit Count =
 CALCULATE(
     [Permit Count],
-    FactPermits[RezoningRelevant] = TRUE()
+    FactPermits[RezoningRelevant] = TRUE(),
+    FactPermits[IncludeResidential] = TRUE()
 )
 ```
 
@@ -66,7 +82,8 @@ CALCULATE(
 Median Processing Days =
 CALCULATE(
     MEDIAN(FactPermits[ProcessingDays]),
-    FactPermits[HasValidProcessingDays] = TRUE()
+    FactPermits[HasValidProcessingDays] = TRUE(),
+    FactPermits[IncludeResidential] = TRUE()
 )
 ```
 

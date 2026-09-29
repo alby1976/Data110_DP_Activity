@@ -122,11 +122,25 @@ The validators return reports without changing records. A successfully executed 
 
 ## 8. Analysis tables and denominators
 
+The residential exploration section selects every `IncludeResidential=True` row
+into `residential_permits` before profiling or running analysis strategies. See
+the [population definition](../docs/CONFIGURATION.md#residential-population-definition)
+for included housing forms, qualifying renovations/additions, mixed-use evidence,
+exclusions, and rule precedence. Review flags do not remove included rows.
+`REVIEW_LIMIT` affects displayed examples, not the analytical population.
+
+Residential profiles report missingness, identifier uniqueness, category,
+proposed use, housing type, community, processing flags, and valid durations.
+All-permit source profiles and validation remain in their own earlier section.
+`population_counts` reports `AllApplications`, `ResidentialApplications`, and
+`ExcludedApplications` by period, preserving the full-source denominators shown
+in the study-coverage table. Residential analyses use only the filtered table.
+
 Six reusable analysis strategies produce 21 in-memory tables in `analysis_tables`.
 
 | Analysis | Output keys | How to interpret them |
 |---|---|---|
-| Volume | `permit_volume`, `monthly_volume` | Residential counts, all-record denominators, exposure, monthly coverage, and primary-period changes |
+| Volume | `permit_volume`, `monthly_volume` | Residential counts and input denominators, exposure, monthly coverage, and primary-period changes |
 | Housing type | `type_summary`, `type_period_totals` | Residential housing-type counts and shares with period denominators |
 | Geography | `community_summary`, `ward_summary`, `geography_period_totals` | Community/ward counts, missing geography, and During-minus-Before comparisons |
 | Processing | `processing_summary`, `processing_type_summary`, `processing_community_summary`, `processing_period_totals` | Eligible duration distributions and exclusions by period, type, and community |
@@ -140,8 +154,8 @@ Key definitions:
 | Measure | Definition / caution |
 |---|---|
 | `PermitCount` | Included residential application records |
-| `AllPermitCount` | All application records in the relevant group |
-| `ExcludedCount` | All records minus included residential records |
+| `AllPermitCount` | All rows supplied to the analysis in the relevant group; residential-only in this notebook |
+| `ExcludedCount` | Input rows not included as residential; zero in these residential-only analysis tables; use `population_counts` for full-source exclusions |
 | `DP_Rate30` | `PermitCount / ExposureDays * 30`; applications per 30 exposed calendar days |
 | `AbsoluteChange` | During count minus Before count in primary comparisons |
 | `PercentChange` | Absolute change divided by Before count, multiplied by 100; undefined for zero baseline |
@@ -201,7 +215,7 @@ per sheet (27 sheets for this notebook). CSV and other selected formats continue
 to use separate table files. Reload configuration after changing YAML, and restart
 the kernel after updating the package code. The default layout is separate files.
 
-The notebook's `## Optional exploratory exports` section follows the charts. Run the preceding analysis and chart cells first, then set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the export cell to save the featured permit table, all 21 analysis tables, three validation reports, reconciliation totals, a bias audit, and four PNG charts.
+The notebook's `## Optional exploratory exports` section follows the charts. Run the preceding analysis and chart cells first, then set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the export cell to save the residential-only cleaned permit table, all 21 analysis tables, three validation reports, reconciliation totals, a bias audit, and four PNG charts. The exporter explicitly uses `residential_only=True`. Validation, reconciliation, and bias-audit exports retain full-source evidence; residential analysis tables and charts use the filtered population.
 
 Each enabled run uses a unique directory under `reports/notebook_complete_period/`, containing `tables/` and `figures/`. Table formats and labels come from project settings; the current table format is CSV. Table overwrite is disabled, and separate run directories preserve earlier chart exports. The displayed output-path table lists the generated files.
 

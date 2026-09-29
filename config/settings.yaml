@@ -87,6 +87,31 @@ analysis:
     minimum_baseline_count: 5
 
   classification:
+    # Study definition of a residential development permit application:
+    # an application whose winning rule sets IncludeResidential=true in
+    # paths.classification_rules. This is an analytical definition, not a
+    # separate official City designation or a count of new dwelling units.
+    #
+    # Included housing forms (HF-001 through HF-017): rowhouses, townhouses,
+    # semi-detached dwellings, duplexes, single-detached dwellings (including
+    # contextual dwellings), multi-residential development, backyard suites,
+    # and secondary suites, identified in proposed use or description.
+    # Residential category fallbacks (HF-100 through HF-106) also include
+    # multi-family renovations, additions over 10 sq metres, and remaining
+    # "Residential -" categories when no earlier rule matches.
+    #
+    # Excluded when their rules win: accessory buildings such as garages/sheds,
+    # signs, home occupations, commercial/industrial uses, mixed use or changes
+    # of use without qualifying housing evidence, and non-housing relaxations
+    # such as decks/fences. Unclassified and unmatched applications are excluded
+    # from residential analysis and retained for review.
+    #
+    # Precedence: first enabled match by ascending Priority, then RuleID wins.
+    # Specific housing evidence precedes category exclusions; for example,
+    # mixed-use applications containing multi-residential development qualify.
+    # Matching is case-insensitive below. Review flags do not override inclusion.
+    # RezoningRelevant is a separate flag and does not define residential status.
+    # Edit the CSV rules to change membership; these comments document the rules.
     unmatched_action: "Review"
     case_sensitive: false
 

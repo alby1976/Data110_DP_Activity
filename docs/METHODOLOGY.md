@@ -186,12 +186,33 @@ Missing values should not be silently converted into meaningful categories. Use 
 
 ## 5. Residential classification
 
-The exact residential filter must be based on observed values in `Category`, `Description`, `ProposedUseCode`, and `ProposedUseDescription`.
+Residential membership is the winning rule's `IncludeResidential` Boolean from
+`config/classification_rules.csv`. The current rules match category, description,
+and proposed-use description; proposed-use code remains available source evidence
+but is not used by the committed rules. See the
+[residential population definition](CONFIGURATION.md#residential-population-definition)
+for included housing forms, category fallbacks, exclusions, and precedence.
 
-Recommended sequence:
+The population includes qualifying renovations, additions, and mixed-use housing,
+not only new dwellings. Unmatched and other rule-excluded rows remain available
+for audit. Review flags do not remove included applications, and rezoning relevance
+is a separate classification. These are application counts, not housing-unit counts.
+
+Both exploration notebooks retain an all-permit source/validation section and
+explicitly select `residential_permits = featured.loc[featured["IncludeResidential"]].copy()`
+for residential profiles, processing descriptions, analyses, and charts. No sample
+limit is applied to this population; display limits affect previews only.
+`population_counts` reconciles full-source, residential, and excluded rows by period.
+Analysis-table `AllPermitCount` refers to the table passed to an analysis: residential
+rows in the notebooks, all classified rows in the CLI. Consequently notebook
+analysis `ExcludedCount` is zero; use the population reconciliation for source
+exclusions. Raw snapshots are unchanged, and the configured residential-only cleaned
+export preserves full-source validation and audit totals separately.
+
+Sequence for reviewing or changing the classification rules:
 
 1. list all distinct categories and proposed uses with counts;
-2. create the version-controlled `config/classification_rules.csv` rule table described in [Configuration and Classification Rules](CONFIGURATION.md);
+2. update the version-controlled `config/classification_rules.csv` rule table described in [Configuration and Classification Rules](CONFIGURATION.md);
 3. label each value as `Residential`, `NonResidential`, or `Review`;
 4. inspect a sample of permit descriptions from each rule;
 5. document rule coverage and the number of unmatched records;
