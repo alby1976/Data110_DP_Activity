@@ -14,6 +14,9 @@ table seasonal_summary
 		lineageTag: cb0ccd4e-0d35-4829-b421-9439f5cdceac
 		summarizeBy: none
 		sourceColumn: Season
+		sortByColumn: 'Season Month'
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -248,16 +251,32 @@ table seasonal_summary
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column 'Season Year' = YEAR(seasonal_summary[SeasonEndDate])
+		formatString: 0
+		lineageTag: 3682829f-5267-47f2-9d1f-7999bc20e74a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Season Month' = MONTH(seasonal_summary[SeasonEndDate])
+		formatString: 0
+		lineageTag: c1e6a9db-e60a-4ad4-a81a-8382a8cdf354
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
 	partition seasonal_summary = m
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
+				    Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
 				    seasonal_summary_Sheet = Source{[Item="seasonal_summary",Kind="Sheet"]}[Data],
 				    #"Promoted Headers" = Table.PromoteHeaders(seasonal_summary_Sheet, [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"IsCompleteSeason", type logical}, {"ExposureDays", Int64.Type}, {"WindowSource", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", type number}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", Int64.Type}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}, {"DP_Rate30", type number}})
 				in
 				    #"Changed Type"
 
-	annotation PBI_ResultType = Table
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
 
