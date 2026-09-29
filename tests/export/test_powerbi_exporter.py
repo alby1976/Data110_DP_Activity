@@ -146,6 +146,39 @@ def permits() -> pd.DataFrame:
     })
 
 
+@pytest.mark.parametrize("included", [[True, True, False], [False, False, False]])
+def test_residential_only_preserves_full_source_audit(tmp_path, permits, included) -> None:
+    """Exclude non-housing records without losing source reconciliation evidence.
+
+    Args:
+        tmp_path: Isolated output directory.
+        permits: Mixed permit fixture.
+        included: Inclusion flags covering mixed and entirely excluded inputs.
+    """
+    permits = permits.assign(IncludeResidential=included)
+    original = permits.copy(deep=True)
+    paths = PowerBIExporter(tmp_path, residential_only=True).export(permits, {}, {})
+    clean = pd.read_csv(paths["clean_permits"])
+    assert clean["permit_number"].tolist() == permits.loc[included, "permit_number"].tolist()
+    assert clean.columns.tolist() == permits.columns.tolist()
+    reconciliation = pd.read_csv(paths["reconciliation"])
+    totals = reconciliation.loc[reconciliation["Scope"].eq("All")].set_index("Metric")["PythonValue"]
+    assert totals["AllPermitCount"] == 3
+    assert totals["ResidentialCount"] == sum(included)
+    assert totals["ExcludedCount"] == 3 - sum(included)
+    pd.testing.assert_frame_equal(permits, original)
+
+
+def test_residential_only_rejects_text_boolean(tmp_path) -> None:
+    """Reject quoted YAML booleans instead of silently enabling filtering.
+
+    Args:
+        tmp_path: Isolated output directory.
+    """
+    with pytest.raises(TypeError, match="residential_only"):
+        PowerBIExporter(tmp_path, residential_only="false")
+
+
 def test_formats_validation_reports_reconciliation_and_preservation(tmp_path, permits) -> None:
     """Reconcile from permits while retaining real validator output shapes.
 

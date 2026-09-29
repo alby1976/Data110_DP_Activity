@@ -75,19 +75,24 @@ def smoke_workspace(tmp_path, monkeypatch) -> tuple[Path, Path, Path]:
 
 
 @pytest.mark.parametrize("format_name", ["csv", "json", "parquet"])
-def test_real_cli_exports_reconciled_frozen_results(smoke_workspace, capsys, format_name) -> None:
+@pytest.mark.parametrize("residential_only", [True, False])
+def test_real_cli_exports_reconciled_frozen_results(
+    smoke_workspace, capsys, format_name, residential_only,
+) -> None:
     """Run every pipeline collaborator and verify persisted counts and exposure.
 
     Args:
         smoke_workspace: Isolated real configuration and frozen snapshot.
         capsys: Captures CLI success and error messages.
         format_name: Configured processed output format.
+        residential_only: Whether the cleaned export excludes non-residential rows.
     """
     if format_name == "parquet":
         pytest.importorskip("pyarrow")
     settings_path, snapshot, output = smoke_workspace
     settings = yaml.safe_load(settings_path.read_text(encoding="utf-8"))
     settings["storage"]["processed_output_formats"] = [format_name]
+    settings["storage"]["residential_only"] = residential_only
     settings_path.write_text(yaml.safe_dump(settings), encoding="utf-8")
     original = hashlib.sha256(snapshot.read_bytes()).hexdigest()
     assert cli.main(["--settings", str(settings_path), "run", str(snapshot)]) == 0
@@ -116,7 +121,7 @@ def test_real_cli_exports_reconciled_frozen_results(smoke_workspace, capsys, for
         return pd.read_parquet(path)
 
     clean = read("frozen_clean").set_index("permit_number")
-    assert len(clean) == 7
+    assert len(clean) == (6 if residential_only else 7)
     assert clean["IncludeResidential"].sum() == 6
     assert clean.loc["SYN-B2", "Period"] == "Before"
     assert clean.loc["SYN-D1", "Period"] == "During"
@@ -139,6 +144,8 @@ def test_real_cli_exports_reconciled_frozen_results(smoke_workspace, capsys, for
     assert read("rezoning_summary")["RezoningRelevantShare"].eq(1).all()
     reconciliation = read("reconciliation")
     totals = reconciliation.loc[reconciliation["Scope"].eq("All")].set_index("Metric")
+    assert totals.loc["AllPermitCount", "PythonValue"] == 7
+    assert totals.loc["ExcludedCount", "PythonValue"] == 1
     assert totals.loc["ResidentialCount", "PythonValue"] == 6
     assert totals.loc["HasValidProcessingDays", "PythonValue"] == 5
     assert read("sensitivity_summary").empty

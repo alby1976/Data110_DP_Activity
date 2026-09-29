@@ -46,6 +46,7 @@ class PowerBIExporter:
         timestamp_format: ``strftime`` format used for generated output timestamps.
         output_names: Optional logical-name to filename-label mapping.
         excel_layout: One file per table or a single workbook with multiple sheets.
+        residential_only: Restrict cleaned permit exports to included residential rows.
     """
 
     def __init__(
@@ -59,6 +60,7 @@ class PowerBIExporter:
         timestamp_format: str = "%Y%m%d_%H%M%S",
         output_names: dict[str, str] | None = None,
         excel_layout: str = "one_file_per_table",
+        residential_only: bool = False,
     ) -> None:
         """Configure the Power BI export adapter.
 
@@ -72,8 +74,11 @@ class PowerBIExporter:
             timestamp_format: ``strftime`` format used for generated output timestamps.
             output_names: Optional filename labels for logical table names.
             excel_layout: one_file_per_table (default) or one_workbook.
+            residential_only: Export only IncludeResidential=true permit rows while
+                retaining full-input reconciliation and validation evidence.
 
         Raises:
+            TypeError: residential_only is not Boolean.
             ValueError: Neither an output directory nor repository is supplied, or the
                 configured output formats/base name are blank.
         """
@@ -90,6 +95,9 @@ class PowerBIExporter:
         if excel_layout not in ("one_file_per_table", "one_workbook"):
             raise ValueError("excel_layout must be one_file_per_table or one_workbook.")
         self.excel_layout = excel_layout
+        if not isinstance(residential_only, bool):
+            raise TypeError("residential_only must be true or false.")
+        self.residential_only = residential_only
 
         if not self.output_formats or any(not format_name for format_name in self.output_formats):
             raise ValueError("PowerBIExporter output formats cannot be blank.")
@@ -141,7 +149,8 @@ class PowerBIExporter:
             including values that resemble formulas or URLs.
             Validates and prepares every table before writing. Writes are atomic
             per file, not transactional across the export. Preserves row order,
-            column order, missing values, and all source records; never exports
+            column order and missing values; residential_only restricts clean_permits
+            to included residential records. Audits still use all input rows. Never exports
             an implicit index. Date cells become ISO text across formats, Boolean
             cells stay Boolean. Reconciliation is computed from permits, not
             sums of overlapping summary tables. It does not certify Power BI
@@ -156,7 +165,9 @@ class PowerBIExporter:
             raise TypeError("IncludeResidential must contain nonmissing Booleans.")
         if not isinstance(analysis_tables, dict) or not isinstance(validation_tables, dict):
             raise TypeError("Analysis and validation tables must be dictionaries.")
-        tables = {"clean_permits": permits}
+        tables = {"clean_permits": (
+            permits.loc[inclusion.astype(bool)].copy() if self.residential_only else permits
+        )}
         for name, table in analysis_tables.items():
             _filename_label(name)
             if name in {"clean_permits", "reconciliation", "bias_audit"} or name.startswith("validation_"):

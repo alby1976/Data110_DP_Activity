@@ -30,6 +30,9 @@ paths:
   tables: "reports/tables"
 
 storage:
+  # Export only IncludeResidential=true rows in the cleaned permit table.
+  # Raw snapshots and aggregate validation/reconciliation retain all applications.
+  residential_only: true
   # File stem used before the configured output-format extension.
   output_base_name: "development_permits"
   # true replaces existing generated output files; false preserves them.
