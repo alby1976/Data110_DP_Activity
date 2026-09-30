@@ -161,7 +161,43 @@ The Python modules also identify their architectural or object-oriented pattern 
 
 ## Getting started
 
-Use Python 3.10 or newer. From a fresh checkout, create a virtual environment:
+Use Python 3.10 or newer. Choose Conda or a standard virtual environment.
+`pyproject.toml` defines all Python package dependencies and optional extras.
+Both `environment.yml` and `requirements-dev.txt` install the `dev`, `parquet`,
+and `excel` extras from it.
+
+### Conda
+
+Run from the repository root:
+
+```bash
+conda env create --file environment.yml
+conda activate data110-dp-activity
+python -m dp_activity.cli --help
+```
+
+Conda supplies Python 3.13 and pip; the YAML's pip section installs the project
+in editable mode with its dependencies, tests, Parquet, and Excel support.
+Change package versions in `pyproject.toml` to keep one dependency definition.
+After changing Python package dependencies, activate the environment and run:
+
+```bash
+python -m pip install -e ".[dev,parquet,excel]"
+python -m pip check
+```
+
+Recreate the environment from `environment.yml` when changing Conda dependencies
+or the interpreter. This specification is not a complete lockfile: Python patch
+releases and transitive dependency versions can vary.
+
+In PyCharm, select the existing Conda environment `data110-dp-activity` as the
+project interpreter. A default Windows Miniconda installation places it at
+`%USERPROFILE%\miniconda3\envs\data110-dp-activity\python.exe`.
+Use the same environment for notebook execution in PyCharm.
+
+### Standard virtual environment
+
+From a fresh checkout, create a virtual environment:
 
 ```bash
 git clone https://github.com/alby1976/Data110_DP_Activity.git
