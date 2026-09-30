@@ -142,11 +142,30 @@ minimum days. Malformed flags, contradictory eligibility, nonfinite durations,
 and schema/configuration errors are rejected. The scaffold test now calls the
 implementation directly; CLI tests verify configured period ordering.
 
-From the repository root, create and activate a virtual environment, then install the pinned testing dependencies:
+From the repository root, create and activate the Conda project environment:
+
+```bash
+conda env create --file environment.yml
+conda activate data110-dp-activity
+python -m pip check
+```
+
+For an existing environment, run only activation and the dependency check.
+`environment.yml` supplies Python 3.13 and installs the editable project with
+`dev`, `parquet`, and `excel` extras from `pyproject.toml`. Package requirements
+are maintained in `pyproject.toml`, rather than duplicated in the Conda file.
+Alternatively, create and activate a standard virtual environment using the
+[README instructions](../README.md#getting-started), then install:
 
 ```bash
 python -m pip install -r requirements-dev.txt
 ```
+
+The Conda integration configuration was parsed successfully, but its test attempt
+could not start because the PyCharm-configured Miniconda base interpreter lacked
+`pytest`. The new named environment was not created during that check. This is
+not a new suite result and does not replace the historical baseline above.
+Use the project environment for the commands below.
 
 Run the complete suite:
 

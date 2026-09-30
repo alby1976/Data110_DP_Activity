@@ -101,10 +101,17 @@ empty local settings so a fresh clone remains usable without credentials.
 
 The committed storage settings use `development_permits` as the shared output stem,
 allow generated outputs to overwrite previous generated files, and request CSV and
-Parquet for raw snapshots and CSV for processed outputs. JSON and JGeoJSON are
-commented out; Parquet is enabled only for raw snapshots. Install the Parquet extra
-with `python -m pip install -e ".[parquet]"`, or use `requirements-dev.txt`, which
-includes it. Processed table export supports CSV, JSON, and Parquet.
+Parquet raw snapshots plus a combined Excel workbook for processed outputs.
+`storage.processed_output_formats` is `[xlsx]` and `storage.excel_layout` is
+`one_workbook`; processed CSV is commented out. Processed table export supports
+CSV, JSON, Parquet, and Excel.
+
+The [Conda setup](../README.md#conda) installs the project with `dev`, `parquet`,
+and `excel` extras from `pyproject.toml`, as does `requirements-dev.txt` in a
+standard virtual environment. No additional writer installation is needed with
+either full setup. For a minimal installation, activate its environment and run
+`python -m pip install -e ".[parquet,excel]"` from the repository root.
+
 Timestamped output names are disabled by default. When `storage.include_timestamp` is
 `true`, the writer appends the current UTC date/time using
 `storage.timestamp_format` before the file extension. When the caller supplies an
@@ -396,7 +403,10 @@ Before classification, the workflow should verify:
 
 ### Excel processed-output option
 
-Install the optional writer with `pip install ".[excel]"`, then uncomment `xlsx`
+The committed settings already enable `xlsx` with `one_workbook`. Conda setup and
+`requirements-dev.txt` both include the Excel extra. For a minimal installation,
+activate its environment and run `python -m pip install -e ".[excel]"`. To export
+both CSV and Excel, enable `csv` alongside `xlsx`
 under `storage.processed_output_formats` in `config/settings.yaml`:
 
 ```yaml

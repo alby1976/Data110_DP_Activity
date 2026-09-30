@@ -1,5 +1,13 @@
 # Explanation of values in `01_permit_exploration.ipynb`
 
+Use the [Conda or virtual-environment setup](../README.md#getting-started)
+before running this notebook, and select that environment for notebook execution
+in PyCharm. `environment.yml` installs the editable project and its `dev`,
+`parquet`, and `excel` extras from `pyproject.toml`; it does not install a standalone
+Jupyter server. See [Create the Power BI input files](../docs/POWER_BI_PLAN.md#create-the-power-bi-input-files)
+for workbook export and import instructions. Setup changes do not rerun the
+notebook or change the recorded findings below.
+
 ## Current classification refresh: September 30, 2026
 
 Both notebooks were rerun with the updated `classification_rules.csv`, whose
