@@ -16,7 +16,7 @@ HF-014,HousingForm,proposedusedescription,contains,BACKYARD SUITE,TRUE,Backyard 
 HF-015,HousingForm,description,contains,BACKYARD SUITE,TRUE,Backyard Suite,TRUE,71,TRUE,validated_2026_sample,"Description fallback for backyard suite"
 HF-016,HousingForm,proposedusedescription,contains,SECONDARY SUITE,TRUE,Secondary Suite,TRUE,80,TRUE,validated_2026_sample,"Secondary suite classification"
 HF-017,HousingForm,description,contains,SECONDARY SUITE,TRUE,Secondary Suite,TRUE,81,TRUE,validated_2026_sample,"Description fallback for secondary suite"
-HF-018,HousingForm,proposedusedescription,contains,ACCESSORY RESIDENTIAL BUILDING,FALSE,Accessory Residential Building,FALSE,90,TRUE,validated_2026_sample,"Garage shed or other accessory structure is residential-related but does not itself represent a primary dwelling form"
+HF-018,HousingForm,proposedusedescription,contains,ACCESSORY RESIDENTIAL BUILDING,TRUE,Accessory Residential Building,FALSE,90,TRUE,validated_2026_sample,"Garage shed or other accessory structure is residential-related but does not itself represent a primary dwelling form"
 HF-019,HousingForm,proposedusedescription,contains,ACCESSORY BUILDING,FALSE,Accessory Building,FALSE,91,TRUE,validated_2026_sample,"Accessory structure without evidence of a dwelling"
 HF-100,HousingForm,category,exact,Residential - New Single / Semi / Duplex,TRUE,Other Low-Density Residential,TRUE,100,TRUE,fallback,"Fallback only when a more specific housing-form rule did not match"
 HF-101,HousingForm,category,exact,Residential - Contextual Dwelling,TRUE,Single Detached,TRUE,110,TRUE,fallback,"Category fallback for contextual dwelling"
