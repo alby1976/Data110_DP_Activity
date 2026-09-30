@@ -207,6 +207,8 @@ limit is applied to this population; display limits affect previews only.
 HF-906 includes otherwise unmatched Relaxation applications as
 `Residential Non-Housing`, with `RezoningRelevant=False`. Residential activity
 therefore includes this non-housing category as well as qualifying housing uses.
+HF-018 also includes accessory residential buildings, with rezoning relevance
+false; HF-019 continues to exclude other accessory buildings when it wins.
 
 Both notebooks retain a complete `classification_review_records` register from
 the all-permit classified table, before residential filtering. It includes
@@ -214,7 +216,7 @@ unmatched records and winning rules with `review`, `provisional`, or `fallback`
 status, as flagged by `ClassificationNeedsReview`. The saved expandable table
 contains every case, unaffected by `REVIEW_LIMIT`, with source evidence,
 winning-rule notes, inclusion/relevance flags, overlapping matches, and a review
-reason. Overlap alone is not a review criterion. The September 29 refresh
+reason. Overlap alone is not a review criterion. The September 30 refresh
 contains 1,101 Before cases and 2,635 complete-period cases; these are flags for
 manual investigation, not an independent classification accuracy assessment.
 

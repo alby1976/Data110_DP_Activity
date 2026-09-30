@@ -25,7 +25,9 @@ The City's source contains both residential and non-residential applications.
 This study includes applications assigned `IncludeResidential=true` by its
 ordered CSV rules: dwellings and suites, qualifying residential renovations and
 additions, and mixed-use applications with qualifying housing evidence. It excludes
-accessory/non-housing and unclassified applications when their rules win. The
+other accessory and unclassified applications when their exclusion rules win.
+HF-018 includes accessory residential buildings and HF-906 includes Relaxation
+applications as residential non-housing activity; both have rezoning relevance false. The
 [full definition](CONFIGURATION.md#residential-population-definition) specifies
 precedence and review treatment; counts are not restricted to newly created homes.
 Both notebooks retain separate all-permit source exploration and residential-only

@@ -52,16 +52,17 @@ Geography tests cover community and ward counts, zero and small baselines, missi
 
 ## Installation and commands
 
-### September 29 notebook refresh
+### September 30 notebook refresh
 
-Both notebooks reran all 17 existing code cells with the current classification
-rules and unchanged pinned snapshots. Each added complete-review-register cell
-then executed successfully, bringing each notebook to 18 code cells. Assertions
+Both notebooks reran all 18 code cells with the current classification rules
+and unchanged pinned snapshots, including the complete-review-register cells. Assertions
 checked agreement with the classifier's review flag, full review membership,
 row counts, preserved source indexes, and populated review reasons. Saved HTML
 tables contain all 1,101 Before and 2,635 complete-period review cases, without
-the preview limit. Residential totals reconcile to 9,043 Before, 6,743 During,
-and 346 Early Post-Repeal applications. All notebook cells have no saved errors.
+the preview limit. Residential totals reconcile to 9,857 Before, 7,606 During,
+and 407 Early Post-Repeal applications. HF-018 includes accessory residential
+buildings with rezoning relevance false. Both saved provenance tables match
+the current rule-file SHA-256 hash, and no notebook cells have saved errors.
 The full project suite and enabled external export branches were not rerun;
 the earlier suite baseline below remains separate evidence. The earlier
 notebook findings below describe historical rule versions.

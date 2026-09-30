@@ -204,13 +204,22 @@ sensitivity scenarios remain unconfigured, and full provenance and automatic
 charts remain pending. Profiling is available through `DataProfiler.profile()`;
 there is no `profile` or `analyse` CLI command.
 
+## Create Power BI analysis files
+
+To create the Excel workbook or CSV inputs for Power BI, follow
+[Create the Power BI input files](docs/POWER_BI_PLAN.md#create-the-power-bi-input-files).
+The complete-period notebook's optional export creates
+`reports/notebook_complete_period/<unique-run-id>/tables/complete_period_exploration_workbook.xlsx`
+with the current Excel settings. The guide also covers the CLI export to
+`data/processed`, the Before-only workbook, table selection, and reconciliation.
+
 ## Running the tests
 
 The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
-against the pinned Before snapshot. The September 29, 2026 refresh reran all 17
-existing code cells and verified the new review-register cell, for 18 code cells.
+against the pinned Before snapshot. The September 30, 2026 refresh reran all 18
+code cells, including the complete classification review register.
 Validators, five residential analysis strategies, a monthly line chart, and five
-heatmaps completed successfully. Summaries reconcile to 9,043 residential
+heatmaps completed successfully. Summaries reconcile to 9,857 residential
 records. Seasonal charts use complete seasons by default; only Before coverage is
 available. External notebook exports are disabled by default. Data-quality and
 classification warnings remain for review. See the
@@ -222,11 +231,10 @@ The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
 uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
 and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
 the snapshot's UTC retrieval date, September 25, defines the observation horizon.
-Six analysis strategies produce 21 tables, reconciling to 16,132 residential
-records: 9,043 Before, 6,743 During, and 346 Early Post-Repeal. A monthly line
-chart and five heatmaps use this refreshed population. All 17 existing code
-cells reran successfully on September 29; the added review-register cell also
-passed, bringing the notebook to 18 code cells.
+Six analysis strategies produce 21 tables, reconciling to 17,870 residential
+records: 9,857 Before, 7,606 During, and 407 Early Post-Repeal. A monthly line
+chart and five heatmaps use this refreshed population. All 18 code cells reran
+successfully on September 30, including the complete review register.
 
 Both notebooks include a complete, expandable `classification_review_records`
 register: 1,101 Before cases and 2,635 complete-period cases. It includes all
@@ -234,7 +242,8 @@ unmatched applications and winning rules with `review`, `provisional`, or
 `fallback` status, including excluded applications. `REVIEW_LIMIT` limits previews
 only. Rows include source evidence, rule notes, and review reasons. HF-906 now
 includes Relaxation applications as `Residential Non-Housing`, with rezoning
-relevance false; residential totals are application activity, not new homes.
+relevance false. HF-018 now includes accessory residential buildings, also with
+rezoning relevance false; residential totals are application activity, not new homes.
 
 Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
 section to save permit, analysis, validation, reconciliation, and bias-audit tables

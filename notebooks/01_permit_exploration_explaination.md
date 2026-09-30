@@ -1,30 +1,31 @@
 # Explanation of values in `01_permit_exploration.ipynb`
 
-## Current classification refresh: September 29, 2026
+## Current classification refresh: September 30, 2026
 
 Both notebooks were rerun with the updated `classification_rules.csv`, whose
-SHA-256 is `8505469171fab3f3f375a4a3b3c68bc5409449fdee5b11bfd49866f281cc74e6`.
+SHA-256 is `ecc20ce16844c1dbe863594a8e451e2e5c1fd6663f4926de667df62a68ccc6cb`.
 The frozen raw snapshot is unchanged. The earlier September 24 findings below
 are historical and are superseded by this refresh where classification affects
 the residential population or its summaries.
 
 HF-906 now includes otherwise unmatched Relaxation applications as
 `Residential Non-Housing`, with `RezoningRelevant=False`. It includes 1,103
-Before applications. HF-018 and HF-019 still exclude accessory structures when
-they win; earlier housing-form rules retain priority. Residential totals
+Before applications. HF-018 now includes 814 accessory residential building
+applications, with `RezoningRelevant=False`. HF-019 still excludes accessory
+buildings when it wins; earlier housing-form rules retain priority. Residential totals
 therefore include non-housing activity and must not be read as new dwelling counts.
 
 | Current Before finding | Result |
 |---|---:|
 | All source applications | 16,637 |
-| Included residential applications | 9,043 |
-| Excluded applications | 7,594 |
-| Applications per 30 exposed days | 371.12 |
-| Mean / median monthly count | 361.72 / 382 |
-| Valid / ineligible processing durations | 7,527 / 1,516 |
-| Median eligible processing days | 42 |
-| Q1 / Q3 / IQR, days | 26 / 78 / 52 |
-| Rezoning-relevant applications | 7,433 (82.20% of residential applications) |
+| Included residential applications | 9,857 |
+| Excluded applications | 6,780 |
+| Applications per 30 exposed days | 404.53 |
+| Mean / median monthly count | 394.28 / 406 |
+| Valid / ineligible processing durations | 8,231 / 1,626 |
+| Median eligible processing days | 41 |
+| Q1 / Q3 / IQR, days | 24 / 75 / 51 |
+| Rezoning-relevant applications | 7,433 (75.41% of residential applications) |
 | Residential applications flagged for review | 124 |
 | All-source applications flagged for review | 1,101 |
 
@@ -49,9 +50,8 @@ rezoning relevance, matching-rule evidence, `WinningRuleNotes`, and
 status, and inclusion. These are cases to investigate, not confirmed errors;
 review flags do not remove included records from analytical denominators.
 
-All 17 existing code cells reran successfully, and the added register cell
-passed its membership, count, index, and review-reason assertions, bringing
-the notebook to 18 code cells. The complete HTML register is saved in the
+All 18 code cells reran successfully, including the register's membership,
+count, index, and review-reason assertions. The complete HTML register is saved in the
 notebook. No new raw download or external export was made. The optional
 exporter does not separately export `classification_review_records`.
 The project test suite was not rerun for this notebook/documentation update.
@@ -536,6 +536,15 @@ rendered figures were visually reviewed. Period-average lines, processing
 box plots/distributions, and grouped seasonal bars remain unimplemented.
 
 ## 26. Optional export and implementation status
+
+For step-by-step file creation and Power BI import checks, see
+[Create the Power BI input files](../docs/POWER_BI_PLAN.md#create-the-power-bi-input-files).
+With the current `xlsx` and `one_workbook` settings, enable
+`EXPORT_EXPLORATORY_OUTPUTS=True` after running the preceding cells to create
+`reports/notebook_before/tables/before_exploration_workbook.xlsx`.
+This workbook contains Before-only results. Table overwrite is disabled;
+preserve or relocate an existing workbook before generating another.
+Use the complete-period notebook for Before/During comparison inputs.
 
 The notebook explicitly uses `residential_only=True` for its cleaned permit
 export. Analysis tables and charts use residential input; validation,

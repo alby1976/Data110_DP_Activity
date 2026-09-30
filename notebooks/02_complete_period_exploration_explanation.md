@@ -1,9 +1,9 @@
 # Guide to `02_complete_period_exploration.ipynb`
 
-## Current classification refresh: September 29, 2026
+## Current classification refresh: September 30, 2026
 
 The notebook was rerun with the updated `classification_rules.csv`, whose
-SHA-256 is `8505469171fab3f3f375a4a3b3c68bc5409449fdee5b11bfd49866f281cc74e6`.
+SHA-256 is `ecc20ce16844c1dbe863594a8e451e2e5c1fd6663f4926de667df62a68ccc6cb`.
 The pinned 31,339-record snapshot is unchanged. Earlier recorded residential
 findings below are historical; this refresh supersedes them where the changed
 rules affect inclusion, rates, processing summaries, and relevance shares.
@@ -12,25 +12,27 @@ HF-906 includes otherwise unmatched Relaxation applications as
 `Residential Non-Housing`, with `RezoningRelevant=False`: 1,103 Before,
 705 During, and 47 Early Post-Repeal applications. These contribute to
 residential activity totals without establishing new dwelling development.
-Accessory-structure exclusions HF-018/HF-019 and earlier housing-form rules
-retain their precedence.
+HF-018 now includes accessory residential buildings, with
+`RezoningRelevant=False`: 814 Before, 863 During, and 61 Early Post-Repeal
+applications. HF-019 continues to exclude accessory buildings when it wins;
+earlier housing-form rules retain priority.
 
 | Current measure | Before | During | Early Post-Repeal: context only |
 |---|---:|---:|---:|
-| Residential applications | 9,043 | 6,743 | 346 |
-| Excluded source applications | 7,594 | 7,123 | 490 |
-| Applications per 30 exposed days | 371.12 | 277.87 | 195.85 |
-| Valid / ineligible processing durations | 7,527 / 1,516 | 5,019 / 1,724 | 69 / 277 |
-| Median eligible processing days | 42 | 65 | 9 |
-| Q1 / Q3 / IQR, days | 26 / 78 / 52 | 34 / 117 / 83 | 3 / 28 / 25 |
+| Residential applications | 9,857 | 7,606 | 407 |
+| Excluded source applications | 6,780 | 6,260 | 429 |
+| Applications per 30 exposed days | 404.53 | 313.43 | 230.38 |
+| Valid / ineligible processing durations | 8,231 / 1,626 | 5,720 / 1,886 | 96 / 311 |
+| Median eligible processing days | 41 | 59 | 8 |
+| Q1 / Q3 / IQR, days | 24 / 75 / 51 | 30 / 110 / 80 | 3 / 21.25 / 18.25 |
 | Rezoning-relevant applications | 7,433 | 5,575 | 279 |
-| Rezoning-relevant share of residential applications | 82.20% | 82.68% | 80.64% |
+| Rezoning-relevant share of residential applications | 75.41% | 73.30% | 68.55% |
 | Residential applications flagged for review | 124 | 407 | 5 |
 
-The refreshed residential total is **16,132**. During has 2,300 fewer
-applications than Before, a count change of **−25.43%**. Exposure differs
+The refreshed residential total is **17,870**. During has 2,251 fewer
+applications than Before, a count change of **−22.84%**. Exposure differs
 between windows; these are descriptive comparisons, not causal estimates.
-Only 69 of 346 contextual post-repeal applications have eligible durations.
+Only 96 of 407 contextual post-repeal applications have eligible durations.
 
 ### Complete classification review register
 
@@ -52,9 +54,8 @@ relevance flags, matching-rule evidence, `WinningRuleNotes`, and
 inclusion. These flags request investigation and do not prove an error or
 automatically remove an included application from analysis.
 
-All 17 existing code cells reran successfully. The additional register cell
-passed its membership, count, index, and review-reason assertions, bringing
-the notebook to 18 code cells. Its full HTML output is saved in the notebook.
+All 18 code cells reran successfully, including the register's membership,
+count, index, and review-reason assertions. Its full HTML output is saved in the notebook.
 No new raw download or external export was made. The optional exporter does
 not separately export `classification_review_records`. This update did not
 rerun the full project test suite or perform independent human-label review.
@@ -277,16 +278,26 @@ All four figures rendered successfully and were visually reviewed. They are embe
 
 ## Optional exploratory exports
 
+For step-by-step instructions, including dependency installation, workbook
+creation, Power BI table selection, and reconciliation, see
+[Create the Power BI input files](../docs/POWER_BI_PLAN.md#create-the-power-bi-input-files).
+The current configuration selects `xlsx` and `one_workbook`. After running the
+notebook from the top, set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the
+export cell to create
+`reports/notebook_complete_period/<unique-run-id>/tables/complete_period_exploration_workbook.xlsx`.
+Use the displayed output-path table to locate the actual run directory.
+
 Excel layout is controlled by `storage.excel_layout` when `xlsx` is included in
 `storage.processed_output_formats`: `one_file_per_table` writes separate workbooks;
 `one_workbook` writes `complete_period_exploration_workbook.xlsx` with one table
 per sheet (27 sheets for this notebook). CSV and other selected formats continue
 to use separate table files. Reload configuration after changing YAML, and restart
-the kernel after updating the package code. The default layout is separate files.
+the kernel after updating the package code. The exporter API defaults to separate
+files; the current project settings select one workbook.
 
 The notebook's `## Optional exploratory exports` section follows the charts. Run the preceding analysis and chart cells first, then set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the export cell to save the residential-only cleaned permit table, all 21 analysis tables, three validation reports, reconciliation totals, a bias audit, and six PNG charts with the default heatmap settings. The exporter explicitly uses `residential_only=True`. Validation, reconciliation, and bias-audit exports retain full-source evidence; residential analysis tables and charts use the filtered population.
 
-Each enabled run uses a unique directory under `reports/notebook_complete_period/`, containing `tables/` and `figures/`. Table formats and labels come from project settings; the current table format is CSV. Table overwrite is disabled, and separate run directories preserve earlier chart exports. The displayed output-path table lists the generated files.
+Each enabled run uses a unique directory under `reports/notebook_complete_period/`, containing `tables/` and `figures/`. Table formats and labels come from project settings; the current table format is Excel (`xlsx`) in one workbook. Table overwrite is disabled, and separate run directories preserve earlier chart exports. The displayed output-path table lists the generated files.
 
 The default is `EXPORT_EXPLORATORY_OUTPUTS=False`, which writes no export files. Return the flag to `False` after an intentional export if subsequent runs should remain display-only. Exports remain exploratory: they preserve validation findings and do not establish classification accuracy, source completeness, or agreement with a Power BI report. Export writes are per file, so a failed export may leave some files in its run directory.
 

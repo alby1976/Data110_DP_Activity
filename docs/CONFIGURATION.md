@@ -330,7 +330,8 @@ summarize it.
 | Rowhouse, townhouse, semi-detached dwelling, duplex, single-detached dwelling (including contextual), multi-residential development, backyard suite, secondary suite | Included by housing-form rules HF-001 through HF-017 using proposed-use or description evidence |
 | Residential category fallbacks | HF-100 through HF-106 include identified residential categories, multi-family renovations, additions over 10 sq metres, and remaining `Residential -` categories when no earlier rule matches |
 | Mixed-use or change-of-use application with qualifying housing evidence | Included when an earlier housing rule wins; the category alone does not establish inclusion |
-| Accessory buildings such as garages/sheds, signs, home occupations, commercial/industrial uses, and mixed use or changes of use without qualifying housing evidence | Excluded when their exclusion rule wins |
+| Accessory residential buildings | HF-018 includes these as `Accessory Residential Building`, with `RezoningRelevant=False`; inclusion does not imply a primary dwelling |
+| Other accessory buildings, signs, home occupations, commercial/industrial uses, and mixed use or changes of use without qualifying housing evidence | Excluded when their exclusion rule wins; HF-019 excludes `ACCESSORY BUILDING` evidence |
 | Relaxation applications not matched by an earlier rule | HF-906 includes these as `Residential Non-Housing`, with `RezoningRelevant=False`; inclusion does not imply new housing |
 | Unclassified or unmatched application | Excluded from residential analysis and retained for review |
 
