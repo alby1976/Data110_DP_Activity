@@ -1,5 +1,66 @@
 # Guide to `02_complete_period_exploration.ipynb`
 
+## Current classification refresh: September 29, 2026
+
+The notebook was rerun with the updated `classification_rules.csv`, whose
+SHA-256 is `8505469171fab3f3f375a4a3b3c68bc5409449fdee5b11bfd49866f281cc74e6`.
+The pinned 31,339-record snapshot is unchanged. Earlier recorded residential
+findings below are historical; this refresh supersedes them where the changed
+rules affect inclusion, rates, processing summaries, and relevance shares.
+
+HF-906 includes otherwise unmatched Relaxation applications as
+`Residential Non-Housing`, with `RezoningRelevant=False`: 1,103 Before,
+705 During, and 47 Early Post-Repeal applications. These contribute to
+residential activity totals without establishing new dwelling development.
+Accessory-structure exclusions HF-018/HF-019 and earlier housing-form rules
+retain their precedence.
+
+| Current measure | Before | During | Early Post-Repeal: context only |
+|---|---:|---:|---:|
+| Residential applications | 9,043 | 6,743 | 346 |
+| Excluded source applications | 7,594 | 7,123 | 490 |
+| Applications per 30 exposed days | 371.12 | 277.87 | 195.85 |
+| Valid / ineligible processing durations | 7,527 / 1,516 | 5,019 / 1,724 | 69 / 277 |
+| Median eligible processing days | 42 | 65 | 9 |
+| Q1 / Q3 / IQR, days | 26 / 78 / 52 | 34 / 117 / 83 | 3 / 28 / 25 |
+| Rezoning-relevant applications | 7,433 | 5,575 | 279 |
+| Rezoning-relevant share of residential applications | 82.20% | 82.68% | 80.64% |
+| Residential applications flagged for review | 124 | 407 | 5 |
+
+The refreshed residential total is **16,132**. During has 2,300 fewer
+applications than Before, a count change of **−25.43%**. Exposure differs
+between windows; these are descriptive comparisons, not causal estimates.
+Only 69 of 346 contextual post-repeal applications have eligible durations.
+
+### Complete classification review register
+
+The new **Complete classification review register** follows the limited
+classification examples. Expand its saved output to inspect all **2,635**
+flagged applications, including both residential and excluded records.
+`classification_review_records` holds the complete table in the kernel;
+`REVIEW_LIMIT` affects previews only and never truncates this register.
+
+Membership follows `ClassificationNeedsReview`: unmatched applications and
+applications whose winning rule has `ValidationStatus` of `review`,
+`provisional`, or `fallback`. Overlap alone does not add a record because
+specific and broad fallback rules commonly overlap by design.
+
+Rows include permit identifiers, application dates, communities, source
+category/use/description evidence, winning rules and statuses, inclusion and
+relevance flags, matching-rule evidence, `WinningRuleNotes`, and
+`ReviewReason`. A grouped summary counts cases by winning rule, status, and
+inclusion. These flags request investigation and do not prove an error or
+automatically remove an included application from analysis.
+
+All 17 existing code cells reran successfully. The additional register cell
+passed its membership, count, index, and review-reason assertions, bringing
+the notebook to 18 code cells. Its full HTML output is saved in the notebook.
+No new raw download or external export was made. The optional exporter does
+not separately export `classification_review_records`. This update did not
+rerun the full project test suite or perform independent human-label review.
+
+## Historical findings and workflow definitions
+
 This document accompanies [the complete-period exploratory notebook](02_complete_period_exploration.ipynb). It explains the workflow, displayed values, recorded findings, and interpretation limits. The notebook extends the [Before-only exploration](01_permit_exploration.ipynb) to all three configured study periods and adds community and ward comparisons.
 
 The unit of observation is a **development-permit application record**. Counts do not measure dwelling units, approvals, construction starts, or completed homes.

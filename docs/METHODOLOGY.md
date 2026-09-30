@@ -203,6 +203,21 @@ explicitly select `residential_permits = featured.loc[featured["IncludeResidenti
 for residential profiles, processing descriptions, analyses, and charts. No sample
 limit is applied to this population; display limits affect previews only.
 `population_counts` reconciles full-source, residential, and excluded rows by period.
+
+HF-906 includes otherwise unmatched Relaxation applications as
+`Residential Non-Housing`, with `RezoningRelevant=False`. Residential activity
+therefore includes this non-housing category as well as qualifying housing uses.
+
+Both notebooks retain a complete `classification_review_records` register from
+the all-permit classified table, before residential filtering. It includes
+unmatched records and winning rules with `review`, `provisional`, or `fallback`
+status, as flagged by `ClassificationNeedsReview`. The saved expandable table
+contains every case, unaffected by `REVIEW_LIMIT`, with source evidence,
+winning-rule notes, inclusion/relevance flags, overlapping matches, and a review
+reason. Overlap alone is not a review criterion. The September 29 refresh
+contains 1,101 Before cases and 2,635 complete-period cases; these are flags for
+manual investigation, not an independent classification accuracy assessment.
+
 Analysis-table `AllPermitCount` refers to the table passed to an analysis: residential
 rows in the notebooks, all classified rows in the CLI. Consequently notebook
 analysis `ExcludedCount` is zero; use the population reconciliation for source

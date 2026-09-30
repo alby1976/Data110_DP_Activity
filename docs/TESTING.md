@@ -52,6 +52,21 @@ Geography tests cover community and ward counts, zero and small baselines, missi
 
 ## Installation and commands
 
+### September 29 notebook refresh
+
+Both notebooks reran all 17 existing code cells with the current classification
+rules and unchanged pinned snapshots. Each added complete-review-register cell
+then executed successfully, bringing each notebook to 18 code cells. Assertions
+checked agreement with the classifier's review flag, full review membership,
+row counts, preserved source indexes, and populated review reasons. Saved HTML
+tables contain all 1,101 Before and 2,635 complete-period review cases, without
+the preview limit. Residential totals reconcile to 9,043 Before, 6,743 During,
+and 346 Early Post-Repeal applications. All notebook cells have no saved errors.
+The full project suite and enabled external export branches were not rerun;
+the earlier suite baseline below remains separate evidence. The earlier
+notebook findings below describe historical rule versions.
+
+
 On September 24, 2026, the exploratory notebook completed all 16 code cells from
 a fresh kernel against its pinned 16,637-record Before snapshot. Five analysis
 strategies reconcile to 7,940 residential records; the monthly line chart and

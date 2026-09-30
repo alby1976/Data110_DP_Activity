@@ -207,9 +207,10 @@ there is no `profile` or `analyse` CLI command.
 ## Running the tests
 
 The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
-against the pinned Before snapshot. All 16 code cells passed in a fresh kernel
-on September 24, 2026, including validators, five residential analysis strategies,
-a monthly line chart, and three heatmaps. Summaries reconcile to 7,940 residential
+against the pinned Before snapshot. The September 29, 2026 refresh reran all 17
+existing code cells and verified the new review-register cell, for 18 code cells.
+Validators, five residential analysis strategies, a monthly line chart, and five
+heatmaps completed successfully. Summaries reconcile to 9,043 residential
 records. Seasonal charts use complete seasons by default; only Before coverage is
 available. External notebook exports are disabled by default. Data-quality and
 classification warnings remain for review. See the
@@ -221,14 +222,25 @@ The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
 uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
 and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
 the snapshot's UTC retrieval date, September 25, defines the observation horizon.
-Six analysis strategies produce 21 tables, reconciling to 14,277 residential
-records, plus a monthly line chart and three heatmaps. All 15 analysis/setup/chart
-code cells executed successfully; the added optional export cell was separately
-verified with exports disabled, bringing the notebook to 16 code cells.
+Six analysis strategies produce 21 tables, reconciling to 16,132 residential
+records: 9,043 Before, 6,743 During, and 346 Early Post-Repeal. A monthly line
+chart and five heatmaps use this refreshed population. All 17 existing code
+cells reran successfully on September 29; the added review-register cell also
+passed, bringing the notebook to 18 code cells.
+
+Both notebooks include a complete, expandable `classification_review_records`
+register: 1,101 Before cases and 2,635 complete-period cases. It includes all
+unmatched applications and winning rules with `review`, `provisional`, or
+`fallback` status, including excluded applications. `REVIEW_LIMIT` limits previews
+only. Rows include source evidence, rule notes, and review reasons. HF-906 now
+includes Relaxation applications as `Residential Non-Housing`, with rezoning
+relevance false; residential totals are application activity, not new homes.
 
 Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
 section to save permit, analysis, validation, reconciliation, and bias-audit tables
-plus four PNG charts. Each enabled run uses a unique directory under
+plus six PNG charts under the default heatmap settings. The complete review
+register is saved in notebook output and is not separately exported by this cell.
+Each enabled run uses a unique directory under
 `reports/notebook_complete_period/`, with `tables/` and `figures/` subdirectories.
 The enabled export branch has not been exercised in this notebook verification.
 See the [complete-period guide](notebooks/02_complete_period_exploration_explanation.md)

@@ -330,7 +330,8 @@ summarize it.
 | Rowhouse, townhouse, semi-detached dwelling, duplex, single-detached dwelling (including contextual), multi-residential development, backyard suite, secondary suite | Included by housing-form rules HF-001 through HF-017 using proposed-use or description evidence |
 | Residential category fallbacks | HF-100 through HF-106 include identified residential categories, multi-family renovations, additions over 10 sq metres, and remaining `Residential -` categories when no earlier rule matches |
 | Mixed-use or change-of-use application with qualifying housing evidence | Included when an earlier housing rule wins; the category alone does not establish inclusion |
-| Accessory buildings such as garages/sheds, signs, home occupations, commercial/industrial uses, mixed use or changes of use without qualifying housing evidence, and non-housing relaxations | Excluded when their exclusion rule wins |
+| Accessory buildings such as garages/sheds, signs, home occupations, commercial/industrial uses, and mixed use or changes of use without qualifying housing evidence | Excluded when their exclusion rule wins |
+| Relaxation applications not matched by an earlier rule | HF-906 includes these as `Residential Non-Housing`, with `RezoningRelevant=False`; inclusion does not imply new housing |
 | Unclassified or unmatched application | Excluded from residential analysis and retained for review |
 
 Rules run by ascending `Priority`, then `RuleID`; the first match wins. Specific
@@ -444,7 +445,7 @@ YAML settings:
 |---|---|---|
 | `SNAPSHOT_FILENAME` | `development_permits_20260925_045241.parquet` | Pins the offline analysis snapshot |
 | `REFRESH_DOWNLOAD` | `False` | Set true to download all configured periods into new immutable snapshots |
-| `REVIEW_LIMIT` | `10` | Limits examples displayed, not the analyzed population |
+| `REVIEW_LIMIT` | `10` | Limits examples displayed, not the analyzed population or complete classification review register |
 | `INCLUDE_PARTIAL_SEASONS` | `False` | Excludes partial seasons from seasonal charts |
 | `analysis.heatmaps.metrics` | `[PermitCount, DP_Rate30]` | Both count and DP30 views in monthly/year and seasonal/year heatmaps |
 | `EXPORT_EXPLORATORY_OUTPUTS` | `False` | Enables optional table and PNG exports |

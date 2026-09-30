@@ -1,5 +1,63 @@
 # Explanation of values in `01_permit_exploration.ipynb`
 
+## Current classification refresh: September 29, 2026
+
+Both notebooks were rerun with the updated `classification_rules.csv`, whose
+SHA-256 is `8505469171fab3f3f375a4a3b3c68bc5409449fdee5b11bfd49866f281cc74e6`.
+The frozen raw snapshot is unchanged. The earlier September 24 findings below
+are historical and are superseded by this refresh where classification affects
+the residential population or its summaries.
+
+HF-906 now includes otherwise unmatched Relaxation applications as
+`Residential Non-Housing`, with `RezoningRelevant=False`. It includes 1,103
+Before applications. HF-018 and HF-019 still exclude accessory structures when
+they win; earlier housing-form rules retain priority. Residential totals
+therefore include non-housing activity and must not be read as new dwelling counts.
+
+| Current Before finding | Result |
+|---|---:|
+| All source applications | 16,637 |
+| Included residential applications | 9,043 |
+| Excluded applications | 7,594 |
+| Applications per 30 exposed days | 371.12 |
+| Mean / median monthly count | 361.72 / 382 |
+| Valid / ineligible processing durations | 7,527 / 1,516 |
+| Median eligible processing days | 42 |
+| Q1 / Q3 / IQR, days | 26 / 78 / 52 |
+| Rezoning-relevant applications | 7,433 (82.20% of residential applications) |
+| Residential applications flagged for review | 124 |
+| All-source applications flagged for review | 1,101 |
+
+### Complete classification review register
+
+The new **Complete classification review register** follows the limited review
+examples and rule-coverage table. Expand its saved output to inspect every
+flagged application. `classification_review_records` holds the same complete
+table in the kernel; `REVIEW_LIMIT` does not truncate it.
+
+Membership follows `ClassificationNeedsReview`: unmatched applications and
+applications whose winning rule has `ValidationStatus` of `review`,
+`provisional`, or `fallback`. Both included and excluded applications remain
+in the register. Its 1,101 applications comprise 718 review-status, 59
+provisional, 319 fallback, and 5 unmatched cases. Overlap alone does not add
+a record because specific and fallback rules intentionally overlap.
+
+Each row includes the permit identifier, application date, community, source
+evidence, winning rule and status, housing type, residential inclusion,
+rezoning relevance, matching-rule evidence, `WinningRuleNotes`, and
+`ReviewReason`. The grouped summary counts applications by winning rule,
+status, and inclusion. These are cases to investigate, not confirmed errors;
+review flags do not remove included records from analytical denominators.
+
+All 17 existing code cells reran successfully, and the added register cell
+passed its membership, count, index, and review-reason assertions, bringing
+the notebook to 18 code cells. The complete HTML register is saved in the
+notebook. No new raw download or external export was made. The optional
+exporter does not separately export `classification_review_records`.
+The project test suite was not rerun for this notebook/documentation update.
+
+## Historical September 24 findings and report definitions
+
 For the separate Before/During/Early Post-Repeal review, see the
 [complete-period notebook](02_complete_period_exploration.ipynb) and its
 [companion guide](02_complete_period_exploration_explanation.md), including optional
