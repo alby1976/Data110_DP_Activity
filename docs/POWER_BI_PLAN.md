@@ -8,6 +8,14 @@ Use the complete-period notebook export to reproduce the notebook's current
 Before/During comparisons. The Before notebook exports only its Before snapshot.
 Raw download files are source snapshots; import the processed export for analysis.
 
+### Prepare the Python environment
+
+Run all commands from the repository root. Activate the project's existing
+Conda or virtual environment; if none exists, follow the
+[README setup instructions](../README.md#getting-started).
+The Conda setup and `requirements-dev.txt` include Excel and Parquet support.
+For notebook exports, select that same project interpreter in PyCharm.
+
 ### Export from the complete-period notebook
 
 1. Install the project and Excel/Parquet dependencies in the project's activated
@@ -102,6 +110,25 @@ is `data/processed`. With the current `xlsx`/`one_workbook` settings and
 data/processed/development_permits_workbook.xlsx
 ```
 
+Confirm that the output file exists after the command completes:
+
+```powershell
+Get-Item data/processed/development_permits_workbook.xlsx
+```
+
+If the pinned snapshot is unavailable, download a new snapshot first:
+
+```powershell
+python -m dp_activity.cli --settings config/settings.yaml download
+```
+
+Then pass one of the displayed **Saved raw snapshot** paths to `run`, keeping
+its adjacent metadata sidecar. A fresh download changes the observation horizon
+and may change source records, so record the chosen snapshot filename.
+If the sidecar is missing, supply `--observation-end YYYY-MM-DD` after the
+snapshot path, replacing the placeholder with a documented observation cutoff.
+Do not infer the cutoff from the file modification time.
+
 The CLI uses current rules and configured output labels. Its current
 `overwrite_outputs: true` setting replaces existing generated files with the
 same names; copy an earlier workbook elsewhere if it must be retained. The CLI
@@ -119,95 +146,6 @@ the workbook is `reports/notebook_before/tables/before_exploration_workbook.xlsx
 It contains only Before analysis. Table overwrite is disabled in this notebook;
 if a previous file exists, preserve or relocate it before exporting again.
 Figures use a separate unique directory under `reports/notebook_before/figures/`.
-
-## Create the Power BI input files
-
-### Prepare the Python environment
-
-From the repository root, use the Conda environment defined in
-[`environment.yml`](../environment.yml):
-
-```bash
-conda env create --file environment.yml
-conda activate data110-dp-activity
-python -m dp_activity.cli --help
-```
-
-If the environment already exists, activate it without repeating creation.
-Conda supplies Python 3.13 and pip. The editable install reads runtime dependencies
-and the `dev`, `parquet`, and `excel` extras from
-[`pyproject.toml`](../pyproject.toml). Parquet support loads the frozen snapshot;
-Excel support supplies XlsxWriter for workbook export. Both extras are included
-in this setup and in `requirements-dev.txt`.
-
-For a standard virtual environment, follow the
-[README setup instructions](../README.md#getting-started), then run
-`python -m pip install -r requirements-dev.txt` in that activated environment.
-After changing Python dependencies, run
-`python -m pip install -e ".[dev,parquet,excel]"` and `python -m pip check`
-from the repository root in the selected environment.
-
-For notebook exports, select the `data110-dp-activity` interpreter in PyCharm
-and use it for notebook execution. The environment file does not install a
-standalone Jupyter server or register a Jupyter kernel.
-
-### Export the complete-period snapshot with the CLI
-
-The committed `config/settings.yaml` selects `xlsx` processed output,
-`excel_layout: one_workbook`, and `output_base_name: development_permits`.
-Run the pipeline against the frozen snapshot:
-
-```bash
-python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
-```
-
-Keep the adjacent `.metadata.json` sidecar with the snapshot; the CLI uses its
-UTC retrieval date as the observation horizon. The combined workbook is written
-to `data/processed/development_permits_workbook.xlsx`, with separate sheets for
-cleaned permits, analysis, validation, reconciliation, and bias-audit tables.
-The committed overwrite setting replaces an existing generated workbook.
-Review validation reports before using exported results; validation failures
-currently do not prevent export or CLI success.
-
-To produce CSV inputs instead, set `storage.processed_output_formats` to `[csv]`.
-For both formats, use `[csv, xlsx]`. CSV creates separate files for each table;
-`storage.excel_layout` controls only Excel outputs. See the
-[export configuration guide](CONFIGURATION.md#excel-processed-output-option)
-for sheet naming, timestamp, and overwrite behavior.
-
-### Export from an exploratory notebook
-
-Open `notebooks/02_complete_period_exploration.ipynb`, keep
-`REFRESH_DOWNLOAD=False` to reuse its pinned snapshot, and run cells in order.
-Set `EXPORT_EXPLORATORY_OUTPUTS=True` in the optional export cell and run it
-after the analysis cells. With the current Excel settings, its workbook is:
-
-```text
-reports/notebook_complete_period/<unique-run-id>/tables/complete_period_exploration_workbook.xlsx
-```
-
-Charts are saved under the same run's `figures/` directory. The Before-only
-notebook exports only its Before snapshot; use the complete-period notebook
-for Before/During comparisons. Consult the
-[complete-period guide](../notebooks/02_complete_period_exploration_explanation.md)
-and [Before guide](../notebooks/01_permit_exploration_explaination.md) for their
-snapshot coverage and export options. A saved notebook with exports disabled
-does not establish that an external workbook was generated.
-
-### Import and reconcile in Power BI
-
-Use **Get data > Excel workbook** for the combined workbook or **Text/CSV**
-for separate CSV inputs. Select the cleaned-permit and summary tables needed
-for the report, retaining validation, reconciliation, and bias-audit outputs
-for review. Check date, numeric, and Boolean types in Power Query; exported
-dates use ISO text and may need conversion.
-
-Record whether each imported table came from the CLI or a notebook, together
-with the snapshot filename, settings, and classification-rule version. Verify
-residential totals, period counts, processing eligibility, and exposure values
-against that same run before building report measures. Existing saved totals
-may describe earlier rules. Generating a workbook does not verify Power BI
-relationships, measures, or refresh results.
 
 ## Data model
 
