@@ -437,7 +437,8 @@ Use only `xlsx` in that list for Excel-only output. Choose `storage.excel_layout
 
 Every worksheet contains an Excel table with the same name as its sheet.
 This also applies to the `Data` sheet in one-file-per-table exports. Empty inputs
-retain header-only tables without adding records. Sheet names must also be valid
+use one blank placeholder row for Excel compatibility; remove all-null rows in
+Power Query before counting or analyzing records. Sheet names must also be valid
 Excel table names; invalid names or blank/duplicate column headers fail export.
 
 Combined sheets use configured output labels, shortened to Excel's 31-character

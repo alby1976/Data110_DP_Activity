@@ -98,7 +98,8 @@ residential fact-table input. Supporting sheets include `permit_volume`,
 `rezoning_summary`, `seasonal_summary`, `reconciliation`, and `bias_audit`.
 Each sheet contains an Excel table with the same name; select the named tables
 when importing into Power BI, avoiding importing both a table and its sheet.
-Empty reports have header-only tables and contain no application rows.
+Empty tables use a blank placeholder row for Excel compatibility. Remove all-null
+rows in Power Query before counting records.
 Validation sheets use the `validation_` prefix; Excel labels longer than 31
 characters are shortened. Importing the workbook does not create the planned
 relationships or measures automatically.

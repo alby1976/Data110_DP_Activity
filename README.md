@@ -256,7 +256,7 @@ the output is `data/processed/development_permits_residential_workbook.xlsx`; re
 replaces that file. Use its `permits_clean` sheet for residential permit-level
 analysis, and check the validation and reconciliation sheets before reporting.
 Each worksheet contains an Excel table named exactly like its sheet (for example,
-`permits_clean`). Empty reports retain header-only tables. Exports use `.xlsx`.
+`permits_clean`). Empty tables contain a blank placeholder row; remove all-null rows in Power Query. Exports use `.xlsx`.
 
 For environment setup, notebook exports, CSV alternatives, and missing-snapshot
 instructions, follow

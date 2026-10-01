@@ -1,3 +1,9 @@
+# Runtime analysis/export settings; Python dependencies are in pyproject.toml.
+# environment.yml creates Conda and installs -e .[dev,parquet,excel].
+# From the repository root: conda activate data110-dp-activity
+# Then: python -m dp_activity.cli --settings config/settings.yaml run <snapshot-path>
+# Power BI export instructions: docs/POWER_BI_PLAN.md
+
 project:
   name: "Calgary Development Permit Activity"
   course: "DATA 110"
@@ -34,7 +40,7 @@ storage:
   # Raw snapshots and aggregate validation/reconciliation retain all applications.
   residential_only: true
   # File stem used before the configured output-format extension.
-  output_base_name: "development_permits"
+  output_base_name: "development_permits_residential"
   # true replaces existing generated output files; false preserves them.
   overwrite_outputs: true
   # true appends the current UTC date/time to generated output filenames.
@@ -52,7 +58,7 @@ storage:
   excel_layout: "one_workbook"
   processed_output_formats:
     # - csv
-    # Excel workbook per table; install optional dependencies with pip install ".[excel]".
+    # Excel output uses excel_layout above; one_workbook combines all tables.
     - xlsx
     # - json
     # - jgeojson

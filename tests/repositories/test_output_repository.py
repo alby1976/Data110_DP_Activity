@@ -43,7 +43,9 @@ def test_excel_sheets_have_matching_tables_and_preserve_empty_inputs(tmp_path) -
         tables = [ElementTree.fromstring(archive.read(f"xl/tables/table{index}.xml"))
                   for index in (1, 2)]
         assert [table.attrib["displayName"] for table in tables] == sheets
-        assert [table.attrib["ref"] for table in tables] == ["A1:B2", "A1:B1"]
+        assert [table.attrib["ref"] for table in tables] == ["A1:B2", "A1:B2"]
+        assert all(b"<table " in archive.read(f"xl/tables/table{index}.xml")
+                   for index in (1, 2))
         empty_sheet = ElementTree.fromstring(archive.read("xl/worksheets/sheet2.xml"))
         assert len(empty_sheet.findall("s:sheetData/s:row", namespace)) == 1
         assert empty_sheet.find("s:tableParts", namespace).attrib["count"] == "1"
