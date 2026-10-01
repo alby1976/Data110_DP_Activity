@@ -17,8 +17,11 @@ Typical Usage:
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
+from xml.etree import ElementTree
+from zipfile import ZipFile
 
 import pandas as pd
 
@@ -101,7 +104,9 @@ class OutputRepository:
 
     @staticmethod
     def _write_excel(tables: dict[str, Any], path: Path) -> None:
-        """Serialize sheets with literal source text and no implicit index.
+        """Serialize sheets as equally named Excel tables without an index.
+
+        Empty inputs retain header-only tables without fabricated records.
 
         Args:
             tables: Sheet names mapped to tables.
@@ -115,6 +120,7 @@ class OutputRepository:
             import xlsxwriter  # noqa: F401
         except ImportError as exc:
             raise ImportError('Excel export requires pip install ".[excel]".') from exc
+        empty_names = set()
         with path.open("wb") as stream:
             with pd.ExcelWriter(
                 stream, engine="xlsxwriter",
@@ -123,7 +129,51 @@ class OutputRepository:
                 }},
             ) as writer:
                 for sheet, table in tables.items():
+                    if (not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", sheet)
+                            or sheet.casefold() in {"r", "c"}
+                            or re.fullmatch(r"[A-Za-z]{1,3}[1-9][0-9]*", sheet)
+                            or re.fullmatch(r"[Rr][1-9][0-9]*[Cc][1-9][0-9]*", sheet)):
+                        raise ValueError(f"Sheet name must also be a valid Excel table name: {sheet}")
+                    headers = [str(column) for column in table.columns]
+                    if (not headers or any(not header.strip() for header in headers)
+                            or len({header.casefold() for header in headers}) != len(headers)):
+                        raise ValueError("Excel tables require nonblank, unique column headers.")
                     table.to_excel(writer, sheet_name=sheet, index=False)
+                    result = writer.sheets[sheet].add_table(
+                        0, 0, max(len(table), 1), len(headers) - 1,
+                        {"name": sheet, "columns": [{"header": header} for header in headers]},
+                    )
+                    if result != 0:
+                        raise ValueError(f"Cannot create Excel table for sheet: {sheet}")
+                    if len(table) == 0:
+                        empty_names.add(sheet)
+        if empty_names:
+            OutputRepository._retain_empty_excel_tables(path, empty_names)
+
+    @staticmethod
+    def _retain_empty_excel_tables(path: Path, names: set[str]) -> None:
+        """Reduce empty table ranges to headers without adding a blank record.
+
+        XlsxWriter requires a data row when defining a table. Its generated
+        metadata is adjusted after serialization to preserve zero-row inputs.
+
+        Args:
+            path: Temporary workbook awaiting atomic publication.
+            names: Names of tables whose source inputs contain no records.
+        """
+        namespace = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+        with ZipFile(path) as archive:
+            members = [(entry, archive.read(entry.filename)) for entry in archive.infolist()]
+        with ZipFile(path, "w") as archive:
+            for entry, data in members:
+                if entry.filename.startswith("xl/tables/") and entry.filename.endswith(".xml"):
+                    root = ElementTree.fromstring(data)
+                    if root.attrib.get("name") in names:
+                        reference = re.sub(r"2$", "1", root.attrib["ref"])
+                        root.set("ref", reference)
+                        root.find("s:autoFilter", namespace).set("ref", reference)
+                        data = ElementTree.tostring(root, encoding="utf-8", xml_declaration=True)
+                archive.writestr(entry, data)
 
     def write_manifest(self, manifest: dict[str, Any], filename: str) -> Path:
         """Record inputs, settings, Git revision, checksums, and outputs.

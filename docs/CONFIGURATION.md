@@ -435,6 +435,11 @@ Use only `xlsx` in that list for Excel-only output. Choose `storage.excel_layout
 - `one_workbook`: one `<base>_workbook[_<timestamp>].xlsx` file containing one sheet
   per permit, analysis, validation, reconciliation, and bias-audit table.
 
+Every worksheet contains an Excel table with the same name as its sheet.
+This also applies to the `Data` sheet in one-file-per-table exports. Empty inputs
+retain header-only tables without adding records. Sheet names must also be valid
+Excel table names; invalid names or blank/duplicate column headers fail export.
+
 Combined sheets use configured output labels, shortened to Excel's 31-character
 limit. Case-insensitive collisions and the reserved `History` name receive numeric
 suffixes. The returned output-path key is `workbook.xlsx`. Other formats still

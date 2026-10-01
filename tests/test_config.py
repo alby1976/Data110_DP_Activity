@@ -89,12 +89,12 @@ def test_loads_project_settings_and_periods(tmp_path) -> None:
     assert config.log_archive.archive_existing is True
     assert config.log_archive.archive_dir == tmp_path / "reports/logs/archive"
     assert config.log_archive.archive_timestamp_format == "%Y%m%d_%H%M%S"
-    assert config.output_base_name == "development_permits"
+    assert config.output_base_name == "development_permits_residential"
     assert config.overwrite_outputs is True
     assert config.output_include_timestamp is False
     assert config.output_timestamp_format == "%Y%m%d_%H%M%S"
     assert "csv" in config.raw_snapshot_formats
-    assert config.processed_output_formats == ("csv",)
+    assert config.processed_output_formats == ("xlsx",)
 
 
 def test_load_config_returns_populated_attributes(tmp_path) -> None:

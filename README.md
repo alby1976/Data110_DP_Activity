@@ -255,6 +255,8 @@ Keep the snapshot's adjacent metadata sidecar. With the committed settings,
 the output is `data/processed/development_permits_residential_workbook.xlsx`; rerunning
 replaces that file. Use its `permits_clean` sheet for residential permit-level
 analysis, and check the validation and reconciliation sheets before reporting.
+Each worksheet contains an Excel table named exactly like its sheet (for example,
+`permits_clean`). Empty reports retain header-only tables. Exports use `.xlsx`.
 
 For environment setup, notebook exports, CSV alternatives, and missing-snapshot
 instructions, follow

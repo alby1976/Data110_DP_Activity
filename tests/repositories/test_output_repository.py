@@ -16,10 +16,56 @@ Typical Usage:
 """
 
 import json
+from xml.etree import ElementTree
+from zipfile import ZipFile
 
 import pandas as pd
+import pytest
 
 from dp_activity.repositories.output_repository import OutputRepository
+
+
+def test_excel_sheets_have_matching_tables_and_preserve_empty_inputs(tmp_path) -> None:
+    """Verify real workbook table metadata and zero-row report preservation.
+
+    Args:
+        tmp_path: Isolated directory for inspecting generated workbook archives.
+    """
+    repository = OutputRepository(tmp_path)
+    path = repository.write_workbook({
+        "permits_clean": pd.DataFrame({"permit": ["=1+1"], "included": [True]}),
+        "validation_schema": pd.DataFrame(columns=["severity", "message"]),
+    }, "report.xlsx")
+    namespace = {"s": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    with ZipFile(path) as archive:
+        workbook = ElementTree.fromstring(archive.read("xl/workbook.xml"))
+        sheets = [sheet.attrib["name"] for sheet in workbook.find("s:sheets", namespace)]
+        tables = [ElementTree.fromstring(archive.read(f"xl/tables/table{index}.xml"))
+                  for index in (1, 2)]
+        assert [table.attrib["displayName"] for table in tables] == sheets
+        assert [table.attrib["ref"] for table in tables] == ["A1:B2", "A1:B1"]
+        empty_sheet = ElementTree.fromstring(archive.read("xl/worksheets/sheet2.xml"))
+        assert len(empty_sheet.findall("s:sheetData/s:row", namespace)) == 1
+        assert empty_sheet.find("s:tableParts", namespace).attrib["count"] == "1"
+    single = repository.write_table(pd.DataFrame({"value": [1]}), "single.xlsx")
+    with ZipFile(single) as archive:
+        assert ElementTree.fromstring(archive.read("xl/tables/table1.xml")).attrib["name"] == "Data"
+
+
+def test_invalid_excel_table_name_preserves_existing_workbook(tmp_path) -> None:
+    """Verify rejected table names never replace an existing output.
+
+    Args:
+        tmp_path: Isolated output directory.
+    """
+    target = tmp_path / "report.xlsx"
+    target.write_bytes(b"previous workbook")
+    with pytest.raises(ValueError, match="valid Excel table name"):
+        OutputRepository(tmp_path).write_workbook(
+            {"invalid name": pd.DataFrame({"value": [1]})}, target.name,
+        )
+    assert target.read_bytes() == b"previous workbook"
+    assert not list(tmp_path.glob("*.tmp"))
 
 
 def test_table_is_written_without_an_index_column(tmp_path) -> None:

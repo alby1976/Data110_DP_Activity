@@ -96,6 +96,9 @@ for the report. With the current output labels, `permits_clean` is the
 residential fact-table input. Supporting sheets include `permit_volume`,
 `monthly_volume`, `type_summary`, `community_summary`, `processing_summary`,
 `rezoning_summary`, `seasonal_summary`, `reconciliation`, and `bias_audit`.
+Each sheet contains an Excel table with the same name; select the named tables
+when importing into Power BI, avoiding importing both a table and its sheet.
+Empty reports have header-only tables and contain no application rows.
 Validation sheets use the `validation_` prefix; Excel labels longer than 31
 characters are shortened. Importing the workbook does not create the planned
 relationships or measures automatically.
