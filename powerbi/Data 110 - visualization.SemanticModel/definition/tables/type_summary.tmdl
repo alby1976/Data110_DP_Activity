@@ -1,9 +1,9 @@
 table type_summary
-	lineageTag: 25ca8898-faf5-4a47-9238-519e4fffdfb7
+	lineageTag: 55c9e18b-712d-4c5a-b44c-196c7eaaa10a
 
 	column Period
 		dataType: string
-		lineageTag: a9efddc9-6421-4b6a-b20a-3181c1c2bc1d
+		lineageTag: adc44c02-f0e4-4a22-b053-198c8bd8899f
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -11,7 +11,7 @@ table type_summary
 
 	column ResidentialType
 		dataType: string
-		lineageTag: e94483b2-e2da-4e39-a8bb-451590ad63bf
+		lineageTag: 0656950a-5fcb-4d79-bc49-cac6be247549
 		summarizeBy: none
 		sourceColumn: ResidentialType
 
@@ -20,7 +20,7 @@ table type_summary
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 12bfcad1-1c36-4692-b946-235241b3aaba
+		lineageTag: 608db901-7773-49aa-b62d-64b804d673b0
 		summarizeBy: sum
 		sourceColumn: PermitCount
 
@@ -29,7 +29,7 @@ table type_summary
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 3aa98e5a-89f8-4e5a-94eb-fa839c9f1c61
+		lineageTag: efa4ef60-af61-44fa-a3a4-bddcb70eb8bb
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -37,7 +37,7 @@ table type_summary
 
 	column TypeShare
 		dataType: double
-		lineageTag: 04b8a973-32a3-41ac-9e29-eaa83da706e6
+		lineageTag: 8f45c902-46f9-4607-a82b-0767f17a9bab
 		summarizeBy: sum
 		sourceColumn: TypeShare
 
@@ -47,7 +47,7 @@ table type_summary
 
 	column BaselinePeriod
 		dataType: string
-		lineageTag: e714ec89-928b-4427-b690-817c26a505f3
+		lineageTag: 810f7305-a416-46f5-8cd1-a7c106e50d0a
 		summarizeBy: none
 		sourceColumn: BaselinePeriod
 
@@ -56,7 +56,7 @@ table type_summary
 	column BaselinePermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 4d7dde72-96c9-4ff3-bf0b-e98a0e78c8fc
+		lineageTag: 2ec6c9fd-24f2-4e76-a4dc-3adf28aa2358
 		summarizeBy: sum
 		sourceColumn: BaselinePermitCount
 
@@ -65,7 +65,7 @@ table type_summary
 	column AbsoluteChange
 		dataType: int64
 		formatString: 0
-		lineageTag: 6088f5e4-5e08-4183-b238-4f816d5b360e
+		lineageTag: eda1769d-cd3f-42bc-8f20-728de7c55860
 		summarizeBy: sum
 		sourceColumn: AbsoluteChange
 
@@ -73,7 +73,7 @@ table type_summary
 
 	column PercentChange
 		dataType: double
-		lineageTag: a7b8dfe0-8fa0-4d63-8718-7e3a4fc6d865
+		lineageTag: 8adb789b-3712-4179-9b8c-9fdf78fff9b1
 		summarizeBy: sum
 		sourceColumn: PercentChange
 
@@ -83,7 +83,7 @@ table type_summary
 
 	column ShareChangePercentagePoints
 		dataType: double
-		lineageTag: 7638b147-cd79-4efd-aa6c-64919f2b5188
+		lineageTag: 573125a0-47b4-4acd-831e-b89000095da7
 		summarizeBy: sum
 		sourceColumn: ShareChangePercentagePoints
 
@@ -95,12 +95,10 @@ table type_summary
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    type_summary_Sheet = Source{[Item="type_summary",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(type_summary_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"ResidentialType", type text}, {"PermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"TypeShare", type number}, {"BaselinePeriod", type text}, {"BaselinePermitCount", Int64.Type}, {"AbsoluteChange", Int64.Type}, {"PercentChange", type number}, {"ShareChangePercentagePoints", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "type_summary", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"ResidentialType", type text}, {"PermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"TypeShare", type number}, {"BaselinePeriod", type text}, {"BaselinePermitCount", Int64.Type}, {"AbsoluteChange", Int64.Type}, {"PercentChange", type number}, {"ShareChangePercentagePoints", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

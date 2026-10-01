@@ -1,211 +1,211 @@
 table unknown_seasons
-	lineageTag: d296c121-c2d8-459f-999f-727754b5d5fc
+	lineageTag: b795defe-cb46-4c28-86f8-bd58147ff750
 
-	column Period
+	column Column1
 		dataType: string
-		lineageTag: b4f609d3-f4df-4138-906f-eeca5b480c18
+		lineageTag: 6826f51c-296f-421e-b3c1-4af017e29999
 		summarizeBy: none
-		sourceColumn: Period
+		sourceColumn: Column1
 
 		annotation SummarizationSetBy = Automatic
 
-	column Season
+	column Column2
 		dataType: string
-		lineageTag: 3e389926-82e9-4ce3-a832-5de9e84b3c5b
+		lineageTag: e815a015-4346-4c9d-8049-5edb9cbd28b5
 		summarizeBy: none
-		sourceColumn: Season
+		sourceColumn: Column2
 
 		annotation SummarizationSetBy = Automatic
 
-	column SeasonStartDate
+	column Column3
 		dataType: string
-		lineageTag: 04d37833-e2fb-49c0-8f53-b81130c9f1a1
+		lineageTag: 3da5516b-7886-4097-af81-539fc8bc0cd3
 		summarizeBy: none
-		sourceColumn: SeasonStartDate
+		sourceColumn: Column3
 
 		annotation SummarizationSetBy = Automatic
 
-	column SeasonEndDate
+	column Column4
 		dataType: string
-		lineageTag: 32def76f-38e2-46dc-8fbf-b41932930999
+		lineageTag: 341811e7-f1f6-49e0-8cfd-115723a61d5d
 		summarizeBy: none
-		sourceColumn: SeasonEndDate
+		sourceColumn: Column4
 
 		annotation SummarizationSetBy = Automatic
 
-	column IsCompleteSeason
+	column Column5
 		dataType: string
-		lineageTag: 52cbe9b5-ec5d-4be7-87e5-8ac1ad727251
+		lineageTag: 919dbbf1-24aa-4a10-870c-cb2f0bb94d74
 		summarizeBy: none
-		sourceColumn: IsCompleteSeason
+		sourceColumn: Column5
 
 		annotation SummarizationSetBy = Automatic
 
-	column ExposureDays
+	column Column6
 		dataType: string
-		lineageTag: 87b79cf0-57ac-4f3d-bc2c-b69988b6bc3a
+		lineageTag: 2316e9cf-ba7f-4367-a9dd-2767e4d790cb
 		summarizeBy: none
-		sourceColumn: ExposureDays
+		sourceColumn: Column6
 
 		annotation SummarizationSetBy = Automatic
 
-	column WindowSource
+	column Column7
 		dataType: string
-		lineageTag: 48a19e5f-095a-4d19-ac12-039e4eccde79
+		lineageTag: 964088fa-2dff-4512-8062-ddf7757657bd
 		summarizeBy: none
-		sourceColumn: WindowSource
+		sourceColumn: Column7
 
 		annotation SummarizationSetBy = Automatic
 
-	column PermitCount
+	column Column8
 		dataType: string
-		lineageTag: 4077bf39-9ce4-429e-8c8f-c964f7a37f9e
+		lineageTag: f87e45f2-1559-45e6-acb8-40dbe475566b
 		summarizeBy: none
-		sourceColumn: PermitCount
+		sourceColumn: Column8
 
 		annotation SummarizationSetBy = Automatic
 
-	column AllPermitCount
+	column Column9
 		dataType: string
-		lineageTag: f8de55c0-0986-4268-a32e-2810a89cd80f
+		lineageTag: c18ff2aa-91cc-4614-ac54-e1bf8b5694fa
 		summarizeBy: none
-		sourceColumn: AllPermitCount
+		sourceColumn: Column9
 
 		annotation SummarizationSetBy = Automatic
 
-	column ExcludedCount
+	column Column10
 		dataType: string
-		lineageTag: b2f26514-2dd4-419f-bb35-882d56db469b
+		lineageTag: 5828594c-0a2d-4106-b914-e9d86ba27177
 		summarizeBy: none
-		sourceColumn: ExcludedCount
+		sourceColumn: Column10
 
 		annotation SummarizationSetBy = Automatic
 
-	column TotalCount
+	column Column11
 		dataType: string
-		lineageTag: 63ffd467-2d13-4f8d-957d-df51e04bacd9
+		lineageTag: fc1560e4-e0cf-4ae5-9b51-075cbb46cb5b
 		summarizeBy: none
-		sourceColumn: TotalCount
+		sourceColumn: Column11
 
 		annotation SummarizationSetBy = Automatic
 
-	column ValidCount
+	column Column12
 		dataType: string
-		lineageTag: adb413c0-9523-4bfb-958b-b35e4e6f0ba3
+		lineageTag: 78232877-6457-4711-bf95-8d2bb1270f42
 		summarizeBy: none
-		sourceColumn: ValidCount
+		sourceColumn: Column12
 
 		annotation SummarizationSetBy = Automatic
 
-	column InvalidCount
+	column Column13
 		dataType: string
-		lineageTag: 42412cd2-8fd5-4ce1-a184-fdcf6919e931
+		lineageTag: 2ef75e49-9ad6-4b91-a2c6-ba8f02f0e38d
 		summarizeBy: none
-		sourceColumn: InvalidCount
+		sourceColumn: Column13
 
 		annotation SummarizationSetBy = Automatic
 
-	column PendingCount
+	column Column14
 		dataType: string
-		lineageTag: 41987716-a5b5-4550-accb-a2c557964497
+		lineageTag: 6aef8dfc-674e-40f0-ad92-873085a9e1b4
 		summarizeBy: none
-		sourceColumn: PendingCount
+		sourceColumn: Column14
 
 		annotation SummarizationSetBy = Automatic
 
-	column RightCensoredCount
+	column Column15
 		dataType: string
-		lineageTag: 262096db-2488-4b16-9cfc-5da4a2147408
+		lineageTag: 64e8b4d0-95ca-4aaa-b6c9-7ce29a44297c
 		summarizeBy: none
-		sourceColumn: RightCensoredCount
+		sourceColumn: Column15
 
 		annotation SummarizationSetBy = Automatic
 
-	column ValidShare
+	column Column16
 		dataType: string
-		lineageTag: 41bbd10a-302b-4bbd-9b31-71d046ae8113
+		lineageTag: 5c08a96f-c734-41bc-8184-c9880b462917
 		summarizeBy: none
-		sourceColumn: ValidShare
+		sourceColumn: Column16
 
 		annotation SummarizationSetBy = Automatic
 
-	column NegativeCount
+	column Column17
 		dataType: string
-		lineageTag: ee6741cf-1a26-4cfa-901c-656c4185a423
+		lineageTag: 606f1f4b-9ab1-4bc8-99a8-efc841aa688c
 		summarizeBy: none
-		sourceColumn: NegativeCount
+		sourceColumn: Column17
 
 		annotation SummarizationSetBy = Automatic
 
-	column MissingDateCount
+	column Column18
 		dataType: string
-		lineageTag: 02e9f1b7-9cae-4753-aee3-151e72844200
+		lineageTag: 35600f22-273a-4a29-b83b-791864548e24
 		summarizeBy: none
-		sourceColumn: MissingDateCount
+		sourceColumn: Column18
 
 		annotation SummarizationSetBy = Automatic
 
-	column InvalidDateCount
+	column Column19
 		dataType: string
-		lineageTag: 89388efe-24e7-46c4-8878-4adf56dbfce0
+		lineageTag: 70c56fb4-10e1-4824-a665-bc915e90167e
 		summarizeBy: none
-		sourceColumn: InvalidDateCount
+		sourceColumn: Column19
 
 		annotation SummarizationSetBy = Automatic
 
-	column AfterObservationEndCount
+	column Column20
 		dataType: string
-		lineageTag: 4f09fa95-d386-496d-9465-b61257f2d7e7
+		lineageTag: 53388616-0cf4-47b1-be3f-59f98f6da547
 		summarizeBy: none
-		sourceColumn: AfterObservationEndCount
+		sourceColumn: Column20
 
 		annotation SummarizationSetBy = Automatic
 
-	column MedianProcessingDays
+	column Column21
 		dataType: string
-		lineageTag: b6efbfab-e5b3-4173-a627-d44affde90b7
+		lineageTag: 82ad759e-94ce-468f-9df8-adf4ad56b515
 		summarizeBy: none
-		sourceColumn: MedianProcessingDays
+		sourceColumn: Column21
 
 		annotation SummarizationSetBy = Automatic
 
-	column MeanProcessingDays
+	column Column22
 		dataType: string
-		lineageTag: 29573e4e-a179-4759-9060-b2f469026719
+		lineageTag: ec88a1f1-9a28-44f4-9bff-7d9e01ddd093
 		summarizeBy: none
-		sourceColumn: MeanProcessingDays
+		sourceColumn: Column22
 
 		annotation SummarizationSetBy = Automatic
 
-	column Q1ProcessingDays
+	column Column23
 		dataType: string
-		lineageTag: 3a2774d9-3f76-4687-bf7e-3e306a605668
+		lineageTag: 3bbfef90-e3e3-42bd-baf0-5ad49b482a38
 		summarizeBy: none
-		sourceColumn: Q1ProcessingDays
+		sourceColumn: Column23
 
 		annotation SummarizationSetBy = Automatic
 
-	column Q3ProcessingDays
+	column Column24
 		dataType: string
-		lineageTag: 615c7922-5cec-436b-b213-698e41d00bbf
+		lineageTag: 1906caa2-9199-4dd5-ae38-017f97c329df
 		summarizeBy: none
-		sourceColumn: Q3ProcessingDays
+		sourceColumn: Column24
 
 		annotation SummarizationSetBy = Automatic
 
-	column IQRProcessingDays
+	column Column25
 		dataType: string
-		lineageTag: 4b15fa31-53dc-4691-bc68-8b883f0adff9
+		lineageTag: 3b106e62-dabe-426a-9513-6ae709fb4246
 		summarizeBy: none
-		sourceColumn: IQRProcessingDays
+		sourceColumn: Column25
 
 		annotation SummarizationSetBy = Automatic
 
-	column DP_Rate30
+	column Column26
 		dataType: string
-		lineageTag: 16b2593f-a2ed-470c-9dc7-4e75d19a50d8
+		lineageTag: bb84cff5-8abb-4177-b087-ef25fc8c019d
 		summarizeBy: none
-		sourceColumn: DP_Rate30
+		sourceColumn: Column26
 
 		annotation SummarizationSetBy = Automatic
 
@@ -213,12 +213,9 @@ table unknown_seasons
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    unknown_seasons_Sheet = Source{[Item="unknown_seasons",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(unknown_seasons_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type any}, {"Season", type any}, {"SeasonStartDate", type any}, {"SeasonEndDate", type any}, {"IsCompleteSeason", type any}, {"ExposureDays", type any}, {"WindowSource", type any}, {"PermitCount", type any}, {"AllPermitCount", type any}, {"ExcludedCount", type any}, {"TotalCount", type any}, {"ValidCount", type any}, {"InvalidCount", type any}, {"PendingCount", type any}, {"RightCensoredCount", type any}, {"ValidShare", type any}, {"NegativeCount", type any}, {"MissingDateCount", type any}, {"InvalidDateCount", type any}, {"AfterObservationEndCount", type any}, {"MedianProcessingDays", type any}, {"MeanProcessingDays", type any}, {"Q1ProcessingDays", type any}, {"Q3ProcessingDays", type any}, {"IQRProcessingDays", type any}, {"DP_Rate30", type any}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "unknown_seasons", Kind = "Sheet"]}[Data],
+				  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}, {"Column12", type text}, {"Column13", type text}, {"Column14", type text}, {"Column15", type text}, {"Column16", type text}, {"Column17", type text}, {"Column18", type text}, {"Column19", type text}, {"Column20", type text}, {"Column21", type text}, {"Column22", type text}, {"Column23", type text}, {"Column24", type text}, {"Column25", type text}, {"Column26", type text}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

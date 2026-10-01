@@ -1,9 +1,9 @@
 table processing_period_totals
-	lineageTag: 78e517e7-ac62-4d35-aed0-80db386b3a1d
+	lineageTag: 80619d4d-d4d3-4ece-8703-e6778540a5a4
 
 	column Period
 		dataType: string
-		lineageTag: 17ebfee3-5e60-4cf2-a604-739ac580f28b
+		lineageTag: cff40f3c-3345-4c74-bd49-643e719e2e66
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,7 +12,7 @@ table processing_period_totals
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 46d8acd2-a707-46a2-a340-8e8f0647f794
+		lineageTag: 24b101b8-8761-4ff6-9472-fcd605a8c67a
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -21,7 +21,7 @@ table processing_period_totals
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 2725823a-c865-4d1f-9a88-948c2e9936d7
+		lineageTag: 0c7e28b6-be05-4d47-b106-8fe65614ddde
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -30,7 +30,7 @@ table processing_period_totals
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: a5e305a5-1a9e-480c-8d00-f0b74724a9f5
+		lineageTag: df9e5869-0548-44d1-a7df-06e7e044fdc3
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -39,7 +39,7 @@ table processing_period_totals
 	column TotalCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 942aaaad-c896-4759-9fe7-9c9cc7644139
+		lineageTag: 614a7bec-bca2-40f7-87ad-c071398b07ec
 		summarizeBy: sum
 		sourceColumn: TotalCount
 
@@ -48,7 +48,7 @@ table processing_period_totals
 	column ValidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: af03ba7c-caa8-4212-8760-664c7a537939
+		lineageTag: f9ab500d-50b2-4b70-961e-cacfc65eecac
 		summarizeBy: sum
 		sourceColumn: ValidCount
 
@@ -57,7 +57,7 @@ table processing_period_totals
 	column InvalidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: d0b3c75f-cb69-41ef-bc8d-41fd2a5cbdcb
+		lineageTag: 2b7ce098-90ac-4ac4-8602-d7b25485f239
 		summarizeBy: sum
 		sourceColumn: InvalidCount
 
@@ -66,7 +66,7 @@ table processing_period_totals
 	column PendingCount
 		dataType: int64
 		formatString: 0
-		lineageTag: a4704ceb-8a59-4dc9-8edd-da2da32e7ca2
+		lineageTag: e5343630-310f-444c-aafc-9c4f9e9ff494
 		summarizeBy: sum
 		sourceColumn: PendingCount
 
@@ -75,7 +75,7 @@ table processing_period_totals
 	column RightCensoredCount
 		dataType: int64
 		formatString: 0
-		lineageTag: c2b26868-7c72-4308-ad52-dae972d704fa
+		lineageTag: d9586a18-094b-470f-bd99-db98483eb77e
 		summarizeBy: sum
 		sourceColumn: RightCensoredCount
 
@@ -83,7 +83,7 @@ table processing_period_totals
 
 	column ValidShare
 		dataType: double
-		lineageTag: 254fc57e-639c-4927-b7a9-9af658f12770
+		lineageTag: 370f2108-c1a4-477b-a1a8-df2702433629
 		summarizeBy: sum
 		sourceColumn: ValidShare
 
@@ -94,7 +94,7 @@ table processing_period_totals
 	column NegativeCount
 		dataType: int64
 		formatString: 0
-		lineageTag: ba943792-267d-453b-91b0-46e32a1ab4ca
+		lineageTag: e8e1e8e8-fb45-44b6-b03b-c2f405c7341c
 		summarizeBy: sum
 		sourceColumn: NegativeCount
 
@@ -103,7 +103,7 @@ table processing_period_totals
 	column MissingDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 58496d15-02f7-46fa-bba8-7a5e3785df0f
+		lineageTag: b8aca467-9ad3-4f0a-bb21-cb87ef123e1b
 		summarizeBy: sum
 		sourceColumn: MissingDateCount
 
@@ -112,7 +112,7 @@ table processing_period_totals
 	column InvalidDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: dc89ef0f-0d46-4473-ae4f-1969dfc1794f
+		lineageTag: b953dd82-7801-47cf-beae-ef45c535c00c
 		summarizeBy: sum
 		sourceColumn: InvalidDateCount
 
@@ -121,7 +121,7 @@ table processing_period_totals
 	column AfterObservationEndCount
 		dataType: int64
 		formatString: 0
-		lineageTag: bc154a53-86d1-4455-a36b-302a5017e252
+		lineageTag: 18f0df2e-9c7f-4c59-a9d6-956c2753e923
 		summarizeBy: sum
 		sourceColumn: AfterObservationEndCount
 
@@ -131,12 +131,10 @@ table processing_period_totals
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    processing_period_totals_Sheet = Source{[Item="processing_period_totals",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(processing_period_totals_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "processing_period_totals", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

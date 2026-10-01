@@ -1,67 +1,67 @@
 table sensitivity_summary
-	lineageTag: d574b60d-9ec1-463e-a2f4-34f1aaff5560
+	lineageTag: c0cf624e-9b10-4914-a815-a61c2dadd52e
 
-	column Scenario
+	column Column1
 		dataType: string
-		lineageTag: 79b964fa-5ea3-41e2-9947-968bec82cb70
+		lineageTag: 0e13c627-f9bb-40cd-825f-bf2a790f7fc2
 		summarizeBy: none
-		sourceColumn: Scenario
+		sourceColumn: Column1
 
 		annotation SummarizationSetBy = Automatic
 
-	column Result
+	column Column2
 		dataType: string
-		lineageTag: 4488559c-a698-4ece-98c7-5a78a963eeee
+		lineageTag: 4addf261-c209-4ce1-9225-4649a1b1d578
 		summarizeBy: none
-		sourceColumn: Result
+		sourceColumn: Column2
 
 		annotation SummarizationSetBy = Automatic
 
-	column ReferenceScenario
+	column Column3
 		dataType: string
-		lineageTag: f637012d-9865-4401-b1d7-076cac25ca96
+		lineageTag: 599b9fa5-11f8-4fcf-86c1-3a89dc874f85
 		summarizeBy: none
-		sourceColumn: ReferenceScenario
+		sourceColumn: Column3
 
 		annotation SummarizationSetBy = Automatic
 
-	column IsReference
+	column Column4
 		dataType: string
-		lineageTag: 6bc0ab14-248e-4fba-96b8-fcf2fd05f2dd
+		lineageTag: bca01656-1766-40b4-a28d-c3dd9f9a73f3
 		summarizeBy: none
-		sourceColumn: IsReference
+		sourceColumn: Column4
 
 		annotation SummarizationSetBy = Automatic
 
-	column ReferenceResult
+	column Column5
 		dataType: string
-		lineageTag: 33e518ee-5f60-4656-a9d5-14b93da962eb
+		lineageTag: 565f679d-c3a6-4b6d-9caa-0554da3d3ee2
 		summarizeBy: none
-		sourceColumn: ReferenceResult
+		sourceColumn: Column5
 
 		annotation SummarizationSetBy = Automatic
 
-	column AbsoluteChange
+	column Column6
 		dataType: string
-		lineageTag: dbeab089-0dee-4f86-a629-b6141a339bb5
+		lineageTag: 590c40b5-03a8-4847-ad93-d706717f87fc
 		summarizeBy: none
-		sourceColumn: AbsoluteChange
+		sourceColumn: Column6
 
 		annotation SummarizationSetBy = Automatic
 
-	column PercentChange
+	column Column7
 		dataType: string
-		lineageTag: afb10706-d78c-4dfe-a775-82398a9fe456
+		lineageTag: 32041244-7329-4f1c-b9dd-d72c61d1bf06
 		summarizeBy: none
-		sourceColumn: PercentChange
+		sourceColumn: Column7
 
 		annotation SummarizationSetBy = Automatic
 
-	column ChangeDirection
+	column Column8
 		dataType: string
-		lineageTag: bbb0528f-a6f9-4016-b271-a72e6cbc2d16
+		lineageTag: d0e6d7ed-7455-4052-a19d-308f5c9cc9da
 		summarizeBy: none
-		sourceColumn: ChangeDirection
+		sourceColumn: Column8
 
 		annotation SummarizationSetBy = Automatic
 
@@ -69,12 +69,9 @@ table sensitivity_summary
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    sensitivity_summary_Sheet = Source{[Item="sensitivity_summary",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(sensitivity_summary_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Scenario", type any}, {"Result", type any}, {"ReferenceScenario", type any}, {"IsReference", type any}, {"ReferenceResult", type any}, {"AbsoluteChange", type any}, {"PercentChange", type any}, {"ChangeDirection", type any}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "sensitivity_summary", Kind = "Sheet"]}[Data],
+				  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

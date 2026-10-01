@@ -1,9 +1,9 @@
 table community_summary
-	lineageTag: 89c1e6b6-e9a8-4f2e-aa74-5e04abefa00f
+	lineageTag: e7a6d728-dda1-47bd-8194-019681a06f69
 
 	column Period
 		dataType: string
-		lineageTag: db9b16a1-d6cd-4a5a-9362-b22dafeeaff9
+		lineageTag: 8eb8d24a-75b3-4937-89dd-d99d844efb95
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -11,7 +11,7 @@ table community_summary
 
 	column Community
 		dataType: string
-		lineageTag: f0f21461-a911-429c-bc24-542439df0154
+		lineageTag: 6c8f6955-986d-4a78-acca-ec4e2bddcb12
 		summarizeBy: none
 		sourceColumn: Community
 
@@ -20,7 +20,7 @@ table community_summary
 	column IsMissingGeography
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 15b4d53e-b10a-4b7e-9064-5ac0a69a0b9d
+		lineageTag: 40ede463-b91d-4b42-a7f5-59911fefeb6c
 		summarizeBy: none
 		sourceColumn: IsMissingGeography
 
@@ -29,7 +29,7 @@ table community_summary
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: f9c3ecab-1949-46b1-aa56-64c0abf1cc08
+		lineageTag: 6c9e67ff-d9cf-477a-a6af-c077dcbca3e0
 		summarizeBy: sum
 		sourceColumn: PermitCount
 
@@ -38,7 +38,7 @@ table community_summary
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 9efef34e-a12c-413c-80d4-d29a68ae4f9d
+		lineageTag: fc76e458-ee1e-4005-9589-3e71a18d8210
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -46,7 +46,7 @@ table community_summary
 
 	column PermitShare
 		dataType: double
-		lineageTag: a70916e1-8c34-4592-9c50-38d28fd711b2
+		lineageTag: aac5acef-736f-42e3-9267-838c6fa3fb41
 		summarizeBy: sum
 		sourceColumn: PermitShare
 
@@ -56,7 +56,7 @@ table community_summary
 
 	column BaselinePeriod
 		dataType: string
-		lineageTag: f1ae1554-0f7c-4c34-a641-d92e764aa366
+		lineageTag: dae56485-c12d-4ebc-97a0-446d31c52d9d
 		summarizeBy: none
 		sourceColumn: BaselinePeriod
 
@@ -65,7 +65,7 @@ table community_summary
 	column BaselinePermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 92d144c4-18a3-47d6-955f-01736de3f369
+		lineageTag: f2a6ed9c-c7d7-4dad-9cdd-6209da0596c1
 		summarizeBy: sum
 		sourceColumn: BaselinePermitCount
 
@@ -73,7 +73,7 @@ table community_summary
 
 	column AbsoluteChange
 		dataType: string
-		lineageTag: 2aa3c3d3-bc7a-417e-ba70-94d86b954e93
+		lineageTag: 37ca7a47-fb56-4d72-a112-d37496f3fddd
 		summarizeBy: none
 		sourceColumn: AbsoluteChange
 
@@ -81,7 +81,7 @@ table community_summary
 
 	column PercentChange
 		dataType: string
-		lineageTag: ab904c2a-a6a7-441f-a24f-ce2c1ddf1350
+		lineageTag: b80eb5bc-1db7-454f-984c-6f86d7e18c85
 		summarizeBy: none
 		sourceColumn: PercentChange
 
@@ -90,7 +90,7 @@ table community_summary
 	column SmallBaselineWarning
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 9172b926-1268-435d-bf0c-cbdbaafaf77d
+		lineageTag: 906cdc2f-5575-4d71-b9fd-434ea098fa06
 		summarizeBy: none
 		sourceColumn: SmallBaselineWarning
 
@@ -100,12 +100,10 @@ table community_summary
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    community_summary_Sheet = Source{[Item="community_summary",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(community_summary_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Community", type text}, {"IsMissingGeography", type logical}, {"PermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"PermitShare", type number}, {"BaselinePeriod", type text}, {"BaselinePermitCount", Int64.Type}, {"AbsoluteChange", type any}, {"PercentChange", type any}, {"SmallBaselineWarning", type logical}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "community_summary", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"Community", type text}, {"IsMissingGeography", type logical}, {"PermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"PermitShare", type number}, {"BaselinePeriod", type text}, {"BaselinePermitCount", Int64.Type}, {"SmallBaselineWarning", type logical}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

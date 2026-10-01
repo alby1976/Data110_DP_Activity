@@ -1,9 +1,9 @@
 table monthly_volume
-	lineageTag: b549ca9e-57bd-4007-a91d-f23785dce6f4
+	lineageTag: c5c19714-4e13-4d64-86f9-03b85c6d326d
 
 	column Period
 		dataType: string
-		lineageTag: 3beb8f16-bdec-453c-b0c2-094e1ee34857
+		lineageTag: 90573ba0-24e5-4c67-bfce-cddd261505cd
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,30 +12,30 @@ table monthly_volume
 	column YearMonth
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 5324af99-ea11-4f0e-96cb-be4a70f0a56b
+		lineageTag: 7d94d05f-0fd9-4afc-9f2c-2cb56f519e34
 		summarizeBy: none
 		sourceColumn: YearMonth
 
 		variation Variation
 			isDefault
-			relationship: c259dbbc-4ce6-4e67-a0fd-116e25932727
-			defaultHierarchy: LocalDateTable_38107d8c-a538-4d2b-9c2d-0603f1743c25.'Date Hierarchy'
+			relationship: f65fc20f-d397-4bea-8a6e-682d4f715f2b
+			defaultHierarchy: LocalDateTable_0f8063da-6cae-42d5-9253-b1dbe4f90433.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 794177fe-b306-4c8a-afc3-af5589f38be5
-		summarizeBy: none
+		lineageTag: a2fc6103-71ac-497c-b90b-b96795c31c69
+		summarizeBy: sum
 		sourceColumn: PermitCount
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 41cbc87f-8989-4f4a-80cb-5b3f1c986029
+		lineageTag: 8f914c76-6958-4b5b-8179-624930468741
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -44,7 +44,7 @@ table monthly_volume
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 955fd854-7976-49f4-83da-ef9ec32623ed
+		lineageTag: a194d9d2-8c3f-4c3b-b164-8f4c984f83f3
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -52,7 +52,7 @@ table monthly_volume
 
 	column ResidentialShare
 		dataType: double
-		lineageTag: 2c74dcc5-121f-48a4-8eb4-02149011d493
+		lineageTag: e354038d-c151-482b-b67f-fbfbdb245048
 		summarizeBy: sum
 		sourceColumn: ResidentialShare
 
@@ -63,7 +63,7 @@ table monthly_volume
 	column ExposureDays
 		dataType: int64
 		formatString: 0
-		lineageTag: 10688816-c50f-4cdf-bb7b-b2ea94f9554d
+		lineageTag: 5f9e1c20-c39e-449d-96b7-d45447b0077b
 		summarizeBy: sum
 		sourceColumn: ExposureDays
 
@@ -72,7 +72,7 @@ table monthly_volume
 	column IsPartialMonth
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 227b4866-252a-4e82-9ba5-e9bf1e4f9b31
+		lineageTag: 871ca75a-198b-4c91-9e4a-87c35b1bf993
 		summarizeBy: none
 		sourceColumn: IsPartialMonth
 
@@ -80,7 +80,7 @@ table monthly_volume
 
 	column WindowSource
 		dataType: string
-		lineageTag: e36f30a4-8aa6-4295-be09-5a41eb62086e
+		lineageTag: b7107815-c1a5-4fae-850c-3f2d972e5f19
 		summarizeBy: none
 		sourceColumn: WindowSource
 
@@ -88,55 +88,22 @@ table monthly_volume
 
 	column DP_Rate30
 		dataType: double
-		lineageTag: 189bf8a2-d1a8-4d32-98df-16df817956b6
-		summarizeBy: none
+		lineageTag: 48ba2e5c-672a-40c3-8bde-5eb500e48508
+		summarizeBy: sum
 		sourceColumn: DP_Rate30
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column MonthName = Format (monthly_volume[YearMonth], "MMM")
-		lineageTag: b1cf2828-056c-4a52-b5f1-905753a8a3bc
-		summarizeBy: none
-
-		annotation SummarizationSetBy = Automatic
-
-	column Year = YEAR(monthly_volume[YearMonth])
-		formatString: 0
-		lineageTag: 3fe02c5a-3844-4508-95a5-ddd2ae23d2f3
-		summarizeBy: none
-
-		annotation SummarizationSetBy = User
-
-	column 'Month Number' = MONTH(monthly_volume[YearMonth])
-		formatString: 0
-		lineageTag: 887bcedc-38a4-4518-b9eb-ec7361448d76
-		summarizeBy: sum
-
-		annotation SummarizationSetBy = Automatic
-
-	column Month = FORMAT(monthly_volume[YearMonth], "MMM")
-		lineageTag: 1a62249f-d974-41b4-8d0b-20474a6e2f40
-		summarizeBy: none
-		sortByColumn: 'Month Number'
-
-		changedProperty = SortByColumn
-
-		annotation SummarizationSetBy = Automatic
 
 	partition monthly_volume = m
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    monthly_volume_Sheet = Source{[Item="monthly_volume",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(monthly_volume_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"YearMonth", type datetime}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"ExposureDays", Int64.Type}, {"IsPartialMonth", type logical}, {"WindowSource", type text}, {"DP_Rate30", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "monthly_volume", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"YearMonth", type datetime}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"ExposureDays", Int64.Type}, {"IsPartialMonth", type logical}, {"WindowSource", type text}, {"DP_Rate30", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Exception
-
-	annotation PBI_NavigationStepName = Navigation
+				  #"Changed column type"
 

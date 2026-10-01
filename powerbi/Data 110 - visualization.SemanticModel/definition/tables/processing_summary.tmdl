@@ -1,9 +1,9 @@
 table processing_summary
-	lineageTag: b8f82c6f-884f-4939-91a5-1ab0f23a8ace
+	lineageTag: 995cb7d2-ec98-4cc2-b862-9eb368a54a15
 
 	column Period
 		dataType: string
-		lineageTag: 025bc0ec-b594-4950-a735-69a74459190d
+		lineageTag: 638eb6f5-f623-417a-974a-6a38921488f1
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,7 +12,7 @@ table processing_summary
 	column TotalCount
 		dataType: int64
 		formatString: 0
-		lineageTag: c0d68184-e385-4e80-bb00-2f6b8957e38e
+		lineageTag: 57382b2f-b08e-435e-882c-92f5ed060074
 		summarizeBy: sum
 		sourceColumn: TotalCount
 
@@ -21,7 +21,7 @@ table processing_summary
 	column ValidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: b7fe6014-eade-41bc-9f70-1038a6a00f2c
+		lineageTag: 241de11e-1eaa-4b41-acd7-bcb2b3d938a0
 		summarizeBy: sum
 		sourceColumn: ValidCount
 
@@ -30,7 +30,7 @@ table processing_summary
 	column InvalidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: d502318a-a736-4716-8b40-31df83e25a55
+		lineageTag: c9e0c575-fdd1-46f5-9d29-e0b27be9ec88
 		summarizeBy: sum
 		sourceColumn: InvalidCount
 
@@ -39,7 +39,7 @@ table processing_summary
 	column PendingCount
 		dataType: int64
 		formatString: 0
-		lineageTag: cf22daa0-128b-4f1c-bc49-25a16d8cda01
+		lineageTag: 5ef2d1c0-582c-4b3f-bc3f-05c1f745931a
 		summarizeBy: sum
 		sourceColumn: PendingCount
 
@@ -48,7 +48,7 @@ table processing_summary
 	column RightCensoredCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 3cbd92b4-5b75-4a5a-8b83-73af252a2f78
+		lineageTag: d8af079d-315d-4a1a-bbb9-52ec9a784897
 		summarizeBy: sum
 		sourceColumn: RightCensoredCount
 
@@ -56,7 +56,7 @@ table processing_summary
 
 	column ValidShare
 		dataType: double
-		lineageTag: eb8ffde2-508c-4513-8b21-0698999e09ce
+		lineageTag: 9752c864-fe07-40b6-9821-81c8ec142201
 		summarizeBy: sum
 		sourceColumn: ValidShare
 
@@ -67,7 +67,7 @@ table processing_summary
 	column NegativeCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 8e32ab29-1581-4ddc-9a9a-e675ad0060f3
+		lineageTag: 183e3f8d-27e3-4241-bce0-928293d47d56
 		summarizeBy: sum
 		sourceColumn: NegativeCount
 
@@ -76,7 +76,7 @@ table processing_summary
 	column MissingDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 85fd40bf-26ef-4fcb-9f6c-f9e1066053dc
+		lineageTag: 7df98452-acb2-4e6c-b835-c9d36256bd6e
 		summarizeBy: sum
 		sourceColumn: MissingDateCount
 
@@ -85,7 +85,7 @@ table processing_summary
 	column InvalidDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 8dadd612-1720-4bed-a2ac-ce8fc9c89e22
+		lineageTag: d9b6f78a-debf-4159-9c3f-36bbac54f0a7
 		summarizeBy: sum
 		sourceColumn: InvalidDateCount
 
@@ -94,7 +94,7 @@ table processing_summary
 	column AfterObservationEndCount
 		dataType: int64
 		formatString: 0
-		lineageTag: dd2fe7cb-3032-4efc-8e2c-59b1fc113c33
+		lineageTag: ddcb453e-82a5-4132-b5ed-f1ba6b145f8a
 		summarizeBy: sum
 		sourceColumn: AfterObservationEndCount
 
@@ -103,7 +103,7 @@ table processing_summary
 	column MedianProcessingDays
 		dataType: int64
 		formatString: 0
-		lineageTag: a4d1966a-1a6c-48dd-8770-f3d4dc5c8e69
+		lineageTag: da9061f0-a3a9-431e-bedc-453e2e3166fc
 		summarizeBy: sum
 		sourceColumn: MedianProcessingDays
 
@@ -111,7 +111,7 @@ table processing_summary
 
 	column MeanProcessingDays
 		dataType: double
-		lineageTag: 43c91019-10e3-4832-9803-9508e1387970
+		lineageTag: 57662137-f132-4391-aab9-ddcdc3a288af
 		summarizeBy: sum
 		sourceColumn: MeanProcessingDays
 
@@ -120,18 +120,17 @@ table processing_summary
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Q1ProcessingDays
-		dataType: double
-		lineageTag: ae4cd044-db45-42e4-93fe-db7eb0e82c05
+		dataType: int64
+		formatString: 0
+		lineageTag: 96ded8e3-4bdd-49dc-9a32-32bce86b6c96
 		summarizeBy: sum
 		sourceColumn: Q1ProcessingDays
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column Q3ProcessingDays
 		dataType: double
-		lineageTag: b3ee79b7-42fd-4349-aab1-4e25af9125a0
+		lineageTag: 069d8857-c668-48ec-a9bd-cbab47ce11c2
 		summarizeBy: sum
 		sourceColumn: Q3ProcessingDays
 
@@ -141,7 +140,7 @@ table processing_summary
 
 	column IQRProcessingDays
 		dataType: double
-		lineageTag: 66c24688-f9e1-4454-88e8-ba468868c5c0
+		lineageTag: 7a36090e-4067-4a21-9c2d-a6ce5ab103e7
 		summarizeBy: sum
 		sourceColumn: IQRProcessingDays
 
@@ -153,12 +152,10 @@ table processing_summary
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    processing_summary_Sheet = Source{[Item="processing_summary",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(processing_summary_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", Int64.Type}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", type number}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "processing_summary", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", Int64.Type}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", Int64.Type}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

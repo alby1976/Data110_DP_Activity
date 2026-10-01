@@ -1,9 +1,9 @@
 table type_period_totals
-	lineageTag: 0ffeaebe-7da7-47ab-a9cb-cc04aa42b2eb
+	lineageTag: 22156e5f-dabe-475b-8d4a-8a3865215587
 
 	column Period
 		dataType: string
-		lineageTag: 6bc3d6f1-ddc8-44d1-bc35-a5558c14d9a7
+		lineageTag: b491c997-22b1-435c-b745-f9e234d330d4
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,7 +12,7 @@ table type_period_totals
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: bf8e96e3-7c67-4f52-9e23-d3ce6f8781a8
+		lineageTag: 5db8254a-d477-4f21-b234-e5b538638d84
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -21,7 +21,7 @@ table type_period_totals
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 1144eef9-de6b-444a-9c13-61e9c408bef0
+		lineageTag: 842000af-9ca4-4115-ba2c-e923896819c9
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -30,7 +30,7 @@ table type_period_totals
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 9fef8f9f-6b0f-48d0-ac85-3dd2575d91f2
+		lineageTag: 3dd2759e-a125-4780-bd0c-5711a4eeb9c4
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -40,12 +40,10 @@ table type_period_totals
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    type_period_totals_Sheet = Source{[Item="type_period_totals",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(type_period_totals_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "type_period_totals", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

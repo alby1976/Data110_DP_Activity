@@ -1,9 +1,9 @@
 table validation_data_quality_validat
-	lineageTag: 91059bae-ebb4-4fb2-9d23-65959b3115b1
+	lineageTag: 14a3ef41-5a7f-489f-bbbf-8efa9d8439d3
 
 	column check_name
 		dataType: string
-		lineageTag: c171d0a8-3076-4ea0-99b8-63e9c312fe5a
+		lineageTag: c3ecc528-e199-4195-8ac1-89489837ea6b
 		summarizeBy: none
 		sourceColumn: check_name
 
@@ -11,7 +11,7 @@ table validation_data_quality_validat
 
 	column status
 		dataType: string
-		lineageTag: 574adb07-335c-441f-a3ae-84735188d8c7
+		lineageTag: a1573a95-ca2f-44e3-bb29-af77b1d08f16
 		summarizeBy: none
 		sourceColumn: status
 
@@ -20,7 +20,7 @@ table validation_data_quality_validat
 	column affected_rows
 		dataType: int64
 		formatString: 0
-		lineageTag: d0247688-0cc2-4e71-8dce-3d14577e941d
+		lineageTag: 25858c41-53b1-454c-8ccb-681bb4683248
 		summarizeBy: sum
 		sourceColumn: affected_rows
 
@@ -28,7 +28,7 @@ table validation_data_quality_validat
 
 	column message
 		dataType: string
-		lineageTag: affcf576-b5e0-4f11-8e01-3189c8c4b608
+		lineageTag: 57d3c117-64d6-44b4-80e3-22613660c811
 		summarizeBy: none
 		sourceColumn: message
 
@@ -38,12 +38,10 @@ table validation_data_quality_validat
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    validation_data_quality_validat_Sheet = Source{[Item="validation_data_quality_validat",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(validation_data_quality_validat_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"check_name", type text}, {"status", type text}, {"affected_rows", Int64.Type}, {"message", type text}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "validation_data_quality_validat", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"check_name", type text}, {"status", type text}, {"affected_rows", Int64.Type}, {"message", type text}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

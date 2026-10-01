@@ -1,5 +1,5 @@
 model Model
-	culture: en-US
+	culture: en-CA
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-CA
 	valueFilterBehavior: independent
@@ -9,69 +9,60 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["development_permits_20260925_045241","bias_audit","calendar_month_summary","community_summary","complete_seasons","geography_period_totals","monthly_volume","partial_seasons","permit_volume","permits_clean","processing_period_totals","processing_summary","processing_type_summary","reconciliation","rezoning_by_district","rezoning_by_rule","rezoning_by_type","rezoning_summary","seasonal_monthly_volume","seasonal_summary","sensitivity_summary","type_period_totals","type_summary","unknown_seasons","validation_classification_valid","validation_data_quality_validat","validation_schema_validator","ward_summary","PythonTest"]
+annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
-ref table bias_audit
-ref table calendar_month_summary
-ref table community_summary
-ref table complete_seasons
-ref table DateTableTemplate_8585e1bf-534b-43ed-ad04-83a880a93ee6
-ref table LocalDateTable_ca7e6eb5-fd87-466e-a7b1-0dc9d73c0b09
-ref table LocalDateTable_4ceb25dc-8219-4135-a75d-3457599fd477
-ref table geography_period_totals
-ref table monthly_volume
-ref table LocalDateTable_38107d8c-a538-4d2b-9c2d-0603f1743c25
-ref table partial_seasons
-ref table LocalDateTable_acfb46f6-2855-4029-a200-dbcba3a4ab2a
-ref table LocalDateTable_5bba6670-406e-43ac-a985-8c0e83312e1e
-ref table permit_volume
-ref table LocalDateTable_b847fc60-f818-4cdb-a0b6-aaa12fd1825b
-ref table LocalDateTable_7db7b01e-4773-409d-8c33-99a5353d156a
 ref table permits_clean
-ref table LocalDateTable_f2241aea-deaa-4fdd-bde2-06747e7d2102
-ref table LocalDateTable_a2d02d8e-68a6-4083-a9fe-9099322250b7
-ref table LocalDateTable_d15aab30-2b2e-40ed-91ef-ba2b01c7b08e
-ref table LocalDateTable_9f97b44b-47ee-4dda-a0c9-2ad7befaed7e
-ref table LocalDateTable_d4c0d763-4e45-4d0d-b2d0-20ca4b538b6d
-ref table LocalDateTable_b5fbd310-084a-4962-91ac-e76123f51553
-ref table LocalDateTable_50ccaffe-ae5c-49cb-95e6-04294b7dcceb
-ref table LocalDateTable_5e4585a7-462f-4fa7-b0f9-ec456bbf8904
-ref table LocalDateTable_ab8ab4b4-7a8f-4b9c-8898-1b3bc1ad20de
-ref table LocalDateTable_4a1c3254-34db-408d-9718-5fed1b54cd3d
-ref table LocalDateTable_b9f58ffd-dcf9-486a-a178-71821c8a3866
-ref table LocalDateTable_9e952f09-caf4-4350-b8bf-ec806cc911b6
-ref table processing_period_totals
+ref table DateTableTemplate_8a99b757-f542-4035-be4f-fbf7783d101c
+ref table LocalDateTable_45b7183c-1bf3-41c0-b04d-a4c0027b267f
+ref table LocalDateTable_d9de51cd-7c55-4d9a-b0fd-bff751b79f8e
+ref table LocalDateTable_74a024e0-d3af-4ca4-9c32-d9feab04791d
+ref table LocalDateTable_b856d493-2d08-4c9f-980e-cbc320fa9f16
+ref table LocalDateTable_edd433d3-7a98-4184-9795-ecb6e206898d
+ref table LocalDateTable_9f4d4eb3-deed-4c0f-b8fd-99fd3db498ca
+ref table LocalDateTable_5c0ce079-0706-4aff-9a29-ac893d1a2abb
+ref table LocalDateTable_0ae4a425-eef9-40fd-9680-501a584b8871
+ref table LocalDateTable_c19ec3dc-5af0-47a6-a743-0e862218e183
+ref table LocalDateTable_f73b96a4-96ca-427f-ae41-83c957c98289
+ref table LocalDateTable_7fb1a6f5-720b-4c5b-bb85-deac06f60921
+ref table LocalDateTable_01d57250-013e-49fb-8217-b0a51ebc1971
+ref table permit_volume
+ref table LocalDateTable_2f62f10e-6587-4ef1-84af-34ad544a7f96
+ref table LocalDateTable_b9245e03-0bce-40a4-8cef-015452c053f0
+ref table monthly_volume
+ref table LocalDateTable_0f8063da-6cae-42d5-9253-b1dbe4f90433
+ref table type_summary
+ref table type_period_totals
+ref table community_summary
+ref table ward_summary
+ref table geography_period_totals
 ref table processing_summary
+ref table processing_period_totals
 ref table processing_type_summary
-ref table reconciliation
-ref table rezoning_by_district
+ref table rezoning_summary
 ref table rezoning_by_rule
 ref table rezoning_by_type
-ref table rezoning_summary
+ref table rezoning_by_district
 ref table seasonal_monthly_volume
-ref table LocalDateTable_8153b07a-983a-4fb5-9640-5ad6751ed0db
+ref table LocalDateTable_86df7c65-5ad1-4b0a-9e69-179a548c435d
+ref table calendar_month_summary
 ref table seasonal_summary
-ref table LocalDateTable_ddc51160-187b-48ee-816a-1fb4a0488f2d
-ref table LocalDateTable_c073e644-6cc8-4b03-bb1f-83b3f676d920
-ref table sensitivity_summary
-ref table type_period_totals
-ref table type_summary
+ref table LocalDateTable_4fd08deb-f080-444c-8e3e-f29a92d32da5
+ref table LocalDateTable_81e9f61e-8938-462c-a97a-9b61e3a0a09c
+ref table complete_seasons
+ref table LocalDateTable_7e3429a0-dfbc-410d-a1c0-3e7f0cb0a747
+ref table LocalDateTable_ddfafa5e-fb12-4361-a260-b1ed2c1c4c4e
+ref table partial_seasons
+ref table LocalDateTable_06c8c7e3-fd51-456b-a7f2-5f88ab8a5199
+ref table LocalDateTable_c55b038e-0008-4ee5-95ae-dba0baa216c6
 ref table unknown_seasons
-ref table validation_classification_valid
-ref table validation_data_quality_validat
+ref table sensitivity_summary
 ref table validation_schema_validator
-ref table ward_summary
-ref table development_permits_20260925_045241
-ref table LocalDateTable_58743b17-c430-4382-92b8-59598bf00d78
-ref table LocalDateTable_5fbc8c37-5a47-4391-a313-80848a6e8eea
-ref table LocalDateTable_e712b260-5486-4bbb-ba0e-2d64ffa2d0de
-ref table LocalDateTable_f78d6c42-1b30-4159-b3e9-64593276f515
-ref table LocalDateTable_9b8acc0a-0e9c-4410-b894-0ed881251475
-ref table Period
-ref table PythonTest
-ref table Python_Monthly_Heatmap
+ref table validation_data_quality_validat
+ref table validation_classification_valid
+ref table reconciliation
+ref table bias_audit
 
-ref cultureInfo en-US
+ref cultureInfo en-CA
 

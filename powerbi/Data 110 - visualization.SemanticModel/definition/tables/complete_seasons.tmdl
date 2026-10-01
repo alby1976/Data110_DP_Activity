@@ -1,9 +1,9 @@
 table complete_seasons
-	lineageTag: 139c537a-2f72-4f65-af60-63a78844e369
+	lineageTag: 9005de39-6812-42ca-85a5-d70f74941fc0
 
 	column Period
 		dataType: string
-		lineageTag: 257c2a66-e712-4f26-9fe1-50e7b3461bf3
+		lineageTag: 0c1fd8bc-63e6-40bc-a541-8667c72bb69d
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -11,7 +11,7 @@ table complete_seasons
 
 	column Season
 		dataType: string
-		lineageTag: d5dbaba1-f0f4-466d-a37a-f4843a94ff8a
+		lineageTag: 03f02ab4-e9e9-46bc-a51a-65b1c6cb7f24
 		summarizeBy: none
 		sourceColumn: Season
 
@@ -20,35 +20,35 @@ table complete_seasons
 	column SeasonStartDate
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 53d1ac4e-0ed9-4b93-b4c8-d1050dd46bdb
+		lineageTag: 446fde56-990c-4e32-9881-6475e997eb66
 		summarizeBy: none
 		sourceColumn: SeasonStartDate
 
 		variation Variation
 			isDefault
-			relationship: bfeb0ca0-de98-4498-b923-325084d69be1
-			defaultHierarchy: LocalDateTable_ca7e6eb5-fd87-466e-a7b1-0dc9d73c0b09.'Date Hierarchy'
+			relationship: 31c9d780-7a75-4e4e-8859-943d1aefb7a5
+			defaultHierarchy: LocalDateTable_7e3429a0-dfbc-410d-a1c0-3e7f0cb0a747.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column SeasonEndDate
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 3760d736-db71-4d49-940d-21aef04b0103
+		lineageTag: b672c74d-e447-4091-b0f1-685150559c75
 		summarizeBy: none
 		sourceColumn: SeasonEndDate
 
 		variation Variation
 			isDefault
-			relationship: 5d1c056d-3a8a-4bb6-abbc-8015733bf6eb
-			defaultHierarchy: LocalDateTable_4ceb25dc-8219-4135-a75d-3457599fd477.'Date Hierarchy'
+			relationship: 479c6d9d-6c54-4bac-97a0-2db6fe3a3d5b
+			defaultHierarchy: LocalDateTable_ddfafa5e-fb12-4361-a260-b1ed2c1c4c4e.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column IsCompleteSeason
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 6ca64fb4-6634-4998-aa04-b513c582d655
+		lineageTag: e40c8c4b-cec0-4f1b-9729-648bde479ed5
 		summarizeBy: none
 		sourceColumn: IsCompleteSeason
 
@@ -57,7 +57,7 @@ table complete_seasons
 	column ExposureDays
 		dataType: int64
 		formatString: 0
-		lineageTag: c51ec1f2-8bb0-4898-8ab9-570ed64c67b2
+		lineageTag: 7be8a7b4-5b3f-4af2-a1bb-65c67c5df98f
 		summarizeBy: sum
 		sourceColumn: ExposureDays
 
@@ -65,7 +65,7 @@ table complete_seasons
 
 	column WindowSource
 		dataType: string
-		lineageTag: dc828790-ddad-499b-84a2-53d0a37de538
+		lineageTag: db8e1ec1-98bf-40ae-af14-1c93dcd65c70
 		summarizeBy: none
 		sourceColumn: WindowSource
 
@@ -74,7 +74,7 @@ table complete_seasons
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 90a08aaf-b3b3-4699-b9e2-a2b73f48378b
+		lineageTag: f56b745a-8d35-4014-ae83-d05479fce733
 		summarizeBy: sum
 		sourceColumn: PermitCount
 
@@ -83,7 +83,7 @@ table complete_seasons
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: bd52e3dd-aa60-4e11-9637-227408c7df33
+		lineageTag: 81da8d54-bef4-405f-8f09-48e7574673f3
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -92,7 +92,7 @@ table complete_seasons
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 31f56ff9-9cd4-4af1-ab9f-591f09477137
+		lineageTag: 5e657f36-1a3f-473d-b2e6-16ee13427ccf
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -101,7 +101,7 @@ table complete_seasons
 	column TotalCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 82903dd5-bc17-4dbf-9f19-48b9b2b8be12
+		lineageTag: fdec4882-06d0-4322-8264-1a4f72fb1f0d
 		summarizeBy: sum
 		sourceColumn: TotalCount
 
@@ -110,7 +110,7 @@ table complete_seasons
 	column ValidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 43fa6069-1a4d-4a68-81b9-ca79cbf3208b
+		lineageTag: a8c54b1c-11c0-4b9c-b90a-3b78a537509c
 		summarizeBy: sum
 		sourceColumn: ValidCount
 
@@ -119,7 +119,7 @@ table complete_seasons
 	column InvalidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: ed38cce5-8937-42ed-870d-27cbda4a07b2
+		lineageTag: 16dc2619-8b61-4b7c-b785-7ca5deb1fb94
 		summarizeBy: sum
 		sourceColumn: InvalidCount
 
@@ -128,7 +128,7 @@ table complete_seasons
 	column PendingCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 15887459-c780-494c-97e2-83c864d97150
+		lineageTag: 7dc4bf45-048e-40d9-ac4b-ed49724f4bbd
 		summarizeBy: sum
 		sourceColumn: PendingCount
 
@@ -137,7 +137,7 @@ table complete_seasons
 	column RightCensoredCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 566919df-6c7e-4eb6-9fde-9d791b258eaf
+		lineageTag: 01754e66-a021-415c-87c6-92db1aebefde
 		summarizeBy: sum
 		sourceColumn: RightCensoredCount
 
@@ -145,7 +145,7 @@ table complete_seasons
 
 	column ValidShare
 		dataType: double
-		lineageTag: b586a03d-f4a6-4236-88e5-f4e190808dd0
+		lineageTag: 728ed2fe-e4ad-46f6-8e31-d12ed34fe635
 		summarizeBy: sum
 		sourceColumn: ValidShare
 
@@ -156,7 +156,7 @@ table complete_seasons
 	column NegativeCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 39ea5490-3cf3-4e81-b62c-c2034b156c72
+		lineageTag: 0ae6edf3-587d-4782-9083-f732651062bd
 		summarizeBy: sum
 		sourceColumn: NegativeCount
 
@@ -165,7 +165,7 @@ table complete_seasons
 	column MissingDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: b46cbe0d-5b23-46f9-adf1-35d029ebfafd
+		lineageTag: b5e8c9c8-200b-4b1e-a6d9-c6b072cbb9e4
 		summarizeBy: sum
 		sourceColumn: MissingDateCount
 
@@ -174,7 +174,7 @@ table complete_seasons
 	column InvalidDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 81811c36-8816-4c65-8e3c-7116b125229b
+		lineageTag: ed9ff1a9-bfa3-48ec-b30a-08f947ae90e5
 		summarizeBy: sum
 		sourceColumn: InvalidDateCount
 
@@ -183,25 +183,24 @@ table complete_seasons
 	column AfterObservationEndCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 2b68fce6-6b39-4dc2-944f-3a7590ad6c8d
+		lineageTag: 69b7ea1f-a4ed-4e03-aec8-60fc8173712d
 		summarizeBy: sum
 		sourceColumn: AfterObservationEndCount
 
 		annotation SummarizationSetBy = Automatic
 
 	column MedianProcessingDays
-		dataType: double
-		lineageTag: 8a30ad2d-319b-416b-92e4-62ccd61f7d8f
+		dataType: int64
+		formatString: 0
+		lineageTag: 0e77b1f0-94f0-4091-b266-a54458f8bb75
 		summarizeBy: sum
 		sourceColumn: MedianProcessingDays
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column MeanProcessingDays
 		dataType: double
-		lineageTag: 17053584-686e-40eb-86b3-a25fba569d64
+		lineageTag: 1c8ce5f6-2ae1-4441-b480-7269aa8d0ed7
 		summarizeBy: sum
 		sourceColumn: MeanProcessingDays
 
@@ -210,17 +209,18 @@ table complete_seasons
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Q1ProcessingDays
-		dataType: int64
-		formatString: 0
-		lineageTag: 72361559-96f0-4c05-a834-6452eaa07e02
+		dataType: double
+		lineageTag: d5d05694-9045-449f-890d-bf7e0349d585
 		summarizeBy: sum
 		sourceColumn: Q1ProcessingDays
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Q3ProcessingDays
 		dataType: double
-		lineageTag: b924cb6f-ede2-42d4-947c-ab0e00cd127a
+		lineageTag: 8bae402c-d64e-4c2e-9b09-08e3c928cddd
 		summarizeBy: sum
 		sourceColumn: Q3ProcessingDays
 
@@ -230,7 +230,7 @@ table complete_seasons
 
 	column IQRProcessingDays
 		dataType: double
-		lineageTag: de355951-7e5b-446a-998c-c3097a873f41
+		lineageTag: cbf32f0c-50fd-4baa-9444-675e8989cfd2
 		summarizeBy: sum
 		sourceColumn: IQRProcessingDays
 
@@ -240,7 +240,7 @@ table complete_seasons
 
 	column DP_Rate30
 		dataType: double
-		lineageTag: 0e59f3de-11f9-4b37-90f1-f563ba6fb4da
+		lineageTag: 5ebf16fc-647d-4ab5-9697-6f3f772348d7
 		summarizeBy: sum
 		sourceColumn: DP_Rate30
 
@@ -252,12 +252,10 @@ table complete_seasons
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    complete_seasons_Sheet = Source{[Item="complete_seasons",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(complete_seasons_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"IsCompleteSeason", type logical}, {"ExposureDays", Int64.Type}, {"WindowSource", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", type number}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", Int64.Type}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}, {"DP_Rate30", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "complete_seasons", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"IsCompleteSeason", type logical}, {"ExposureDays", Int64.Type}, {"WindowSource", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", Int64.Type}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", type number}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}, {"DP_Rate30", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

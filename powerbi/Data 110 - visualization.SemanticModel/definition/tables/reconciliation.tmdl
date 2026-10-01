@@ -1,9 +1,9 @@
 table reconciliation
-	lineageTag: 161fb01f-dfc4-4671-89ca-a864a4a54b60
+	lineageTag: fa5301b2-b50a-4121-b6e5-670d6a8eb8b2
 
 	column Scope
 		dataType: string
-		lineageTag: 019bc182-e7cd-4373-b7fa-0ea7a203d36e
+		lineageTag: 809662eb-9cb8-48ed-ac38-65c6c304354a
 		summarizeBy: none
 		sourceColumn: Scope
 
@@ -11,7 +11,7 @@ table reconciliation
 
 	column Group
 		dataType: string
-		lineageTag: db31e82b-0afa-40e9-a1b7-9f57c2c2d831
+		lineageTag: 718f4cea-c3a6-420d-a1e5-5d728b3db915
 		summarizeBy: none
 		sourceColumn: Group
 
@@ -19,7 +19,7 @@ table reconciliation
 
 	column Metric
 		dataType: string
-		lineageTag: 351acd75-cf51-4521-9830-dff63a4f6777
+		lineageTag: 9c673777-904c-4822-9f0c-1ffbd6362d4b
 		summarizeBy: none
 		sourceColumn: Metric
 
@@ -28,7 +28,7 @@ table reconciliation
 	column PythonValue
 		dataType: int64
 		formatString: 0
-		lineageTag: a5c010ed-732b-456f-8e66-dc01d2a5df1f
+		lineageTag: 4f0b7971-57d6-43ba-90d7-42e5308097a2
 		summarizeBy: sum
 		sourceColumn: PythonValue
 
@@ -38,12 +38,12 @@ table reconciliation
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    reconciliation_Sheet = Source{[Item="reconciliation",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(reconciliation_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Scope", type text}, {"Group", type text}, {"Metric", type text}, {"PythonValue", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "reconciliation", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Scope", type text}, {"Group", type text}, {"Metric", type text}, {"PythonValue", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
+				  #"Changed column type"
 
 	annotation PBI_ResultType = Table
 

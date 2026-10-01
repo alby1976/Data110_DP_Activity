@@ -1,9 +1,9 @@
 table validation_classification_valid
-	lineageTag: 417fe116-833b-4474-971a-a71af0e7738b
+	lineageTag: 77250161-5605-4254-857a-77641203f2e6
 
 	column report_type
 		dataType: string
-		lineageTag: 16f961c7-8f1a-48ec-8a48-ba55cfa8228c
+		lineageTag: 22efc875-3bc6-4513-8032-28e0bc078dc2
 		summarizeBy: none
 		sourceColumn: report_type
 
@@ -11,7 +11,7 @@ table validation_classification_valid
 
 	column status
 		dataType: string
-		lineageTag: 2d682d9c-b156-40a8-848d-03b66530824b
+		lineageTag: 39baca6a-f6d2-4826-9c96-fa8f1e5fc0aa
 		summarizeBy: none
 		sourceColumn: status
 
@@ -20,7 +20,7 @@ table validation_classification_valid
 	column record_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 82dbf471-e0a0-48ff-b97e-af238c56db7d
+		lineageTag: 95fefc9f-2ecb-4d92-b3d6-0c3a657f2667
 		summarizeBy: sum
 		sourceColumn: record_count
 
@@ -29,7 +29,7 @@ table validation_classification_valid
 	column matched_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 485b4753-0fa0-4ff5-96da-fabd9fb1d216
+		lineageTag: 86e40787-3d19-4713-8979-4f22ff52fb33
 		summarizeBy: sum
 		sourceColumn: matched_count
 
@@ -38,7 +38,7 @@ table validation_classification_valid
 	column unmatched_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 088c6d9d-c350-46a0-a868-f80ae03f5862
+		lineageTag: 94404f90-6bbb-4614-91b6-313ba7071b24
 		summarizeBy: sum
 		sourceColumn: unmatched_count
 
@@ -46,7 +46,7 @@ table validation_classification_valid
 
 	column coverage_percentage
 		dataType: double
-		lineageTag: a79275c6-643f-4cfd-9eb0-e7549a48fac4
+		lineageTag: d5b21706-e36f-4e5a-a5f5-c7edc470e122
 		summarizeBy: sum
 		sourceColumn: coverage_percentage
 
@@ -56,7 +56,7 @@ table validation_classification_valid
 
 	column unmatched_percentage
 		dataType: double
-		lineageTag: 39c897cf-8e5e-4f1a-a4f2-c600fa9b0a84
+		lineageTag: 534406c4-7088-4cb4-ab7e-bb45558c11ef
 		summarizeBy: sum
 		sourceColumn: unmatched_percentage
 
@@ -67,7 +67,7 @@ table validation_classification_valid
 	column review_count
 		dataType: int64
 		formatString: 0
-		lineageTag: a6999754-de07-4334-a341-572e7d927e45
+		lineageTag: f5102053-9b86-4e11-8aaa-cfc21cb19cc4
 		summarizeBy: sum
 		sourceColumn: review_count
 
@@ -75,7 +75,7 @@ table validation_classification_valid
 
 	column review_percentage
 		dataType: double
-		lineageTag: f0438a61-fc60-40a9-a6e0-ecc81d85010d
+		lineageTag: b106e7b0-40b3-4592-b196-7e3a95f7beb4
 		summarizeBy: sum
 		sourceColumn: review_percentage
 
@@ -86,7 +86,7 @@ table validation_classification_valid
 	column overlap_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 597db298-d507-4f8a-9c09-96bdf5866176
+		lineageTag: d882b2dd-dcb0-4bf4-9bd0-f498eb7db699
 		summarizeBy: sum
 		sourceColumn: overlap_count
 
@@ -95,7 +95,7 @@ table validation_classification_valid
 	column additional_match_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 43868059-964f-4979-a018-005ca9b0e449
+		lineageTag: 07598b80-9a42-485f-90f9-d79b763a5afe
 		summarizeBy: sum
 		sourceColumn: additional_match_count
 
@@ -104,7 +104,7 @@ table validation_classification_valid
 	column unknown_rule_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 1470b4bd-6e89-49f1-8da4-d62b41f85bce
+		lineageTag: e21e0735-e131-4a9e-8c49-097fd7891fe0
 		summarizeBy: sum
 		sourceColumn: unknown_rule_count
 
@@ -113,7 +113,7 @@ table validation_classification_valid
 	column disabled_rule_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 167c21b2-f616-42d7-91ed-ca744c46fc52
+		lineageTag: 74c21930-f9a3-482d-b1fa-66f41099d47c
 		summarizeBy: sum
 		sourceColumn: disabled_rule_count
 
@@ -122,7 +122,7 @@ table validation_classification_valid
 	column inconsistent_audit_count
 		dataType: int64
 		formatString: 0
-		lineageTag: f729e292-f1cb-4f20-b100-d1efcc3fc842
+		lineageTag: 4c781ce3-514a-4c28-8f2d-00b7152821bd
 		summarizeBy: sum
 		sourceColumn: inconsistent_audit_count
 
@@ -130,7 +130,7 @@ table validation_classification_valid
 
 	column missing_audit_columns
 		dataType: string
-		lineageTag: 40ca2c86-5666-4d75-8044-b6ea0620ba3c
+		lineageTag: 9f574b2a-5945-46aa-bcc1-4ba3f48d75db
 		summarizeBy: none
 		sourceColumn: missing_audit_columns
 
@@ -139,7 +139,7 @@ table validation_classification_valid
 	column enabled_rule_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 5566dea6-7d80-40c2-b489-54d9a82a63fb
+		lineageTag: 2688eb14-afba-43c7-95d5-8e125a4c494d
 		summarizeBy: sum
 		sourceColumn: enabled_rule_count
 
@@ -147,7 +147,7 @@ table validation_classification_valid
 
 	column audit_count
 		dataType: string
-		lineageTag: 00e437a1-9ac3-4219-a4f5-ae4dc299071b
+		lineageTag: ecf79e0d-a096-4059-ad7c-f1aa20b2d9b7
 		summarizeBy: none
 		sourceColumn: audit_count
 
@@ -155,7 +155,7 @@ table validation_classification_valid
 
 	column audit_error_count
 		dataType: string
-		lineageTag: 515d8f9b-f80c-49e6-8001-68d40a2536b8
+		lineageTag: ce20da62-9ae2-4a24-a983-1f260fdd1bdb
 		summarizeBy: none
 		sourceColumn: audit_error_count
 
@@ -163,7 +163,7 @@ table validation_classification_valid
 
 	column audit_accuracy_percentage
 		dataType: string
-		lineageTag: 14a919e3-d3ca-430f-84b9-ab7dbebeaf2c
+		lineageTag: 382bfcb4-3d23-4d33-bb8a-611d0486ec33
 		summarizeBy: none
 		sourceColumn: audit_accuracy_percentage
 
@@ -171,7 +171,7 @@ table validation_classification_valid
 
 	column expected_type
 		dataType: string
-		lineageTag: 983d5108-dcf4-4789-b628-0d7cd0b7a869
+		lineageTag: 3218593e-7f69-4f85-8320-44924113c3fa
 		summarizeBy: none
 		sourceColumn: expected_type
 
@@ -179,7 +179,7 @@ table validation_classification_valid
 
 	column predicted_type
 		dataType: string
-		lineageTag: 12141418-1609-4278-8611-786f8a5a7c35
+		lineageTag: e5d2f5e3-a32d-4bd8-a8a0-c9011dae3c73
 		summarizeBy: none
 		sourceColumn: predicted_type
 
@@ -188,7 +188,7 @@ table validation_classification_valid
 	column review_status_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 2480feb7-2673-4325-997e-f4394dceb913
+		lineageTag: 1f0a6af2-0fa5-4fa2-b62e-736fd48e4c30
 		summarizeBy: sum
 		sourceColumn: review_status_count
 
@@ -197,7 +197,7 @@ table validation_classification_valid
 	column provisional_status_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 5c65ffe5-361e-4dc2-87ce-0be5502055ec
+		lineageTag: f2f539aa-7da4-40b7-abd6-744cebbdb874
 		summarizeBy: sum
 		sourceColumn: provisional_status_count
 
@@ -206,7 +206,7 @@ table validation_classification_valid
 	column fallback_status_count
 		dataType: int64
 		formatString: 0
-		lineageTag: 77d3fd13-2214-403f-9e92-5ca6dc613b70
+		lineageTag: f1cf8b75-a146-4cd2-8c89-8f05b5da7709
 		summarizeBy: sum
 		sourceColumn: fallback_status_count
 
@@ -214,7 +214,7 @@ table validation_classification_valid
 
 	column message
 		dataType: string
-		lineageTag: 7242e6a9-0f2c-4742-acf4-6c1aa6184337
+		lineageTag: c1c43d7d-b702-4c39-a1cb-f644ef892be5
 		summarizeBy: none
 		sourceColumn: message
 
@@ -224,12 +224,10 @@ table validation_classification_valid
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    validation_classification_valid_Sheet = Source{[Item="validation_classification_valid",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(validation_classification_valid_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"report_type", type text}, {"status", type text}, {"record_count", Int64.Type}, {"matched_count", Int64.Type}, {"unmatched_count", Int64.Type}, {"coverage_percentage", type number}, {"unmatched_percentage", type number}, {"review_count", Int64.Type}, {"review_percentage", type number}, {"overlap_count", Int64.Type}, {"additional_match_count", Int64.Type}, {"unknown_rule_count", Int64.Type}, {"disabled_rule_count", Int64.Type}, {"inconsistent_audit_count", Int64.Type}, {"missing_audit_columns", type any}, {"enabled_rule_count", Int64.Type}, {"audit_count", type any}, {"audit_error_count", type any}, {"audit_accuracy_percentage", type any}, {"expected_type", type any}, {"predicted_type", type any}, {"review_status_count", Int64.Type}, {"provisional_status_count", Int64.Type}, {"fallback_status_count", Int64.Type}, {"message", type text}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "validation_classification_valid", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"report_type", type text}, {"status", type text}, {"record_count", Int64.Type}, {"matched_count", Int64.Type}, {"unmatched_count", Int64.Type}, {"coverage_percentage", type number}, {"unmatched_percentage", type number}, {"review_count", Int64.Type}, {"review_percentage", type number}, {"overlap_count", Int64.Type}, {"additional_match_count", Int64.Type}, {"unknown_rule_count", Int64.Type}, {"disabled_rule_count", Int64.Type}, {"inconsistent_audit_count", Int64.Type}, {"enabled_rule_count", Int64.Type}, {"review_status_count", Int64.Type}, {"provisional_status_count", Int64.Type}, {"fallback_status_count", Int64.Type}, {"message", type text}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

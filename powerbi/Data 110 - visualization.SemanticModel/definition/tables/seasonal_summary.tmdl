@@ -1,9 +1,9 @@
 table seasonal_summary
-	lineageTag: 398ffda8-bcb2-4274-bb9f-e0cdbc88d21c
+	lineageTag: 1829f757-258f-4e68-b457-78b84c9526a7
 
 	column Period
 		dataType: string
-		lineageTag: 08e3b29c-adbb-4972-8508-973545992e87
+		lineageTag: 7950f7c4-8547-4d28-a1f8-56ff3fff5386
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -11,47 +11,44 @@ table seasonal_summary
 
 	column Season
 		dataType: string
-		lineageTag: cb0ccd4e-0d35-4829-b421-9439f5cdceac
+		lineageTag: 066e620a-c136-4e08-8be3-73b9a75af2b1
 		summarizeBy: none
 		sourceColumn: Season
-		sortByColumn: 'Season Month'
-
-		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
 	column SeasonStartDate
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 8b1e36e9-1ee7-4762-bb53-e016a6bd6f24
+		lineageTag: 869aaf2c-4523-4d4f-b256-fc24655cfecb
 		summarizeBy: none
 		sourceColumn: SeasonStartDate
 
 		variation Variation
 			isDefault
-			relationship: 6cb77f40-8657-402e-8349-3092f9f87fd1
-			defaultHierarchy: LocalDateTable_ddc51160-187b-48ee-816a-1fb4a0488f2d.'Date Hierarchy'
+			relationship: e3931983-2b98-4c44-b491-218c82ac7a5a
+			defaultHierarchy: LocalDateTable_4fd08deb-f080-444c-8e3e-f29a92d32da5.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column SeasonEndDate
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: ed260cc9-7aa7-41c5-b0a2-666b2878abcd
+		lineageTag: f86d52f3-92f6-4f46-85b1-4a20d32ce90b
 		summarizeBy: none
 		sourceColumn: SeasonEndDate
 
 		variation Variation
 			isDefault
-			relationship: f25a249e-c74e-471d-a79e-6b5658b22172
-			defaultHierarchy: LocalDateTable_c073e644-6cc8-4b03-bb1f-83b3f676d920.'Date Hierarchy'
+			relationship: 0b668ebc-4125-4e6e-93e3-1f03e217ae16
+			defaultHierarchy: LocalDateTable_81e9f61e-8938-462c-a97a-9b61e3a0a09c.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column IsCompleteSeason
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: df78b6cb-6f1d-4e35-95a8-fad76d01f02b
+		lineageTag: 3620a944-ddb6-4ba5-9da2-805a109e00dc
 		summarizeBy: none
 		sourceColumn: IsCompleteSeason
 
@@ -60,7 +57,7 @@ table seasonal_summary
 	column ExposureDays
 		dataType: int64
 		formatString: 0
-		lineageTag: 6e6f16b7-1f6d-44bb-91d8-0d3d279e6c7a
+		lineageTag: 3478c737-fbfa-441d-81a9-f3a571e8fcd0
 		summarizeBy: sum
 		sourceColumn: ExposureDays
 
@@ -68,7 +65,7 @@ table seasonal_summary
 
 	column WindowSource
 		dataType: string
-		lineageTag: 33b050c6-402a-41b1-b3ec-2ce2a2adf1df
+		lineageTag: 3b41c543-ae88-4d72-bc39-b87f256c6da0
 		summarizeBy: none
 		sourceColumn: WindowSource
 
@@ -77,16 +74,16 @@ table seasonal_summary
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 829dc7da-c026-4a22-ac38-eb74a4d309da
-		summarizeBy: none
+		lineageTag: 06a6679d-9814-4349-a7d9-73ae3c0a7289
+		summarizeBy: sum
 		sourceColumn: PermitCount
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
 
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: f89e1174-50d9-4788-97bc-226b8810b037
+		lineageTag: 13195490-f390-43f2-8aae-1018e76bf6d4
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -95,7 +92,7 @@ table seasonal_summary
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: af06b3af-31da-4ba2-93e8-cd838caa4e9a
+		lineageTag: 159ff069-79f1-42ab-b431-3c7f854c0948
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -104,7 +101,7 @@ table seasonal_summary
 	column TotalCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 15869bbf-11e8-4c37-ac30-23ba838e8207
+		lineageTag: 1d4fff97-be3c-4ed1-93b7-19efb07ec4bd
 		summarizeBy: sum
 		sourceColumn: TotalCount
 
@@ -113,7 +110,7 @@ table seasonal_summary
 	column ValidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 27e58db9-c522-45b1-8442-66d6123b92c3
+		lineageTag: 584a5df7-a369-465f-b5e6-5ca5f3b1fcca
 		summarizeBy: sum
 		sourceColumn: ValidCount
 
@@ -122,7 +119,7 @@ table seasonal_summary
 	column InvalidCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 5bc26761-f875-49f5-b687-22f5fd0b5290
+		lineageTag: 248e6dc2-9597-4c3c-886b-923175738abb
 		summarizeBy: sum
 		sourceColumn: InvalidCount
 
@@ -131,7 +128,7 @@ table seasonal_summary
 	column PendingCount
 		dataType: int64
 		formatString: 0
-		lineageTag: ba9fb770-3b3e-457f-92ea-4cbccaee7c81
+		lineageTag: e6846b5f-10ed-4ed6-9a8a-a0ac17d6b3db
 		summarizeBy: sum
 		sourceColumn: PendingCount
 
@@ -140,7 +137,7 @@ table seasonal_summary
 	column RightCensoredCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 36807d0e-f307-4628-88a5-573ca2ac6d07
+		lineageTag: 51364220-236e-4129-8852-46154630ce32
 		summarizeBy: sum
 		sourceColumn: RightCensoredCount
 
@@ -148,7 +145,7 @@ table seasonal_summary
 
 	column ValidShare
 		dataType: double
-		lineageTag: 38f65f46-00c8-487e-b2e1-fc5a32fd517d
+		lineageTag: 1eb10cdf-3738-464a-b204-1e8b6d0ef221
 		summarizeBy: sum
 		sourceColumn: ValidShare
 
@@ -159,7 +156,7 @@ table seasonal_summary
 	column NegativeCount
 		dataType: int64
 		formatString: 0
-		lineageTag: ac24ff99-568e-41d8-b39e-6244e723edf7
+		lineageTag: f67ac5aa-d89e-4be7-bdea-822c4392400a
 		summarizeBy: sum
 		sourceColumn: NegativeCount
 
@@ -168,7 +165,7 @@ table seasonal_summary
 	column MissingDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 75c4e4a9-ee15-4a01-bad3-4277082f692c
+		lineageTag: 8fe74ec3-1dc3-4ec1-be5d-5556f0824229
 		summarizeBy: sum
 		sourceColumn: MissingDateCount
 
@@ -177,7 +174,7 @@ table seasonal_summary
 	column InvalidDateCount
 		dataType: int64
 		formatString: 0
-		lineageTag: cb183510-4b91-440b-9c31-1a1aa8ea5d70
+		lineageTag: aaf9bc67-747b-4df7-a2d5-0c129ce4ec41
 		summarizeBy: sum
 		sourceColumn: InvalidDateCount
 
@@ -186,7 +183,7 @@ table seasonal_summary
 	column AfterObservationEndCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 66bc3bcb-2d02-4a34-8156-6a1ac6c5af40
+		lineageTag: 77e45cd8-f3df-4219-80c0-d550750d2cd6
 		summarizeBy: sum
 		sourceColumn: AfterObservationEndCount
 
@@ -194,7 +191,7 @@ table seasonal_summary
 
 	column MedianProcessingDays
 		dataType: double
-		lineageTag: c61c83bb-9ebf-44f7-a93b-e289f6473598
+		lineageTag: 95523308-597e-42fb-8294-79d04a1987a9
 		summarizeBy: sum
 		sourceColumn: MedianProcessingDays
 
@@ -204,7 +201,7 @@ table seasonal_summary
 
 	column MeanProcessingDays
 		dataType: double
-		lineageTag: 1ab887ce-7af3-41e7-95a8-b15243136e39
+		lineageTag: 8f2343a7-52d8-4843-b986-cc69d052e3aa
 		summarizeBy: sum
 		sourceColumn: MeanProcessingDays
 
@@ -213,17 +210,18 @@ table seasonal_summary
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Q1ProcessingDays
-		dataType: int64
-		formatString: 0
-		lineageTag: 2fdcd03d-8b4b-4deb-b91b-c828cb02e098
+		dataType: double
+		lineageTag: 128b73fc-d77e-4fe2-ae54-4504f11fcca5
 		summarizeBy: sum
 		sourceColumn: Q1ProcessingDays
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Q3ProcessingDays
 		dataType: double
-		lineageTag: 41671449-07e5-421d-be32-3da281e3c93d
+		lineageTag: b775343c-effd-4626-9eb8-fb562cbfee40
 		summarizeBy: sum
 		sourceColumn: Q3ProcessingDays
 
@@ -233,7 +231,7 @@ table seasonal_summary
 
 	column IQRProcessingDays
 		dataType: double
-		lineageTag: d4b67d31-e401-45ef-ba1c-2e07ce4b5d4c
+		lineageTag: d84b4fc5-64d2-4a7c-bff9-d2f46133008a
 		summarizeBy: sum
 		sourceColumn: IQRProcessingDays
 
@@ -243,7 +241,7 @@ table seasonal_summary
 
 	column DP_Rate30
 		dataType: double
-		lineageTag: 144125ec-d09e-44b7-a58b-1ed44e016468
+		lineageTag: ace673a2-b19c-4fe2-b506-8150375d8ccc
 		summarizeBy: sum
 		sourceColumn: DP_Rate30
 
@@ -251,32 +249,14 @@ table seasonal_summary
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'Season Year' = YEAR(seasonal_summary[SeasonEndDate])
-		formatString: 0
-		lineageTag: 3682829f-5267-47f2-9d1f-7999bc20e74a
-		summarizeBy: sum
-
-		annotation SummarizationSetBy = Automatic
-
-	column 'Season Month' = MONTH(seasonal_summary[SeasonEndDate])
-		formatString: 0
-		lineageTag: c1e6a9db-e60a-4ad4-a81a-8382a8cdf354
-		summarizeBy: sum
-
-		annotation SummarizationSetBy = Automatic
-
 	partition seasonal_summary = m
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    seasonal_summary_Sheet = Source{[Item="seasonal_summary",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(seasonal_summary_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"IsCompleteSeason", type logical}, {"ExposureDays", Int64.Type}, {"WindowSource", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", type number}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", Int64.Type}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}, {"DP_Rate30", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "seasonal_summary", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"IsCompleteSeason", type logical}, {"ExposureDays", Int64.Type}, {"WindowSource", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"TotalCount", Int64.Type}, {"ValidCount", Int64.Type}, {"InvalidCount", Int64.Type}, {"PendingCount", Int64.Type}, {"RightCensoredCount", Int64.Type}, {"ValidShare", type number}, {"NegativeCount", Int64.Type}, {"MissingDateCount", Int64.Type}, {"InvalidDateCount", Int64.Type}, {"AfterObservationEndCount", Int64.Type}, {"MedianProcessingDays", type number}, {"MeanProcessingDays", type number}, {"Q1ProcessingDays", type number}, {"Q3ProcessingDays", type number}, {"IQRProcessingDays", type number}, {"DP_Rate30", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Exception
-
-	annotation PBI_NavigationStepName = Navigation
+				  #"Changed column type"
 

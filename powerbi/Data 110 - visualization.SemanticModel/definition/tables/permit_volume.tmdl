@@ -1,9 +1,9 @@
 table permit_volume
-	lineageTag: ab41cb70-5b10-4aaa-9b83-b3c30e4baa40
+	lineageTag: 0763faaf-5f84-4e90-b348-a27bdeed034c
 
 	column Period
 		dataType: string
-		lineageTag: 01783540-d94b-4261-a4f2-9dbc1e415ae9
+		lineageTag: e6253a19-795f-4d37-910c-18d102dccfbd
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,7 +12,7 @@ table permit_volume
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: a5e3b4a5-f391-4d75-8248-4d03edfbaa8a
+		lineageTag: c3c5598c-2fd1-48e4-8fa3-1385322c30d8
 		summarizeBy: sum
 		sourceColumn: PermitCount
 
@@ -21,7 +21,7 @@ table permit_volume
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 90940fe6-3b45-44d3-986f-443a88f7408d
+		lineageTag: 58157867-0aca-4839-9dd4-14c166e822ea
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -30,7 +30,7 @@ table permit_volume
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 83240921-c07e-41a9-8d96-39697f840b09
+		lineageTag: c6a4892e-375c-4010-baa7-33777809ae95
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -38,7 +38,7 @@ table permit_volume
 
 	column ResidentialShare
 		dataType: double
-		lineageTag: 1bb8cc16-ad80-4ee6-81be-3fc031dcef19
+		lineageTag: 450a3500-e1ff-4f6c-a5ab-de4502daae0d
 		summarizeBy: sum
 		sourceColumn: ResidentialShare
 
@@ -49,7 +49,7 @@ table permit_volume
 	column MonthCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 743a715a-54f6-488e-aa9c-c03a342fc66b
+		lineageTag: e6593bd7-9508-43d2-be73-9d378a49ec6d
 		summarizeBy: sum
 		sourceColumn: MonthCount
 
@@ -57,7 +57,7 @@ table permit_volume
 
 	column MeanMonthlyCount
 		dataType: double
-		lineageTag: f9dd5538-929e-4e60-ac68-efde2fc01d4b
+		lineageTag: 8c8dd947-57cf-4dec-990d-80493f035c44
 		summarizeBy: sum
 		sourceColumn: MeanMonthlyCount
 
@@ -67,7 +67,7 @@ table permit_volume
 
 	column MedianMonthlyCount
 		dataType: double
-		lineageTag: bdb067a0-a9a7-46f6-a4e5-4050c2f003eb
+		lineageTag: 115481f9-8c4a-4a1b-b606-d9a64f946c9d
 		summarizeBy: sum
 		sourceColumn: MedianMonthlyCount
 
@@ -78,7 +78,7 @@ table permit_volume
 	column ExposureDays
 		dataType: int64
 		formatString: 0
-		lineageTag: a893c054-801c-4fce-99c1-ac034df85478
+		lineageTag: 8db11299-5fe0-4c4b-8f35-2bd683d1d763
 		summarizeBy: sum
 		sourceColumn: ExposureDays
 
@@ -87,34 +87,34 @@ table permit_volume
 	column WindowStart
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 8339cc6d-7b65-4625-a933-de2e2c6b937c
+		lineageTag: f9cc9c3e-84b3-451a-84d4-29ae72d98f8e
 		summarizeBy: none
 		sourceColumn: WindowStart
 
 		variation Variation
 			isDefault
-			relationship: 04245477-9213-4025-a21b-faa9e8e51c42
-			defaultHierarchy: LocalDateTable_b847fc60-f818-4cdb-a0b6-aaa12fd1825b.'Date Hierarchy'
+			relationship: 2a364cf6-40d6-48cf-abf8-3b05b32d3ce4
+			defaultHierarchy: LocalDateTable_2f62f10e-6587-4ef1-84af-34ad544a7f96.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column WindowEnd
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 02430d0a-35a8-4e2a-9143-460f7d9b781a
+		lineageTag: 67a352a9-6bda-44af-aa5c-35e498f0ac35
 		summarizeBy: none
 		sourceColumn: WindowEnd
 
 		variation Variation
 			isDefault
-			relationship: 31ff9f94-d7bb-4d74-b4d3-a4725f79e6c6
-			defaultHierarchy: LocalDateTable_7db7b01e-4773-409d-8c33-99a5353d156a.'Date Hierarchy'
+			relationship: b5d33a96-a45f-48b9-9cf0-ee338f92d499
+			defaultHierarchy: LocalDateTable_b9245e03-0bce-40a4-8cef-015452c053f0.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column WindowSource
 		dataType: string
-		lineageTag: 99b823ec-2f8b-4d86-bfe4-cb3179256c8c
+		lineageTag: 5c42cf16-67d9-4a6f-9fe0-8632a0af35c1
 		summarizeBy: none
 		sourceColumn: WindowSource
 
@@ -122,7 +122,7 @@ table permit_volume
 
 	column BaselinePeriod
 		dataType: string
-		lineageTag: ed678078-325a-4b13-968b-bf6a87acdd6c
+		lineageTag: 4c60eee6-3788-4afc-aa60-1181447f904b
 		summarizeBy: none
 		sourceColumn: BaselinePeriod
 
@@ -131,7 +131,7 @@ table permit_volume
 	column AbsoluteChange
 		dataType: int64
 		formatString: 0
-		lineageTag: c72365e1-00d3-47bf-8ac5-9ca361dd6216
+		lineageTag: 8c9ef73d-4797-4957-becc-085cccc530e0
 		summarizeBy: sum
 		sourceColumn: AbsoluteChange
 
@@ -139,7 +139,7 @@ table permit_volume
 
 	column PercentChange
 		dataType: double
-		lineageTag: 38173f4f-bfba-4755-b9e0-d552f8dd315e
+		lineageTag: 93edc5cb-2ede-4e90-810d-177741afb1b5
 		summarizeBy: sum
 		sourceColumn: PercentChange
 
@@ -149,7 +149,7 @@ table permit_volume
 
 	column DP_Rate30
 		dataType: double
-		lineageTag: 045e6840-a6eb-431e-9578-c19b45dbb863
+		lineageTag: 3c0254bd-6b77-49f6-9a01-55623b6fe5d3
 		summarizeBy: sum
 		sourceColumn: DP_Rate30
 
@@ -161,12 +161,10 @@ table permit_volume
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    permit_volume_Sheet = Source{[Item="permit_volume",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(permit_volume_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"MonthCount", Int64.Type}, {"MeanMonthlyCount", type number}, {"MedianMonthlyCount", type number}, {"ExposureDays", Int64.Type}, {"WindowStart", type datetime}, {"WindowEnd", type datetime}, {"WindowSource", type text}, {"BaselinePeriod", type text}, {"AbsoluteChange", Int64.Type}, {"PercentChange", type number}, {"DP_Rate30", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "permit_volume", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"MonthCount", Int64.Type}, {"MeanMonthlyCount", type number}, {"MedianMonthlyCount", type number}, {"ExposureDays", Int64.Type}, {"WindowStart", type datetime}, {"WindowEnd", type datetime}, {"WindowSource", type text}, {"BaselinePeriod", type text}, {"AbsoluteChange", Int64.Type}, {"PercentChange", type number}, {"DP_Rate30", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

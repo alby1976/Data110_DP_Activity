@@ -1,9 +1,9 @@
 table rezoning_by_district
-	lineageTag: d052b558-0d1a-4f14-b0ef-f453e41cc219
+	lineageTag: 175d1e84-ebea-46e4-91e2-76afadfb262d
 
 	column Period
 		dataType: string
-		lineageTag: 2f9ba857-a4e7-4b75-b1f7-8cc8ff3ce9be
+		lineageTag: 306c273e-f3e5-4e64-ade3-7f9483bab4ec
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -11,7 +11,7 @@ table rezoning_by_district
 
 	column land_use_district
 		dataType: string
-		lineageTag: 01195561-1899-413e-8f3b-ca651c80cd4e
+		lineageTag: b0d30968-a6f5-4406-b2ee-fe222355a205
 		summarizeBy: none
 		sourceColumn: land_use_district
 
@@ -20,7 +20,7 @@ table rezoning_by_district
 	column GroupResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 849b0e02-f96f-4523-926c-cc0fc301a71e
+		lineageTag: 0e925e52-b390-479f-85fc-34f27a65bd9c
 		summarizeBy: sum
 		sourceColumn: GroupResidentialCount
 
@@ -29,7 +29,7 @@ table rezoning_by_district
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 12356f0b-5823-4d1d-9858-12d01f37d4bc
+		lineageTag: 4c4f09a6-bb9f-4cbb-bd04-96621b122d34
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -38,7 +38,7 @@ table rezoning_by_district
 	column RezoningRelevantCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 47613477-9697-43dd-aa40-918e42913898
+		lineageTag: 589a7b92-ac03-45cc-ab14-853867b7f073
 		summarizeBy: sum
 		sourceColumn: RezoningRelevantCount
 
@@ -47,7 +47,7 @@ table rezoning_by_district
 	column NotRezoningRelevantCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 2b73bfd2-aede-4e40-a0ea-738b6a3b2eca
+		lineageTag: d1b6d3bb-fa3d-4d19-8907-1136401fbd0c
 		summarizeBy: sum
 		sourceColumn: NotRezoningRelevantCount
 
@@ -56,7 +56,7 @@ table rezoning_by_district
 	column UnknownRelevanceCount
 		dataType: int64
 		formatString: 0
-		lineageTag: b049e5c9-c3b4-4b75-a500-217f3731265d
+		lineageTag: e2d920a4-c1e3-4c85-a23d-e7676fd47328
 		summarizeBy: sum
 		sourceColumn: UnknownRelevanceCount
 
@@ -64,7 +64,7 @@ table rezoning_by_district
 
 	column RezoningRelevantShare
 		dataType: double
-		lineageTag: 9a22d665-20d0-4c7b-bdf6-75a1b2cd3bda
+		lineageTag: c1ee4473-729c-4fa0-899d-24b0e507ecc3
 		summarizeBy: sum
 		sourceColumn: RezoningRelevantShare
 
@@ -74,7 +74,7 @@ table rezoning_by_district
 
 	column NotRezoningRelevantShare
 		dataType: double
-		lineageTag: 4611dd70-6e23-4f52-9f08-97714792b74d
+		lineageTag: 9cb4e200-8908-4501-bfef-6eeb8644dbf7
 		summarizeBy: sum
 		sourceColumn: NotRezoningRelevantShare
 
@@ -85,7 +85,7 @@ table rezoning_by_district
 	column UnknownRelevanceShare
 		dataType: int64
 		formatString: 0
-		lineageTag: daba3189-ce35-42b4-bf30-c01e57d63151
+		lineageTag: 3ec5f63d-71ba-4598-8ee2-254ccf86bfa6
 		summarizeBy: sum
 		sourceColumn: UnknownRelevanceShare
 
@@ -94,7 +94,7 @@ table rezoning_by_district
 	column ReviewCount
 		dataType: int64
 		formatString: 0
-		lineageTag: df72d9d6-cb06-4aeb-9257-3ab215f3726c
+		lineageTag: 989db584-0115-4041-838b-6f39469b51fb
 		summarizeBy: sum
 		sourceColumn: ReviewCount
 
@@ -104,14 +104,10 @@ table rezoning_by_district
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    rezoning_by_district_Sheet = Source{[Item="rezoning_by_district",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(rezoning_by_district_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"land_use_district", type text}, {"GroupResidentialCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"RezoningRelevantCount", Int64.Type}, {"NotRezoningRelevantCount", Int64.Type}, {"UnknownRelevanceCount", Int64.Type}, {"RezoningRelevantShare", type number}, {"NotRezoningRelevantShare", type number}, {"UnknownRelevanceShare", Int64.Type}, {"ReviewCount", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "rezoning_by_district", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"land_use_district", type text}, {"GroupResidentialCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"RezoningRelevantCount", Int64.Type}, {"NotRezoningRelevantCount", Int64.Type}, {"UnknownRelevanceCount", Int64.Type}, {"RezoningRelevantShare", type number}, {"NotRezoningRelevantShare", type number}, {"UnknownRelevanceShare", Int64.Type}, {"ReviewCount", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_NavigationStepName = Navigation
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

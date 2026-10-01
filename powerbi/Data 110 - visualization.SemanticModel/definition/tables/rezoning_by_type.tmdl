@@ -1,9 +1,9 @@
 table rezoning_by_type
-	lineageTag: 836510db-097b-4967-856c-ec8ce323dc1e
+	lineageTag: 472b4b96-6bc6-40c6-94d0-ac8c47b320f6
 
 	column Period
 		dataType: string
-		lineageTag: 5dc76c0f-35e8-4b2d-8a2e-c38b333bf30b
+		lineageTag: a72eabc5-0efc-40a4-8bc8-97a3c7044b21
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -11,7 +11,7 @@ table rezoning_by_type
 
 	column ResidentialType
 		dataType: string
-		lineageTag: 52e7f445-6874-4f71-9c23-7745e1bf98c9
+		lineageTag: 907f2e43-8463-4a28-bd49-400717c67e16
 		summarizeBy: none
 		sourceColumn: ResidentialType
 
@@ -20,7 +20,7 @@ table rezoning_by_type
 	column GroupResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: fd369549-c90b-409d-a788-449d6942fd6a
+		lineageTag: 08d24bfc-7650-4921-bd86-4fcd8fb0a504
 		summarizeBy: sum
 		sourceColumn: GroupResidentialCount
 
@@ -29,7 +29,7 @@ table rezoning_by_type
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 0b0b9d1e-0f5c-4aed-862c-9e30958faa55
+		lineageTag: ebaafac1-7dac-4ce5-bd53-d2e802a1a311
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -38,7 +38,7 @@ table rezoning_by_type
 	column RezoningRelevantCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 9805a2bd-f508-4499-957e-9751e2a6fee8
+		lineageTag: 04866d30-b7cc-4047-adcd-fe6f081c06ad
 		summarizeBy: sum
 		sourceColumn: RezoningRelevantCount
 
@@ -47,7 +47,7 @@ table rezoning_by_type
 	column NotRezoningRelevantCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 3a0cd32d-f169-41c4-8a0e-990a254c0b31
+		lineageTag: a4bed954-238f-4a6e-a3d9-f1de72461257
 		summarizeBy: sum
 		sourceColumn: NotRezoningRelevantCount
 
@@ -56,7 +56,7 @@ table rezoning_by_type
 	column UnknownRelevanceCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 44e831ed-6c91-4ef3-96cf-1fef8224734c
+		lineageTag: 973fcaf1-1a89-4952-ada3-5b49e73c8043
 		summarizeBy: sum
 		sourceColumn: UnknownRelevanceCount
 
@@ -64,7 +64,7 @@ table rezoning_by_type
 
 	column RezoningRelevantShare
 		dataType: double
-		lineageTag: c31610ca-e56a-4dd9-8223-571928848b17
+		lineageTag: f3181446-2bda-4f92-8315-595cfb28fa7e
 		summarizeBy: sum
 		sourceColumn: RezoningRelevantShare
 
@@ -74,7 +74,7 @@ table rezoning_by_type
 
 	column NotRezoningRelevantShare
 		dataType: double
-		lineageTag: f1feab71-0240-4ee1-a7b8-b1222fd5f778
+		lineageTag: 78ab0afc-3e2f-4738-9758-4a8464713396
 		summarizeBy: sum
 		sourceColumn: NotRezoningRelevantShare
 
@@ -85,7 +85,7 @@ table rezoning_by_type
 	column UnknownRelevanceShare
 		dataType: int64
 		formatString: 0
-		lineageTag: f4039415-ecce-4d70-9aca-ad48a2468c03
+		lineageTag: a9ffaa00-dcd2-41ab-87e0-8cd725f1c76a
 		summarizeBy: sum
 		sourceColumn: UnknownRelevanceShare
 
@@ -94,7 +94,7 @@ table rezoning_by_type
 	column ReviewCount
 		dataType: int64
 		formatString: 0
-		lineageTag: ffe300e2-d71e-404c-8ae6-aa7669f2d5bc
+		lineageTag: 37cbc011-2c14-47a2-9896-21fdee5c7d5b
 		summarizeBy: sum
 		sourceColumn: ReviewCount
 
@@ -104,12 +104,10 @@ table rezoning_by_type
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    rezoning_by_type_Sheet = Source{[Item="rezoning_by_type",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(rezoning_by_type_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"ResidentialType", type text}, {"GroupResidentialCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"RezoningRelevantCount", Int64.Type}, {"NotRezoningRelevantCount", Int64.Type}, {"UnknownRelevanceCount", Int64.Type}, {"RezoningRelevantShare", type number}, {"NotRezoningRelevantShare", type number}, {"UnknownRelevanceShare", Int64.Type}, {"ReviewCount", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "rezoning_by_type", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"ResidentialType", type text}, {"GroupResidentialCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"RezoningRelevantCount", Int64.Type}, {"NotRezoningRelevantCount", Int64.Type}, {"UnknownRelevanceCount", Int64.Type}, {"RezoningRelevantShare", type number}, {"NotRezoningRelevantShare", type number}, {"UnknownRelevanceShare", Int64.Type}, {"ReviewCount", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

@@ -1,9 +1,9 @@
 table seasonal_monthly_volume
-	lineageTag: 9068b4c3-0bc7-4fb5-a599-11ef15f6c07c
+	lineageTag: fc5ae154-6d63-47ed-a405-c0c30de0e64c
 
 	column Period
 		dataType: string
-		lineageTag: c0b19e72-6363-4e7a-a0ea-b1c9cf0309d6
+		lineageTag: 847dda79-04b2-4d29-b83b-3db2b7ab2b3c
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,21 +12,21 @@ table seasonal_monthly_volume
 	column YearMonth
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 72672fb9-cef2-4721-9863-3e3805382aa6
+		lineageTag: 471709c9-477c-4892-95af-ec49f1ebec5e
 		summarizeBy: none
 		sourceColumn: YearMonth
 
 		variation Variation
 			isDefault
-			relationship: 4ae62297-f646-4886-8d89-9be1dae5db18
-			defaultHierarchy: LocalDateTable_8153b07a-983a-4fb5-9640-5ad6751ed0db.'Date Hierarchy'
+			relationship: e3815dd1-0aa5-443d-9ea8-6e0da1c09d53
+			defaultHierarchy: LocalDateTable_86df7c65-5ad1-4b0a-9e69-179a548c435d.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 4f8e5515-9942-4885-96cf-d84932e0cb90
+		lineageTag: 0389123e-9d91-4209-b23c-924408e83cba
 		summarizeBy: sum
 		sourceColumn: PermitCount
 
@@ -35,7 +35,7 @@ table seasonal_monthly_volume
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: cf2cfed4-50f0-4c7d-9413-53b8073e6a3f
+		lineageTag: 0b256201-63d4-4e81-8796-9ea05eb460fa
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -44,7 +44,7 @@ table seasonal_monthly_volume
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: af54af50-5122-4ad2-9dc8-de81a4095ec5
+		lineageTag: e49caa2f-0bc8-443f-9944-0c7eae5b763e
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -52,7 +52,7 @@ table seasonal_monthly_volume
 
 	column ResidentialShare
 		dataType: double
-		lineageTag: b3a85b0a-4fd6-4616-a9d6-be891e1f5bdd
+		lineageTag: cdd89fa7-a39b-4675-a3dc-93fa9dd4ede4
 		summarizeBy: sum
 		sourceColumn: ResidentialShare
 
@@ -63,7 +63,7 @@ table seasonal_monthly_volume
 	column ExposureDays
 		dataType: int64
 		formatString: 0
-		lineageTag: cdc93152-827e-4639-9e85-bef940d81815
+		lineageTag: ddeeb25a-ede0-4fbc-a813-d0c65b64d458
 		summarizeBy: sum
 		sourceColumn: ExposureDays
 
@@ -72,7 +72,7 @@ table seasonal_monthly_volume
 	column IsPartialMonth
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 02437175-0a18-4950-bac8-1856907dd0a8
+		lineageTag: c9d95105-eb4d-4e19-b3f1-bde31c45aa93
 		summarizeBy: none
 		sourceColumn: IsPartialMonth
 
@@ -80,7 +80,7 @@ table seasonal_monthly_volume
 
 	column WindowSource
 		dataType: string
-		lineageTag: bb80f2ae-0762-4e9b-9ec3-df4379f6bf67
+		lineageTag: e810f86d-edd9-4a82-8816-17383c8acab8
 		summarizeBy: none
 		sourceColumn: WindowSource
 
@@ -88,7 +88,7 @@ table seasonal_monthly_volume
 
 	column DP_Rate30
 		dataType: double
-		lineageTag: 7e92429a-28e7-4593-b7cf-6e0740bcaf8b
+		lineageTag: e97a038a-7057-4b82-9d76-4eb5bcbd5f31
 		summarizeBy: sum
 		sourceColumn: DP_Rate30
 
@@ -100,12 +100,10 @@ table seasonal_monthly_volume
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    seasonal_monthly_volume_Sheet = Source{[Item="seasonal_monthly_volume",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(seasonal_monthly_volume_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"YearMonth", type datetime}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"ExposureDays", Int64.Type}, {"IsPartialMonth", type logical}, {"WindowSource", type text}, {"DP_Rate30", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "seasonal_monthly_volume", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"YearMonth", type datetime}, {"PermitCount", Int64.Type}, {"AllPermitCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"ResidentialShare", type number}, {"ExposureDays", Int64.Type}, {"IsPartialMonth", type logical}, {"WindowSource", type text}, {"DP_Rate30", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

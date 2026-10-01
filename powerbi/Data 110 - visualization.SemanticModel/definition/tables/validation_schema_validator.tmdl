@@ -1,9 +1,9 @@
 table validation_schema_validator
-	lineageTag: 60276b5d-9910-4728-a196-0ba36d05617e
+	lineageTag: 65711379-37ed-420b-ad69-e6006ff7f0dd
 
 	column Column1
 		dataType: string
-		lineageTag: d5e854bd-eb18-4be8-b79b-27f9ce3f704a
+		lineageTag: af2aba69-19ef-41af-b051-61fc8961a057
 		summarizeBy: none
 		sourceColumn: Column1
 
@@ -11,7 +11,7 @@ table validation_schema_validator
 
 	column Column2
 		dataType: string
-		lineageTag: c145a7de-39b4-45ae-9689-92be6c7db7d8
+		lineageTag: ce3a4f6d-da91-4f8d-a322-35e12abf1e54
 		summarizeBy: none
 		sourceColumn: Column2
 
@@ -19,7 +19,7 @@ table validation_schema_validator
 
 	column Column3
 		dataType: string
-		lineageTag: 7505549a-5146-4fdc-a0f4-28bdceb449ba
+		lineageTag: c2d3e9b6-ce0d-4f44-92b0-834e340d0985
 		summarizeBy: none
 		sourceColumn: Column3
 
@@ -29,11 +29,9 @@ table validation_schema_validator
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    validation_schema_validator_Sheet = Source{[Item="validation_schema_validator",Kind="Sheet"]}[Data],
-				    #"Changed Type" = Table.TransformColumnTypes(validation_schema_validator_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "validation_schema_validator", Kind = "Sheet"]}[Data],
+				  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"Column1", type text}, {"Column2", type text}, {"Column3", type text}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

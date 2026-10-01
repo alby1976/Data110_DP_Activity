@@ -1,9 +1,9 @@
 table calendar_month_summary
-	lineageTag: 4768750d-054d-440e-9c0f-e19609a7250a
+	lineageTag: 1e8fa08c-a9d1-4585-9fdd-8ec5c4545bba
 
 	column Period
 		dataType: string
-		lineageTag: f8758881-37c0-4b66-9f53-97e40261d56b
+		lineageTag: 713b8fca-e426-491f-a955-886df49dc640
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,7 +12,7 @@ table calendar_month_summary
 	column CalendarMonth
 		dataType: int64
 		formatString: 0
-		lineageTag: d3b113a8-8557-4983-81c0-95c98ea7249a
+		lineageTag: 05dfd794-67dd-425c-aed5-e511302d249e
 		summarizeBy: sum
 		sourceColumn: CalendarMonth
 
@@ -21,7 +21,7 @@ table calendar_month_summary
 	column PermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: e115a02a-9390-4b64-9474-338a881d5238
+		lineageTag: c36e039a-0efc-4f56-bca7-6c2a8f239d19
 		summarizeBy: sum
 		sourceColumn: PermitCount
 
@@ -30,7 +30,7 @@ table calendar_month_summary
 	column MonthCount
 		dataType: int64
 		formatString: 0
-		lineageTag: aa9777b8-d4c4-4925-a7fc-7c5938d13543
+		lineageTag: 605506e5-b5ac-467f-9643-d465543ea9b6
 		summarizeBy: sum
 		sourceColumn: MonthCount
 
@@ -39,7 +39,7 @@ table calendar_month_summary
 	column ExposureDays
 		dataType: int64
 		formatString: 0
-		lineageTag: c38c4866-d52d-4723-8054-ac2eb02f3fd4
+		lineageTag: 19398511-7209-41dc-b43e-09d784eb3dd9
 		summarizeBy: sum
 		sourceColumn: ExposureDays
 
@@ -47,7 +47,7 @@ table calendar_month_summary
 
 	column DP_Rate30
 		dataType: double
-		lineageTag: 368c4aa1-19a0-427a-8118-1a9875d0fc21
+		lineageTag: c0f437d1-353b-4508-8992-50c8928cd69e
 		summarizeBy: sum
 		sourceColumn: DP_Rate30
 
@@ -58,7 +58,7 @@ table calendar_month_summary
 	column CompleteMonthCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 12d8a16e-c55c-4b13-8fe9-bd736bdb01fb
+		lineageTag: a71a4b76-940e-48ff-96f0-35aa16befef8
 		summarizeBy: sum
 		sourceColumn: CompleteMonthCount
 
@@ -67,7 +67,7 @@ table calendar_month_summary
 	column PartialMonthCount
 		dataType: int64
 		formatString: 0
-		lineageTag: f508c705-11db-4209-b3da-d70e26ba734b
+		lineageTag: 3c141af5-7427-4500-8201-59bb23af1b4a
 		summarizeBy: sum
 		sourceColumn: PartialMonthCount
 
@@ -76,7 +76,7 @@ table calendar_month_summary
 	column UnknownMonthCount
 		dataType: int64
 		formatString: 0
-		lineageTag: afbc6a16-e76a-4615-849f-a38491f07911
+		lineageTag: 76499996-bae1-4047-99a7-6aa067900330
 		summarizeBy: sum
 		sourceColumn: UnknownMonthCount
 
@@ -85,7 +85,7 @@ table calendar_month_summary
 	column CompleteMonthPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 00258b55-19c3-46df-b086-74465108e8f7
+		lineageTag: adc0fa19-cf71-4d3b-82c3-69ea0f0a25be
 		summarizeBy: sum
 		sourceColumn: CompleteMonthPermitCount
 
@@ -93,7 +93,7 @@ table calendar_month_summary
 
 	column MeanCompleteMonthlyCount
 		dataType: double
-		lineageTag: 08fea36d-3e38-4fba-a49a-85d5de08b798
+		lineageTag: 34d84752-1e12-4a08-983d-2570a2c54ab1
 		summarizeBy: sum
 		sourceColumn: MeanCompleteMonthlyCount
 
@@ -105,12 +105,10 @@ table calendar_month_summary
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    calendar_month_summary_Sheet = Source{[Item="calendar_month_summary",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(calendar_month_summary_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"CalendarMonth", Int64.Type}, {"PermitCount", Int64.Type}, {"MonthCount", Int64.Type}, {"ExposureDays", Int64.Type}, {"DP_Rate30", type number}, {"CompleteMonthCount", Int64.Type}, {"PartialMonthCount", Int64.Type}, {"UnknownMonthCount", Int64.Type}, {"CompleteMonthPermitCount", Int64.Type}, {"MeanCompleteMonthlyCount", type number}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "calendar_month_summary", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"CalendarMonth", Int64.Type}, {"PermitCount", Int64.Type}, {"MonthCount", Int64.Type}, {"ExposureDays", Int64.Type}, {"DP_Rate30", type number}, {"CompleteMonthCount", Int64.Type}, {"PartialMonthCount", Int64.Type}, {"UnknownMonthCount", Int64.Type}, {"CompleteMonthPermitCount", Int64.Type}, {"MeanCompleteMonthlyCount", type number}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

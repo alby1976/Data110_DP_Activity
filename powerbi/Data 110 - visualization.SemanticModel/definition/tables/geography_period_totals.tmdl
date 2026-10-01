@@ -1,9 +1,9 @@
 table geography_period_totals
-	lineageTag: f05704e3-427c-4551-8faa-77f2f77931d6
+	lineageTag: 566395a7-4c7f-4a46-bba8-0999ffb36c85
 
 	column Period
 		dataType: string
-		lineageTag: 336a7d87-0c0d-4833-b311-bc080bbfe337
+		lineageTag: 681d3d08-1465-4b22-85f2-3ea20f1b00cc
 		summarizeBy: none
 		sourceColumn: Period
 
@@ -12,7 +12,7 @@ table geography_period_totals
 	column AllPermitCount
 		dataType: int64
 		formatString: 0
-		lineageTag: d6458b34-c2ee-44e4-8097-029747d54040
+		lineageTag: 7d9ceea5-5e27-4e7b-add5-6479ff87e64b
 		summarizeBy: sum
 		sourceColumn: AllPermitCount
 
@@ -21,7 +21,7 @@ table geography_period_totals
 	column PeriodResidentialCount
 		dataType: int64
 		formatString: 0
-		lineageTag: f1a24f02-9a8d-443a-9365-a4de1aeae726
+		lineageTag: 3d04c4b5-e21e-4591-840d-740eccafaec1
 		summarizeBy: sum
 		sourceColumn: PeriodResidentialCount
 
@@ -30,7 +30,7 @@ table geography_period_totals
 	column ExcludedCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 99b24046-4ba5-4da4-94d2-1625675c4b4b
+		lineageTag: a9bbfbb2-23ba-482e-9f7c-c78888cc7d30
 		summarizeBy: sum
 		sourceColumn: ExcludedCount
 
@@ -39,7 +39,7 @@ table geography_period_totals
 	column MissingCommunityCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 89c61c76-07a7-44c2-b94e-60fc462bbf9c
+		lineageTag: 60b12361-deab-4940-b112-9e4518d508ea
 		summarizeBy: sum
 		sourceColumn: MissingCommunityCount
 
@@ -48,7 +48,7 @@ table geography_period_totals
 	column MissingWardCount
 		dataType: int64
 		formatString: 0
-		lineageTag: 38f45830-2839-45d7-9bda-2a867ec827e6
+		lineageTag: 51b1ca0d-4ea9-47d0-9340-ecd117fb10cd
 		summarizeBy: sum
 		sourceColumn: MissingWardCount
 
@@ -58,12 +58,10 @@ table geography_period_totals
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    geography_period_totals_Sheet = Source{[Item="geography_period_totals",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(geography_period_totals_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"MissingCommunityCount", Int64.Type}, {"MissingWardCount", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "geography_period_totals", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Period", type text}, {"AllPermitCount", Int64.Type}, {"PeriodResidentialCount", Int64.Type}, {"ExcludedCount", Int64.Type}, {"MissingCommunityCount", Int64.Type}, {"MissingWardCount", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
-
-	annotation PBI_ResultType = Table
+				  #"Changed column type"
 

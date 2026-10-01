@@ -1,9 +1,9 @@
 table bias_audit
-	lineageTag: f4673967-777b-4fe5-b8c2-394c22a5f59c
+	lineageTag: d11d65e2-451f-4465-958d-f4aaa116674b
 
 	column Flag
 		dataType: string
-		lineageTag: 90f1dd24-cb94-4cfb-9914-3205ce234ebe
+		lineageTag: 41adcb85-58f6-4780-a2e7-11e8803b6771
 		summarizeBy: none
 		sourceColumn: Flag
 
@@ -12,7 +12,7 @@ table bias_audit
 	column Available
 		dataType: boolean
 		formatString: """TRUE"";""TRUE"";""FALSE"""
-		lineageTag: 4ca53549-1644-4524-913f-6efa49179882
+		lineageTag: 4b9433a6-9cc7-4085-9c0a-25d80cdaf41a
 		summarizeBy: none
 		sourceColumn: Available
 
@@ -21,7 +21,7 @@ table bias_audit
 	column TrueCount
 		dataType: int64
 		formatString: 0
-		lineageTag: e4fae5c6-0d3f-44a3-9b95-5fcaf4b1cdda
+		lineageTag: b144dc4f-c7e6-4fa1-ac4f-2ac18b33bc59
 		summarizeBy: sum
 		sourceColumn: TrueCount
 
@@ -30,7 +30,7 @@ table bias_audit
 	column UnknownCount
 		dataType: int64
 		formatString: 0
-		lineageTag: b872f984-0fd2-4e8a-bc50-5b171950f832
+		lineageTag: d38766c3-63c5-468c-a8bc-46222dff9d40
 		summarizeBy: sum
 		sourceColumn: UnknownCount
 
@@ -40,12 +40,12 @@ table bias_audit
 		mode: import
 		source =
 				let
-				    Source = Excel.Workbook(File.Contents("C:\Users\Albert Leung\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_workbook.xlsx"), null, true),
-				    bias_audit_Sheet = Source{[Item="bias_audit",Kind="Sheet"]}[Data],
-				    #"Promoted Headers" = Table.PromoteHeaders(bias_audit_Sheet, [PromoteAllScalars=true]),
-				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Flag", type text}, {"Available", type logical}, {"TrueCount", Int64.Type}, {"UnknownCount", Int64.Type}})
+				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
+				  #"Navigation 1" = Source{[Item = "bias_audit", Kind = "Sheet"]}[Data],
+				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Flag", type text}, {"Available", type logical}, {"TrueCount", Int64.Type}, {"UnknownCount", Int64.Type}}, "en-US")
 				in
-				    #"Changed Type"
+				  #"Changed column type"
 
 	annotation PBI_ResultType = Table
 
