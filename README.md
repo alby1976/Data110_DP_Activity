@@ -69,7 +69,7 @@ Python and Power BI serve different roles while using the same definitions:
 - **Python:** retrieve, profile, clean, classify, validate, summarize, visualize, and export the data.
 - **Power BI:** provide interactive comparisons by period, community, ward, permit type, status, and land-use district.
 
-Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and CSV processed outputs. Processed table export supports CSV, JSON, Parquet, and Excel (`xlsx`). Enable the commented `xlsx` option in `storage.processed_output_formats` after installing `pip install ".[excel]"`; `storage.excel_layout` selects `one_file_per_table` (default) or `one_workbook` with one table per sheet. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
+Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and a combined Excel workbook for processed outputs. Processed table export supports CSV, JSON, Parquet, and Excel (`xlsx`). The Conda setup and `requirements-dev.txt` include the Excel extra; `xlsx` is already enabled in `storage.processed_output_formats`. `storage.excel_layout` selects `one_file_per_table` (default) or `one_workbook` with one table per sheet. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
 
 ## Key measures
 
@@ -161,7 +161,43 @@ The Python modules also identify their architectural or object-oriented pattern 
 
 ## Getting started
 
-Use Python 3.10 or newer. From a fresh checkout, create a virtual environment:
+Use Python 3.10 or newer. Choose Conda or a standard virtual environment.
+`pyproject.toml` defines all Python package dependencies and optional extras.
+Both `environment.yml` and `requirements-dev.txt` install the `dev`, `parquet`,
+and `excel` extras from it.
+
+### Conda
+
+Run from the repository root:
+
+```bash
+conda env create --file environment.yml
+conda activate data110-dp-activity
+python -m dp_activity.cli --help
+```
+
+Conda supplies Python 3.13 and pip; the YAML's pip section installs the project
+in editable mode with its dependencies, tests, Parquet, and Excel support.
+Change package versions in `pyproject.toml` to keep one dependency definition.
+After changing Python package dependencies, activate the environment and run:
+
+```bash
+python -m pip install -e ".[dev,parquet,excel]"
+python -m pip check
+```
+
+Recreate the environment from `environment.yml` when changing Conda dependencies
+or the interpreter. This specification is not a complete lockfile: Python patch
+releases and transitive dependency versions can vary.
+
+In PyCharm, select the existing Conda environment `data110-dp-activity` as the
+project interpreter. A default Windows Miniconda installation places it at
+`%USERPROFILE%\miniconda3\envs\data110-dp-activity\python.exe`.
+Use the same environment for notebook execution in PyCharm.
+
+### Standard virtual environment
+
+From a fresh checkout, create a virtual environment:
 
 ```bash
 git clone https://github.com/alby1976/Data110_DP_Activity.git

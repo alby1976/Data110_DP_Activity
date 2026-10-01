@@ -134,7 +134,7 @@ Python and Power BI serve different roles while using the same definitions:
 - **Python:** retrieve, profile, clean, classify, validate, summarize, visualize, and export the data.
 - **Power BI:** provide interactive comparisons by period, community, ward, permit type, status, and land-use district.
 
-Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and CSV processed outputs. Processed table export supports CSV, JSON, Parquet, and Excel (`xlsx`). Enable the commented `xlsx` option in `storage.processed_output_formats` after installing `pip install ".[excel]"`; `storage.excel_layout` selects `one_file_per_table` (default) or `one_workbook` with one table per sheet. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
+Socrata results can be saved as CSV, JSON, or GeoJSON by filename extension, or as Parquet when a compatible engine is installed. The committed settings request CSV and Parquet raw snapshots and a combined Excel workbook for processed outputs. Processed table export supports CSV, JSON, Parquet, and Excel (`xlsx`). The Conda setup and `requirements-dev.txt` include the Excel extra; `xlsx` is already enabled in `storage.processed_output_formats`. `storage.excel_layout` selects `one_file_per_table` (default) or `one_workbook` with one table per sheet. The file writer uses interchangeable format adapters and can load a custom adapter through a validated Python class path; see [Python Design Patterns](docs/DESIGN_PATTERNS.md).
 
 ## Key measures
 
@@ -206,6 +206,18 @@ Folders and planned files shown above that are not yet present will be added as 
 
 ## Configuration
 
+Residential applications are those assigned `IncludeResidential=true` by the
+ordered classification rules. Included forms cover dwellings, multi-residential
+development, and suites, plus qualifying residential renovations and additions.
+Mixed-use housing may qualify through housing evidence. Accessory structures,
+non-housing uses, and unmatched records are excluded when their rules determine
+the outcome. See the [full population definition](docs/CONFIGURATION.md#residential-population-definition).
+
+Both notebooks separate all-permit source exploration from residential-only
+profiles, summaries, and charts. `storage.residential_only: true` also restricts
+cleaned exports to included residential applications; raw snapshots and full-source
+validation/reconciliation remain available. Application counts are not new-home counts.
+
 Analysis choices are kept outside the Python code where practical. [`config/settings.yaml`](config/settings.yaml) contains the data source, study periods, season definitions, quality checks, storage formats, output naming and overwrite behavior, and pipeline-log archive settings. [`config/classification_rules.csv`](config/classification_rules.csv) contains ordered, auditable rules for residential inclusion, housing type, and rezoning-relevance classification. Provisional, fallback, and review rules remain subject to the validation process; being committed does not magically make a rule correct.
 
 See the [configuration and classification-rules guide](docs/CONFIGURATION.md) for the file schemas, validation requirements, rule precedence, and audit process.
@@ -214,7 +226,43 @@ The Python modules also identify their architectural or object-oriented pattern 
 
 ## Getting started
 
-Use Python 3.10 or newer. From a fresh checkout, create a virtual environment:
+Use Python 3.10 or newer. Choose Conda or a standard virtual environment.
+`pyproject.toml` defines all Python package dependencies and optional extras.
+Both `environment.yml` and `requirements-dev.txt` install the `dev`, `parquet`,
+and `excel` extras from it.
+
+### Conda
+
+Run from the repository root:
+
+```bash
+conda env create --file environment.yml
+conda activate data110-dp-activity
+python -m dp_activity.cli --help
+```
+
+Conda supplies Python 3.13 and pip; the YAML's pip section installs the project
+in editable mode with its dependencies, tests, Parquet, and Excel support.
+Change package versions in `pyproject.toml` to keep one dependency definition.
+After changing Python package dependencies, activate the environment and run:
+
+```bash
+python -m pip install -e ".[dev,parquet,excel]"
+python -m pip check
+```
+
+Recreate the environment from `environment.yml` when changing Conda dependencies
+or the interpreter. This specification is not a complete lockfile: Python patch
+releases and transitive dependency versions can vary.
+
+In PyCharm, select the existing Conda environment `data110-dp-activity` as the
+project interpreter. A default Windows Miniconda installation places it at
+`%USERPROFILE%\miniconda3\envs\data110-dp-activity\python.exe`.
+Use the same environment for notebook execution in PyCharm.
+
+### Standard virtual environment
+
+From a fresh checkout, create a virtual environment:
 
 ```bash
 git clone https://github.com/alby1976/Data110_DP_Activity.git
@@ -257,12 +305,22 @@ sensitivity scenarios remain unconfigured, and full provenance and automatic
 charts remain pending. Profiling is available through `DataProfiler.profile()`;
 there is no `profile` or `analyse` CLI command.
 
+## Create Power BI analysis files
+
+To create the Excel workbook or CSV inputs for Power BI, follow
+[Create the Power BI input files](docs/POWER_BI_PLAN.md#create-the-power-bi-input-files).
+The complete-period notebook's optional export creates
+`reports/notebook_complete_period/<unique-run-id>/tables/complete_period_exploration_workbook.xlsx`
+with the current Excel settings. The guide also covers the CLI export to
+`data/processed`, the Before-only workbook, table selection, and reconciliation.
+
 ## Running the tests
 
 The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
-against the pinned Before snapshot. All 16 code cells passed in a fresh kernel
-on September 24, 2026, including validators, five residential analysis strategies,
-a monthly line chart, and three heatmaps. Summaries reconcile to 7,940 residential
+against the pinned Before snapshot. The September 30, 2026 refresh reran all 18
+code cells, including the complete classification review register.
+Validators, five residential analysis strategies, a monthly line chart, and five
+heatmaps completed successfully. Summaries reconcile to 9,857 residential
 records. Seasonal charts use complete seasons by default; only Before coverage is
 available. External notebook exports are disabled by default. Data-quality and
 classification warnings remain for review. See the
@@ -274,14 +332,25 @@ The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
 uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
 and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
 the snapshot's UTC retrieval date, September 25, defines the observation horizon.
-Six analysis strategies produce 21 tables, reconciling to 14,277 residential
-records, plus a monthly line chart and three heatmaps. All 15 analysis/setup/chart
-code cells executed successfully; the added optional export cell was separately
-verified with exports disabled, bringing the notebook to 16 code cells.
+Six analysis strategies produce 21 tables, reconciling to 17,870 residential
+records: 9,857 Before, 7,606 During, and 407 Early Post-Repeal. A monthly line
+chart and five heatmaps use this refreshed population. All 18 code cells reran
+successfully on September 30, including the complete review register.
+
+Both notebooks include a complete, expandable `classification_review_records`
+register: 1,101 Before cases and 2,635 complete-period cases. It includes all
+unmatched applications and winning rules with `review`, `provisional`, or
+`fallback` status, including excluded applications. `REVIEW_LIMIT` limits previews
+only. Rows include source evidence, rule notes, and review reasons. HF-906 now
+includes Relaxation applications as `Residential Non-Housing`, with rezoning
+relevance false. HF-018 now includes accessory residential buildings, also with
+rezoning relevance false; residential totals are application activity, not new homes.
 
 Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
 section to save permit, analysis, validation, reconciliation, and bias-audit tables
-plus four PNG charts. Each enabled run uses a unique directory under
+plus six PNG charts under the default heatmap settings. The complete review
+register is saved in notebook output and is not separately exported by this cell.
+Each enabled run uses a unique directory under
 `reports/notebook_complete_period/`, with `tables/` and `figures/` subdirectories.
 The enabled export branch has not been exercised in this notebook verification.
 See the [complete-period guide](notebooks/02_complete_period_exploration_explanation.md)

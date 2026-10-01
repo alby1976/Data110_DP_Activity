@@ -120,6 +120,95 @@ It contains only Before analysis. Table overwrite is disabled in this notebook;
 if a previous file exists, preserve or relocate it before exporting again.
 Figures use a separate unique directory under `reports/notebook_before/figures/`.
 
+## Create the Power BI input files
+
+### Prepare the Python environment
+
+From the repository root, use the Conda environment defined in
+[`environment.yml`](../environment.yml):
+
+```bash
+conda env create --file environment.yml
+conda activate data110-dp-activity
+python -m dp_activity.cli --help
+```
+
+If the environment already exists, activate it without repeating creation.
+Conda supplies Python 3.13 and pip. The editable install reads runtime dependencies
+and the `dev`, `parquet`, and `excel` extras from
+[`pyproject.toml`](../pyproject.toml). Parquet support loads the frozen snapshot;
+Excel support supplies XlsxWriter for workbook export. Both extras are included
+in this setup and in `requirements-dev.txt`.
+
+For a standard virtual environment, follow the
+[README setup instructions](../README.md#getting-started), then run
+`python -m pip install -r requirements-dev.txt` in that activated environment.
+After changing Python dependencies, run
+`python -m pip install -e ".[dev,parquet,excel]"` and `python -m pip check`
+from the repository root in the selected environment.
+
+For notebook exports, select the `data110-dp-activity` interpreter in PyCharm
+and use it for notebook execution. The environment file does not install a
+standalone Jupyter server or register a Jupyter kernel.
+
+### Export the complete-period snapshot with the CLI
+
+The committed `config/settings.yaml` selects `xlsx` processed output,
+`excel_layout: one_workbook`, and `output_base_name: development_permits`.
+Run the pipeline against the frozen snapshot:
+
+```bash
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
+```
+
+Keep the adjacent `.metadata.json` sidecar with the snapshot; the CLI uses its
+UTC retrieval date as the observation horizon. The combined workbook is written
+to `data/processed/development_permits_workbook.xlsx`, with separate sheets for
+cleaned permits, analysis, validation, reconciliation, and bias-audit tables.
+The committed overwrite setting replaces an existing generated workbook.
+Review validation reports before using exported results; validation failures
+currently do not prevent export or CLI success.
+
+To produce CSV inputs instead, set `storage.processed_output_formats` to `[csv]`.
+For both formats, use `[csv, xlsx]`. CSV creates separate files for each table;
+`storage.excel_layout` controls only Excel outputs. See the
+[export configuration guide](CONFIGURATION.md#excel-processed-output-option)
+for sheet naming, timestamp, and overwrite behavior.
+
+### Export from an exploratory notebook
+
+Open `notebooks/02_complete_period_exploration.ipynb`, keep
+`REFRESH_DOWNLOAD=False` to reuse its pinned snapshot, and run cells in order.
+Set `EXPORT_EXPLORATORY_OUTPUTS=True` in the optional export cell and run it
+after the analysis cells. With the current Excel settings, its workbook is:
+
+```text
+reports/notebook_complete_period/<unique-run-id>/tables/complete_period_exploration_workbook.xlsx
+```
+
+Charts are saved under the same run's `figures/` directory. The Before-only
+notebook exports only its Before snapshot; use the complete-period notebook
+for Before/During comparisons. Consult the
+[complete-period guide](../notebooks/02_complete_period_exploration_explanation.md)
+and [Before guide](../notebooks/01_permit_exploration_explaination.md) for their
+snapshot coverage and export options. A saved notebook with exports disabled
+does not establish that an external workbook was generated.
+
+### Import and reconcile in Power BI
+
+Use **Get data > Excel workbook** for the combined workbook or **Text/CSV**
+for separate CSV inputs. Select the cleaned-permit and summary tables needed
+for the report, retaining validation, reconciliation, and bias-audit outputs
+for review. Check date, numeric, and Boolean types in Power Query; exported
+dates use ISO text and may need conversion.
+
+Record whether each imported table came from the CLI or a notebook, together
+with the snapshot filename, settings, and classification-rule version. Verify
+residential totals, period counts, processing eligibility, and exposure values
+against that same run before building report measures. Existing saved totals
+may describe earlier rules. Generating a workbook does not verify Power BI
+relationships, measures, or refresh results.
+
 ## Data model
 
 Use a small star schema rather than one enormous table doing interpretive gymnastics.
@@ -160,8 +249,7 @@ consistent grain, recompute `30 * DIVIDE(SUM(PermitCount), SUM(ExposureDays))`
 only when every contributing exposure is known and the sum is positive. Otherwise
 return blank. Do not average rates, mix period totals with their monthly rows,
 double-count seasonal partitions, or sum repeated exposure across geography/type
-groups. Partial-period flags remain relevant even after normalization. Import
-and file export are still pending.
+groups. Partial-period flags remain relevant even after normalization. File export is supported; Power BI reconciliation must be checked for each imported run.
 
 The implemented seasonal tables distinguish true, false, and unknown completeness.
 Use `complete_seasons` for complete-season comparisons, with partial and unknown
@@ -170,7 +258,7 @@ is complete. Preserve configured zero counts; do not convert null processing
 statistics to zero. Supporting calendar-month means use complete months only.
 Season completeness depends on the policy window and observation cutoff, so it
 must remain at period × season grain; a single global date-dimension flag cannot
-represent a summer split by a policy boundary. Export is still pending.
+represent a summer split by a policy boundary. Export these tables using the workflow above.
 
 Final column names may change, but the measure logic should follow this pattern.
 
@@ -259,7 +347,7 @@ Avoid comparing processing times without displaying the number of valid observat
 The implemented Python `processing_summary` supplies period-level median, mean,
 quartiles, IQR, and valid/ineligible/pending/censored counts. Use
 `processing_type_summary` for type-level statistics and `processing_period_totals`
-for residential and nonresidential denominators once export is implemented.
+for residential and nonresidential denominators in exported outputs.
 Do not average subgroup medians or quartiles to obtain a period statistic.
 `ValidShare` is fractional; audit counts may overlap and must not be added.
 Preserve null statistics for empty valid cohorts. Pending/censored counts explain
@@ -284,7 +372,7 @@ Use both absolute and percentage change. Suppress or flag percentage rankings be
 
 The implemented strategy returns `community_summary` and `ward_summary` at
 period × location grain, plus `geography_period_totals` at period grain. Export
-and Power BI integration remain unfinished. Build the Before/During display by
+is supported; Power BI relationships and measures still require reconciliation. Build the Before/During display by
 pivoting `PermitCount` on `Period`; use the second configured period's
 `AbsoluteChange` and `PercentChange`. Contextual periods have no change metrics.
 
@@ -300,8 +388,7 @@ their counts beside maps. Do not geocode a missing group or confuse it with a
 literal `Unknown` label. Use `geography_period_totals` for residential and missing
 counts; repeated denominators in location summaries must not be summed.
 Geography summaries count included records, without deduplication. Verify unique
-permit identifiers before reconciling them with the distinct-count measures
-above; investigate any differences instead of silently changing denominators.
+permit identifiers separately; the COUNTROWS measures above match Python row counts.
 
 ## Interaction requirements
 
@@ -330,7 +417,7 @@ The dashboard should make important analytical risks visible instead of burying 
 
 ## Validation checklist
 
-- [ ] Distinct permit totals match Python outputs
+- [ ] Application row counts match Python outputs; duplicate identifiers are audited separately
 - [ ] Date table covers the full study window
 - [ ] December, January, and February map to the same cross-year Winter label
 - [ ] Season labels sort by `SeasonSortKey`, not alphabetically

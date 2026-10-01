@@ -1,0 +1,11 @@
+# Conda owns the interpreter; pyproject.toml owns Python package dependencies.
+# Run from the repository root so the editable install resolves correctly.
+name: data110-dp-activity
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+      - "-e .[dev,parquet,excel]"
