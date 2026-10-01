@@ -8,13 +8,41 @@ The framework uses `pytest`. Test inputs are deliberately small pandas DataFrame
 
 ## Current baseline
 
-There is one corresponding test module for each non-`__init__` module under `src/dp_activity`. On September 24, 2026, `python -m pytest -q --basetemp=.pytest_cache/cli-smoke-full` with the configured Python 3.13.14 environment reports:
+There is one corresponding test module for each non-`__init__` module under
+`src/dp_activity`. On September 30, 2026, the configured Conda Python 3.13.15
+interpreter completed the full suite with:
 
-```text
-522 passed
+```powershell
+python -m pytest -q --basetemp .pytest_excel_repair -p no:cacheprovider --tb=short
 ```
 
-The project-default test requires `"csv" in config.raw_snapshot_formats`, allowing additional raw formats such as the committed Parquet option. The processed-output expectation remains CSV-only. There are no unexpected failures in this run.
+```text
+545 passed, 143 warnings
+```
+
+The warnings are Matplotlib/NumPy date-conversion deprecations. There were no
+failed tests. A workspace-local temporary directory avoids the permissions
+problem with the shared system pytest temporary directory.
+Configuration tests now match the committed `development_permits_residential`
+prefix and Excel-only processed output; raw formats must still include CSV.
+The historical September 24 baseline was 522 passed.
+
+### Excel table export verification
+
+Repository tests inspect workbook XML for one table per worksheet, matching
+sheet/table names, table ranges, literal source text, and empty-input behavior.
+They also verify that invalid table names preserve existing output files.
+Empty tables keep the writer's standard two-row range (header plus a blank
+placeholder). Export no longer rewrites ranges to unsupported header-only tables.
+Remove all-null rows when importing these tables into Power BI.
+
+The real CLI pipeline was rerun against
+`data/raw/development_permits_20260925_045241.parquet`, regenerating
+`data/processed/development_permits_residential_workbook.xlsx` with current
+settings and rules. Archive inspection confirmed 27 worksheets and 27 tables,
+with no header-only table ranges. This validates the generated structure;
+opening the regenerated file in Excel and reconciling Power BI remain separate
+application checks. Notebook export cells were not rerun for this repair.
 
 Passing tests cover configuration behavior, CLI dispatch and downloads, log archiving, Socrata and file-format adapters, repositories, cleaning, profiling, classification, all three validators, the abstract analysis contract, and pipeline orchestration with injected collaborators. Offline CLI smoke tests additionally verify the complete table workflow with real collaborators and frozen synthetic data, not production-data validity.
 
@@ -63,7 +91,7 @@ the preview limit. Residential totals reconcile to 9,857 Before, 7,606 During,
 and 407 Early Post-Repeal applications. HF-018 includes accessory residential
 buildings with rezoning relevance false. Both saved provenance tables match
 the current rule-file SHA-256 hash, and no notebook cells have saved errors.
-The full project suite and enabled external export branches were not rerun;
+During that notebook refresh, the full suite and enabled notebook exports were not rerun;
 the earlier suite baseline below remains separate evidence. The earlier
 notebook findings below describe historical rule versions.
 
@@ -97,7 +125,7 @@ for the snapshot dates, results, and interpretation limits.
 
 The September 25 documentation review confirmed the saved export cell's successful
 execution 18 with exports disabled. No analysis or export was rerun for that review.
-The current CSV configuration would produce 27 tables and four PNG charts on a
+The September 25 CSV configuration would produce 27 tables and four PNG charts on a
 successful enabled run; that expected inventory is documented in the companion
 guide and is not an observed export-test result.
 

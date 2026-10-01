@@ -547,6 +547,17 @@ box plots/distributions, and grouped seasonal bars remain unimplemented.
 
 For step-by-step file creation and Power BI import checks, see
 [Create the Power BI input files](../docs/POWER_BI_PLAN.md#create-the-power-bi-input-files).
+New Excel exports create one named table per worksheet, with the table name
+matching the sheet. Empty tables contain one blank placeholder row; remove
+all-null rows in Power Query before counting records. Reload the updated package
+(restart the notebook kernel) and rerun the analysis and optional export cells
+to regenerate older workbooks after the Excel compatibility repair. The repaired
+CLI workbook is separate from these notebook exports.
+Each worksheet now contains an Excel table named exactly like its sheet.
+Empty tables contain a blank placeholder row; remove all-null rows in Power Query.
+Restart the kernel and rerun the analysis and optional export cells to regenerate
+older workbook files after the Excel compatibility repair.
+
 With the current `xlsx` and `one_workbook` settings, enable
 `EXPORT_EXPLORATORY_OUTPUTS=True` after running the preceding cells to create
 `reports/notebook_before/tables/before_exploration_workbook.xlsx`.

@@ -256,7 +256,11 @@ the output is `data/processed/development_permits_residential_workbook.xlsx`; re
 replaces that file. Use its `permits_clean` sheet for residential permit-level
 analysis, and check the validation and reconciliation sheets before reporting.
 Each worksheet contains an Excel table named exactly like its sheet (for example,
-`permits_clean`). Empty tables contain a blank placeholder row; remove all-null rows in Power Query. Exports use `.xlsx`.
+`permits_clean`). Empty tables contain a blank placeholder row; remove all-null
+rows in Power Query. Exports use `.xlsx`.
+The CLI workbook was regenerated after the Excel compatibility repair; archive
+inspection confirmed 27 worksheets with 27 named tables. Re-export older notebook
+workbooks with the updated code to apply the repair.
 
 For environment setup, notebook exports, CSV alternatives, and missing-snapshot
 instructions, follow
@@ -326,7 +330,7 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 24, 2026 baseline is **522 passed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 30, 2026 baseline is **545 passed**, with 143 Matplotlib/NumPy deprecation warnings. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).

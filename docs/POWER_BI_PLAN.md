@@ -91,7 +91,7 @@ notebook interpreter.
 
 ### Select and check the reporting tables
 
-Import the generated Excel workbook into Power BI and select the sheets needed
+Import the generated Excel workbook into Power BI and select the named tables needed
 for the report. With the current output labels, `permits_clean` is the
 residential fact-table input. Supporting sheets include `permit_volume`,
 `monthly_volume`, `type_summary`, `community_summary`, `processing_summary`,
@@ -172,6 +172,21 @@ analysis receives all classified records, while notebook analysis receives
 residential-only records, so their `AllPermitCount` and `ExcludedCount` scopes
 differ even when residential counts match. Keep one producing workflow per
 comparison and use its reconciliation output.
+
+### Excel compatibility and empty tables
+
+Exports use `.xlsx` and create each sheet's equally named table through the
+standard Excel writer. Empty tables have headers and one blank placeholder row;
+they do not represent an application or a validation finding. In Power Query,
+remove rows whose fields are all null before counting records. Retain partially
+populated rows so missing values do not remove valid observations.
+
+If an older workbook shows Excel's content-repair prompt, close it and regenerate
+it using the current exporter. The CLI repair regenerated
+`data/processed/development_permits_residential_workbook.xlsx` and verified its
+27 worksheets and 27 tables. Notebook workbooks need their optional export cells
+rerun with the updated package loaded. Do not use a repaired older file as the
+reference for reconciliation when a fresh export is available.
 
 ### Before-only export
 

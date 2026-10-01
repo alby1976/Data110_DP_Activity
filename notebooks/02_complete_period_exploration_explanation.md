@@ -289,6 +289,12 @@ All four figures rendered successfully and were visually reviewed. They are embe
 For step-by-step instructions, including dependency installation, workbook
 creation, Power BI table selection, and reconciliation, see
 [Create the Power BI input files](../docs/POWER_BI_PLAN.md#create-the-power-bi-input-files).
+New Excel exports create one named table per worksheet, with the table name
+matching the sheet. Empty tables contain one blank placeholder row; remove
+all-null rows in Power Query before counting records. Reload the updated package
+(restart the notebook kernel) and rerun the analysis and optional export cells
+to regenerate older workbooks after the Excel compatibility repair. The repaired
+CLI workbook is separate from these notebook exports.
 The current configuration selects `xlsx` and `one_workbook`. After running the
 notebook from the top, set `EXPORT_EXPLORATORY_OUTPUTS=True` and execute the
 export cell to create

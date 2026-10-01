@@ -3,8 +3,8 @@
 ## Purpose
 
 This plan defines the work needed to move the project from the current scaffolded
-baseline to a reproducible analysis package by October 12, 2026. The September 23
-baseline is `522 passed`, with no unexpected failures; see
+baseline to a reproducible analysis package by October 12, 2026. The September 30, 2026
+baseline is `545 passed`, with no unexpected failures; see
 [Testing Framework](TESTING.md#current-baseline).
 
 Configuration, downloads, adapters, repositories, cleaning, profiling, classification,
