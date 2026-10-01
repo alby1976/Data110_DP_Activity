@@ -349,7 +349,7 @@ sanity checks that will later be converted into source code, tests, or documente
 | Too many scaffolded modules remain late in the schedule | Prioritize the executable pipeline and core tables before visualization polish |
 | Live Socrata data changes during development | Use a frozen snapshot for repeatable tests and final Power BI reconciliation |
 | Classification rules remain ambiguous | Preserve `Review`, unmatched counts, validation status, and sensitivity outputs |
-| Parquet dependency is unavailable | Keep CSV enabled as the default storage format |
+| Parquet dependency is unavailable | Keep CSV raw snapshots enabled; install the `parquet` extra from `pyproject.toml` for the configured Parquet snapshots |
 | Power BI logic drifts from Python | Export reconciliation tables and build measures from generated columns |
 | Log/output files are overwritten during repeated runs | Use configured log archiving and `overwrite_outputs` behavior |
 

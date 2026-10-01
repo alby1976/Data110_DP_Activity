@@ -10,11 +10,38 @@ Raw download files are source snapshots; import the processed export for analysi
 
 ### Prepare the Python environment
 
-Run all commands from the repository root. Activate the project's existing
-Conda or virtual environment; if none exists, follow the
-[README setup instructions](../README.md#getting-started).
-The Conda setup and `requirements-dev.txt` include Excel and Parquet support.
-For notebook exports, select that same project interpreter in PyCharm.
+Run all commands from the repository root. These files work together:
+
+| File | Responsibility |
+|---|---|
+| [`environment.yml`](../environment.yml) | Creates the `data110-dp-activity` Conda environment with Python 3.13 and pip, then installs the project in editable mode with `[dev,parquet,excel]`. |
+| [`pyproject.toml`](../pyproject.toml) | Defines Python package dependencies, optional extras, and the `dp-activity` CLI entry point. The `parquet` extra reads the pinned snapshot; `excel` supplies XlsxWriter for `.xlsx` export. |
+| [`config/settings.yaml`](../config/settings.yaml) | Selects study periods, classification rules, output directories, formats, workbook layout, filename prefix, and overwrite behavior. |
+
+For a new Conda environment, run:
+
+```powershell
+conda env create --file environment.yml
+conda activate data110-dp-activity
+python -m dp_activity.cli --help
+```
+
+If the environment already exists, activate it without recreating it. After
+changing package dependencies in `pyproject.toml`, update the active environment:
+
+```powershell
+python -m pip install -e ".[dev,parquet,excel]"
+python -m pip check
+```
+
+Changing export settings in `settings.yaml` requires rerunning the pipeline or
+reloading the notebook configuration; it does not require reinstalling packages.
+Selecting a format requires its supporting extra to be installed.
+For a standard virtual environment, follow the
+[README setup instructions](../README.md#getting-started);
+`requirements-dev.txt` installs the same project extras.
+For notebook exports, select the Conda environment as the PyCharm project and
+notebook interpreter.
 
 ### Export from the complete-period notebook
 
@@ -22,7 +49,7 @@ For notebook exports, select that same project interpreter in PyCharm.
    Python environment if they are not already installed:
 
    ```powershell
-   python -m pip install ".[excel,parquet]"
+   python -m pip install -e ".[dev,parquet,excel]"
    ```
 
 2. Check `config/settings.yaml`. The current configuration creates one Excel
@@ -104,16 +131,16 @@ python -m dp_activity.cli --settings config/settings.yaml run data/raw/developme
 Keep the snapshot's adjacent metadata sidecar so the CLI can use its UTC
 retrieval date as the observation horizon. The configured processed directory
 is `data/processed`. With the current `xlsx`/`one_workbook` settings and
-`output_base_name: development_permits`, the table workbook is:
+`output_base_name: development_permits_residential`, the table workbook is:
 
 ```text
-data/processed/development_permits_workbook.xlsx
+data/processed/development_permits_residential_workbook.xlsx
 ```
 
 Confirm that the output file exists after the command completes:
 
 ```powershell
-Get-Item data/processed/development_permits_workbook.xlsx
+Get-Item data/processed/development_permits_residential_workbook.xlsx
 ```
 
 If the pinned snapshot is unavailable, download a new snapshot first:
@@ -128,6 +155,10 @@ and may change source records, so record the chosen snapshot filename.
 If the sidecar is missing, supply `--observation-end YYYY-MM-DD` after the
 snapshot path, replacing the placeholder with a documented observation cutoff.
 Do not infer the cutoff from the file modification time.
+
+The configured prefix also names new raw downloads; it does not filter their
+contents. Existing pinned snapshot names remain unchanged. Notebook workbook
+names use explicit notebook basenames rather than `storage.output_base_name`.
 
 The CLI uses current rules and configured output labels. Its current
 `overwrite_outputs: true` setting replaces existing generated files with the

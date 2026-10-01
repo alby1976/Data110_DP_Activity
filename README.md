@@ -243,14 +243,16 @@ there is no `profile` or `analyse` CLI command.
 ## Create Power BI analysis files
 
 From the repository root in the activated project environment, create the
-combined Excel workbook from the frozen complete-period snapshot:
+combined Excel workbook from the frozen complete-period snapshot. Conda installs
+the project dependencies from `pyproject.toml`; `config/settings.yaml` controls
+the export format, layout, filename, and destination:
 
 ```powershell
 python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
 ```
 
 Keep the snapshot's adjacent metadata sidecar. With the committed settings,
-the output is `data/processed/development_permits_workbook.xlsx`; rerunning
+the output is `data/processed/development_permits_residential_workbook.xlsx`; rerunning
 replaces that file. Use its `permits_clean` sheet for residential permit-level
 analysis, and check the validation and reconciliation sheets before reporting.
 
