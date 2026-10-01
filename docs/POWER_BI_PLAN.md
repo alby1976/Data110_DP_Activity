@@ -2,6 +2,124 @@
 
 The dashboard should answer the research questions in three pages without turning the submission into a cockpit from a budget airline.
 
+## Create the Power BI input files
+
+Use the complete-period notebook export to reproduce the notebook's current
+Before/During comparisons. The Before notebook exports only its Before snapshot.
+Raw download files are source snapshots; import the processed export for analysis.
+
+### Export from the complete-period notebook
+
+1. Install the project and Excel/Parquet dependencies in the project's activated
+   Python environment if they are not already installed:
+
+   ```powershell
+   python -m pip install ".[excel,parquet]"
+   ```
+
+2. Check `config/settings.yaml`. The current configuration creates one Excel
+   workbook containing all reporting tables:
+
+   ```yaml
+   storage:
+     residential_only: true
+     excel_layout: "one_workbook"
+     processed_output_formats:
+       - xlsx
+   ```
+
+   Edit the existing `storage` section rather than adding a duplicate section.
+   To produce CSV files instead, select `csv` in `processed_output_formats`.
+   Selecting both formats creates the workbook and separate CSV tables.
+
+3. Open `notebooks/02_complete_period_exploration.ipynb`. Keep the pinned
+   `SNAPSHOT_FILENAME` and `REFRESH_DOWNLOAD=False` to reproduce the current
+   analysis offline. Run all cells from the top so current settings and
+   classification rules determine the exported results.
+4. In **Optional exploratory exports**, change
+   `EXPORT_EXPLORATORY_OUTPUTS = False` to `True`, then execute that cell after
+   the analysis and chart cells have completed.
+5. Read the displayed output-path table. With the current settings, the workbook
+   is created at:
+
+   ```text
+   reports/notebook_complete_period/<unique-run-id>/tables/complete_period_exploration_workbook.xlsx
+   ```
+
+   Each export uses a new run directory. The workbook contains 27 sheets:
+   residential permit records, 21 analysis tables, three validation reports,
+   reconciliation, and a bias audit. Six chart PNGs are also saved under the
+   run's `figures/` directory with the default heatmap settings.
+6. Return `EXPORT_EXPLORATORY_OUTPUTS` to `False` after exporting if ordinary
+   notebook reruns should create no external files. Use the displayed path to
+   identify the intended export; subsequent runs have different directories.
+
+### Select and check the reporting tables
+
+Import the generated Excel workbook into Power BI and select the sheets needed
+for the report. With the current output labels, `permits_clean` is the
+residential fact-table input. Supporting sheets include `permit_volume`,
+`monthly_volume`, `type_summary`, `community_summary`, `processing_summary`,
+`rezoning_summary`, `seasonal_summary`, `reconciliation`, and `bias_audit`.
+Validation sheets use the `validation_` prefix; Excel labels longer than 31
+characters are shortened. Importing the workbook does not create the planned
+relationships or measures automatically.
+
+Set date, numeric, and Boolean column types explicitly when preparing the model:
+the exporter serializes date cells as ISO text. Keep permit identifiers as text.
+Use the permit sheet for row-level analysis and summary sheets at their own
+grain; do not combine detail and summary rows into one count. Do not sum repeated
+period denominators across type or geography rows.
+
+For the September 30 rule version, check the permit sheet's row count against
+**17,870 residential applications**: 9,857 Before, 7,606 During, and 407 Early
+Post-Repeal. Compare Power BI counts to the Python `reconciliation` sheet.
+The cleaned permit sheet is filtered to residential applications; full-source
+counts and exclusions are retained in reconciliation and validation exports.
+HF-018 accessory residential buildings and HF-906 residential non-housing
+applications are included, with rezoning relevance false.
+
+The complete `classification_review_records` register remains in notebook
+output and kernel memory; the optional exporter does not create a separate
+review-register sheet. Review flags on residential permit rows and full-source
+validation reports are exported. Investigate warnings before accepting results;
+successful export does not certify classification accuracy or Power BI agreement.
+
+### Alternative: export through the CLI
+
+From the repository root with the project environment activated, run:
+
+```powershell
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
+```
+
+Keep the snapshot's adjacent metadata sidecar so the CLI can use its UTC
+retrieval date as the observation horizon. The configured processed directory
+is `data/processed`. With the current `xlsx`/`one_workbook` settings and
+`output_base_name: development_permits`, the table workbook is:
+
+```text
+data/processed/development_permits_workbook.xlsx
+```
+
+The CLI uses current rules and configured output labels. Its current
+`overwrite_outputs: true` setting replaces existing generated files with the
+same names; copy an earlier workbook elsewhere if it must be retained. The CLI
+exports tables; chart generation is an explicit notebook/API workflow. CLI
+analysis receives all classified records, while notebook analysis receives
+residential-only records, so their `AllPermitCount` and `ExcludedCount` scopes
+differ even when residential counts match. Keep one producing workflow per
+comparison and use its reconciliation output.
+
+### Before-only export
+
+In `notebooks/01_permit_exploration.ipynb`, run all preceding cells, then enable
+and execute its **Optional exploratory exports** cell. With the current settings,
+the workbook is `reports/notebook_before/tables/before_exploration_workbook.xlsx`.
+It contains only Before analysis. Table overwrite is disabled in this notebook;
+if a previous file exists, preserve or relocate it before exporting again.
+Figures use a separate unique directory under `reports/notebook_before/figures/`.
+
 ## Data model
 
 Use a small star schema rather than one enormous table doing interpretive gymnastics.
