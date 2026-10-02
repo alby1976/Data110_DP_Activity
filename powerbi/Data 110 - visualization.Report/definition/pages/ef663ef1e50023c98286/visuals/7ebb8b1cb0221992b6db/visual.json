@@ -128,6 +128,53 @@
               },
               "queryRef": "permits_clean.permit_number",
               "nativeQueryRef": "permit_number"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "permits_clean"
+                    }
+                  },
+                  "Property": "YearMonth"
+                }
+              },
+              "queryRef": "permits_clean.YearMonth",
+              "nativeQueryRef": "YearMonth"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "permits_clean"
+                    }
+                  },
+                  "Property": "Period"
+                }
+              },
+              "queryRef": "permits_clean.Period",
+              "nativeQueryRef": "Period"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "permits_clean"
+                        }
+                      },
+                      "Property": "ProcessingDays"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(permits_clean.ProcessingDays)",
+              "nativeQueryRef": "Sum of ProcessingDays"
             }
           ]
         }
@@ -250,6 +297,53 @@
           }
         },
         "type": "Categorical"
+      },
+      {
+        "name": "64c920614c6d33326886",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "YearMonth"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c318d37453ba27d212ba",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "Period"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "509f1dbdd6273a29eb46",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "permits_clean"
+                  }
+                },
+                "Property": "ProcessingDays"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

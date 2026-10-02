@@ -857,10 +857,10 @@ table permits_clean
 		dataType: int64
 		formatString: 0
 		lineageTag: 2df036f4-aa3f-488e-bd85-a104c20456ce
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column HasValidProcessingDays
 		dataType: boolean
@@ -931,6 +931,22 @@ table permits_clean
 		lineageTag: 93cbe629-b894-45c6-bcd2-34e0577f8110
 		summarizeBy: none
 		sourceColumn: IsAfterObservationEnd
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth = format(permits_clean[applied_date],"YYYY-MMM")
+		lineageTag: a22fec31-25ab-4fed-a8b3-e7d47ac9ab72
+		summarizeBy: none
+		sortByColumn: YearMonthNum
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthNum = year(permits_clean[applied_date])*100 + month(permits_clean[applied_date])
+		formatString: 0
+		lineageTag: 1933c62c-dd4b-40c1-aee5-4800cfbdb77b
+		summarizeBy: sum
 
 		annotation SummarizationSetBy = Automatic
 
