@@ -99,7 +99,7 @@ table permits_clean
 
 	column applied_date
 		dataType: dateTime
-		formatString: General Date
+		formatString: 2001-03 (yyyy-mmm)
 		lineageTag: 50f5729f-3937-44d3-bbd4-8b041db585bf
 		summarizeBy: none
 		sourceColumn: applied_date
@@ -110,6 +110,8 @@ table permits_clean
 			defaultHierarchy: LocalDateTable_45b7183c-1bf3-41c0-b04d-a4c0027b267f.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	column decision_date
 		dataType: dateTime
@@ -787,6 +789,9 @@ table permits_clean
 		lineageTag: 122207e0-ba8f-49f7-a846-f7808f2b59db
 		summarizeBy: none
 		sourceColumn: Season
+		sortByColumn: 'Season Sort'
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -934,18 +939,43 @@ table permits_clean
 
 		annotation SummarizationSetBy = Automatic
 
-	column YearMonth = format(permits_clean[applied_date],"YYYY-MMM")
+	column YearMonth =
+			
+			DATE(
+			    YEAR(permits_clean[applied_date]),
+			    MONTH(permits_clean[applied_date]),
+			    1
+			)
+		formatString: 2001-03 (yyyy-mmm)
 		lineageTag: a22fec31-25ab-4fed-a8b3-e7d47ac9ab72
 		summarizeBy: none
-		sortByColumn: YearMonthNum
+
+		variation Variation
+			isDefault
+			relationship: bef3119e-1a03-4ac5-841a-bfebc55d8241
+			defaultHierarchy: LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5.'Date Hierarchy'
 
 		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
-	column YearMonthNum = year(permits_clean[applied_date])*100 + month(permits_clean[applied_date])
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column 'Season Sort' =
+			
+			VAR MonthNumber =
+			    MONTH(permits_clean[applied_date])
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        MonthNumber IN {12, 1, 2}, 1,
+			        MonthNumber IN {3, 4, 5}, 2,
+			        MonthNumber IN {6, 7, 8}, 3,
+			        MonthNumber IN {9, 10, 11}, 4,
+			        BLANK()
+			    )
 		formatString: 0
-		lineageTag: 1933c62c-dd4b-40c1-aee5-4800cfbdb77b
+		lineageTag: c1fda902-7dbe-4089-9262-b1869a262fc3
 		summarizeBy: sum
 
 		annotation SummarizationSetBy = Automatic

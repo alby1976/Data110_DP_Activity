@@ -318,3 +318,8 @@ relationship AutoDetected_5c65ffae-5530-4d5d-af41-564b631b0111
 	fromColumn: seasonal_summary.InvalidCount
 	toColumn: partial_seasons.InvalidCount
 
+relationship bef3119e-1a03-4ac5-841a-bfebc55d8241
+	joinOnDateBehavior: datePartOnly
+	fromColumn: permits_clean.YearMonth
+	toColumn: LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5.Date
+

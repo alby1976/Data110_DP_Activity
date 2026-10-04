@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit"]
+annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit","00_Measures"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -63,6 +63,8 @@ ref table validation_data_quality_validat
 ref table validation_classification_valid
 ref table reconciliation
 ref table bias_audit
+ref table 00_Measures
+ref table LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5
 
 ref cultureInfo en-CA
 

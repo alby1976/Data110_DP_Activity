@@ -1,8 +1,30 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "ef663ef1e50023c98286",
-  "displayName": "Page 1",
+  "displayName": "Overview",
   "displayOption": "FitToPage",
   "height": 1080,
-  "width": 1920
+  "width": 1920,
+  "objects": {
+    "outspacePane": [
+      {
+        "properties": {
+          "width": {
+            "expr": {
+              "Literal": {
+                "Value": "196L"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "9df3ba450318cf57405b",
+      "target": "a77503586a6faf17177a",
+      "type": "NoFilter"
+    }
+  ]
 }
