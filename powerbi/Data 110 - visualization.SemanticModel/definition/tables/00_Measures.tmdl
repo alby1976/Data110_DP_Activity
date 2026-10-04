@@ -1,0 +1,101 @@
+table 00_Measures
+	lineageTag: c94e1afd-12e5-4449-84c8-9f0f4f12eae1
+
+	measure 'Median Processing Days' =
+			
+			MEDIANX(
+			    FILTER(
+			        permits_clean,
+			        NOT ISBLANK(permits_clean[ProcessingDays])
+			            && permits_clean[ProcessingDays] >= 0
+			    ),
+			    permits_clean[ProcessingDays]
+			)
+		formatString: 0
+		lineageTag: 39aeb927-45c5-422f-91d2-7ce3d6433ae1
+
+	measure 'Monthly Average Permits' =
+			
+			AVERAGEX(
+			    VALUES(permits_clean[YearMonth]),
+			    [Residential Permits]
+			)
+		formatString: 0
+		lineageTag: 1cc10215-986e-4a80-ad57-1b6b338bc4ed
+
+	measure 'Residential Permits' =
+			
+			DISTINCTCOUNT(permits_clean[permit_number])
+		formatString: 0
+		lineageTag: a0bb604a-7beb-42e8-b659-c0b1082d0119
+
+	measure 'Rezoning-Relevant Permits' =
+			
+			CALCULATE(
+			    [Residential Permits],
+			    permits_clean[RezoningRelevant] = True
+			)
+		formatString: 0
+		lineageTag: edd1fe9b-ef49-43de-96bc-6a5fc392b09f
+
+	measure 'Rezoning-Relevant Share' =
+			
+			DIVIDE(
+			    [Rezoning-Relevant Permits],
+			    [Residential Permits],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 42a4eee2-610d-4260-97a2-37bf0b1da42c
+
+	measure 'Dataset Latest Date' =
+			
+			MAXX(
+			    ALL(permits_clean),
+			    permits_clean[applied_date]
+			)
+		formatString: General Date
+		lineageTag: 1a00101a-0e00-43d3-b3e2-93e0fe42b956
+
+	measure 'Data Completeness' =
+			
+			VAR LatestDate =
+			    [Dataset Latest Date]
+			
+			VAR MonthComplete =
+			    LatestDate = EOMONTH(LatestDate, 0)
+			
+			RETURN
+			    IF(
+			        MonthComplete,
+			        "✓ Data complete through "
+			            & FORMAT(LatestDate, "MMM yyyy"),
+			        "⚠ Data through "
+			            & FORMAT(LatestDate, "MMM d, yyyy")
+			            & " — partial month"
+			    )
+		lineageTag: bf18668c-f52c-45f3-97bb-eab9c6b180c9
+
+	column Placeholder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7583c16b-0653-48ae-8458-a945cc9a9741
+		summarizeBy: sum
+		sourceColumn: Placeholder
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 00_Measures = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMlSKjQUA", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Placeholder = _t]),
+				  #"Changed column type" = Table.TransformColumnTypes(Source, {{"Placeholder", Int64.Type}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
