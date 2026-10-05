@@ -191,10 +191,10 @@ table permits_clean
 		dataType: int64
 		formatString: 0
 		lineageTag: fbe2c294-d5ba-4308-addf-92286c9d0ce6
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ward
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column quadrant
 		dataType: string

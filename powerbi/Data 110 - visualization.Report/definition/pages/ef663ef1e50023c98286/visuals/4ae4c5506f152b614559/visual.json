@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "9944806c2bfa5d1d7498",
+  "name": "4ae4c5506f152b614559",
   "position": {
-    "x": 1572.3636363636363,
-    "y": 299.63636363636363,
-    "z": 8001,
-    "height": 52.363636363636367,
-    "width": 347.63636363636363,
-    "tabOrder": 8001
+    "x": 1572,
+    "y": 352,
+    "z": 8002,
+    "height": 338,
+    "width": 348,
+    "tabOrder": 8002
   },
   "visual": {
     "visualType": "slicer",
@@ -23,11 +23,11 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "Season"
+                  "Property": "SeasonLabel"
                 }
               },
-              "queryRef": "permits_clean.Season",
-              "nativeQueryRef": "Season",
+              "queryRef": "permits_clean.SeasonLabel",
+              "nativeQueryRef": "SeasonLabel",
               "active": true
             }
           ]
@@ -46,6 +46,11 @@
               }
             }
           }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
         }
       ],
       "selection": [
@@ -67,7 +72,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "0d369309e582bb061c2c",
+        "name": "82a69e0efa324b9ea100",
         "field": {
           "Column": {
             "Expression": {
@@ -75,7 +80,7 @@
                 "Entity": "permits_clean"
               }
             },
-            "Property": "Season"
+            "Property": "SeasonLabel"
           }
         },
         "type": "Categorical"
