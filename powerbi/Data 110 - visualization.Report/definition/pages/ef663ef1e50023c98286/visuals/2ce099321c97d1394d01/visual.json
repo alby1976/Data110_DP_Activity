@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "9944806c2bfa5d1d7498",
+  "name": "2ce099321c97d1394d01",
   "position": {
-    "x": 348.33333333333337,
+    "x": 1480,
     "y": 928.33333333333337,
-    "z": 8001,
-    "height": 52.363636363636367,
-    "width": 347.63636363636363,
-    "tabOrder": 8001
+    "z": 8006,
+    "height": 63.333333333333336,
+    "width": 348.33333333333337,
+    "tabOrder": 8006
   },
   "visual": {
     "visualType": "slicer",
@@ -23,11 +23,11 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "Season"
+                  "Property": "permitteddiscretionary"
                 }
               },
-              "queryRef": "permits_clean.Season",
-              "nativeQueryRef": "Season",
+              "queryRef": "permits_clean.permitteddiscretionary",
+              "nativeQueryRef": "permitteddiscretionary",
               "active": true
             }
           ]
@@ -47,39 +47,8 @@
             }
           }
         }
-      ],
-      "selection": [
-        {
-          "properties": {
-            "selectAllCheckboxEnabled": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            }
-          }
-        }
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "0d369309e582bb061c2c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "Season"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

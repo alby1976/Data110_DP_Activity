@@ -946,7 +946,7 @@ table permits_clean
 			    MONTH(permits_clean[applied_date]),
 			    1
 			)
-		formatString: 2001-03 (yyyy-mmm)
+		formatString: yyyy-mmm
 		lineageTag: a22fec31-25ab-4fed-a8b3-e7d47ac9ab72
 		summarizeBy: none
 

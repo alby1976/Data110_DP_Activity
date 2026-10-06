@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "4ae4c5506f152b614559",
+  "name": "5c4758de348bb30b3a92",
   "position": {
-    "x": 348.33333333333337,
-    "y": 1010,
-    "z": 8002,
-    "height": 55.272727272727273,
-    "width": 347.63636363636363,
-    "tabOrder": 8002
+    "x": 730,
+    "y": 928.33333333333337,
+    "z": 8003,
+    "height": 98.333333333333343,
+    "width": 348.33333333333337,
+    "tabOrder": 8003
   },
   "visual": {
     "visualType": "slicer",
@@ -23,11 +23,11 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "SeasonLabel"
+                  "Property": "ward"
                 }
               },
-              "queryRef": "permits_clean.SeasonLabel",
-              "nativeQueryRef": "SeasonLabel",
+              "queryRef": "permits_clean.ward",
+              "nativeQueryRef": "ward",
               "active": true
             }
           ]
@@ -41,22 +41,17 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Dropdown'"
+                  "Value": "'Between'"
                 }
               }
             }
           }
         }
       ],
-      "general": [
-        {
-          "properties": {}
-        }
-      ],
-      "selection": [
+      "numericInputStyle": [
         {
           "properties": {
-            "selectAllCheckboxEnabled": {
+            "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -68,23 +63,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "82a69e0efa324b9ea100",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "SeasonLabel"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "9df3ba450318cf57405b",
+  "name": "3ceba1d4f4803e3aff62",
   "position": {
-    "x": 0,
-    "y": 928.33333333333337,
-    "z": 8000,
-    "height": 151.66666666666669,
+    "x": 730,
+    "y": 1016.6666666666667,
+    "z": 8004,
+    "height": 63.333333333333336,
     "width": 348.33333333333337,
-    "tabOrder": 8000
+    "tabOrder": 8004
   },
   "visual": {
-    "visualType": "advancedSlicerVisual",
+    "visualType": "slicer",
     "query": {
       "queryState": {
         "Values": {
@@ -23,11 +23,12 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "Period"
+                  "Property": "community"
                 }
               },
-              "queryRef": "permits_clean.Period",
-              "nativeQueryRef": "Period"
+              "queryRef": "permits_clean.community",
+              "nativeQueryRef": "community",
+              "active": true
             }
           ]
         }
@@ -36,29 +37,31 @@
     "objects": {
       "data": [
         {
-          "properties": {}
-        }
-      ],
-      "overFlow": [
-        {
           "properties": {
-            "overFlowDirection": {
+            "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "'Dropdown'"
                 }
               }
             }
           }
         }
       ],
-      "actionState": [
+      "selection": [
         {
           "properties": {
-            "IsButtonsAdvanced": {
+            "selectAllCheckboxEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -66,11 +69,6 @@
         }
       ],
       "general": [
-        {
-          "properties": {}
-        }
-      ],
-      "layout": [
         {
           "properties": {
             "orientation": {
@@ -80,14 +78,7 @@
                 }
               }
             },
-            "showFixedSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "autoGrid": {
+            "selfFilterEnabled": {
               "expr": {
                 "Literal": {
                   "Value": "true"
