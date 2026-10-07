@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "9df3ba450318cf57405b",
+  "name": "12b55f2163cfb3ac88bf",
   "position": {
-    "x": 0,
-    "y": 928.37438423645312,
-    "z": 8000,
-    "height": 63.8423645320197,
-    "width": 718.22660098522169,
-    "tabOrder": 8000
+    "x": 993.54679802955661,
+    "y": 57.192118226600982,
+    "z": 4,
+    "height": 74.482758620689651,
+    "width": 454.8768472906404,
+    "tabOrder": 4
   },
   "visual": {
     "visualType": "slicer",
@@ -23,11 +23,11 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "Period"
+                  "Property": "Season"
                 }
               },
-              "queryRef": "permits_clean.Period",
-              "nativeQueryRef": "Period",
+              "queryRef": "permits_clean.Season",
+              "nativeQueryRef": "Season",
               "active": true
             }
           ]
@@ -41,7 +41,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Dropdown'"
                 }
               }
             }
@@ -51,10 +51,23 @@
       "general": [
         {
           "properties": {
-            "orientation": {
+            "selfFilterEnabled": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }

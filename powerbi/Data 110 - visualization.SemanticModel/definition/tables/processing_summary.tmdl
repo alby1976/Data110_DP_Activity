@@ -40,10 +40,10 @@ table processing_summary
 		dataType: int64
 		formatString: 0
 		lineageTag: 5ef2d1c0-582c-4b3f-bc3f-05c1f745931a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: PendingCount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column RightCensoredCount
 		dataType: int64
@@ -123,18 +123,18 @@ table processing_summary
 		dataType: int64
 		formatString: 0
 		lineageTag: 96ded8e3-4bdd-49dc-9a32-32bce86b6c96
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Q1ProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column Q3ProcessingDays
 		dataType: double
 		lineageTag: 069d8857-c668-48ec-a9bd-cbab47ce11c2
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Q3ProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -147,6 +147,21 @@ table processing_summary
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PeriodSort =
+			
+			SWITCH(
+			    [Period],
+			    "Before", 1,
+			    "During", 2,
+			    "After", 3,
+			    99
+			)
+		formatString: 0
+		lineageTag: 43da2bc9-9a14-4053-b8d1-99b51f2ac260
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
 
 	partition processing_summary = m
 		mode: import
