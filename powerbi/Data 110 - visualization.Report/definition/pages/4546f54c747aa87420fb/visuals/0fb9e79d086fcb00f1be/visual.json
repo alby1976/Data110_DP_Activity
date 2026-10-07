@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "0fb9e79d086fcb00f1be",
+  "position": {
+    "x": 0,
+    "y": 113.05418719211822,
+    "z": 5,
+    "height": 335.17241379310343,
+    "width": 993.54679802955661,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processing_type_summary"
+                    }
+                  },
+                  "Property": "ResidentialType"
+                }
+              },
+              "queryRef": "processing_type_summary.ResidentialType",
+              "nativeQueryRef": "ResidentialType",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "permits_clean"
+                    }
+                  },
+                  "Property": "Period"
+                }
+              },
+              "queryRef": "permits_clean.Period",
+              "nativeQueryRef": "Period"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Residential Permits"
+                }
+              },
+              "queryRef": "00_Measures.Residential Permits",
+              "nativeQueryRef": "Residential Permits"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "00_Measures"
+                  }
+                },
+                "Property": "Residential Permits"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "switchAxisPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

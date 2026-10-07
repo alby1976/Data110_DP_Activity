@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "9df3ba450318cf57405b",
+  "name": "e04e3db9591ac94b9402",
   "position": {
-    "x": 0,
-    "y": 928.37438423645312,
-    "z": 8000,
-    "height": 63.8423645320197,
-    "width": 718.22660098522169,
-    "tabOrder": 8000
+    "x": 546.6502463054187,
+    "y": 57.192118226600982,
+    "z": 2,
+    "height": 65.172413793103445,
+    "width": 446.89655172413791,
+    "tabOrder": 2
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "permits_clean"
+                      "Entity": "processing_type_summary"
                     }
                   },
-                  "Property": "Period"
+                  "Property": "ResidentialType"
                 }
               },
-              "queryRef": "permits_clean.Period",
-              "nativeQueryRef": "Period",
+              "queryRef": "processing_type_summary.ResidentialType",
+              "nativeQueryRef": "ResidentialType",
               "active": true
             }
           ]
@@ -41,7 +41,20 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "selectAllCheckboxEnabled": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
@@ -51,10 +64,10 @@
       "general": [
         {
           "properties": {
-            "orientation": {
+            "selfFilterEnabled": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "true"
                 }
               }
             }
