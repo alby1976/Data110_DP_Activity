@@ -76,6 +76,12 @@ table 00_Measures
 			    )
 		lineageTag: bf18668c-f52c-45f3-97bb-eab9c6b180c9
 
+	measure 'Permit Count' =
+			
+			COUNTROWS(permits_clean)
+		formatString: 0
+		lineageTag: d2f5c706-acd5-4d61-8987-a16e0f3ac445
+
 	column Placeholder
 		dataType: int64
 		isHidden

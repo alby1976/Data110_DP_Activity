@@ -71,37 +71,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5f59e782efcd6dcee0cc",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "Period"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "ed6a7baf79138d06b083",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "00_Measures"
-              }
-            },
-            "Property": "Monthly Average Permits"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

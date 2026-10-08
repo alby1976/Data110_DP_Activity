@@ -4,5 +4,17 @@
   "displayName": "Development Type & Processing",
   "displayOption": "FitToPage",
   "height": 1080,
-  "width": 1920
+  "width": 1920,
+  "pageBinding": {
+    "name": "7c0d68de3621e2dc6965",
+    "type": "Default",
+    "parameters": []
+  },
+  "visualInteractions": [
+    {
+      "source": "9cc91b699ee97d14a3be",
+      "target": "f028c8deba18aa958587",
+      "type": "DataFilter"
+    }
+  ]
 }

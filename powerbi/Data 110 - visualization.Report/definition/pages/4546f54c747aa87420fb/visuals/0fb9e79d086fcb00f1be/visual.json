@@ -4,13 +4,13 @@
   "position": {
     "x": 0,
     "y": 113.05418719211822,
-    "z": 5,
-    "height": 335.17241379310343,
-    "width": 993.54679802955661,
-    "tabOrder": 5
+    "z": 5000,
+    "height": 489.45812807881771,
+    "width": 982.90640394088666,
+    "tabOrder": 5000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "processing_type_summary"
+                      "Entity": "permits_clean"
                     }
                   },
                   "Property": "ResidentialType"
                 }
               },
-              "queryRef": "processing_type_summary.ResidentialType",
+              "queryRef": "permits_clean.ResidentialType",
               "nativeQueryRef": "ResidentialType",
               "active": true
             }
@@ -60,11 +60,11 @@
                       "Entity": "00_Measures"
                     }
                   },
-                  "Property": "Residential Permits"
+                  "Property": "Permit Count"
                 }
               },
-              "queryRef": "00_Measures.Residential Permits",
-              "nativeQueryRef": "Residential Permits"
+              "queryRef": "00_Measures.Permit Count",
+              "nativeQueryRef": "Permit Count"
             }
           ]
         }
@@ -79,7 +79,7 @@
                     "Entity": "00_Measures"
                   }
                 },
-                "Property": "Residential Permits"
+                "Property": "Permit Count"
               }
             },
             "direction": "Descending"
@@ -96,6 +96,54 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelOverflow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Auto'"
+                }
+              }
+            },
+            "optimizeLabelDisplay": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableTitleDataLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }

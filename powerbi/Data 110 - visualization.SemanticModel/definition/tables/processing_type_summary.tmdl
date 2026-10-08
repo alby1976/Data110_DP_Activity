@@ -30,10 +30,10 @@ table processing_type_summary
 		dataType: int64
 		formatString: 0
 		lineageTag: 5c9ce0df-f706-4cbd-8758-abf4536c6de7
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ValidCount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column InvalidCount
 		dataType: int64
@@ -64,13 +64,12 @@ table processing_type_summary
 
 	column ValidShare
 		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: f5ce831a-9959-49e4-8edb-8fb12671044d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: ValidShare
 
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation SummarizationSetBy = User
 
 	column NegativeCount
 		dataType: int64
@@ -111,10 +110,10 @@ table processing_type_summary
 	column MedianProcessingDays
 		dataType: double
 		lineageTag: 0e1abb04-b70c-468b-b55e-be13e7bb36e9
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: MedianProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -131,30 +130,30 @@ table processing_type_summary
 	column Q1ProcessingDays
 		dataType: double
 		lineageTag: 54e0d60f-d8a7-4039-86b2-3627aaf72421
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Q1ProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Q3ProcessingDays
 		dataType: double
 		lineageTag: 12943298-466d-4582-9a2e-de63425f0043
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: Q3ProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column IQRProcessingDays
 		dataType: double
 		lineageTag: c26cf4eb-648e-4af2-ac23-8aef59df5311
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: IQRProcessingDays
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

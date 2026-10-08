@@ -4,10 +4,10 @@
   "position": {
     "x": 371.08374384236453,
     "y": 1020.1477832512314,
-    "z": 8002,
+    "z": 10000,
     "height": 55.272727272727273,
     "width": 347.63636363636363,
-    "tabOrder": 8002
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "slicer",
@@ -68,23 +68,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "82a69e0efa324b9ea100",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "SeasonLabel"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

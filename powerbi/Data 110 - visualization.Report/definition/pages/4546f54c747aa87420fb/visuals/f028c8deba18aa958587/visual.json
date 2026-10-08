@@ -1,0 +1,246 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "f028c8deba18aa958587",
+  "position": {
+    "x": 0,
+    "y": 602.51231527093591,
+    "z": 7000,
+    "height": 388,
+    "width": 983,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processing_type_summary"
+                    }
+                  },
+                  "Property": "ResidentialType"
+                }
+              },
+              "queryRef": "processing_type_summary.ResidentialType",
+              "nativeQueryRef": "ResidentialType",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "processing_type_summary"
+                    }
+                  },
+                  "Property": "Period"
+                }
+              },
+              "queryRef": "processing_type_summary.Period",
+              "nativeQueryRef": "Period"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "processing_type_summary"
+                        }
+                      },
+                      "Property": "ValidShare"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(processing_type_summary.ValidShare)",
+              "nativeQueryRef": "Max of ValidShare"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "processing_type_summary"
+                        }
+                      },
+                      "Property": "ValidCount"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(processing_type_summary.ValidCount)",
+              "nativeQueryRef": "Max of ValidCount"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "processing_type_summary"
+                        }
+                      },
+                      "Property": "Q1ProcessingDays"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(processing_type_summary.Q1ProcessingDays)",
+              "nativeQueryRef": "Max of Q1ProcessingDays"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "processing_type_summary"
+                        }
+                      },
+                      "Property": "Q3ProcessingDays"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(processing_type_summary.Q3ProcessingDays)",
+              "nativeQueryRef": "Max of Q3ProcessingDays"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "processing_type_summary"
+                        }
+                      },
+                      "Property": "IQRProcessingDays"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(processing_type_summary.IQRProcessingDays)",
+              "nativeQueryRef": "Max of IQRProcessingDays"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "processing_type_summary"
+                        }
+                      },
+                      "Property": "MedianProcessingDays"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "CountNonNull(processing_type_summary.MedianProcessingDays)",
+              "nativeQueryRef": "Max of MedianProcessingDays"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "processing_type_summary"
+                      }
+                    },
+                    "Property": "MedianProcessingDays"
+                  }
+                },
+                "Function": 4
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "labelOverflow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "optimizeLabelDisplay": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Median Processing Days by Development Type and Period'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
