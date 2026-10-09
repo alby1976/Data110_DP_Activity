@@ -21,10 +21,10 @@ table processing_type_summary
 		dataType: int64
 		formatString: 0
 		lineageTag: 398eaa5f-f93f-49af-91ae-ce3032cafc77
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: TotalCount
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column ValidCount
 		dataType: int64
@@ -156,6 +156,18 @@ table processing_type_summary
 		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NonValidProcessingShare =
+			
+			IF(
+			    NOT ISBLANK(processing_type_summary[ValidShare]),
+			    1 - processing_type_summary[ValidShare]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 06a159fb-d971-405d-9337-3811eb917c7d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
 
 	partition processing_type_summary = m
 		mode: import

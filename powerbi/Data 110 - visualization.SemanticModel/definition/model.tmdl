@@ -65,6 +65,7 @@ ref table reconciliation
 ref table bias_audit
 ref table 00_Measures
 ref table LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5
+ref table DimResidentialType
 
 ref cultureInfo en-CA
 

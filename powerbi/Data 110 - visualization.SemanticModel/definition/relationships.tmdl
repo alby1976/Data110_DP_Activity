@@ -323,3 +323,11 @@ relationship bef3119e-1a03-4ac5-841a-bfebc55d8241
 	fromColumn: permits_clean.YearMonth
 	toColumn: LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5.Date
 
+relationship c3b82cf8-5d60-117c-7631-62a1735de56f
+	fromColumn: permits_clean.ResidentialType
+	toColumn: DimResidentialType.ResidentialType
+
+relationship 692d8581-53d6-5f9f-2bc4-0565432f3164
+	fromColumn: processing_type_summary.ResidentialType
+	toColumn: DimResidentialType.ResidentialType
+

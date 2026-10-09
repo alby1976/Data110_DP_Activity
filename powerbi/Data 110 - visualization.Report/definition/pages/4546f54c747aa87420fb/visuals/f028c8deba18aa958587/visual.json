@@ -5,8 +5,8 @@
     "x": 0,
     "y": 602.51231527093591,
     "z": 7000,
-    "height": 388,
-    "width": 983,
+    "height": 477.48768472906403,
+    "width": 982.90640394088666,
     "tabOrder": 7000
   },
   "visual": {
@@ -20,13 +20,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "processing_type_summary"
+                      "Entity": "permits_clean"
                     }
                   },
                   "Property": "ResidentialType"
                 }
               },
-              "queryRef": "processing_type_summary.ResidentialType",
+              "queryRef": "permits_clean.ResidentialType",
               "nativeQueryRef": "ResidentialType",
               "active": true
             }
@@ -39,13 +39,13 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "processing_type_summary"
+                      "Entity": "permits_clean"
                     }
                   },
                   "Property": "Period"
                 }
               },
-              "queryRef": "processing_type_summary.Period",
+              "queryRef": "permits_clean.Period",
               "nativeQueryRef": "Period"
             }
           ]
@@ -54,98 +54,87 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "processing_type_summary"
-                        }
-                      },
-                      "Property": "ValidShare"
+                    "SourceRef": {
+                      "Entity": "00_Measures"
                     }
                   },
-                  "Function": 4
+                  "Property": "Valid Share Dynamic"
                 }
               },
-              "queryRef": "CountNonNull(processing_type_summary.ValidShare)",
-              "nativeQueryRef": "Max of ValidShare"
+              "queryRef": "00_Measures.Valid Share Dynamic",
+              "nativeQueryRef": "Valid Share Dynamic"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "processing_type_summary"
-                        }
-                      },
-                      "Property": "ValidCount"
+                    "SourceRef": {
+                      "Entity": "00_Measures"
                     }
                   },
-                  "Function": 4
+                  "Property": "Non-Valid Share Dynamic"
                 }
               },
-              "queryRef": "CountNonNull(processing_type_summary.ValidCount)",
-              "nativeQueryRef": "Max of ValidCount"
+              "queryRef": "00_Measures.Non-Valid Share Dynamic",
+              "nativeQueryRef": "Non-Valid Share Dynamic"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "processing_type_summary"
-                        }
-                      },
-                      "Property": "Q1ProcessingDays"
+                    "SourceRef": {
+                      "Entity": "00_Measures"
                     }
                   },
-                  "Function": 4
+                  "Property": "Valid Count Dynamic"
                 }
               },
-              "queryRef": "CountNonNull(processing_type_summary.Q1ProcessingDays)",
-              "nativeQueryRef": "Max of Q1ProcessingDays"
+              "queryRef": "00_Measures.Valid Count Dynamic",
+              "nativeQueryRef": "Valid Count Dynamic"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "processing_type_summary"
-                        }
-                      },
-                      "Property": "Q3ProcessingDays"
+                    "SourceRef": {
+                      "Entity": "00_Measures"
                     }
                   },
-                  "Function": 4
+                  "Property": "Q1 Processing Days Dynamic"
                 }
               },
-              "queryRef": "CountNonNull(processing_type_summary.Q3ProcessingDays)",
-              "nativeQueryRef": "Max of Q3ProcessingDays"
+              "queryRef": "00_Measures.Q1 Processing Days Dynamic",
+              "nativeQueryRef": "Q1 Processing Days Dynamic"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "processing_type_summary"
-                        }
-                      },
-                      "Property": "IQRProcessingDays"
+                    "SourceRef": {
+                      "Entity": "00_Measures"
                     }
                   },
-                  "Function": 4
+                  "Property": "Q3 Processing Days Dynamic"
                 }
               },
-              "queryRef": "CountNonNull(processing_type_summary.IQRProcessingDays)",
-              "nativeQueryRef": "Max of IQRProcessingDays"
+              "queryRef": "00_Measures.Q3 Processing Days Dynamic",
+              "nativeQueryRef": "Q3 Processing Days Dynamic"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "IQR Processing Days Dynamic"
+                }
+              },
+              "queryRef": "00_Measures.IQR Processing Days Dynamic",
+              "nativeQueryRef": "IQR Processing Days Dynamic"
             }
           ]
         },
@@ -153,22 +142,17 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "processing_type_summary"
-                        }
-                      },
-                      "Property": "MedianProcessingDays"
+                    "SourceRef": {
+                      "Entity": "00_Measures"
                     }
                   },
-                  "Function": 4
+                  "Property": "Median Processing Days Dynamic"
                 }
               },
-              "queryRef": "CountNonNull(processing_type_summary.MedianProcessingDays)",
-              "nativeQueryRef": "Max of MedianProcessingDays"
+              "queryRef": "00_Measures.Median Processing Days Dynamic",
+              "nativeQueryRef": "Median Processing Days Dynamic"
             }
           ]
         }
@@ -177,18 +161,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "processing_type_summary"
-                      }
-                    },
-                    "Property": "MedianProcessingDays"
+                  "SourceRef": {
+                    "Entity": "00_Measures"
                   }
                 },
-                "Function": 4
+                "Property": "Median Processing Days Dynamic"
               }
             },
             "direction": "Descending"

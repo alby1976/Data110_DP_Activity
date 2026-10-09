@@ -82,6 +82,87 @@ table 00_Measures
 		formatString: 0
 		lineageTag: d2f5c706-acd5-4d61-8987-a16e0f3ac445
 
+	measure 'Median Processing Days Dynamic' =
+			
+			CALCULATE(
+			    MEDIAN(permits_clean[ProcessingDays]),
+			    permits_clean[HasValidProcessingDays] = TRUE()
+			)
+		lineageTag: d95c4dcb-7ce2-471a-b96a-dddf08ecfb04
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Valid Count Dynamic' =
+			
+			CALCULATE(
+			    COUNTROWS(permits_clean),
+			    permits_clean[HasValidProcessingDays] = TRUE()
+			)
+		formatString: 0
+		lineageTag: dd0ccf09-369e-4251-9b92-877bbf747813
+
+	measure 'Q1 Processing Days Dynamic' =
+			
+			CALCULATE(
+			    PERCENTILEX.INC(
+			        permits_clean,
+			        permits_clean[ProcessingDays],
+			        0.25
+			    ),
+			    permits_clean[HasValidProcessingDays] = TRUE()
+			)
+		lineageTag: b8df6d2e-bf78-4ce1-838d-3301b312668b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Q3 Processing Days Dynamic' =
+			
+			CALCULATE(
+			    PERCENTILEX.INC(
+			        permits_clean,
+			        permits_clean[ProcessingDays],
+			        0.75
+			    ),
+			    permits_clean[HasValidProcessingDays] = TRUE()
+			)
+		lineageTag: 8d1eb945-1f35-4223-af47-9d8ccb6d8740
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'IQR Processing Days Dynamic' =
+			
+			VAR Q1 = [Q1 Processing Days Dynamic]
+			VAR Q3 = [Q3 Processing Days Dynamic]
+			RETURN
+			    IF(
+			        ISBLANK(Q1) || ISBLANK(Q3),
+			        BLANK(),
+			        Q3 - Q1
+			    )
+		lineageTag: 99a8ae7a-21bb-4cba-8605-e2acae144d60
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Valid Share Dynamic' =
+			
+			DIVIDE(
+			    [Valid Count Dynamic],
+			    [Permit Count]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 874b4122-1fcc-4b79-ab40-656c5aaab524
+
+	measure 'Non-Valid Share Dynamic' =
+			
+			IF(
+			    ISBLANK([Valid Share Dynamic]),
+			    BLANK(),
+			    1 - [Valid Share Dynamic]
+			)
+		lineageTag: e13a948b-5d9d-4629-832e-7df8cac22a3c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Placeholder
 		dataType: int64
 		isHidden

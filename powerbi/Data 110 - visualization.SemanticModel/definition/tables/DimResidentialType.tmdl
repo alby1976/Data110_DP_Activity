@@ -1,0 +1,23 @@
+table DimResidentialType
+	lineageTag: f42b53a8-ca6a-4c27-9ddb-482eb53ad6b0
+
+	column ResidentialType
+		lineageTag: 086683a3-287e-44e7-99d6-5fa3ada740a8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ResidentialType]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimResidentialType = calculated
+		mode: import
+		source =
+				
+				DISTINCT(
+				    SELECTCOLUMNS(
+				        permits_clean, "ResidentialType", permits_clean[ResidentialType]
+				    )
+				)
+
+	annotation PBI_Id = 3cdcf224fbc649bda57ac3ab92407491
+
