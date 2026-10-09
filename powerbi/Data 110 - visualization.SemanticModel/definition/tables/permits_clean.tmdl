@@ -104,11 +104,6 @@ table permits_clean
 		summarizeBy: none
 		sourceColumn: applied_date
 
-		variation Variation
-			isDefault
-			relationship: 737c7c71-d78e-45e1-8b25-b5dfb9002b9d
-			defaultHierarchy: LocalDateTable_45b7183c-1bf3-41c0-b04d-a4c0027b267f.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isCustom":true}

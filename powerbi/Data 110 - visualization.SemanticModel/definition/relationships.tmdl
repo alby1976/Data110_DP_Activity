@@ -1,8 +1,3 @@
-relationship 737c7c71-d78e-45e1-8b25-b5dfb9002b9d
-	joinOnDateBehavior: datePartOnly
-	fromColumn: permits_clean.applied_date
-	toColumn: LocalDateTable_45b7183c-1bf3-41c0-b04d-a4c0027b267f.Date
-
 relationship 05d254ad-c56e-45dc-85af-66ef87a1f02c
 	joinOnDateBehavior: datePartOnly
 	fromColumn: permits_clean.decision_date
@@ -330,4 +325,13 @@ relationship c3b82cf8-5d60-117c-7631-62a1735de56f
 relationship 692d8581-53d6-5f9f-2bc4-0565432f3164
 	fromColumn: processing_type_summary.ResidentialType
 	toColumn: DimResidentialType.ResidentialType
+
+relationship dba8a2bf-bd0f-4964-ac2e-0ca3fc3d3ed4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7.Date
+
+relationship 8c614abc-9a82-eb74-4290-2a4c3f0a289d
+	fromColumn: permits_clean.applied_date
+	toColumn: Calendar.Date
 

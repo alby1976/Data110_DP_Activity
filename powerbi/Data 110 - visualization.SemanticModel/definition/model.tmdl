@@ -15,7 +15,6 @@ annotation PBI_ProTooling = ["DevMode"]
 
 ref table permits_clean
 ref table DateTableTemplate_8a99b757-f542-4035-be4f-fbf7783d101c
-ref table LocalDateTable_45b7183c-1bf3-41c0-b04d-a4c0027b267f
 ref table LocalDateTable_d9de51cd-7c55-4d9a-b0fd-bff751b79f8e
 ref table LocalDateTable_74a024e0-d3af-4ca4-9c32-d9feab04791d
 ref table LocalDateTable_b856d493-2d08-4c9f-980e-cbc320fa9f16
@@ -66,6 +65,8 @@ ref table bias_audit
 ref table 00_Measures
 ref table LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5
 ref table DimResidentialType
+ref table Calendar
+ref table LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7
 
 ref cultureInfo en-CA
 

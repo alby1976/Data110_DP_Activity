@@ -159,7 +159,131 @@ table 00_Measures
 			    BLANK(),
 			    1 - [Valid Share Dynamic]
 			)
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: e13a948b-5d9d-4629-832e-7df8cac22a3c
+
+	measure 'Before Permits' =
+			
+			CALCULATE(
+			    [Permit Count],
+			    REMOVEFILTERS(permits_clean[Period]),
+			    permits_clean[Period] = "Before"
+			)
+		formatString: 0
+		lineageTag: 24a7fb03-013d-4cee-8b3c-42add49b5225
+
+	measure 'During Permits' =
+			
+			CALCULATE(
+			    [Permit Count],
+			    REMOVEFILTERS(permits_clean[Period]),
+			    permits_clean[Period] = "During"
+			)
+		formatString: 0
+		lineageTag: b337f315-2274-475d-9db3-49dbb17ec1c4
+
+	measure 'Absolute Change' =
+			
+			[During Permits] - [Before Permits]
+		formatString: 0
+		lineageTag: 87ed43e4-b318-4b36-aac7-a3081f6f5ee1
+
+	measure 'Percentage Change' =
+			
+			DIVIDE(
+			    [Absolute Change],
+			    [Before Permits]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 70e7bbd4-6b97-403c-9b1c-05874f7ebcdd
+
+	measure 'Baseline Warning' =
+			
+			SWITCH(
+			    TRUE(),
+			    [Before Permits] = 0,
+			        "No baseline",
+			    [Before Permits] < 30,
+			        "Low baseline",
+			    "OK"
+			)
+		lineageTag: 0f884711-df2f-4562-8116-0249677b4c01
+
+	measure 'Rankable Percentage Change' =
+			
+			IF(
+			    [Before Permits] >= 30,
+			    [Percentage Change],
+			    BLANK()
+			)
+		lineageTag: 8f093ed9-5a2e-4dfa-a4c9-faa7490d6156
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Before Exposure Days' =
+			
+			CALCULATE(
+			    COUNTROWS('Calendar'),
+			    REMOVEFILTERS(Calendar[Policy Period]),
+			    Calendar[Policy Period] = "Before"
+			)
+		formatString: 0
+		lineageTag: 3cf764dc-5eca-4611-82e9-e674c1c7dec9
+
+	measure 'During Exposure Days' =
+			
+			CALCULATE(
+			    COUNTROWS('Calendar'),
+			    REMOVEFILTERS(Calendar[Policy Period]),
+			    Calendar[Policy Period] = "During"
+			)
+		formatString: 0
+		lineageTag: 23f82d49-ed3e-4045-9ccd-2deee6cf3d10
+
+	measure 'Before Rate 30' =
+			
+			DIVIDE(
+			    [Before Permits] * 30,
+			    [Before Exposure Days]
+			)
+		lineageTag: 6937394e-d710-4b2d-bded-ffda81d901b3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'During Rate 30' =
+			
+			DIVIDE(
+			    [During Permits] * 30,
+			    [During Exposure Days]
+			)
+		lineageTag: 0828caa3-3e02-4d21-bde2-84f040c7a870
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rate 30 Change' =
+			
+			[During Rate 30] - [Before Rate 30]
+		lineageTag: 50759843-99df-416b-9392-451d0eb4e414
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rate 30 Change %' =
+			
+			DIVIDE(
+			    [Rate 30 Change],
+			    [Before Rate 30]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 984c701c-3931-4635-933f-e208ff8bf044
+
+	measure 'Rankable Rate 30 Change %' =
+			
+			IF(
+			    [Before Permits] >= 30,
+			    [Rate 30 Change %],
+			    BLANK()
+			)
+		lineageTag: a293d0ee-3a15-4971-b673-412493f3e128
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

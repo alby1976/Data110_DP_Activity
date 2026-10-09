@@ -1,0 +1,83 @@
+table Calendar
+	lineageTag: e27c3e1f-c3f1-4e32-9046-8e025dad42e7
+
+	column Date
+		formatString: Long Date
+		lineageTag: 87966907-f0ce-40c7-9884-59ab136b8a50
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: dba8a2bf-bd0f-4964-ac2e-0ca3fc3d3ed4
+			defaultHierarchy: LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: 547bccd3-e6d3-4735-b1e5-cae3a3d805a6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		formatString: 0
+		lineageTag: 2e90009b-2cb2-4f11-a072-d33c4e277575
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Season
+		lineageTag: 3979f57f-c423-451b-ac1e-37c33cfc941c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Season]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Policy Period'
+		lineageTag: df611d6b-ed48-45f7-99fd-a42707345b99
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Policy Period]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = calculated
+		mode: import
+		source =
+				
+				VAR StartDate = DATE(2022, 1, 1)
+				VAR EndDate = DATE(2026, 12, 31)
+				RETURN
+				ADDCOLUMNS(
+				    CALENDAR(StartDate, EndDate),
+				    "Year", YEAR([Date]),
+				    "Month Number", MONTH([Date]),
+				    "Season",
+				        SWITCH(
+				            TRUE(),
+				            MONTH([Date]) IN {12, 1, 2}, "Winter",
+				            MONTH([Date]) IN {3, 4, 5}, "Spring",
+				            MONTH([Date]) IN {6, 7, 8}, "Summer",
+				            "Fall"
+				        ),
+				    "Policy Period",
+				        SWITCH(
+				            TRUE(),
+				            [Date] < DATE(2024, 8, 6), "Before",
+				            [Date] < DATE(2026, 8, 4), "During",
+				            "After"
+				        )
+				)
+
+	annotation PBI_Id = 62535aac04d045b1b054dafa329235ff
+
