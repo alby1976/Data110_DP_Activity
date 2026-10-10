@@ -1,0 +1,35 @@
+table 'Geography Metric'
+	lineageTag: 33e90eb3-c807-414d-a217-678fc0505efc
+
+	column Metric
+		lineageTag: a86123b9-cce2-480a-9b6c-62b6cf117255
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sort Order'
+		formatString: 0
+		lineageTag: aa0bb412-8c5a-48d7-8934-e7fd02fc0952
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Sort Order]
+
+		annotation SummarizationSetBy = User
+
+	partition 'Geography Metric' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Metric", STRING,
+				    "Sort Order", INTEGER,
+				    {
+				        {"Raw Applications", 1},
+				        {"Applications per 30 Days", 2}
+				    }
+				)
+
+	annotation PBI_Id = eb6e24403bf641048b58e3790dc3b87e
+

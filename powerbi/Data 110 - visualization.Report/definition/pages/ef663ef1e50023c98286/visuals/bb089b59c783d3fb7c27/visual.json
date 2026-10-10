@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "00_Measures.Residential Permits",
-              "nativeQueryRef": "Residential Permits"
+              "nativeQueryRef": "Residential Permits",
+              "format": "#,0"
             }
           ]
         }
@@ -50,6 +51,31 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "textWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "00_Measures.Residential Permits"
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "title": [

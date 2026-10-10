@@ -99,18 +99,20 @@ table permits_clean
 
 	column applied_date
 		dataType: dateTime
-		formatString: 2001-03 (yyyy-mmm)
+		formatString: Long Date
 		lineageTag: 50f5729f-3937-44d3-bbd4-8b041db585bf
 		summarizeBy: none
 		sourceColumn: applied_date
 
+		changedProperty = DataType
+
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isCustom":true}
+		annotation UnderlyingDateTimeDataType = Date
 
 	column decision_date
 		dataType: dateTime
-		formatString: General Date
+		formatString: Long Date
 		lineageTag: f8a08906-2eaa-46ae-b59e-79b4fcf14617
 		summarizeBy: none
 		sourceColumn: decision_date
@@ -120,11 +122,15 @@ table permits_clean
 			relationship: 05d254ad-c56e-45dc-85af-66ef87a1f02c
 			defaultHierarchy: LocalDateTable_d9de51cd-7c55-4d9a-b0fd-bff751b79f8e.'Date Hierarchy'
 
+		changedProperty = DataType
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column releasedate
 		dataType: dateTime
-		formatString: General Date
+		formatString: Long Date
 		lineageTag: acd7d950-0dc2-4385-b02e-b288a6e5fd3a
 		summarizeBy: none
 		sourceColumn: releasedate
@@ -134,11 +140,15 @@ table permits_clean
 			relationship: 7a05f371-d9e4-48c8-9b7e-d07fcdcaee54
 			defaultHierarchy: LocalDateTable_74a024e0-d3af-4ca4-9c32-d9feab04791d.'Date Hierarchy'
 
+		changedProperty = DataType
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column mustcommencedate
 		dataType: dateTime
-		formatString: General Date
+		formatString: Long Date
 		lineageTag: eafd2887-102c-4d26-a6f4-2acb8113afe1
 		summarizeBy: none
 		sourceColumn: mustcommencedate
@@ -148,7 +158,11 @@ table permits_clean
 			relationship: a37c86e6-aabe-4c9b-93fd-deafa6177bed
 			defaultHierarchy: LocalDateTable_b856d493-2d08-4c9f-980e-cbc320fa9f16.'Date Hierarchy'
 
+		changedProperty = DataType
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column decision
 		dataType: string
@@ -404,7 +418,7 @@ table permits_clean
 
 	column raw_applied_date
 		dataType: dateTime
-		formatString: General Date
+		formatString: Long Date
 		lineageTag: 12e29339-0cf9-4844-96ed-db830a87faa9
 		summarizeBy: none
 		sourceColumn: raw_applied_date
@@ -413,6 +427,8 @@ table permits_clean
 			isDefault
 			relationship: 7ac6d2ed-78cc-4580-88bc-ba43188014da
 			defaultHierarchy: LocalDateTable_9f4d4eb3-deed-4c0f-b8fd-99fd3db498ca.'Date Hierarchy'
+
+		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 

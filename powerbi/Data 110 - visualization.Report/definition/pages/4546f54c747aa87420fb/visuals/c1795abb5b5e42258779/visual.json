@@ -61,7 +61,8 @@
                 }
               },
               "queryRef": "00_Measures.Permit Count",
-              "nativeQueryRef": "Permit Count"
+              "nativeQueryRef": "Permit Count",
+              "format": "#,0"
             },
             {
               "field": {
@@ -75,7 +76,8 @@
                 }
               },
               "queryRef": "00_Measures.Valid Count Dynamic",
-              "nativeQueryRef": "Valid Count Dynamic"
+              "nativeQueryRef": "Valid Count Dynamic",
+              "format": "#,0"
             },
             {
               "field": {
@@ -103,7 +105,8 @@
                 }
               },
               "queryRef": "00_Measures.Median Processing Days Dynamic",
-              "nativeQueryRef": "Median Processing Days Dynamic"
+              "nativeQueryRef": "Median Processing Days Dynamic",
+              "format": "#,0.00"
             }
           ]
         }

@@ -20,11 +20,11 @@ table Calendar
 	column Year
 		formatString: 0
 		lineageTag: 547bccd3-e6d3-4735-b1e5-cae3a3d805a6
-		summarizeBy: sum
+		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Year]
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 	column 'Month Number'
 		formatString: 0

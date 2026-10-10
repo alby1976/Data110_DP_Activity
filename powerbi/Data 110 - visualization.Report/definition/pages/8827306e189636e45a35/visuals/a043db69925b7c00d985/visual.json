@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "0fb9e79d086fcb00f1be",
+  "name": "a043db69925b7c00d985",
   "position": {
-    "x": 0,
-    "y": 113.05418719211822,
-    "z": 5000,
-    "height": 489.45812807881771,
-    "width": 982.90640394088666,
-    "tabOrder": 5000
+    "x": 943.75,
+    "y": 162.5,
+    "z": 7,
+    "height": 346.25,
+    "width": 472.5,
+    "tabOrder": 7
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,30 +23,12 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "ResidentialType"
+                  "Property": "community"
                 }
               },
-              "queryRef": "permits_clean.ResidentialType",
-              "nativeQueryRef": "ResidentialType",
+              "queryRef": "permits_clean.community",
+              "nativeQueryRef": "community",
               "active": true
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "permits_clean"
-                    }
-                  },
-                  "Property": "Period"
-                }
-              },
-              "queryRef": "permits_clean.Period",
-              "nativeQueryRef": "Period"
             }
           ]
         },
@@ -60,11 +42,11 @@
                       "Entity": "00_Measures"
                     }
                   },
-                  "Property": "Permit Count"
+                  "Property": "Geo Absolute Change"
                 }
               },
-              "queryRef": "00_Measures.Permit Count",
-              "nativeQueryRef": "Permit Count"
+              "queryRef": "00_Measures.Geo Absolute Change",
+              "nativeQueryRef": "Geo Absolute Change"
             }
           ]
         }
@@ -79,7 +61,7 @@
                     "Entity": "00_Measures"
                   }
                 },
-                "Property": "Permit Count"
+                "Property": "Geo Absolute Change"
               }
             },
             "direction": "Descending"
@@ -89,19 +71,6 @@
       }
     },
     "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "switchAxisPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
       "labels": [
         {
           "properties": {
@@ -111,39 +80,32 @@
                   "Value": "true"
                 }
               }
-            },
-            "labelOverflow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "labelPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Auto'"
-                }
-              }
-            },
-            "optimizeLabelDisplay": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "enableTitleDataLabel": {
+            }
+          }
+        }
+      ],
+      "zoom": [
+        {
+          "properties": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
                 }
               }
-            },
-            "bold": {
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "'Raw Absolute Change'"
                 }
               }
             }
@@ -156,35 +118,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "36f0e66b8473744f00d8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "ResidentialType"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1f0e482773afabfba892",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "Period"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "88714ea584c849ff95ac",
+        "name": "ca6bc7c196d7def970bc",
         "field": {
           "Measure": {
             "Expression": {
@@ -192,7 +126,7 @@
                 "Entity": "00_Measures"
               }
             },
-            "Property": "Permit Count"
+            "Property": "Geo Absolute Change"
           }
         },
         "type": "Advanced",
@@ -217,12 +151,12 @@
                           "Source": "0"
                         }
                       },
-                      "Property": "Permit Count"
+                      "Property": "Geo Absolute Change"
                     }
                   },
                   "Right": {
                     "Literal": {
-                      "Value": "400L"
+                      "Value": "22L"
                     }
                   }
                 }
@@ -230,6 +164,20 @@
             }
           ]
         }
+      },
+      {
+        "name": "255bbb0ccef40b0f70c8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "community"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

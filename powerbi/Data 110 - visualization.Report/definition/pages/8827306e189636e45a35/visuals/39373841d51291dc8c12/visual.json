@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "9cc91b699ee97d14a3be",
+  "name": "39373841d51291dc8c12",
   "position": {
-    "x": 0,
-    "y": 47.881773399014776,
-    "z": 1000,
-    "height": 65.172413793103445,
-    "width": 546.6502463054187,
-    "tabOrder": 1000
+    "x": 1558.75,
+    "y": 0,
+    "z": 9,
+    "height": 162.5,
+    "width": 361.25,
+    "tabOrder": 9
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "permit_volume"
+                      "Entity": "Geography Metric"
                     }
                   },
-                  "Property": "Period"
+                  "Property": "Metric"
                 }
               },
-              "queryRef": "permit_volume.Period",
-              "nativeQueryRef": "Period",
+              "queryRef": "Geography Metric.Metric",
+              "nativeQueryRef": "Metric",
               "active": true
             }
           ]
@@ -35,6 +35,19 @@
       }
     },
     "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
       "general": [
         {
           "properties": {
@@ -50,8 +63,8 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "p",
-                    "Entity": "permit_volume",
+                    "Name": "g",
+                    "Entity": "Geography Metric",
                     "Type": 0
                   }
                 ],
@@ -64,10 +77,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "p"
+                                  "Source": "g"
                                 }
                               },
-                              "Property": "Period"
+                              "Property": "Metric"
                             }
                           }
                         ],
@@ -75,14 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Before'"
-                              }
-                            }
-                          ],
-                          [
-                            {
-                              "Literal": {
-                                "Value": "'During'"
+                                "Value": "'Raw Applications'"
                               }
                             }
                           ]
@@ -96,13 +102,47 @@
           }
         }
       ],
-      "data": [
+      "items": [
         {
           "properties": {
-            "mode": {
+            "bold": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "true"
+                }
+              }
+            },
+            "textSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10.5D"
+                }
+              }
+            },
+            "padding": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "selection": [
+        {
+          "properties": {
+            "singleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "strictSingleSelect": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }

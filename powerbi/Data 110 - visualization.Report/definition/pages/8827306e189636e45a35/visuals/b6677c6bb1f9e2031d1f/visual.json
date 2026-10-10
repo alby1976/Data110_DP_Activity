@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
-  "name": "0fb9e79d086fcb00f1be",
+  "name": "b6677c6bb1f9e2031d1f",
   "position": {
-    "x": 0,
-    "y": 113.05418719211822,
-    "z": 5000,
-    "height": 489.45812807881771,
-    "width": 982.90640394088666,
-    "tabOrder": 5000
+    "x": 496.25,
+    "y": 162.5,
+    "z": 6,
+    "height": 343.75,
+    "width": 463.75,
+    "tabOrder": 6
   },
   "visual": {
-    "visualType": "barChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,30 +23,12 @@
                       "Entity": "permits_clean"
                     }
                   },
-                  "Property": "ResidentialType"
+                  "Property": "community"
                 }
               },
-              "queryRef": "permits_clean.ResidentialType",
-              "nativeQueryRef": "ResidentialType",
+              "queryRef": "permits_clean.community",
+              "nativeQueryRef": "community",
               "active": true
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "permits_clean"
-                    }
-                  },
-                  "Property": "Period"
-                }
-              },
-              "queryRef": "permits_clean.Period",
-              "nativeQueryRef": "Period"
             }
           ]
         },
@@ -60,11 +42,25 @@
                       "Entity": "00_Measures"
                     }
                   },
-                  "Property": "Permit Count"
+                  "Property": "Geo Before Rate 30"
                 }
               },
-              "queryRef": "00_Measures.Permit Count",
-              "nativeQueryRef": "Permit Count"
+              "queryRef": "00_Measures.Geo Before Rate 30",
+              "nativeQueryRef": "Geo Before Rate 30"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo During Rate 30"
+                }
+              },
+              "queryRef": "00_Measures.Geo During Rate 30",
+              "nativeQueryRef": "Geo During Rate 30"
             }
           ]
         }
@@ -79,68 +75,19 @@
                     "Entity": "00_Measures"
                   }
                 },
-                "Property": "Permit Count"
+                "Property": "Geo During Rate 30"
               }
             },
             "direction": "Descending"
           }
-        ],
-        "isDefaultSort": true
+        ]
       }
     },
     "objects": {
-      "categoryAxis": [
-        {
-          "properties": {
-            "switchAxisPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
       "labels": [
         {
           "properties": {
             "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "labelOverflow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "labelPosition": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Auto'"
-                }
-              }
-            },
-            "optimizeLabelDisplay": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "enableTitleDataLabel": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
-            "bold": {
               "expr": {
                 "Literal": {
                   "Value": "true"
@@ -156,35 +103,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "36f0e66b8473744f00d8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "ResidentialType"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1f0e482773afabfba892",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "Period"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "88714ea584c849ff95ac",
+        "name": "890bf829d64b6f62117b",
         "field": {
           "Measure": {
             "Expression": {
@@ -192,7 +111,7 @@
                 "Entity": "00_Measures"
               }
             },
-            "Property": "Permit Count"
+            "Property": "Geo During Rate 30"
           }
         },
         "type": "Advanced",
@@ -217,12 +136,12 @@
                           "Source": "0"
                         }
                       },
-                      "Property": "Permit Count"
+                      "Property": "Geo During Rate 30"
                     }
                   },
                   "Right": {
                     "Literal": {
-                      "Value": "400L"
+                      "Value": "4.49D"
                     }
                   }
                 }
@@ -230,6 +149,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "e004a4a7ac8dfb632afc",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "community"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6e654c99da53b405c203",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Rate 30"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

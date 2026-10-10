@@ -67,6 +67,7 @@ ref table LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5
 ref table DimResidentialType
 ref table Calendar
 ref table LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7
+ref table 'Geography Metric'
 
 ref cultureInfo en-CA
 
