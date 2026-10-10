@@ -4,10 +4,10 @@
   "position": {
     "x": 0,
     "y": 498.75,
-    "z": 10,
+    "z": 10000,
     "height": 228.75,
     "width": 1558.75,
-    "tabOrder": 10
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "tableEx",
@@ -828,12 +828,34 @@
         }
       ]
     },
+    "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'392a43b1a404dbccd8ec'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
     "filters": [
       {
-        "name": "282bec4e8013263626cd",
+        "name": "691adbe10b8702387a9e",
         "field": {
           "Column": {
             "Expression": {
@@ -847,7 +869,7 @@
         "type": "Categorical"
       },
       {
-        "name": "dfd060cbeb60f8b7fa6a",
+        "name": "ae7977e90b5c7fb76579",
         "field": {
           "Measure": {
             "Expression": {
@@ -861,7 +883,7 @@
         "type": "Advanced"
       },
       {
-        "name": "1f1e2e980abfba492138",
+        "name": "f4659af80badfd020a11",
         "field": {
           "Measure": {
             "Expression": {
@@ -875,7 +897,7 @@
         "type": "Advanced"
       },
       {
-        "name": "f77ea0b361d853961083",
+        "name": "e474a8927a2394250379",
         "field": {
           "Measure": {
             "Expression": {
@@ -883,13 +905,69 @@
                 "Entity": "00_Measures"
               }
             },
-            "Property": "Geo Rate 30 Change"
+            "Property": "Geo Absolute Change"
           }
         },
         "type": "Advanced"
       },
       {
-        "name": "7bf0e07f6239e2e6feb8",
+        "name": "ea11268a79915496e666",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Percentage Change"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "effa449ba2dadfb16457",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Exposure Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "078b9309b8880037e897",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo During Exposure Days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "00dc972b16d8e5cb2dd7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Rate 30"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0fd0f015141889e72ed0",
         "field": {
           "Measure": {
             "Expression": {
@@ -903,7 +981,35 @@
         "type": "Advanced"
       },
       {
-        "name": "aa8bde5190547ecdece5",
+        "name": "b8280dc3341eb2ea91c4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Rate 30 Change"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "8bf0201b3b33abc32b7d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Rate 30 Change %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5e1929ed7ab566ca3881",
         "field": {
           "Measure": {
             "Expression": {

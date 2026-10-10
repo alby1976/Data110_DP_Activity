@@ -4,10 +4,10 @@
   "position": {
     "x": 1416.25,
     "y": 136.25,
-    "z": 8,
+    "z": 8000,
     "height": 346.25,
     "width": 503.75,
-    "tabOrder": 8
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -151,20 +151,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "1654a11c0d2db7e2d3d8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "community"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

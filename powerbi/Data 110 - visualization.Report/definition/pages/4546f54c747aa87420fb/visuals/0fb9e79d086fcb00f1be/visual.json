@@ -156,34 +156,6 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "36f0e66b8473744f00d8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "ResidentialType"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1f0e482773afabfba892",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "Period"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
         "name": "88714ea584c849ff95ac",
         "field": {
           "Measure": {
