@@ -3,9 +3,9 @@
   "name": "39373841d51291dc8c12",
   "position": {
     "x": 1558.75,
-    "y": 0,
+    "y": 553.75,
     "z": 9,
-    "height": 162.5,
+    "height": 226.25,
     "width": 361.25,
     "tabOrder": 9
   },
@@ -88,7 +88,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "'Raw Applications'"
+                                "Value": "'Applications per 30 Days'"
                               }
                             }
                           ]
