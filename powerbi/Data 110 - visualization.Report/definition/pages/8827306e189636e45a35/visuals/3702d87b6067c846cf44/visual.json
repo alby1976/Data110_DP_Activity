@@ -3,14 +3,14 @@
   "name": "3702d87b6067c846cf44",
   "position": {
     "x": 0,
-    "y": 138.75,
+    "y": 140,
     "z": 5000,
-    "height": 343.75,
-    "width": 501.25,
+    "height": 383.33333333333337,
+    "width": 455,
     "tabOrder": 5000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -171,6 +171,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "adf4e40252ab227de29f",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "community"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "b29279797ab08a239a21",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Permits"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

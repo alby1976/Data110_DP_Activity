@@ -335,3 +335,31 @@ relationship 8c614abc-9a82-eb74-4290-2a4c3f0a289d
 	fromColumn: permits_clean.applied_date
 	toColumn: Calendar.Date
 
+relationship e8625750-08f8-4a39-a104-dd7c10e47b0e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityCentroids.:created_at
+	toColumn: LocalDateTable_0e30e792-55cd-418d-93c2-ab7ad255a648.Date
+
+relationship 10da0746-32f5-4f4d-ad0e-be15659336ae
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityCentroids.:updated_at
+	toColumn: LocalDateTable_aee7176b-1be3-43bf-9d3f-4ce2c93480bd.Date
+
+relationship 7c4436cd-729f-485e-bba6-b1463974b38a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityCentroids.created_dt
+	toColumn: LocalDateTable_0d80f5aa-57ce-4cfa-b0ed-16b80852bd91.Date
+
+relationship 883f4cd8-bfea-489d-891d-fcc1df0039ba
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityCentroids.modified_dt
+	toColumn: LocalDateTable_eace90e3-4971-4c4a-8384-2b9d1c9cf0b2.Date
+
+relationship AutoDetected_704adaa7-bda8-4244-beb5-8dbb97c71a79
+	fromColumn: permits_clean.community
+	toColumn: CommunityCentroids.Community
+
+relationship AutoDetected_0d2c2b0d-51a2-4ea1-9a8e-8bd7ce9ed450
+	fromColumn: community_summary.Community
+	toColumn: CommunityCentroids.Community
+

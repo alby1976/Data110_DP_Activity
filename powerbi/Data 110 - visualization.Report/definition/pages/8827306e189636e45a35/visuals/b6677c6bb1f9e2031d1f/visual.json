@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "b6677c6bb1f9e2031d1f",
   "position": {
-    "x": 496.25,
-    "y": 138.75,
+    "x": 455,
+    "y": 138.33333333333334,
     "z": 6000,
-    "height": 343.75,
-    "width": 463.75,
+    "height": 385,
+    "width": 451.66666666666669,
     "tabOrder": 6000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -98,6 +98,21 @@
         }
       ]
     },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'30-Day Permit Rate 30 - Before vs During'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
   },
   "filterConfig": {
@@ -149,6 +164,34 @@
             }
           ]
         }
+      },
+      {
+        "name": "ce17d86074c5f31ece30",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "community"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "78c242f2230e4c5283d8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Rate 30"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

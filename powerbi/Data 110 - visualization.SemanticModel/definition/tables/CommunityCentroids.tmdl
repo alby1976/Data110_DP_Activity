@@ -1,0 +1,174 @@
+table CommunityCentroids
+	lineageTag: b0f256e4-dbd4-4360-a6f9-b0726bf604a9
+
+	column Longitude
+		dataType: double
+		lineageTag: c0e96f66-a028-4796-bedd-0e9d724113ed
+		summarizeBy: sum
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Latitude
+		dataType: double
+		lineageTag: 566e7e07-973d-4426-a5e5-c2ba2e2a2025
+		summarizeBy: sum
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fid
+		dataType: int64
+		formatString: 0
+		lineageTag: 1af7825f-6363-4497-b4e0-8ca1660e4422
+		summarizeBy: sum
+		sourceColumn: fid
+
+		annotation SummarizationSetBy = Automatic
+
+	column :id
+		dataType: string
+		lineageTag: c1ab7556-270b-44af-8102-86b00e9965c1
+		summarizeBy: none
+		sourceColumn: :id
+
+		annotation SummarizationSetBy = Automatic
+
+	column :version
+		dataType: string
+		lineageTag: 02787990-b121-44fd-ae0d-05d96279c354
+		summarizeBy: none
+		sourceColumn: :version
+
+		annotation SummarizationSetBy = Automatic
+
+	column :created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: ea15d6f4-d8b8-45e9-98c9-5b71ae513edf
+		summarizeBy: none
+		sourceColumn: :created_at
+
+		variation Variation
+			isDefault
+			relationship: e8625750-08f8-4a39-a104-dd7c10e47b0e
+			defaultHierarchy: LocalDateTable_0e30e792-55cd-418d-93c2-ab7ad255a648.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column :updated_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: fbfa3911-92e7-499a-b09d-80d53e0f0439
+		summarizeBy: none
+		sourceColumn: :updated_at
+
+		variation Variation
+			isDefault
+			relationship: 10da0746-32f5-4f4d-ad0e-be15659336ae
+			defaultHierarchy: LocalDateTable_aee7176b-1be3-43bf-9d3f-4ce2c93480bd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column class
+		dataType: string
+		lineageTag: 9a9d8782-19cc-4fe7-92a8-388cb05b8645
+		summarizeBy: none
+		sourceColumn: class
+
+		annotation SummarizationSetBy = Automatic
+
+	column class_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b7ae8db-0c8d-462f-aef0-ab816842208e
+		summarizeBy: sum
+		sourceColumn: class_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column comm_code
+		dataType: string
+		lineageTag: bd3deefa-0490-4cda-ab9f-5a137ba4f7a6
+		summarizeBy: none
+		sourceColumn: comm_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Community
+		dataType: string
+		lineageTag: 2c4451ad-cd0c-47a6-97a8-6695a6fec233
+		summarizeBy: none
+		sourceColumn: Community
+
+		annotation SummarizationSetBy = Automatic
+
+	column sector
+		dataType: string
+		lineageTag: 9fd68355-75eb-4ea5-8dba-81c6a4d94a45
+		summarizeBy: none
+		sourceColumn: sector
+
+		annotation SummarizationSetBy = Automatic
+
+	column srg
+		dataType: string
+		lineageTag: dffef10e-d0a9-4c1e-aa3f-8dbe1cecd6a6
+		summarizeBy: none
+		sourceColumn: srg
+
+		annotation SummarizationSetBy = Automatic
+
+	column comm_structure
+		dataType: string
+		lineageTag: 0498f4b3-6fc6-4e98-9524-f103c87f82bf
+		summarizeBy: none
+		sourceColumn: comm_structure
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_dt
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: cd48a5a8-acc9-4b73-a01a-0d3e022dc60c
+		summarizeBy: none
+		sourceColumn: created_dt
+
+		variation Variation
+			isDefault
+			relationship: 7c4436cd-729f-485e-bba6-b1463974b38a
+			defaultHierarchy: LocalDateTable_0d80f5aa-57ce-4cfa-b0ed-16b80852bd91.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column modified_dt
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2ed04e70-6a22-4511-99e5-c6e8290aca1b
+		summarizeBy: none
+		sourceColumn: modified_dt
+
+		variation Variation
+			isDefault
+			relationship: 883f4cd8-bfea-489d-891d-fcc1df0039ba
+			defaultHierarchy: LocalDateTable_eace90e3-4971-4c4a-8384-2b9d1c9cf0b2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CommunityCentroids = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\raw\map\calgary_community_centroids.csv"), [Delimiter = ",", Columns = 16, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Longitude", type number}, {"Latitude", type number}, {"fid", Int64.Type}, {":id", type text}, {":version", type text}, {":created_at", type datetime}, {":updated_at", type datetime}, {"class", type text}, {"class_code", Int64.Type}, {"comm_code", type text}, {"name", type text}, {"sector", type text}, {"srg", type text}, {"comm_structure", type text}, {"created_dt", type datetime}, {"modified_dt", type datetime}}, "en-US"),
+				  #"Renamed columns" = Table.RenameColumns(#"Changed column type", {{"name", "Community"}})
+				in
+				  #"Renamed columns"
+
+	annotation PBI_ResultType = Table
+

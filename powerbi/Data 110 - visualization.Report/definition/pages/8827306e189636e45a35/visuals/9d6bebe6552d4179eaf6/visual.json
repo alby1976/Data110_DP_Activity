@@ -3,7 +3,7 @@
   "name": "9d6bebe6552d4179eaf6",
   "position": {
     "x": 0,
-    "y": 22.5,
+    "y": 46.666666666666671,
     "z": 1000,
     "height": 93.75,
     "width": 333.75,
@@ -93,5 +93,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "80732700f22685c643c2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Permits"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

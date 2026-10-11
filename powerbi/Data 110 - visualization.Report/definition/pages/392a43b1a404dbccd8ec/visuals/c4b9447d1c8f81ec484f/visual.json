@@ -3,7 +3,7 @@
   "name": "c4b9447d1c8f81ec484f",
   "position": {
     "x": 0,
-    "y": 98,
+    "y": 0,
     "z": 0,
     "height": 178,
     "width": 400,
@@ -102,74 +102,43 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "8D"
+                  "Value": "9D"
                 }
               }
             }
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "columnAdjustment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'fitToContent'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "150D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "permits_clean.community"
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "94352310f1668077c20b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "permits_clean"
-              }
-            },
-            "Property": "community"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "637a72b06e5a8cb9827a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "00_Measures"
-              }
-            },
-            "Property": "Geo Before Permits"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "70e01bbb06ce01d3c2d5",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "00_Measures"
-              }
-            },
-            "Property": "Geo During Permits"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "efd80666d0a6768ba183",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "00_Measures"
-              }
-            },
-            "Property": "Geo Baseline Warning"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

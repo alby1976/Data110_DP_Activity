@@ -3,10 +3,10 @@
   "name": "3f1e0816121f9198e3e5",
   "position": {
     "x": 0,
-    "y": 498.75,
+    "y": 523.33333333333337,
     "z": 10000,
-    "height": 228.75,
-    "width": 1558.75,
+    "height": 230,
+    "width": 1558.3333333333335,
     "tabOrder": 10000
   },
   "visual": {
@@ -207,7 +207,7 @@
                     "Entity": "00_Measures"
                   }
                 },
-                "Property": "Geo Percentage Change"
+                "Property": "Geo Rate 30 Change %"
               }
             },
             "direction": "Descending"
@@ -855,7 +855,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "691adbe10b8702387a9e",
+        "name": "c12bffb7e98dd09cf03b",
         "field": {
           "Column": {
             "Expression": {
@@ -869,7 +869,7 @@
         "type": "Categorical"
       },
       {
-        "name": "ae7977e90b5c7fb76579",
+        "name": "b314e76dcb14291d231f",
         "field": {
           "Measure": {
             "Expression": {
@@ -883,7 +883,7 @@
         "type": "Advanced"
       },
       {
-        "name": "f4659af80badfd020a11",
+        "name": "229b176c4ba7033c1ebd",
         "field": {
           "Measure": {
             "Expression": {
@@ -897,7 +897,7 @@
         "type": "Advanced"
       },
       {
-        "name": "e474a8927a2394250379",
+        "name": "c37b67660301a0cb8e1c",
         "field": {
           "Measure": {
             "Expression": {
@@ -911,7 +911,7 @@
         "type": "Advanced"
       },
       {
-        "name": "ea11268a79915496e666",
+        "name": "bf687dfbde60bdc56887",
         "field": {
           "Measure": {
             "Expression": {
@@ -925,7 +925,7 @@
         "type": "Advanced"
       },
       {
-        "name": "effa449ba2dadfb16457",
+        "name": "08c29fc7199f5ddefcb9",
         "field": {
           "Measure": {
             "Expression": {
@@ -939,7 +939,7 @@
         "type": "Advanced"
       },
       {
-        "name": "078b9309b8880037e897",
+        "name": "6a78713e856d1ac71645",
         "field": {
           "Measure": {
             "Expression": {
@@ -953,7 +953,7 @@
         "type": "Advanced"
       },
       {
-        "name": "00dc972b16d8e5cb2dd7",
+        "name": "8a53cdbcbbc93df83c30",
         "field": {
           "Measure": {
             "Expression": {
@@ -967,7 +967,7 @@
         "type": "Advanced"
       },
       {
-        "name": "0fd0f015141889e72ed0",
+        "name": "b6a30b480c9a1a012658",
         "field": {
           "Measure": {
             "Expression": {
@@ -981,7 +981,7 @@
         "type": "Advanced"
       },
       {
-        "name": "b8280dc3341eb2ea91c4",
+        "name": "344a563b4f2e4c5f1dc0",
         "field": {
           "Measure": {
             "Expression": {
@@ -995,7 +995,7 @@
         "type": "Advanced"
       },
       {
-        "name": "8bf0201b3b33abc32b7d",
+        "name": "9dd2fbdf551d448b5891",
         "field": {
           "Measure": {
             "Expression": {
@@ -1009,7 +1009,7 @@
         "type": "Advanced"
       },
       {
-        "name": "5e1929ed7ab566ca3881",
+        "name": "a5f907147c5ac1c779ca",
         "field": {
           "Measure": {
             "Expression": {

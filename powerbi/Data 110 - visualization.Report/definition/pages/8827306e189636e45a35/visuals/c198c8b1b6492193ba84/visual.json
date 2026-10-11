@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "c198c8b1b6492193ba84",
   "position": {
-    "x": 1416.25,
-    "y": 136.25,
+    "x": 1210,
+    "y": 140,
     "z": 8000,
-    "height": 346.25,
-    "width": 503.75,
+    "height": 383.33333333333337,
+    "width": 348.33333333333337,
     "tabOrder": 8000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -151,6 +151,20 @@
             }
           ]
         }
+      },
+      {
+        "name": "a13b072529e76a1776b7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "community"
+          }
+        },
+        "type": "Categorical"
       }
     ]
   }

@@ -410,6 +410,19 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2083.2707506007891,
+            "y": 1825.7900656910183
+          },
+          "nodeIndex": "CommunityCentroids",
+          "nodeLineageTag": "b0f256e4-dbd4-4360-a6f9-b0726bf604a9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",

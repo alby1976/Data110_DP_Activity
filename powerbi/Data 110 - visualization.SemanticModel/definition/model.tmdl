@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit","00_Measures"]
+annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit","00_Measures","CommunityCentroids"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -68,6 +68,11 @@ ref table DimResidentialType
 ref table Calendar
 ref table LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7
 ref table 'Geography Metric'
+ref table CommunityCentroids
+ref table LocalDateTable_0e30e792-55cd-418d-93c2-ab7ad255a648
+ref table LocalDateTable_aee7176b-1be3-43bf-9d3f-4ce2c93480bd
+ref table LocalDateTable_0d80f5aa-57ce-4cfa-b0ed-16b80852bd91
+ref table LocalDateTable_eace90e3-4971-4c4a-8384-2b9d1c9cf0b2
 
 ref cultureInfo en-CA
 

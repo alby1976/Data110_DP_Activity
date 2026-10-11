@@ -1,0 +1,346 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "d0fb852d00134c539339",
+  "position": {
+    "x": 0,
+    "y": 753.33333333333337,
+    "z": 11000,
+    "height": 326.66666666666669,
+    "width": 1558.3333333333335,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "azureMap",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "permits_clean"
+                    }
+                  },
+                  "Property": "Community Map Location"
+                }
+              },
+              "queryRef": "permits_clean.Community Map Location",
+              "nativeQueryRef": "Community Map Location",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Permit Count"
+                }
+              },
+              "queryRef": "00_Measures.Permit Count",
+              "nativeQueryRef": "Permit Count"
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo Before Permits"
+                }
+              },
+              "queryRef": "00_Measures.Geo Before Permits",
+              "nativeQueryRef": "Geo Before Permits"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo During Permits"
+                }
+              },
+              "queryRef": "00_Measures.Geo During Permits",
+              "nativeQueryRef": "Geo During Permits"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo Absolute Change"
+                }
+              },
+              "queryRef": "00_Measures.Geo Absolute Change",
+              "nativeQueryRef": "Geo Absolute Change"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo Before Rate 30"
+                }
+              },
+              "queryRef": "00_Measures.Geo Before Rate 30",
+              "nativeQueryRef": "Geo Before Rate 30"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo During Rate 30"
+                }
+              },
+              "queryRef": "00_Measures.Geo During Rate 30",
+              "nativeQueryRef": "Geo During Rate 30"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo Rate 30 Change"
+                }
+              },
+              "queryRef": "00_Measures.Geo Rate 30 Change",
+              "nativeQueryRef": "Geo Rate 30 Change"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo Rate 30 Change %"
+                }
+              },
+              "queryRef": "00_Measures.Geo Rate 30 Change %",
+              "nativeQueryRef": "Geo Rate 30 Change %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "00_Measures"
+                    }
+                  },
+                  "Property": "Geo Baseline Warning"
+                }
+              },
+              "queryRef": "00_Measures.Geo Baseline Warning",
+              "nativeQueryRef": "Geo Baseline Warning"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "mapControls": [
+        {
+          "properties": {
+            "zoom": {
+              "expr": {
+                "Literal": {
+                  "Value": "10.5D"
+                }
+              }
+            },
+            "centerLatitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "51.08655364061053D"
+                }
+              }
+            },
+            "centerLongitude": {
+              "expr": {
+                "Literal": {
+                  "Value": "-114.1992881194534D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5ff618e7d0d101e87761",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Permit Count"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3241748a305d42975fec",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Permits"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "96dd07940926ba663a29",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Absolute Change"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "885e7d78031f24dd3fdd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Rate 30"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "aac4f87eea2655e2f09f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo During Permits"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7d89b6c16adce7f48e45",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo During Rate 30"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "77c26913ddfd79e364fd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Rate 30 Change"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ac78e0448953a615b8ab",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Rate 30 Change %"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "dce021acf8cea0ff00d4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Baseline Warning"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0883b5743b35189df042",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "Community Map Location"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

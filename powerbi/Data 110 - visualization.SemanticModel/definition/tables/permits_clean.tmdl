@@ -216,20 +216,20 @@ table permits_clean
 	column latitude
 		dataType: double
 		lineageTag: 7d153812-a259-4c1c-b1ff-e4dd12b15435
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: latitude
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column longitude
 		dataType: double
 		lineageTag: e12d9257-0a4c-41a4-a6b0-69c1f7297ee4
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: longitude
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
@@ -253,6 +253,7 @@ table permits_clean
 	column locationaddresses
 		dataType: string
 		lineageTag: caa45af6-b869-4858-a601-cfa570543738
+		dataCategory: Place
 		summarizeBy: none
 		sourceColumn: locationaddresses
 
@@ -988,6 +989,23 @@ table permits_clean
 		formatString: 0
 		lineageTag: c1fda902-7dbe-4089-9262-b1869a262fc3
 		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Community Map Location' =
+			
+			IF(
+			    ISBLANK(permits_clean[Community]),
+			    BLANK(),
+			    permits_clean[community]
+			        & ", Calgary, Alberta, Canada"
+			)
+		dataType: string
+		lineageTag: fa7befb0-53f9-4915-8c87-83374fe1b3fd
+		dataCategory: Place
+		summarizeBy: none
+
+		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 
