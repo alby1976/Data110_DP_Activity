@@ -101,3 +101,37 @@ def test_reference_refresh_runs_even_when_no_wards_are_missing(tmp_path, request
                                   address_cache_path=tmp_path / "parcels.json")
         assert result["ward"].tolist() == [1]
     assert requests_mock.call_count == 2
+
+
+def test_complete_source_locations_and_exact_snapshot_addresses(tmp_path, requests_mock):
+    """Recover complete locations and reject cross-boundary or incomplete points.
+
+    Args:
+        tmp_path: Isolated lookup cache directory.
+        requests_mock: Mock the City reference and empty parcel queries.
+    """
+    requests_mock.get(WARD_ENDPOINT, json={"type": "FeatureCollection", "features": [{
+        "properties": {"ward_num": "4", "label": "WARD 4"},
+        "geometry": {"type": "Polygon", "coordinates": [
+            [[0, 0], [4, 0], [4, 4], [0, 4], [0, 0]],
+        ]},
+    }]})
+    requests_mock.get(PARCEL_ENDPOINT, json=[])
+    points = json.dumps({"type": "MultiPoint", "coordinates": [[2, 2], [3, 3]]})
+    outside = json.dumps({"type": "MultiPoint", "coordinates": [[2, 2], [8, 8]]})
+    source = pd.DataFrame({
+        "address": ["10 MAIN ST", "10 MAIN ST", "20 MAIN ST", "30 MAIN ST"],
+        "ward": [None] * 4,
+        "locationsgeojson": [points, None, outside, points],
+        "locationcount": [2, None, 2, 3],
+    })
+    result = add_ward_features(source, boundary_path=tmp_path / "wards.geojson",
+                              address_cache_path=tmp_path / "parcels.json")
+    assert result["ward"].iloc[:2].tolist() == [4, 4]
+    assert result["ward"].iloc[2:].isna().all()
+    assert result["WardFillMethod"].iloc[:2].tolist() == [
+        "source_location_points", "snapshot_exact_address",
+    ]
+    assert result["WardLookupStatus"].iloc[2:].tolist() == [
+        "source_locations_ambiguous", "multiple_locations",
+    ]

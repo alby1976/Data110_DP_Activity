@@ -27,6 +27,33 @@ from dp_activity.features.community_features import _address, _community, _parce
 WARD_ENDPOINT = "https://data.calgary.ca/resource/tz8z-hyaz.geojson"
 
 
+def _location_points(row: pd.Series) -> list[tuple[float, float]]:
+    """Extract complete source location evidence rather than a representative point.
+
+    Args:
+        row: Permit record with optional locationsgeojson and locationcount.
+
+    Returns:
+        All finite WGS84 points, or an empty list for incomplete evidence.
+    """
+    count = pd.to_numeric(row.get("locationcount"), errors="coerce")
+    try:
+        geometry = json.loads(row.get("locationsgeojson"))
+        if geometry.get("type") == "MultiPoint":
+            coordinates = geometry["coordinates"]
+        elif geometry.get("type") == "Point":
+            coordinates = [geometry["coordinates"]]
+        else:
+            return []
+        if pd.notna(count) and len(coordinates) != count:
+            return []
+        points = [(float(point[0]), float(point[1])) for point in coordinates]
+        return points if points and all(-180 <= lon <= 180 and -90 <= lat <= 90
+                                       for lon, lat in points) else []
+    except (TypeError, ValueError, KeyError, IndexError):
+        return []
+
+
 def _boundaries(path: Path) -> dict:
     """Refresh the local WGS84 ward reference from the City on every invocation.
 
@@ -86,7 +113,9 @@ def add_ward_features(
 
     Note:
         Current boundaries yield current reference wards, not historical wards
-        at application time. Multi-location permits require review. Multiple
+        at application time. Complete source location points are checked first;
+        all locations must resolve to one ward. Exact-address evidence from
+        other permits in the same snapshot can recover unmatched parcels. Multiple
         parcel records must all resolve to the same ward. Only exact address
         matches are used; no community-centroid or street-name inference occurs.
     """
@@ -108,11 +137,25 @@ def add_ward_features(
     positions = [position for position in range(len(result)) if missing.iloc[position]]
     if not positions:
         return result
+    result["ward"] = result["ward"].astype(object)
     needed, candidates = set(), []
     for position in positions:
         row = result.iloc[position]
         address = _address(row.get("address"))
         count = pd.to_numeric(row.get("locationcount"), errors="coerce")
+        points = _location_points(row)
+        if points:
+            matches = [_community(point, boundaries["features"],
+                                  code_field="ward_num", name_field="label") for point in points]
+            if None not in matches and len(set(matches)) == 1:
+                result.iloc[position, result.columns.get_loc("ward")] = int(matches[0][0])
+                result.iloc[position, result.columns.get_loc("WardWasFilled")] = True
+                result.iloc[position, result.columns.get_loc("WardFillMethod")] = "source_location_points"
+                result.iloc[position, result.columns.get_loc("WardLookupStatus")] = "filled"
+                result.iloc[position, result.columns.get_loc("WardBoundaryReference")] = boundary_path.name
+            else:
+                result.iloc[position, result.columns.get_loc("WardLookupStatus")] = "source_locations_ambiguous"
+            continue
         status = "address_unmatched_or_ambiguous" if address else "no_address"
         if ";" in address or (pd.notna(count) and count > 1):
             status = "multiple_locations"
@@ -123,10 +166,18 @@ def add_ward_features(
     if not candidates:
         return result
     parcels = _parcel_cache(needed, address_cache_path)
+    snapshot_points = {}
+    for _, row in permits.iterrows():
+        address = _address(row.get("address"))
+        if address in needed:
+            points = _location_points(row)
+            if points:
+                snapshot_points.setdefault(address, []).extend(points)
     # Object permits a recovered numeric ward alongside source text or numbers.
     result["ward"] = result["ward"].astype(object)
     for position, address in candidates:
         matches = []
+        method = "parcel_address"
         for parcel in parcels[address]:
             try:
                 point = (float(parcel["longitude"]), float(parcel["latitude"]))
@@ -135,10 +186,15 @@ def add_ward_features(
                 continue
             matches.append(_community(point, boundaries["features"],
                                       code_field="ward_num", name_field="label"))
+        if not matches and address in snapshot_points:
+            matches = [_community(point, boundaries["features"],
+                                  code_field="ward_num", name_field="label")
+                       for point in snapshot_points[address]]
+            method = "snapshot_exact_address"
         result.iloc[position, result.columns.get_loc("WardBoundaryReference")] = boundary_path.name
         if matches and None not in matches and len(set(matches)) == 1:
             result.iloc[position, result.columns.get_loc("ward")] = int(matches[0][0])
             result.iloc[position, result.columns.get_loc("WardWasFilled")] = True
-            result.iloc[position, result.columns.get_loc("WardFillMethod")] = "parcel_address"
+            result.iloc[position, result.columns.get_loc("WardFillMethod")] = method
             result.iloc[position, result.columns.get_loc("WardLookupStatus")] = "filled"
     return result

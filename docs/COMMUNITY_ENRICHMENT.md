@@ -63,5 +63,9 @@ matches continue to use the shared address cache.
 Recovered wards use current reference boundaries rather than historical wards
 at the application date. `WardWasFilled`, `WardFillMethod`, `WardLookupStatus`,
 and `WardBoundaryReference` identify the enrichment in the processed exports.
-Multi-location permits and unmatched or ambiguous parcel locations remain
-unresolved. All matching parcel points must lie in the same ward for recovery.
+Complete permit `locationsgeojson` points are checked first, including multiple
+locations when their count matches `locationcount`. Every point must resolve to
+the same ward. If an exact parcel lookup has no results, complete location
+evidence from other permits with the same exact address is checked. The methods
+are recorded as `source_location_points` and `snapshot_exact_address`.
+Incomplete multi-location records and ambiguous parcel locations remain unresolved.
