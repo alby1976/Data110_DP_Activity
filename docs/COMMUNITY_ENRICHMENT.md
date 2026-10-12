@@ -4,6 +4,10 @@ The normal CLI `run` command now fills missing `communitycode` and `community`
 fields before validation, analysis, and export. Enable or disable this stage in
 `analysis.community_enrichment` in `config/settings.yaml`.
 
+Cleaning excludes null, empty, and whitespace-only addresses before lookup.
+Literal `undefine` and `undefined` addresses are retained. Raw snapshots remain
+unchanged; downstream counts use the retained records.
+
 ```powershell
 python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.csv
 ```

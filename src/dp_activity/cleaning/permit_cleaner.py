@@ -1,7 +1,7 @@
 """Deterministic cleaning for City development-permit records.
 
-This module standardizes raw City fields and dates while preserving source evidence and
-questionable records for review.
+This module standardizes raw City fields and dates, excludes blank or null
+addresses, and preserves source evidence for retained records.
 
 Design Pattern:
     Pipes and Filters.
@@ -9,7 +9,7 @@ Design Pattern:
 Pattern Rationale:
     The cleaner is a deterministic filter in the larger analysis pipeline. Its
     ordered normalization, text, date, and coordinate steps pass one copied table
-    forward without I/O, classification, or record removal. This isolates data
+    forward without I/O or classification, filtering absent addresses. This isolates data
     preparation from later validation and analytical decisions.
 
 Typical Usage:
@@ -70,7 +70,7 @@ class PermitCleaner:
             permits: pandas DataFrame with unique, nonblank string column names.
 
         Returns:
-            A new DataFrame with the original row order and index. Columns appear
+            A new DataFrame preserving the order and index of retained rows. Columns appear
             in source order after renaming, followed by raw_<name> evidence
             columns in the same order, configured <date>_invalid flags, and
             latitude_invalid/longitude_invalid flags for available coordinates.
@@ -85,6 +85,10 @@ class PermitCleaner:
             values remain unchanged unless they are configured dates or numeric
             coordinates. Raw evidence preserves the original values and types.
 
+            If an address column exists, missing and whitespace-only addresses
+            are excluded. Literal "undefine" and "undefined" addresses remain.
+            Tables without an address column retain all rows.
+
             Dates accept ISO-8601 strings and Python/pandas date objects. Invalid
             nonmissing values become NaT with an invalid flag; missing values
             and blanks are not flagged. Parsed dates are timezone-naive and keep
@@ -93,7 +97,7 @@ class PermitCleaner:
 
             Coordinates become float64; unparseable values, booleans, and infinity
             become NaN and are flagged. Geographic range checks belong to later
-            validation. Duplicates and invalid records are retained. This filter
+            validation. Other duplicates and invalid records are retained. This filter
             expects source data; passing an already-cleaned result is rejected
             when its evidence columns collide.
         """
@@ -123,6 +127,8 @@ class PermitCleaner:
         evidence.columns = evidence_names
         cleaned = _normalize_text(cleaned)
         cleaned = pd.concat([cleaned, evidence], axis=1)
+        if "address" in cleaned:
+            cleaned = cleaned.loc[cleaned["address"].notna()].copy()
         cleaned = _parse_dates(cleaned, self.date_columns)
         cleaned = _parse_coordinates(cleaned, coordinates)
         return cleaned

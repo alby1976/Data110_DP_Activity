@@ -143,6 +143,30 @@ def test_empty_frame_retains_typed_dates_and_flags() -> None:
     assert PermitCleaner({}, []).clean(pd.DataFrame()).empty
 
 
+def test_blank_addresses_are_dropped_but_literal_undefined_is_retained() -> None:
+    """Preserve literal address text while excluding blanks and nulls."""
+    source = pd.DataFrame({
+        "address": [None, pd.NA, float("nan"), "", " \t ",
+                    " undefine ", "undefined", "UNDEFINED", "248 43 AV NW"],
+    }, index=[1, 1, 2, 3, 4, 5, 6, 7, 7])
+    original = source.copy(deep=True)
+    result = PermitCleaner({}, []).clean(source)
+    assert result["address"].tolist() == ["undefine", "undefined", "UNDEFINED", "248 43 AV NW"]
+    assert result["raw_address"].tolist() == [" undefine ", "undefined", "UNDEFINED", "248 43 AV NW"]
+    assert result.index.tolist() == [5, 6, 7, 7]
+    assert_frame_equal(source, original)
+
+
+def test_all_blank_addresses_return_a_typed_empty_table() -> None:
+    """Retain downstream date schemas when every row lacks an address."""
+    source = pd.DataFrame({"address": [None, " \t "],
+                           "applieddate": ["2024-01-01", "2024-01-02"]})
+    result = PermitCleaner({"applieddate": "applied_date"}, ["applied_date"]).clean(source)
+    assert result.empty
+    assert str(result["applied_date"].dtype) == "datetime64[ns]"
+    assert result["applied_date_invalid"].dtype == bool
+
+
 def test_constructor_copies_configuration_and_ignores_absent_optional_mappings() -> None:
     """Prevent caller configuration changes from silently changing the filter."""
     mapping = {"applieddate": "applied_date", "missing_optional": "optional"}
