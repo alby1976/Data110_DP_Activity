@@ -99,7 +99,7 @@ analysis:
     boundary_file: "data/processed/Community_District_Boundaries_20261010.geojson"
     address_cache: "data/interim/parcel_address_cache.json"
 
-  # Exact address lookup fills only missing wards using cached current boundaries.
+  # Refresh City ward boundaries on every run; fill only missing wards by address.
   ward_enrichment:
     enabled: true
     boundary_file: "data/raw/map/calgary_ward_boundaries.geojson"

@@ -28,10 +28,10 @@ WARD_ENDPOINT = "https://data.calgary.ca/resource/tz8z-hyaz.geojson"
 
 
 def _boundaries(path: Path) -> dict:
-    """Load cached WGS84 wards or acquire one complete City reference snapshot.
+    """Refresh the local WGS84 ward reference from the City on every invocation.
 
     Args:
-        path: GeoJSON cache path; deleting it explicitly refreshes the reference.
+        path: GeoJSON reference path atomically replaced after validation.
 
     Returns:
         Validated FeatureCollection with source endpoint and retrieval time.
@@ -41,14 +41,11 @@ def _boundaries(path: Path) -> dict:
         requests.RequestException: The reference download fails.
         OSError: Reference reading or persistence fails.
     """
-    if path.exists():
-        data = json.loads(path.read_text(encoding="utf-8"))
-    else:
-        response = requests.get(WARD_ENDPOINT, params={"$limit": 1000}, timeout=60)
-        response.raise_for_status()
-        data = response.json()
-        data["source_endpoint"] = WARD_ENDPOINT
-        data["retrieved_at_utc"] = datetime.now(timezone.utc).isoformat()
+    response = requests.get(WARD_ENDPOINT, params={"$limit": 1000}, timeout=60)
+    response.raise_for_status()
+    data = response.json()
+    data["source_endpoint"] = WARD_ENDPOINT
+    data["retrieved_at_utc"] = datetime.now(timezone.utc).isoformat()
     features = data.get("features")
     if data.get("type") != "FeatureCollection" or not features or len(features) >= 1000:
         raise ValueError("Ward reference must be a complete GeoJSON FeatureCollection.")
@@ -59,11 +56,10 @@ def _boundaries(path: Path) -> dict:
         properties = feature["properties"]
         if not str(properties.get("ward_num", "")).isdigit() or not properties.get("label"):
             raise ValueError("Ward reference requires ward_num and label properties.")
-    if not path.exists():
-        path.parent.mkdir(parents=True, exist_ok=True)
-        temporary = path.with_suffix(path.suffix + ".tmp")
-        temporary.write_text(json.dumps(data), encoding="utf-8")
-        temporary.replace(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(data), encoding="utf-8")
+    temporary.replace(path)
     return data
 
 
@@ -74,7 +70,7 @@ def add_ward_features(
 
     Args:
         permits: Cleaned permits with ward, address, and optional locationcount.
-        boundary_path: Cached official City WGS84 ward polygons, downloaded if absent.
+        boundary_path: Official City WGS84 ward polygons refreshed on each run.
         address_cache_path: Parcel cache shared with community enrichment.
 
     Returns:
@@ -85,7 +81,7 @@ def add_ward_features(
 
     Raises:
         ValueError: Audit columns collide or reference evidence is invalid.
-        requests.RequestException: An uncached reference or address query fails.
+        requests.RequestException: A reference refresh or uncached address query fails.
         OSError: Local reference reading or persistence fails.
 
     Note:
@@ -105,6 +101,7 @@ def add_ward_features(
     if "ward" not in result:
         result["WardLookupStatus"] = "fields_unavailable"
         return result
+    boundaries = _boundaries(boundary_path)
     missing = result["ward"].isna() | result["ward"].map(
         lambda value: isinstance(value, str) and not value.strip()
     )
@@ -125,7 +122,6 @@ def add_ward_features(
         result.iloc[position, result.columns.get_loc("WardLookupStatus")] = status
     if not candidates:
         return result
-    boundaries = _boundaries(boundary_path)
     parcels = _parcel_cache(needed, address_cache_path)
     # Object permits a recovered numeric ward alongside source text or numbers.
     result["ward"] = result["ward"].astype(object)

@@ -52,11 +52,13 @@ The initial review extract is `data/interim/community_lookup_review.csv`.
 ## Ward recovery
 
 `analysis.ward_enrichment` enables exact parcel-address lookup for blank or null
-`ward` values. Existing nonblank wards and `raw_ward` are preserved. The first run
-downloads the official City ward boundary dataset `tz8z-hyaz` to
+`ward` values. Existing nonblank wards and `raw_ward` are preserved. Every run
+refreshes the official City ward boundary dataset `tz8z-hyaz` at
 `data/raw/map/calgary_ward_boundaries.geojson`, including its source endpoint and
-retrieval timestamp. Subsequent runs reuse this reference and the shared parcel
-address cache. Archive or delete the boundary cache to deliberately refresh it.
+retrieval timestamp. The downloaded reference is validated before atomically
+replacing the previous file, even when no wards need filling. Failed downloads
+or invalid data stop the run and retain the previous reference. Parcel-address
+matches continue to use the shared address cache.
 
 Recovered wards use current reference boundaries rather than historical wards
 at the application date. `WardWasFilled`, `WardFillMethod`, `WardLookupStatus`,
