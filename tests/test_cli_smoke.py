@@ -63,6 +63,9 @@ def smoke_workspace(tmp_path, monkeypatch) -> tuple[Path, Path, Path]:
     shutil.copyfile(fixture, snapshot)
     shutil.copyfile(fixture.with_suffix(".csv.metadata.json"), snapshot.with_suffix(".csv.metadata.json"))
     settings = yaml.safe_load((root / "config/settings.yaml").read_text(encoding="utf-8"))
+    # Geographic enrichment has separate frozen-reference tests; these analytical
+    # fixtures intentionally contain no parcel or boundary reference evidence.
+    settings["analysis"]["community_enrichment"]["enabled"] = False
     settings["storage"].update(output_base_name="smoke", include_timestamp=False,
                                overwrite_outputs=True, processed_output_formats=["csv"])
     settings["outputs"]["clean_permits"] = "frozen_clean"

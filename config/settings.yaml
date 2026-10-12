@@ -92,6 +92,13 @@ analysis:
   community_analysis:
     minimum_baseline_count: 5
 
+  # Recover only missing communities; retain raw evidence and lookup audit fields.
+  # Cached exact parcel queries permit subsequent runs without network access.
+  community_enrichment:
+    enabled: true
+    boundary_file: "data/processed/Community_District_Boundaries_20261010.geojson"
+    address_cache: "data/interim/parcel_address_cache.json"
+
   # Shared notebook Month x Year and Season x Year heatmap measures.
   # DP_Rate30 (DP30) = residential applications / exposed calendar days * 30.
   # Unknown/nonpositive exposure is unavailable, not zero; partials stay flagged.
