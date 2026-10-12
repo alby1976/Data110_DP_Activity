@@ -111,3 +111,5 @@ table rezoning_by_district
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

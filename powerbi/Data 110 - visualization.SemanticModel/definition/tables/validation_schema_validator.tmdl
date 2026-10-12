@@ -35,3 +35,5 @@ table validation_schema_validator
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

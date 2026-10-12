@@ -13,22 +13,39 @@
     "visualType": "azureMap",
     "query": {
       "queryState": {
-        "Category": {
+        "PathID": {
           "projections": [
             {
               "field": {
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "permits_clean"
+                      "Entity": "CommunityMapLocations"
                     }
                   },
-                  "Property": "Community Map Location"
+                  "Property": "community"
                 }
               },
-              "queryRef": "permits_clean.Community Map Location",
-              "nativeQueryRef": "Community Map Location",
-              "active": true
+              "queryRef": "CommunityMapLocations.community",
+              "nativeQueryRef": "community"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CommunityMapLocations"
+                    }
+                  },
+                  "Property": "MapLocationSource"
+                }
+              },
+              "queryRef": "CommunityMapLocations.MapLocationSource",
+              "nativeQueryRef": "MapLocationSource"
             }
           ]
         },
@@ -64,7 +81,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo Before Permits",
-              "nativeQueryRef": "Geo Before Permits"
+              "nativeQueryRef": "Before Permits",
+              "displayName": "Before Permits"
             },
             {
               "field": {
@@ -78,7 +96,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo During Permits",
-              "nativeQueryRef": "Geo During Permits"
+              "nativeQueryRef": "During Permits",
+              "displayName": "During Permits"
             },
             {
               "field": {
@@ -92,7 +111,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo Absolute Change",
-              "nativeQueryRef": "Geo Absolute Change"
+              "nativeQueryRef": "Absolute Change",
+              "displayName": "Absolute Change"
             },
             {
               "field": {
@@ -106,7 +126,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo Before Rate 30",
-              "nativeQueryRef": "Geo Before Rate 30"
+              "nativeQueryRef": "Before 30-Day Rate",
+              "displayName": "Before 30-Day Rate"
             },
             {
               "field": {
@@ -120,7 +141,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo During Rate 30",
-              "nativeQueryRef": "Geo During Rate 30"
+              "nativeQueryRef": "During 30-Day Rate",
+              "displayName": "During 30-Day Rate"
             },
             {
               "field": {
@@ -134,7 +156,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo Rate 30 Change",
-              "nativeQueryRef": "Geo Rate 30 Change"
+              "nativeQueryRef": "30-Day Rate Change",
+              "displayName": "30-Day Rate Change"
             },
             {
               "field": {
@@ -148,7 +171,8 @@
                 }
               },
               "queryRef": "00_Measures.Geo Rate 30 Change %",
-              "nativeQueryRef": "Geo Rate 30 Change %"
+              "nativeQueryRef": "30-Day Rate % Change",
+              "displayName": "30-Day Rate % Change"
             },
             {
               "field": {
@@ -162,11 +186,49 @@
                 }
               },
               "queryRef": "00_Measures.Geo Baseline Warning",
-              "nativeQueryRef": "Geo Baseline Warning"
+              "nativeQueryRef": "Baseline",
+              "displayName": "Baseline"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CommunityMapLocations"
+                    }
+                  },
+                  "Property": "MapLongitude"
+                }
+              },
+              "queryRef": "CommunityMapLocations.MapLongitude",
+              "nativeQueryRef": "MapLongitude"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "CommunityMapLocations"
+                    }
+                  },
+                  "Property": "MapLatitude"
+                }
+              },
+              "queryRef": "CommunityMapLocations.MapLatitude",
+              "nativeQueryRef": "MapLatitude"
             }
           ]
         }
-      }
+      },
+      "isDrillDisabled": true
     },
     "objects": {
       "mapControls": [
@@ -175,21 +237,21 @@
             "zoom": {
               "expr": {
                 "Literal": {
-                  "Value": "10.5D"
+                  "Value": "7.54D"
                 }
               }
             },
             "centerLatitude": {
               "expr": {
                 "Literal": {
-                  "Value": "51.08655364061053D"
+                  "Value": "51.02900771671449D"
                 }
               }
             },
             "centerLongitude": {
               "expr": {
                 "Literal": {
-                  "Value": "-114.1992881194534D"
+                  "Value": "-114.08066685D"
                 }
               }
             }
@@ -328,15 +390,57 @@
         "type": "Advanced"
       },
       {
-        "name": "0883b5743b35189df042",
+        "name": "a4e395b53b6604eeb973",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "permits_clean"
+                "Entity": "CommunityMapLocations"
               }
             },
-            "Property": "Community Map Location"
+            "Property": "MapLocationSource"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "378566062a68aff08433",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "CommunityMapLocations"
+              }
+            },
+            "Property": "MapLatitude"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "792438cb575754d39059",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "CommunityMapLocations"
+              }
+            },
+            "Property": "MapLongitude"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4879fb47843a12fd81a0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "CommunityMapLocations"
+              }
+            },
+            "Property": "community"
           }
         },
         "type": "Categorical"

@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit","00_Measures","CommunityCentroids"]
+annotation PBI_QueryOrder = ["permits_clean","permit_volume","monthly_volume","type_summary","type_period_totals","community_summary","ward_summary","geography_period_totals","processing_summary","processing_period_totals","processing_type_summary","rezoning_summary","rezoning_by_rule","rezoning_by_type","rezoning_by_district","seasonal_monthly_volume","calendar_month_summary","seasonal_summary","complete_seasons","partial_seasons","unknown_seasons","sensitivity_summary","validation_schema_validator","validation_data_quality_validat","validation_classification_valid","reconciliation","bias_audit","00_Measures","CommunityCentroids","CommunityMapLocations","FallbackCommunityCoordinates"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -73,6 +73,20 @@ ref table LocalDateTable_0e30e792-55cd-418d-93c2-ab7ad255a648
 ref table LocalDateTable_aee7176b-1be3-43bf-9d3f-4ce2c93480bd
 ref table LocalDateTable_0d80f5aa-57ce-4cfa-b0ed-16b80852bd91
 ref table LocalDateTable_eace90e3-4971-4c4a-8384-2b9d1c9cf0b2
+ref table CommunityMapLocations
+ref table LocalDateTable_8e8a619b-b2a4-4fc6-be26-fb27795d19c9
+ref table LocalDateTable_4546a263-073a-4861-bd41-863fd51303c5
+ref table LocalDateTable_7c5197f5-35b8-49e4-acdf-9f59206b7626
+ref table LocalDateTable_9870fa7f-e3ff-4bc3-885a-bcc3a4dba56e
+ref table LocalDateTable_7c6e2db5-3e0b-43ee-8dc0-0de6bad22ada
+ref table LocalDateTable_b7c3a64e-e650-4b88-a1df-6fb11da23dc0
+ref table LocalDateTable_06183ec8-fbca-4880-8b92-e86b858eecb3
+ref table LocalDateTable_5eb6da77-29bc-4878-9db4-e5e02b4bb169
+ref table LocalDateTable_1a14647b-201a-48fb-ac1f-12da193982e9
+ref table LocalDateTable_e21c57c7-2ecb-46e0-9981-5ffc1ff4c2b4
+ref table LocalDateTable_23a9bd1b-7199-46c8-9bdc-63ad9a64712a
+ref table LocalDateTable_60f0d958-70d4-4432-81fc-43d2e6bd267a
+ref table FallbackCommunityCoordinates
 
 ref cultureInfo en-CA
 

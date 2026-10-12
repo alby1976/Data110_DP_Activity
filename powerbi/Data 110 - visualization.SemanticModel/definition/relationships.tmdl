@@ -355,11 +355,96 @@ relationship 883f4cd8-bfea-489d-891d-fcc1df0039ba
 	fromColumn: CommunityCentroids.modified_dt
 	toColumn: LocalDateTable_eace90e3-4971-4c4a-8384-2b9d1c9cf0b2.Date
 
+relationship AutoDetected_0d2c2b0d-51a2-4ea1-9a8e-8bd7ce9ed450
+	fromColumn: community_summary.Community
+	toColumn: CommunityCentroids.Community
+
 relationship AutoDetected_704adaa7-bda8-4244-beb5-8dbb97c71a79
 	fromColumn: permits_clean.community
 	toColumn: CommunityCentroids.Community
 
-relationship AutoDetected_0d2c2b0d-51a2-4ea1-9a8e-8bd7ce9ed450
-	fromColumn: community_summary.Community
-	toColumn: CommunityCentroids.Community
+relationship 591fcb55-8414-4661-a5df-b994249fe2ce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.applied_date
+	toColumn: LocalDateTable_8e8a619b-b2a4-4fc6-be26-fb27795d19c9.Date
+
+relationship 7522cf42-87c0-44d8-931e-fe831de790d9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.decision_date
+	toColumn: LocalDateTable_4546a263-073a-4861-bd41-863fd51303c5.Date
+
+relationship ddd5b817-d3e0-4e09-ad09-9d4826025507
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.releasedate
+	toColumn: LocalDateTable_7c5197f5-35b8-49e4-acdf-9f59206b7626.Date
+
+relationship 113a3bd0-9722-4c44-b9e3-8fcff6b5c6df
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.mustcommencedate
+	toColumn: LocalDateTable_9870fa7f-e3ff-4bc3-885a-bcc3a4dba56e.Date
+
+relationship 7c3a7216-f2ce-410c-8f5b-af700de3429e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.canceledrefuseddate
+	toColumn: LocalDateTable_7c6e2db5-3e0b-43ee-8dc0-0de6bad22ada.Date
+
+relationship 0f00ad4f-c1e1-4087-96ce-22daff77213a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.raw_applied_date
+	toColumn: LocalDateTable_b7c3a64e-e650-4b88-a1df-6fb11da23dc0.Date
+
+relationship cc4976d7-3d84-4ace-885d-2c9ad3aaba76
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.raw_decision_date
+	toColumn: LocalDateTable_06183ec8-fbca-4880-8b92-e86b858eecb3.Date
+
+relationship 75c76da1-ecbd-4cd0-a031-319ddd68ebe7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.raw_releasedate
+	toColumn: LocalDateTable_5eb6da77-29bc-4878-9db4-e5e02b4bb169.Date
+
+relationship 4f82035a-f0e4-498b-bdd0-1fcb1edca3ed
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.raw_mustcommencedate
+	toColumn: LocalDateTable_1a14647b-201a-48fb-ac1f-12da193982e9.Date
+
+relationship 14e1dff3-5bf1-47fb-b780-63e516547132
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.raw_canceledrefuseddate
+	toColumn: LocalDateTable_e21c57c7-2ecb-46e0-9981-5ffc1ff4c2b4.Date
+
+relationship c53fed5e-7975-42d6-8c7c-1556de2dd0e4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.SeasonStartDate
+	toColumn: LocalDateTable_23a9bd1b-7199-46c8-9bdc-63ad9a64712a.Date
+
+relationship cddf3d65-395f-461d-8a6d-349c57e7d6e6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CommunityMapLocations.SeasonEndDate
+	toColumn: LocalDateTable_60f0d958-70d4-4432-81fc-43d2e6bd267a.Date
+
+relationship AutoDetected_2e513e9a-b731-4fe8-a086-f87356fd6ffd
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: CommunityMapLocations.permit_number
+	toColumn: permits_clean.permit_number
+
+relationship AutoDetected_5e0ce326-d81b-4b79-8a31-08b63bd9e435
+	isActive: false
+	fromColumn: CommunityMapLocations.Period
+	toColumn: permit_volume.Period
+
+relationship AutoDetected_bd79fec1-a895-41fe-9f91-e9dd6e760dbc
+	fromColumn: CommunityMapLocations.FallbackLatitude
+	toColumn: FallbackCommunityCoordinates.FallbackLatitude
+
+relationship 688e9d1b-d1ca-eea9-40ac-9b149515be6c
+	isActive: false
+	fromColumn: permits_clean.communitycode
+	toColumn: CommunityCentroids.comm_code
+
+relationship f4af9505-98b2-69f8-9438-25314180bf65
+	isActive: false
+	fromColumn: CommunityMapLocations.communitycode
+	toColumn: CommunityCentroids.comm_code
 

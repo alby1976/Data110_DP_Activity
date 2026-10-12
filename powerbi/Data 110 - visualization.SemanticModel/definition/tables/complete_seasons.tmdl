@@ -259,3 +259,5 @@ table complete_seasons
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

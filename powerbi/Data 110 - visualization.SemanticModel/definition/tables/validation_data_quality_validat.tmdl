@@ -45,3 +45,5 @@ table validation_data_quality_validat
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

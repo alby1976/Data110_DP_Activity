@@ -138,3 +138,5 @@ table processing_period_totals
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

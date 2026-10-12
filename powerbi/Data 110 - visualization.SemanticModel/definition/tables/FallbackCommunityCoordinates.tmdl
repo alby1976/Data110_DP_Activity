@@ -1,0 +1,50 @@
+table FallbackCommunityCoordinates
+	lineageTag: cdee041e-b66e-45a4-919a-58401b157115
+
+	column communitycode
+		dataType: string
+		lineageTag: 24b9e4cf-8680-4c22-aee0-c9ba1580932e
+		summarizeBy: none
+		sourceColumn: communitycode
+
+		annotation SummarizationSetBy = Automatic
+
+	column community
+		dataType: string
+		lineageTag: dbe61527-cd84-43f9-9af4-0b09522146af
+		summarizeBy: none
+		sourceColumn: community
+
+		annotation SummarizationSetBy = Automatic
+
+	column FallbackLatitude
+		dataType: double
+		lineageTag: d687af6a-e032-4089-9cb9-ea703c7814e4
+		summarizeBy: none
+		sourceColumn: FallbackLatitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FallbackLongitude
+		dataType: double
+		lineageTag: 978763c2-2ce2-4cdb-a37c-e7dc14753258
+		summarizeBy: none
+		sourceColumn: FallbackLongitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FallbackCommunityCoordinates = m
+		mode: import
+		source =
+				let
+				  Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WcnQKUdJRcvR18nEN8fcDMk0N9QwtzMyMgExdQ0MTPUNDQ0tzA6XYWAA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [communitycode = _t, community = _t, FallbackLatitude = _t, FallbackLongitude = _t]),
+				  #"Changed column type" = Table.TransformColumnTypes(Source, {{"communitycode", type text}, {"community", type text}, {"FallbackLatitude", type number}, {"FallbackLongitude", type number}}, "en-US")
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

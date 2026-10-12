@@ -112,3 +112,5 @@ table rezoning_summary
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

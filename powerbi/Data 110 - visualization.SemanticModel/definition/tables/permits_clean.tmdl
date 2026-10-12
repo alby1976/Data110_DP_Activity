@@ -197,13 +197,15 @@ table permits_clean
 		annotation SummarizationSetBy = Automatic
 
 	column ward
-		dataType: int64
-		formatString: 0
+		dataType: string
+		formatString: Whole Number
 		lineageTag: fbe2c294-d5ba-4308-addf-92286c9d0ce6
 		summarizeBy: none
 		sourceColumn: ward
 
-		annotation SummarizationSetBy = User
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	column quadrant
 		dataType: string
@@ -428,8 +430,6 @@ table permits_clean
 			isDefault
 			relationship: 7ac6d2ed-78cc-4580-88bc-ba43188014da
 			defaultHierarchy: LocalDateTable_9f4d4eb3-deed-4c0f-b8fd-99fd3db498ca.'Date Hierarchy'
-
-		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 
@@ -1009,6 +1009,62 @@ table permits_clean
 
 		annotation SummarizationSetBy = Automatic
 
+	column CommunityFillMethod
+		dataType: string
+		lineageTag: 8c799113-0815-4d76-a7fd-997f8ab883bc
+		summarizeBy: none
+		sourceColumn: CommunityFillMethod
+
+		annotation SummarizationSetBy = Automatic
+
+	column CommunityLookupStatus
+		dataType: string
+		lineageTag: 5c6772e2-aa59-4ffa-b361-88450068584f
+		summarizeBy: none
+		sourceColumn: CommunityLookupStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column CommunityWasFilled
+		dataType: string
+		lineageTag: 74580fdd-a930-46c4-9c35-258581aac606
+		summarizeBy: none
+		sourceColumn: CommunityWasFilled
+
+		annotation SummarizationSetBy = Automatic
+
+	column WardWasFilled
+		dataType: string
+		lineageTag: ca054f93-4fff-4be8-a7d0-d15c4727c7d0
+		summarizeBy: none
+		sourceColumn: WardWasFilled
+
+		annotation SummarizationSetBy = Automatic
+
+	column WardFillMethod
+		dataType: string
+		lineageTag: 8e272c14-26dc-476f-ab32-13ff86eaca19
+		summarizeBy: none
+		sourceColumn: WardFillMethod
+
+		annotation SummarizationSetBy = Automatic
+
+	column WardLookupStatus
+		dataType: string
+		lineageTag: 0facb0d0-9dca-4a68-95ac-944a0932bdc9
+		summarizeBy: none
+		sourceColumn: WardLookupStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column WardBoundaryReference
+		dataType: string
+		lineageTag: e36a97eb-711d-4b6c-b67e-0cbaa17d180b
+		summarizeBy: none
+		sourceColumn: WardBoundaryReference
+
+		annotation SummarizationSetBy = Automatic
+
 	partition permits_clean = m
 		mode: import
 		source =
@@ -1016,7 +1072,43 @@ table permits_clean
 				  Source = Excel.Workbook(File.Contents("C:\Users\alber\PycharmProjects\Data110_DP_Activity\data\processed\development_permits_residential_workbook.xlsx"), null, true),
 				  #"Navigation 1" = Source{[Item = "permits_clean", Kind = "Sheet"]}[Data],
 				  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
-				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"point", type text}, {"permit_number", type text}, {"address", type text}, {"applicant", type text}, {"category", type text}, {"description", type text}, {"proposed_use_code", type text}, {"proposed_use_description", type text}, {"permitteddiscretionary", type text}, {"land_use_district", type text}, {"landusedistrictdescription", type text}, {"statuscurrent", type text}, {"applied_date", type datetime}, {"decision_date", type datetime}, {"releasedate", type datetime}, {"mustcommencedate", type datetime}, {"decision", type text}, {"decisionby", type text}, {"communitycode", type text}, {"community", type text}, {"ward", Int64.Type}, {"quadrant", type text}, {"latitude", type number}, {"longitude", type number}, {"locationcount", Int64.Type}, {"locationtypes", type text}, {"locationaddresses", type text}, {"locationsgeojson", type text}, {"locationswkt", type text}, {"canceledrefuseddate", type datetime}, {"raw_point", type text}, {"raw_permit_number", type text}, {"raw_address", type text}, {"raw_applicant", type text}, {"raw_category", type text}, {"raw_description", type text}, {"raw_proposed_use_code", type text}, {"raw_proposed_use_description", type text}, {"raw_permitteddiscretionary", type text}, {"raw_land_use_district", type text}, {"raw_landusedistrictdescription", type text}, {"raw_statuscurrent", type text}, {"raw_applied_date", type datetime}, {"raw_decision_date", type datetime}, {"raw_releasedate", type datetime}, {"raw_mustcommencedate", type datetime}, {"raw_decision", type text}, {"raw_decisionby", type text}, {"raw_communitycode", type text}, {"raw_community", type text}, {"raw_ward", Int64.Type}, {"raw_quadrant", type text}, {"raw_latitude", type number}, {"raw_longitude", type number}, {"raw_locationcount", Int64.Type}, {"raw_locationtypes", type text}, {"raw_locationaddresses", type text}, {"raw_locationsgeojson", type text}, {"raw_locationswkt", type text}, {"raw_canceledrefuseddate", type datetime}, {"applied_date_invalid", type logical}, {"decision_date_invalid", type logical}, {"latitude_invalid", type logical}, {"longitude_invalid", type logical}, {"ClassificationRule", type text}, {"ValidationStatus", type text}, {"IncludeResidential", type logical}, {"ResidentialType", type text}, {"RezoningRelevant", type logical}, {"ClassificationNeedsReview", type logical}, {"ClassificationMatchCount", Int64.Type}, {"ClassificationConflictCount", Int64.Type}, {"ClassificationMatchedRules", type text}, {"Period", type text}, {"DecisionPeriod", type text}, {"PeriodSortKey", Int64.Type}, {"PeriodDateMissing", type logical}, {"PeriodDateInvalid", type logical}, {"CrossesPeriodBoundary", type logical}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"SeasonLabel", type text}, {"SeasonSortKey", Int64.Type}, {"IsCompleteSeason", type logical}, {"IsPartialSeason", type logical}, {"ProcessingDays", Int64.Type}, {"HasValidProcessingDays", type logical}, {"HasNegativeProcessingDays", type logical}, {"IsPending", type logical}, {"IsRightCensored", type logical}, {"FollowUpDays", Int64.Type}, {"ProcessingDateMissing", type logical}, {"ProcessingDateInvalid", type logical}, {"IsAfterObservationEnd", type logical}}, "en-US")
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"point", type text}, {"permit_number", type text}, {"address", type text}, {"applicant", type text}, {"category", type text}, {"description", type text}, {"proposed_use_code", type text}, {"proposed_use_description", type text}, {"permitteddiscretionary", type text}, {"land_use_district", type text}, {"landusedistrictdescription", type text}, {"statuscurrent", type text}, {"applied_date", type datetime}, {"decision_date", type datetime}, {"releasedate", type datetime}, {"mustcommencedate", type datetime}, {"decision", type text}, {"decisionby", type text}, {"communitycode", type text}, {"community", type text}, {"ward", Int64.Type}, {"quadrant", type text}, {"latitude", type number}, {"longitude", type number}, {"locationcount", Int64.Type}, {"locationtypes", type text}, {"locationaddresses", type text}, {"locationsgeojson", type text}, {"locationswkt", type text}, {"canceledrefuseddate", type datetime}, {"raw_point", type text}, {"raw_permit_number", type text}, {"raw_address", type text}, {"raw_applicant", type text}, {"raw_category", type text}, {"raw_description", type text}, {"raw_proposed_use_code", type text}, {"raw_proposed_use_description", type text}, {"raw_permitteddiscretionary", type text}, {"raw_land_use_district", type text}, {"raw_landusedistrictdescription", type text}, {"raw_statuscurrent", type text}, {"raw_applied_date", type datetime}, {"raw_decision_date", type datetime}, {"raw_releasedate", type datetime}, {"raw_mustcommencedate", type datetime}, {"raw_decision", type text}, {"raw_decisionby", type text}, {"raw_communitycode", type text}, {"raw_community", type text}, {"raw_ward", Int64.Type}, {"raw_quadrant", type text}, {"raw_latitude", type number}, {"raw_longitude", type number}, {"raw_locationcount", Int64.Type}, {"raw_locationtypes", type text}, {"raw_locationaddresses", type text}, {"raw_locationsgeojson", type text}, {"raw_locationswkt", type text}, {"raw_canceledrefuseddate", type datetime}, {"applied_date_invalid", type logical}, {"decision_date_invalid", type logical}, {"latitude_invalid", type logical}, {"longitude_invalid", type logical}, {"ClassificationRule", type text}, {"ValidationStatus", type text}, {"IncludeResidential", type logical}, {"ResidentialType", type text}, {"RezoningRelevant", type logical}, {"ClassificationNeedsReview", type logical}, {"ClassificationMatchCount", Int64.Type}, {"ClassificationConflictCount", Int64.Type}, {"ClassificationMatchedRules", type text}, {"Period", type text}, {"DecisionPeriod", type text}, {"PeriodSortKey", Int64.Type}, {"PeriodDateMissing", type logical}, {"PeriodDateInvalid", type logical}, {"CrossesPeriodBoundary", type logical}, {"Season", type text}, {"SeasonStartDate", type datetime}, {"SeasonEndDate", type datetime}, {"SeasonLabel", type text}, {"SeasonSortKey", Int64.Type}, {"IsCompleteSeason", type logical}, {"IsPartialSeason", type logical}, {"ProcessingDays", Int64.Type}, {"HasValidProcessingDays", type logical}, {"HasNegativeProcessingDays", type logical}, {"IsPending", type logical}, {"IsRightCensored", type logical}, {"FollowUpDays", Int64.Type}, {"ProcessingDateMissing", type logical}, {"ProcessingDateInvalid", type logical}, {"IsAfterObservationEnd", type logical}}, "en-US"),
+				  #"Sorted rows" = Table.Sort(#"Changed column type", {{"communitycode", Order.Ascending}}),
+				  Custom =  List.Accumulate(
+				    {
+				        [
+				            address = "1736 8 AV NE",
+				            community = "MAYLAND HEIGHTS",
+				            communitycode = "MAL",
+				            ward = 10,
+				            quadrant = "NE"
+				        ],
+				        [
+				            address = "221 SUGARSNAP GR SE",
+				            community = "RANGEVIEW",
+				            communitycode = "RVW",
+				            ward = 12,
+				            quadrant = "SE"
+				        ]
+				    },
+				    #"Sorted rows",
+				    (tbl, fix) =>
+				        List.Accumulate(
+				            {"community", "communitycode", "ward", "quadrant"},
+				            tbl,
+				            (t, col) =>
+				                Table.ReplaceValue(
+				                    t,
+				                    each [address] = fix[address],
+				                    Record.Field(fix, col),
+				                    (current, matches, replacement) =>
+				                        if matches then replacement else current,
+				                    {col}
+				                )
+				        )
+				)
 				in
-				  #"Changed column type"
+				  Custom
+
+	annotation PBI_ResultType = Table
 

@@ -112,3 +112,5 @@ table calendar_month_summary
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

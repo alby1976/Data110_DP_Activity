@@ -168,3 +168,5 @@ table permit_volume
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+

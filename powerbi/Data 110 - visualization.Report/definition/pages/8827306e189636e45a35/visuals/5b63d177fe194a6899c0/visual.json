@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "5b63d177fe194a6899c0",
   "position": {
-    "x": 1558.3333333333335,
-    "y": 540,
+    "x": 1542.127659574468,
+    "y": 812.644376899696,
     "z": 13000,
     "height": 75,
     "width": 360,
@@ -63,5 +63,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "8c43fb88208c14305661",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "ResidentialType"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

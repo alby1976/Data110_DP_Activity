@@ -30,7 +30,7 @@ table CommunityCentroids
 
 		annotation SummarizationSetBy = Automatic
 
-	column ':id'
+	column :id
 		dataType: string
 		lineageTag: c1ab7556-270b-44af-8102-86b00e9965c1
 		summarizeBy: none
@@ -38,7 +38,7 @@ table CommunityCentroids
 
 		annotation SummarizationSetBy = Automatic
 
-	column ':version'
+	column :version
 		dataType: string
 		lineageTag: 02787990-b121-44fd-ae0d-05d96279c354
 		summarizeBy: none
@@ -46,7 +46,7 @@ table CommunityCentroids
 
 		annotation SummarizationSetBy = Automatic
 
-	column ':created_at'
+	column :created_at
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: ea15d6f4-d8b8-45e9-98c9-5b71ae513edf
@@ -60,7 +60,7 @@ table CommunityCentroids
 
 		annotation SummarizationSetBy = Automatic
 
-	column ':updated_at'
+	column :updated_at
 		dataType: dateTime
 		formatString: General Date
 		lineageTag: fbfa3911-92e7-499a-b09d-80d53e0f0439

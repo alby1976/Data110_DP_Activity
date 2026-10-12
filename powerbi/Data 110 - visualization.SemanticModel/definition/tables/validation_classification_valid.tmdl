@@ -231,3 +231,5 @@ table validation_classification_valid
 				in
 				  #"Changed column type"
 
+	annotation PBI_ResultType = Table
+
