@@ -99,6 +99,12 @@ analysis:
     boundary_file: "data/processed/Community_District_Boundaries_20261010.geojson"
     address_cache: "data/interim/parcel_address_cache.json"
 
+  # Exact address lookup fills only missing wards using cached current boundaries.
+  ward_enrichment:
+    enabled: true
+    boundary_file: "data/raw/map/calgary_ward_boundaries.geojson"
+    address_cache: "data/interim/parcel_address_cache.json"
+
   # Shared notebook Month x Year and Season x Year heatmap measures.
   # DP_Rate30 (DP30) = residential applications / exposed calendar days * 30.
   # Unknown/nonpositive exposure is unavailable, not zero; partials stay flagged.

@@ -50,6 +50,7 @@ from dp_activity.config import LogArchiveConfig, ProjectConfig, load_config
 from dp_activity.export.powerbi_exporter import PowerBIExporter
 from dp_activity.features.period_features import add_period_features
 from dp_activity.features.community_features import add_community_features
+from dp_activity.features.ward_features import add_ward_features
 from dp_activity.features.processing_features import add_processing_features
 from dp_activity.features.season_features import add_season_features
 from dp_activity.pipeline.analysis_pipeline import AnalysisPipeline, PipelineResult
@@ -480,6 +481,13 @@ def _build_pipeline(
             add_community_features,
             boundary_path=config.repository_root / community_settings["boundary_file"],
             address_cache_path=config.repository_root / community_settings["address_cache"],
+        ))
+    ward_settings = analysis_settings.get("ward_enrichment", {})
+    if ward_settings.get("enabled", False):
+        feature_builders.append(partial(
+            add_ward_features,
+            boundary_path=config.repository_root / ward_settings["boundary_file"],
+            address_cache_path=config.repository_root / ward_settings["address_cache"],
         ))
     validators = [
         partial(

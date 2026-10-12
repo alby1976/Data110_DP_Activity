@@ -85,12 +85,17 @@ def _parcel_cache(addresses: set[str], path: Path) -> dict:
     return records
 
 
-def _community(point: tuple[float, float], features: list[dict]) -> tuple[str, str] | None:
+def _community(
+    point: tuple[float, float], features: list[dict], *,
+    code_field: str = "comm_code", name_field: str = "name",
+) -> tuple[str, str] | None:
     """Resolve an interior point to one community, respecting polygon holes.
 
     Args:
         point: Longitude and latitude in WGS84.
         features: City Polygon or MultiPolygon GeoJSON features.
+        code_field: Polygon identifier property, including ward_num for wards.
+        name_field: Polygon label property, including label for wards.
 
     Returns:
         Unique community code/name pair, or None for boundaries and ambiguity.
@@ -118,9 +123,9 @@ def _community(point: tuple[float, float], features: list[dict]) -> tuple[str, s
                 path.contains_point(point) for path in paths[1:]
             ):
                 properties = feature["properties"]
-                code, name = properties.get("comm_code"), properties.get("name")
+                code, name = properties.get(code_field), properties.get(name_field)
                 if not code or not name:
-                    raise ValueError("Community polygons require comm_code and name.")
+                    raise ValueError(f"Polygons require {code_field} and {name_field}.")
                 matches.add((code, name))
     return next(iter(matches)) if len(matches) == 1 else None
 

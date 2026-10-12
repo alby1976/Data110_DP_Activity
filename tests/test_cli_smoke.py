@@ -66,6 +66,7 @@ def smoke_workspace(tmp_path, monkeypatch) -> tuple[Path, Path, Path]:
     # Geographic enrichment has separate frozen-reference tests; these analytical
     # fixtures intentionally contain no parcel or boundary reference evidence.
     settings["analysis"]["community_enrichment"]["enabled"] = False
+    settings["analysis"]["ward_enrichment"]["enabled"] = False
     settings["storage"].update(output_base_name="smoke", include_timestamp=False,
                                overwrite_outputs=True, processed_output_formats=["csv"])
     settings["outputs"]["clean_permits"] = "frozen_clean"

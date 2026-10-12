@@ -48,3 +48,18 @@ than silently producing partially enriched exports.
 The first lookup on the September 25 snapshot recovered 41 of 54 missing
 communities. Nine addresses were unresolved and four permits had no location.
 The initial review extract is `data/interim/community_lookup_review.csv`.
+
+## Ward recovery
+
+`analysis.ward_enrichment` enables exact parcel-address lookup for blank or null
+`ward` values. Existing nonblank wards and `raw_ward` are preserved. The first run
+downloads the official City ward boundary dataset `tz8z-hyaz` to
+`data/raw/map/calgary_ward_boundaries.geojson`, including its source endpoint and
+retrieval timestamp. Subsequent runs reuse this reference and the shared parcel
+address cache. Archive or delete the boundary cache to deliberately refresh it.
+
+Recovered wards use current reference boundaries rather than historical wards
+at the application date. `WardWasFilled`, `WardFillMethod`, `WardLookupStatus`,
+and `WardBoundaryReference` identify the enrichment in the processed exports.
+Multi-location permits and unmatched or ambiguous parcel locations remain
+unresolved. All matching parcel points must lie in the same ward for recovery.
