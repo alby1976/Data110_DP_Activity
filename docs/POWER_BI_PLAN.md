@@ -14,7 +14,7 @@ Run all commands from the repository root. These files work together:
 
 | File | Responsibility |
 |---|---|
-| [`environment.yml`](../environment.yml) | Creates the `data110-dp-activity` Conda environment with Python 3.13 and pip, then installs the project in editable mode with `[dev,parquet,excel]`. |
+| [`environment.yml`](../environment.yml) | Creates the `data110-dp-activity` Conda environment with Python 3.13 and pip, then installs the project in editable mode with `[dev,parquet,excel,notebook]` for tests, snapshots, Excel exports, and notebook execution. |
 | [`pyproject.toml`](../pyproject.toml) | Defines Python package dependencies, optional extras, and the `dp-activity` CLI entry point. The `parquet` extra reads the pinned snapshot; `excel` supplies XlsxWriter for `.xlsx` export. |
 | [`config/settings.yaml`](../config/settings.yaml) | Selects study periods, classification rules, output directories, formats, workbook layout, filename prefix, and overwrite behavior. |
 
@@ -30,7 +30,7 @@ If the environment already exists, activate it without recreating it. After
 changing package dependencies in `pyproject.toml`, update the active environment:
 
 ```powershell
-python -m pip install -e ".[dev,parquet,excel]"
+python -m pip install -e ".[dev,parquet,excel,notebook]"
 python -m pip check
 ```
 
@@ -43,13 +43,18 @@ For a standard virtual environment, follow the
 For notebook exports, select the Conda environment as the PyCharm project and
 notebook interpreter.
 
+The `notebook` extra provides IPython and ipykernel; the `excel` extra pins
+XlsxWriter 3.2.9. Power BI Desktop and the Quarto CLI are separate installations.
+See the [one-page analytics plan](../reports/project_summary.md) for the study
+scope and the [presentation plan](PRESENTATION_PLAN.md) for the live demo schedule.
+
 ### Export from the complete-period notebook
 
 1. Install the project and Excel/Parquet dependencies in the project's activated
    Python environment if they are not already installed:
 
    ```powershell
-   python -m pip install -e ".[dev,parquet,excel]"
+   python -m pip install -e ".[dev,parquet,excel,notebook]"
    ```
 
 2. Check `config/settings.yaml`. The current configuration creates one Excel

@@ -48,7 +48,12 @@ Data = "https://data.calgary.ca/Business-and-Economic-Activity/Development-Permi
 
 [project.optional-dependencies]
 excel = [
-    "XlsxWriter>=3.2,<4",
+    "XlsxWriter==3.2.9",
+]
+notebook = [
+    "ipykernel==7.3.0",
+    "ipython==8.37.0; python_version < '3.11'",
+    "ipython==9.17.1; python_version >= '3.11'",
 ]
 dev = [
     "pytest==9.1.1",

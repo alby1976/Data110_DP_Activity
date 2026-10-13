@@ -178,12 +178,12 @@ python -m dp_activity.cli --help
 ```
 
 Conda supplies Python 3.13 and pip; the YAML's pip section installs the project
-in editable mode with its dependencies, tests, Parquet, and Excel support.
+in editable mode with its dependencies, tests, Parquet, Excel, and notebook support.
 Change package versions in `pyproject.toml` to keep one dependency definition.
 After changing Python package dependencies, activate the environment and run:
 
 ```bash
-python -m pip install -e ".[dev,parquet,excel]"
+python -m pip install -e ".[dev,parquet,excel,notebook]"
 python -m pip check
 ```
 
@@ -195,6 +195,12 @@ In PyCharm, select the existing Conda environment `data110-dp-activity` as the
 project interpreter. A default Windows Miniconda installation places it at
 `%USERPROFILE%\miniconda3\envs\data110-dp-activity\python.exe`.
 Use the same environment for notebook execution in PyCharm.
+
+The `notebook` extra installs IPython display utilities and ipykernel for
+PyCharm notebook execution. Direct runtime, test, Parquet, Excel, and notebook
+dependencies are pinned in `pyproject.toml`; Python 3.10 uses IPython 8.37.0,
+while Python 3.11 and newer use IPython 9.17.1. These pins do not lock transitive
+dependencies. Quarto CLI and Power BI Desktop are installed separately.
 
 ### Standard virtual environment
 
@@ -212,7 +218,7 @@ Activate the environment on Windows PowerShell:
 .venv\Scripts\Activate.ps1
 ```
 
-Install the package, pinned development dependencies, and Parquet support (required by the committed raw-storage settings):
+Install the package, pinned development dependencies, notebook support, and Parquet/Excel support required by the committed storage settings:
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -368,7 +374,7 @@ defined in the [Testing Framework](docs/TESTING.md).
 
 ## Documentation
 
-- [10-minute Quarto presentation notebook](notebooks/03_ten_minute_presentation.ipynb): eight timed sections, presenter notes, calculated charts, and a questions appendix. Run all cells in PyCharm, then run `quarto render` from the repository root to create the Reveal.js HTML deck under `reports/presentation/notebooks/`. Quarto uses saved output and hides preparation code; `S` opens speaker view. See the [setup and delivery instructions](docs/PRESENTATION_PLAN.md#10-minute-notebook-presentation).
+- [10-minute Quarto presentation notebook](notebooks/03_ten_minute_presentation.ipynb): eight sections with word-for-word speaker notes, calculated charts, a two-minute Power BI demonstration script, and a rehearsal appendix. Timing remains in presenter notes rather than slide titles. Run all cells in PyCharm, then run `quarto render` from the repository root to create the Reveal.js HTML deck under `reports/presentation/notebooks/`. Quarto uses saved output and hides preparation code; `S` opens speaker view. See the [setup and delivery instructions](docs/PRESENTATION_PLAN.md#10-minute-notebook-presentation).
 - [Complete-period notebook guide](notebooks/02_complete_period_exploration_explanation.md)
 - [Before-period notebook guide](notebooks/01_permit_exploration_explaination.md)
 - [Copyright notice](LICENSE.md)
@@ -376,7 +382,8 @@ defined in the [Testing Framework](docs/TESTING.md).
 - [Configuration and classification-rules guide](docs/CONFIGURATION.md)
 - [Python design patterns](docs/DESIGN_PATTERNS.md)
 - [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
-- [One-page project summary](docs/PROJECT_SUMMARY.md)
+- [One-page analytics plan](reports/project_summary.md)
+- [Project background and extended summary](docs/PROJECT_SUMMARY.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)

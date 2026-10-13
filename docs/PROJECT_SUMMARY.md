@@ -1,5 +1,14 @@
 # Project Summary
 
+For the current concise analytics plan, see the
+[one-page project summary](../reports/project_summary.md). The working setup uses
+Python 3.13 through `environment.yml` and an editable installation of
+`.[dev,parquet,excel,notebook]`, with dependency pins maintained in `pyproject.toml`.
+Notebook support includes IPython and ipykernel; Excel export uses XlsxWriter.
+Quarto CLI and Power BI Desktop are installed separately. The presentation now
+reserves two minutes for a scripted Power BI demonstration; see the
+[presentation plan](PRESENTATION_PLAN.md).
+
 ## Development Permit Activity Before and During Calgary's Citywide Rezoning
 
 ### Background and purpose

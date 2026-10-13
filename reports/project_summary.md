@@ -25,7 +25,7 @@ Preserve the frozen snapshot and metadata, verify its checksum and query coverag
 
 ## Reporting and validation plan
 
-Deliver reproducible Python notebooks, traceable summary tables, and a Power BI report with Overview, Development Type & Processing, and Geography pages. Present the findings in a ten-minute talk with a two-minute live demonstration. Before accepting dashboard values, reconcile imported counts and processing statistics with Python outputs. Complete independent classification review and study-specific sensitivity checks using alternative inclusion rules and comparable seasonal coverage.
+Deliver reproducible Python notebooks, traceable summary tables, and a Power BI report with Overview, Development Type & Processing, and Geography pages. Use `environment.yml` for Python 3.13 and `pyproject.toml` for pinned analytics, test, Parquet, Excel, and notebook dependencies; install Quarto and Power BI Desktop separately. Present the findings in a ten-minute talk with a two-minute live demonstration. Before accepting dashboard values, reconcile imported counts and processing statistics with Python outputs. Complete independent classification review and study-specific sensitivity checks using alternative inclusion rules and comparable seasonal coverage.
 
 ## Interpretation and limitations
 

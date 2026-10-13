@@ -1,5 +1,5 @@
 # Runtime analysis/export settings; Python dependencies are in pyproject.toml.
-# environment.yml creates Conda and installs -e .[dev,parquet,excel].
+# environment.yml creates Conda and installs -e .[dev,parquet,excel,notebook].
 # From the repository root: conda activate data110-dp-activity
 # Then: python -m dp_activity.cli --settings config/settings.yaml run <snapshot-path>
 # Power BI export instructions: docs/POWER_BI_PLAN.md

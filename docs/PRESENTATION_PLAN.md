@@ -4,20 +4,28 @@
 
 The [presentation notebook](../notebooks/03_ten_minute_presentation.ipynb)
 provides a Quarto Reveal.js presentation. Its eight main sections total
-**10:00**, excluding preparation and appendix questions. The original slide
+**7:40**, with a **2:00** live Power BI demonstration and **0:20** transition
+buffer for a **10:00** talk. Preparation and appendix questions are outside
+that budget. Timings appear in presenter notes, not slide titles. The original slide
 outline below remains a shorter alternative for a deck.
 
 | Section | Topic | Time | Cumulative |
 |---:|---|---:|---:|
 | 1 | Question and comparison windows | 0:40 | 0:40 |
-| 2 | Policy context and application activity | 0:55 | 1:35 |
-| 3 | Source data and observational design | 1:05 | 2:40 |
-| 4 | Cleaning, classification, and validation | 1:05 | 3:45 |
-| 5 | Volume, exposure rates, and complete seasons | 1:30 | 5:15 |
-| 6 | Residential type counts and shares | 1:15 | 6:30 |
-| 7 | Community changes and processing eligibility | 1:35 | 8:05 |
-| 8 | Conclusions, safeguards, and remaining uncertainty | 1:55 | 10:00 |
+| 2 | Policy context and application activity | 0:45 | 1:25 |
+| 3 | Source data and observational design | 1:00 | 2:25 |
+| 4 | Cleaning, classification, and validation | 1:00 | 3:25 |
+| 5 | Volume, exposure rates, and complete seasons | 1:15 | 4:40 |
+| 6 | Residential type counts and shares | 1:00 | 5:40 |
+| 7 | Community changes and processing eligibility | 1:10 | 6:50 |
+| Demo | Overview, Development Type & Processing, Geography | 2:00 | 8:50 |
+| 8 | Conclusions, safeguards, and remaining uncertainty | 0:50 | 9:40 |
+| Buffer | Title, transitions, or pauses | 0:20 | 10:00 |
 
+Install the project with `.[dev,parquet,excel,notebook]`, using `environment.yml`
+or `requirements-dev.txt`, and select that interpreter in PyCharm. The `notebook`
+extra provides IPython and ipykernel; version pins live in `pyproject.toml`.
+Quarto CLI and Power BI Desktop require separate installations.
 Use the project interpreter and run all cells before presenting. The notebook
 requires the pinned `development_permits_residential_20261013_001726.parquet`
 snapshot and its adjacent metadata sidecar under `data/raw`. Preparation checks
@@ -75,7 +83,7 @@ If figures or findings are missing or stale, rerun all ten code cells in the
 notebook and save it before rendering. Rendering alone does not recalculate
 results. If copied slides lose styling or images, copy the complete generated
 `reports/presentation/` directory, including its assets and reference files.
-Keep the eight main sections within the talk and the appendix outside it.
+Keep the eight main sections and live demo within the talk and the appendix outside it.
 
 The notebook calculates its findings rather than hard-coding summary totals.
 It includes a monthly exposure-rate chart, complete-season rate table,
@@ -84,7 +92,11 @@ change chart, and eligible processing-duration summaries. The community chart
 shows only the ten largest absolute changes among known communities with
 adequate baselines; the full geography results remain in the exploratory notebook.
 
-Present sections 1–8, reading the speaker notes as prompts rather than aloud.
+Present sections 1–7, switch to Power BI at 6:50, and return to section 8 by
+8:50. The notes contain exact spoken scripts; presenter cues and bracketed
+actions are not spoken. The demo visits Overview, Development Type & Processing,
+and Geography. Open the report before the talk, clear filters, and prepare static
+backup screenshots. If behind schedule, show Overview and Geography only.
 Keep setup and appendix output outside the timed talk. Rehearse twice; target
 durations are guidance and do not guarantee a 10-minute delivery. If the course
 requires questions within the same ten minutes, shorten the conclusion or use

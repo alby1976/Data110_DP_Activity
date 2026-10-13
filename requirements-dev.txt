@@ -1,2 +1,2 @@
-# Installs the package, runtime dependencies, test tooling, Parquet, and Excel support.
--e .[dev,parquet,excel]
+# Installs runtime dependencies, tests, Parquet, Excel, and notebook execution.
+-e .[dev,parquet,excel,notebook]
