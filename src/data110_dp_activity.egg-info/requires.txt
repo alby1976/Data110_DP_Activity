@@ -9,7 +9,16 @@ pytest==9.1.1
 requests-mock==1.12.1
 
 [excel]
-XlsxWriter<4,>=3.2
+XlsxWriter==3.2.9
+
+[notebook]
+ipykernel==7.3.0
+
+[notebook:python_version < "3.11"]
+ipython==8.37.0
+
+[notebook:python_version >= "3.11"]
+ipython==9.17.1
 
 [parquet]
 pyarrow==25.0.1

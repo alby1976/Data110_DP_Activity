@@ -31,9 +31,11 @@ src/dp_activity/cleaning/permit_cleaner.py
 src/dp_activity/export/__init__.py
 src/dp_activity/export/powerbi_exporter.py
 src/dp_activity/features/__init__.py
+src/dp_activity/features/community_features.py
 src/dp_activity/features/period_features.py
 src/dp_activity/features/processing_features.py
 src/dp_activity/features/season_features.py
+src/dp_activity/features/ward_features.py
 src/dp_activity/pipeline/__init__.py
 src/dp_activity/pipeline/analysis_pipeline.py
 src/dp_activity/profiling/__init__.py

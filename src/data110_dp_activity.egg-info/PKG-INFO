@@ -55,7 +55,11 @@ Requires-Dist: PyYAML==6.0.3
 Requires-Dist: requests==2.34.2
 Requires-Dist: sodapy==2.2.0
 Provides-Extra: excel
-Requires-Dist: XlsxWriter<4,>=3.2; extra == "excel"
+Requires-Dist: XlsxWriter==3.2.9; extra == "excel"
+Provides-Extra: notebook
+Requires-Dist: ipykernel==7.3.0; extra == "notebook"
+Requires-Dist: ipython==8.37.0; python_version < "3.11" and extra == "notebook"
+Requires-Dist: ipython==9.17.1; python_version >= "3.11" and extra == "notebook"
 Provides-Extra: dev
 Requires-Dist: pytest==9.1.1; extra == "dev"
 Requires-Dist: requests-mock==1.12.1; extra == "dev"
@@ -176,6 +180,7 @@ Data110_DP_Activity/
 ├── ACADEMIC_INTEGRITY.md
 ├── LICENSE.md
 ├── README.md
+├── _quarto.yml              # renders the presentation notebook to Reveal.js
 ├── config/
 │   ├── settings.yaml             # project-wide analysis settings
 │   └── classification_rules.csv # ordered housing-form classification rules
@@ -188,13 +193,13 @@ Data110_DP_Activity/
 │   ├── METHODOLOGY.md
 │   ├── POWER_BI_PLAN.md
 │   ├── PRESENTATION_PLAN.md
-│   ├── PROJECT_SUMMARY.md
+│   ├── PROJECT_OVERVIEW.md
 │   ├── REFERENCES.md
 │   └── TESTING.md
 ├── data/
 │   ├── raw/                 # downloaded source data; not committed
 │   └── processed/           # cleaned Power BI inputs
-├── notebooks/               # optional exploration notebooks
+├── notebooks/               # exploration and presentation notebooks; slide CSS
 ├── powerbi/                 # Power BI .pbix file
 ├── reports/                 # final summary and presentation exports
 ├── requirements-dev.txt     # pinned local testing dependencies
@@ -241,13 +246,13 @@ conda activate data110-dp-activity
 python -m dp_activity.cli --help
 ```
 
-Conda supplies Python 3.13 and pip; the YAML's pip section installs the project
-in editable mode with its dependencies, tests, Parquet, and Excel support.
+Conda supplies Python 3.13, pip, and Quarto CLI 1.9.38; the YAML's pip section installs the project
+in editable mode with its dependencies, tests, Parquet, Excel, and notebook support.
 Change package versions in `pyproject.toml` to keep one dependency definition.
 After changing Python package dependencies, activate the environment and run:
 
 ```bash
-python -m pip install -e ".[dev,parquet,excel]"
+python -m pip install -e ".[dev,parquet,excel,notebook]"
 python -m pip check
 ```
 
@@ -259,6 +264,26 @@ In PyCharm, select the existing Conda environment `data110-dp-activity` as the
 project interpreter. A default Windows Miniconda installation places it at
 `%USERPROFILE%\miniconda3\envs\data110-dp-activity\python.exe`.
 Use the same environment for notebook execution in PyCharm.
+
+The `notebook` extra installs IPython display utilities and ipykernel for
+PyCharm notebook execution. Direct runtime, test, Parquet, Excel, and notebook
+dependencies are pinned in `pyproject.toml`; Python 3.10 uses IPython 8.37.0,
+while Python 3.11 and newer use IPython 9.17.1. These pins do not lock transitive
+dependencies. The Conda specification installs the Quarto CLI from conda-forge;
+Power BI Desktop is installed separately. A standard virtual environment does
+not install Quarto; use the [Quarto installer](https://quarto.org/docs/get-started/)
+for that setup.
+
+To add Quarto to an existing Conda environment, update it from the repository root:
+
+```bash
+conda env update --file environment.yml
+conda activate data110-dp-activity
+quarto --version
+quarto render
+```
+
+Run and save the presentation notebook before rendering; Quarto uses its saved outputs.
 
 ### Standard virtual environment
 
@@ -276,7 +301,7 @@ Activate the environment on Windows PowerShell:
 .venv\Scripts\Activate.ps1
 ```
 
-Install the package, pinned development dependencies, and Parquet support (required by the committed raw-storage settings):
+Install the package, pinned development dependencies, notebook support, and Parquet/Excel support required by the committed storage settings:
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -313,13 +338,19 @@ the project dependencies from `pyproject.toml`; `config/settings.yaml` controls
 the export format, layout, filename, and destination:
 
 ```powershell
-python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_residential_20261013_001726.parquet
 ```
 
 Keep the snapshot's adjacent metadata sidecar. With the committed settings,
 the output is `data/processed/development_permits_residential_workbook.xlsx`; rerunning
 replaces that file. Use its `permits_clean` sheet for residential permit-level
 analysis, and check the validation and reconciliation sheets before reporting.
+Each worksheet contains an Excel table named exactly like its sheet (for example,
+`permits_clean`). Empty tables contain a blank placeholder row; remove all-null
+rows in Power Query. Exports use `.xlsx`.
+The CLI workbook was regenerated after the Excel compatibility repair; archive
+inspection confirmed 27 worksheets with 27 named tables. Re-export older notebook
+workbooks with the updated code to apply the repair.
 
 For environment setup, notebook exports, CSV alternatives, and missing-snapshot
 instructions, follow
@@ -329,48 +360,78 @@ The complete-period notebook's optional export creates
 with the current Excel settings. The guide also covers the CLI export to
 `data/processed`, the Before-only workbook, table selection, and reconciliation.
 
+## Render the 10-minute presentation
+
+The [presentation notebook](notebooks/03_ten_minute_presentation.ipynb) uses
+Quarto Reveal.js with eight timed sections, speaker notes, three charts, and a
+detail appendix. Run all notebook cells in PyCharm first, then render from the
+repository root:
+
+```powershell
+quarto --version
+quarto render
+```
+
+Quarto **1.10.19** is installed on the author's Windows workstation at
+`%LOCALAPPDATA%\Programs\Quarto`, with its `bin` directory on the user PATH.
+Restart PyCharm after installation so its terminals inherit the updated PATH.
+On another computer, install the [Quarto CLI](https://quarto.org/docs/get-started/)
+separately; the Python/Conda setup does not install it.
+
+Open `reports/presentation/notebooks/03_ten_minute_presentation.html` in a
+browser. Keep the generated presentation directory together when copying it.
+Press `S` for speaker view, `F` for fullscreen, and `Esc` for the overview.
+Rendering uses saved notebook output and does not execute Python. Rerun the
+notebook before rendering changed data, settings, or rules. Preparation cells
+and source code are hidden from the slides. See the
+[presentation guide](docs/PRESENTATION_PLAN.md#10-minute-notebook-presentation)
+for timing, troubleshooting, and verification limits.
+
 ## Running the tests
 
-The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
-against the pinned Before snapshot. The September 30, 2026 refresh reran all 18
-code cells, including the complete classification review register.
-Validators, five residential analysis strategies, a monthly line chart, and five
-heatmaps completed successfully. Summaries reconcile to 9,857 residential
-records. Seasonal charts use complete seasons by default; only Before coverage is
-available. External notebook exports are disabled by default. Data-quality and
-classification warnings remain for review. See the
-[notebook explanation](notebooks/01_permit_exploration_explaination.md) for report
-definitions and recorded findings. The separate synthetic CLI smoke test also
-passes; neither establishes independent classification accuracy or policy impact.
+The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) and
+[complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
+were refreshed on **October 12, 2026**. All **19 code cells in each notebook**
+completed successfully with current modules; saved tables, review registers,
+the monthly chart, and five heatmaps were regenerated.
 
-The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
-uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
-and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
-the snapshot's UTC retrieval date, September 25, defines the observation horizon.
-Six analysis strategies produce 21 tables, reconciling to 17,870 residential
-records: 9,857 Before, 7,606 During, and 407 Early Post-Repeal. A monthly line
-chart and five heatmaps use this refreshed population. All 18 code cells reran
-successfully on September 30, including the complete review register.
+The Before notebook retains its 16,637-record frozen source snapshot. Cleaning
+excludes one blank/null-address application, leaving 16,636 retained records
+and **9,856 residential applications**. Its review register contains 1,101 cases.
 
-Both notebooks include a complete, expandable `classification_review_records`
-register: 1,101 Before cases and 2,635 complete-period cases. It includes all
-unmatched applications and winning rules with `review`, `provisional`, or
-`fallback` status, including excluded applications. `REVIEW_LIMIT` limits previews
-only. Rows include source evidence, rule notes, and review reasons. HF-906 now
-includes Relaxation applications as `Residential Non-Housing`, with rezoning
-relevance false. HF-018 now includes accessory residential buildings, also with
-rezoning relevance false; residential totals are application activity, not new homes.
+The complete-period notebook now pins
+`development_permits_residential_20261013_001726.parquet`, retrieved October 13
+UTC (October 12 locally). Despite its filename, it contains all 31,627 matching
+source applications: 16,637 Before, 13,866 During, and 1,124 Early Post-Repeal.
+Four blank/null-address rows are excluded before classification. Six strategies
+produce 21 analysis tables for **18,015 residential applications**: 9,856 Before,
+7,603 During, and 556 Early Post-Repeal. The review register contains 2,657 cases.
+The latest application is October 11; October 13 defines the retrieval horizon.
+The short post-repeal window remains contextual.
 
-Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
-section to save permit, analysis, validation, reconciliation, and bias-audit tables
-plus six PNG charts under the default heatmap settings. The complete review
-register is saved in notebook output and is not separately exported by this cell.
-Each enabled run uses a unique directory under
+`address_excluded_records` retains removed source rows in the kernel. Source
+profiles use all raw records; downstream population tables, validation, and
+analysis use retained rows. Literal `undefine` and `undefined` addresses remain.
+Complete review registers include unmatched records and winning rules with
+`review`, `provisional`, or `fallback` status, including classification exclusions.
+`REVIEW_LIMIT` limits previews only. Counts measure applications, not new homes.
+
+Both notebooks now offer `ENRICH_GEOGRAPHY=False` for offline source-geography
+analysis. Enable it before rerunning to use configured community/ward recovery.
+Uncached parcel queries require network access; ward boundaries refresh on each
+enabled run, and reference/cache files may be written. Recovered wards use current
+boundaries. Geographic enrichment and external exports were disabled during this
+verification; their enabled branches were not exercised.
+
+Set `EXPORT_EXPLORATORY_OUTPUTS=True` to export exploratory tables and charts.
+Each enabled complete-period export uses a unique directory under
 `reports/notebook_complete_period/`, with `tables/` and `figures/` subdirectories.
-The enabled export branch has not been exercised in this notebook verification.
-See the [complete-period guide](notebooks/02_complete_period_exploration_explanation.md)
-for refresh instructions, output definitions, findings, and limitations. The
-short post-repeal window remains contextual, and validation warnings remain open.
+The complete review register is saved in notebook output, not separately exported.
+See the [Before guide](notebooks/01_permit_exploration_explaination.md) and
+[complete-period guide](notebooks/02_complete_period_exploration_explanation.md)
+for verified results, workflow definitions, and historical findings. Data-quality
+and classification warnings remain open. This refresh did not rerun the full
+project test suite or establish classification accuracy or policy impact.
 
 Install the development dependencies and run the complete suite from the repository root:
 
@@ -389,13 +450,14 @@ raises `NotImplementedError`. After you implement a function, its real assertion
 This makes the test summary a progress checklist rather than treating unfinished modules as
 completed work.
 
-The September 24, 2026 baseline is **522 passed**. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
+The September 30, 2026 baseline is **545 passed**, with 143 Matplotlib/NumPy deprecation warnings. The configuration test requires CSV among the enabled raw snapshot formats and permits additional formats such as Parquet. See [Testing Framework](docs/TESTING.md#current-baseline) for details.
 
 The full framework, test layers, implementation loop, fixture rules, and completion gates are
 defined in the [Testing Framework](docs/TESTING.md).
 
 ## Documentation
 
+- [10-minute Quarto presentation notebook](notebooks/03_ten_minute_presentation.ipynb): eight sections with word-for-word speaker notes, calculated charts, a two-minute Power BI demonstration script, and a rehearsal appendix. Timing remains in presenter notes rather than slide titles. Run all cells in PyCharm, then run `quarto render` from the repository root to create the Reveal.js HTML deck under `reports/presentation/notebooks/`. Quarto uses saved output and hides preparation code; `S` opens speaker view. See the [setup and delivery instructions](docs/PRESENTATION_PLAN.md#10-minute-notebook-presentation).
 - [Complete-period notebook guide](notebooks/02_complete_period_exploration_explanation.md)
 - [Before-period notebook guide](notebooks/01_permit_exploration_explaination.md)
 - [Copyright notice](LICENSE.md)
@@ -403,7 +465,8 @@ defined in the [Testing Framework](docs/TESTING.md).
 - [Configuration and classification-rules guide](docs/CONFIGURATION.md)
 - [Python design patterns](docs/DESIGN_PATTERNS.md)
 - [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
-- [One-page project summary](docs/PROJECT_SUMMARY.md)
+- [One-page analytics plan](reports/project_summary.md)
+- [Project overview](docs/PROJECT_OVERVIEW.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)
