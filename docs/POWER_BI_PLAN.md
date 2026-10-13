@@ -110,8 +110,8 @@ Use the permit sheet for row-level analysis and summary sheets at their own
 grain; do not combine detail and summary rows into one count. Do not sum repeated
 period denominators across type or geography rows.
 
-For the September 30 rule version, check the permit sheet's row count against
-**17,870 residential applications**: 9,857 Before, 7,606 During, and 407 Early
+For the October 12 notebook refresh, check the permit sheet's row count against
+**18,015 residential applications**: 9,856 Before, 7,603 During, and 556 Early
 Post-Repeal. Compare Power BI counts to the Python `reconciliation` sheet.
 The cleaned permit sheet is filtered to residential applications; full-source
 counts and exclusions are retained in reconciliation and validation exports.
@@ -129,7 +129,7 @@ successful export does not certify classification accuracy or Power BI agreement
 From the repository root with the project environment activated, run:
 
 ```powershell
-python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_residential_20261013_001726.parquet
 ```
 
 Keep the snapshot's adjacent metadata sidecar so the CLI can use its UTC

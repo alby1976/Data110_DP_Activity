@@ -248,7 +248,7 @@ the project dependencies from `pyproject.toml`; `config/settings.yaml` controls
 the export format, layout, filename, and destination:
 
 ```powershell
-python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_20260925_045241.parquet
+python -m dp_activity.cli --settings config/settings.yaml run data/raw/development_permits_residential_20261013_001726.parquet
 ```
 
 Keep the snapshot's adjacent metadata sidecar. With the committed settings,
@@ -272,46 +272,49 @@ with the current Excel settings. The guide also covers the CLI export to
 
 ## Running the tests
 
-The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) runs offline
-against the pinned Before snapshot. The September 30, 2026 refresh reran all 18
-code cells, including the complete classification review register.
-Validators, five residential analysis strategies, a monthly line chart, and five
-heatmaps completed successfully. Summaries reconcile to 9,857 residential
-records. Seasonal charts use complete seasons by default; only Before coverage is
-available. External notebook exports are disabled by default. Data-quality and
-classification warnings remain for review. See the
-[notebook explanation](notebooks/01_permit_exploration_explaination.md) for report
-definitions and recorded findings. The separate synthetic CLI smoke test also
-passes; neither establishes independent classification accuracy or policy impact.
+The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) and
+[complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
+were refreshed on **October 12, 2026**. All **19 code cells in each notebook**
+completed successfully with current modules; saved tables, review registers,
+the monthly chart, and five heatmaps were regenerated.
 
-The [complete-period notebook](notebooks/02_complete_period_exploration.ipynb)
-uses a separate frozen snapshot of **31,339 records**: 16,637 Before, 13,866 During,
-and 836 Early Post-Repeal. The latest observed application is September 23, 2026;
-the snapshot's UTC retrieval date, September 25, defines the observation horizon.
-Six analysis strategies produce 21 tables, reconciling to 17,870 residential
-records: 9,857 Before, 7,606 During, and 407 Early Post-Repeal. A monthly line
-chart and five heatmaps use this refreshed population. All 18 code cells reran
-successfully on September 30, including the complete review register.
+The Before notebook retains its 16,637-record frozen source snapshot. Cleaning
+excludes one blank/null-address application, leaving 16,636 retained records
+and **9,856 residential applications**. Its review register contains 1,101 cases.
 
-Both notebooks include a complete, expandable `classification_review_records`
-register: 1,101 Before cases and 2,635 complete-period cases. It includes all
-unmatched applications and winning rules with `review`, `provisional`, or
-`fallback` status, including excluded applications. `REVIEW_LIMIT` limits previews
-only. Rows include source evidence, rule notes, and review reasons. HF-906 now
-includes Relaxation applications as `Residential Non-Housing`, with rezoning
-relevance false. HF-018 now includes accessory residential buildings, also with
-rezoning relevance false; residential totals are application activity, not new homes.
+The complete-period notebook now pins
+`development_permits_residential_20261013_001726.parquet`, retrieved October 13
+UTC (October 12 locally). Despite its filename, it contains all 31,627 matching
+source applications: 16,637 Before, 13,866 During, and 1,124 Early Post-Repeal.
+Four blank/null-address rows are excluded before classification. Six strategies
+produce 21 analysis tables for **18,015 residential applications**: 9,856 Before,
+7,603 During, and 556 Early Post-Repeal. The review register contains 2,657 cases.
+The latest application is October 11; October 13 defines the retrieval horizon.
+The short post-repeal window remains contextual.
 
-Set `EXPORT_EXPLORATORY_OUTPUTS=True` in its **Optional exploratory exports**
-section to save permit, analysis, validation, reconciliation, and bias-audit tables
-plus six PNG charts under the default heatmap settings. The complete review
-register is saved in notebook output and is not separately exported by this cell.
-Each enabled run uses a unique directory under
+`address_excluded_records` retains removed source rows in the kernel. Source
+profiles use all raw records; downstream population tables, validation, and
+analysis use retained rows. Literal `undefine` and `undefined` addresses remain.
+Complete review registers include unmatched records and winning rules with
+`review`, `provisional`, or `fallback` status, including classification exclusions.
+`REVIEW_LIMIT` limits previews only. Counts measure applications, not new homes.
+
+Both notebooks now offer `ENRICH_GEOGRAPHY=False` for offline source-geography
+analysis. Enable it before rerunning to use configured community/ward recovery.
+Uncached parcel queries require network access; ward boundaries refresh on each
+enabled run, and reference/cache files may be written. Recovered wards use current
+boundaries. Geographic enrichment and external exports were disabled during this
+verification; their enabled branches were not exercised.
+
+Set `EXPORT_EXPLORATORY_OUTPUTS=True` to export exploratory tables and charts.
+Each enabled complete-period export uses a unique directory under
 `reports/notebook_complete_period/`, with `tables/` and `figures/` subdirectories.
-The enabled export branch has not been exercised in this notebook verification.
-See the [complete-period guide](notebooks/02_complete_period_exploration_explanation.md)
-for refresh instructions, output definitions, findings, and limitations. The
-short post-repeal window remains contextual, and validation warnings remain open.
+The complete review register is saved in notebook output, not separately exported.
+See the [Before guide](notebooks/01_permit_exploration_explaination.md) and
+[complete-period guide](notebooks/02_complete_period_exploration_explanation.md)
+for verified results, workflow definitions, and historical findings. Data-quality
+and classification warnings remain open. This refresh did not rerun the full
+project test suite or establish classification accuracy or policy impact.
 
 Install the development dependencies and run the complete suite from the repository root:
 

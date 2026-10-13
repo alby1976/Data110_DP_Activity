@@ -1,5 +1,48 @@
 # Guide to `02_complete_period_exploration.ipynb`
 
+## Current execution refresh: October 12, 2026
+
+All 19 code cells completed successfully against the pinned
+`data/raw/development_permits_residential_20261013_001726.parquet` snapshot.
+Its sidecar records retrieval at October 13, 2026 UTC (October 12 locally),
+31,627 source applications, and SHA-256
+`fc7cdfad598ab894aa9eacb0cb396d4537070524d8ea8b78f4ad449b7da6e78d`.
+Despite the filename, this raw snapshot contains all matching applications;
+residential membership is determined after cleaning and classification.
+The latest application is October 11; the retrieval horizon is October 13.
+These results supersede the historical findings below.
+
+| Measure | Before | During | Early Post-Repeal: context only |
+|---|---:|---:|---:|
+| Source applications | 16,637 | 13,866 | 1,124 |
+| Blank/null-address exclusions | 1 | 3 | 0 |
+| Retained applications | 16,636 | 13,863 | 1,124 |
+| Residential applications | 9,856 | 7,603 | 556 |
+| Classification exclusions among retained rows | 6,780 | 6,260 | 568 |
+| Exposure days | 731 | 728 | 71 |
+| Residential applications per 30 exposed days | 404.49 | 313.31 | 234.93 |
+
+The residential total is **18,015**. During has 2,253 fewer applications than
+Before (-22.86%); this is descriptive, not a causal estimate. The complete
+classification review register includes **2,657** retained applications.
+Six analysis strategies produce 21 tables; the monthly chart and five heatmaps
+were refreshed. Source profiles and coverage use all raw records; population
+tables, validation, and analyses use retained records. `address_excluded_records`
+holds all four removed source rows. Literal `undefine`/`undefined` addresses remain.
+
+`ENRICH_GEOGRAPHY=False` preserves offline execution using source geography.
+Enable it to reuse the CLI's configured community and ward feature APIs before
+validation and analysis. Uncached parcel queries require network access; enabled
+ward enrichment refreshes City boundaries and may write local reference files.
+Recovered wards describe current boundaries, not historical assignments.
+
+Python 3.13.15, pandas 2.2.3, and Matplotlib 3.10.8 were used. No new permit
+download or external export was made; enabled enrichment/export branches were
+not verified. Quality warnings include 7,010 missing decision dates and 50
+missing communities/coordinates. Independent classification review and the
+full project test suite were not performed in this notebook refresh.
+
+
 Use the [Conda or virtual-environment setup](../README.md#getting-started)
 before running this notebook, and select that environment for notebook execution
 in PyCharm. `environment.yml` installs the editable project and its `dev`,
@@ -8,7 +51,7 @@ Jupyter server. See [Create the Power BI input files](../docs/POWER_BI_PLAN.md#c
 for workbook export and import instructions. Setup changes do not rerun the
 notebook or change the recorded findings below.
 
-## Current classification refresh: September 30, 2026
+## Historical classification refresh: September 30, 2026
 
 The notebook was rerun with the updated `classification_rules.csv`, whose
 SHA-256 is `ecc20ce16844c1dbe863594a8e451e2e5c1fd6663f4926de667df62a68ccc6cb`.

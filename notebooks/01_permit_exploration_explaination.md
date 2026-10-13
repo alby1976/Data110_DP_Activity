@@ -1,5 +1,33 @@
 # Explanation of values in `01_permit_exploration.ipynb`
 
+## Current execution refresh: October 12, 2026
+
+All 19 code cells completed successfully using the current project modules.
+The original Before snapshot remains pinned: 16,637 source applications.
+The cleaner excludes one blank/null-address application, leaving 16,636
+retained applications: **9,856 residential** and 6,780 excluded by classification.
+The complete classification review register contains **1,101** retained cases.
+These figures supersede the historical findings below.
+
+`address_excluded_records` retains the removed source row in the kernel.
+Cleaning checks reconcile removed and retained rows to the source and verify
+retained indices; raw evidence is unchanged. Population tables and validators
+use the retained population. Raw profiles use the complete source snapshot.
+Missingness-count differences can reflect filtering as well as normalization.
+Literal `undefine` and `undefined` addresses remain eligible for classification.
+
+The optional `ENRICH_GEOGRAPHY` cell reuses configured community and ward
+feature APIs. It defaults to `False`, so source geography is used. Enabling it
+may query uncached parcel addresses, refreshes ward boundaries from the City,
+and can write local caches/reference files. Current boundary assignments do not
+establish historical wards. Inspect recovery audit fields before reporting.
+
+This verification used Python 3.13.15, pandas 2.2.3, and Matplotlib 3.10.8.
+Charts and tables were refreshed; external exports and geographic enrichment
+were disabled. Their enabled branches were not verified in this run.
+Validation warnings remain visible. The full project test suite was not rerun.
+
+
 Use the [Conda or virtual-environment setup](../README.md#getting-started)
 before running this notebook, and select that environment for notebook execution
 in PyCharm. `environment.yml` installs the editable project and its `dev`,
@@ -8,7 +36,7 @@ Jupyter server. See [Create the Power BI input files](../docs/POWER_BI_PLAN.md#c
 for workbook export and import instructions. Setup changes do not rerun the
 notebook or change the recorded findings below.
 
-## Current classification refresh: September 30, 2026
+## Historical classification refresh: September 30, 2026
 
 Both notebooks were rerun with the updated `classification_rules.csv`, whose
 SHA-256 is `ecc20ce16844c1dbe863594a8e451e2e5c1fd6663f4926de667df62a68ccc6cb`.
