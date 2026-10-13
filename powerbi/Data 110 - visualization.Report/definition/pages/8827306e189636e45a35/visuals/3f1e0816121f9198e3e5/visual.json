@@ -3,9 +3,9 @@
   "name": "3f1e0816121f9198e3e5",
   "position": {
     "x": 0,
-    "y": 849.11854103343467,
+    "y": 140.06079027355622,
     "z": 10000,
-    "height": 230.51671732522797,
+    "height": 399.75683890577506,
     "width": 1558.1762917933131,
     "tabOrder": 10000
   },
@@ -207,7 +207,7 @@
                     "Entity": "00_Measures"
                   }
                 },
-                "Property": "Geo Rate 30 Change %"
+                "Property": "Geo Percentage Change"
               }
             },
             "direction": "Descending"
