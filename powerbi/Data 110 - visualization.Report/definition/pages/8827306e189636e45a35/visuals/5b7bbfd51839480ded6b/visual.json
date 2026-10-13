@@ -3,9 +3,9 @@
   "name": "5b7bbfd51839480ded6b",
   "position": {
     "x": 1559.6352583586627,
-    "y": 606.93009118541033,
+    "y": 399.75683890577506,
     "z": 14000,
-    "height": 62.735562310030396,
+    "height": 93.373860182370819,
     "width": 360.36474164133739,
     "tabOrder": 14000
   },
@@ -41,7 +41,7 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "'Between'"
                 }
               }
             }
@@ -54,7 +54,7 @@
             "orientation": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "1D"
                 }
               }
             }

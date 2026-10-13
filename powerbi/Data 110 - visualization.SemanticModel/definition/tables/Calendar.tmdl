@@ -10,7 +10,7 @@ table Calendar
 
 		variation Variation
 			isDefault
-			relationship: dba8a2bf-bd0f-4964-ac2e-0ca3fc3d3ed4
+			relationship: 9822e074-e5f3-43d9-965c-70e6e0bd76b2
 			defaultHierarchy: LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
@@ -51,17 +51,60 @@ table Calendar
 
 		annotation SummarizationSetBy = Automatic
 
+	column YearMonth
+		lineageTag: 57face93-4f34-446e-9005-ed1c83ee0737
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [YearMonth]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Start'
+		formatString: Long Date
+		lineageTag: ff31b653-bb0f-4707-9823-720d051d75d9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Start]
+
+		variation Variation
+			isDefault
+			relationship: 14b947f7-c016-463f-b90b-c5216b23bf36
+			defaultHierarchy: LocalDateTable_873f1889-8346-41df-8c0f-71c39ec7f191.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
 	partition Calendar = calculated
 		mode: import
 		source =
 				
-				VAR StartDate = DATE(2022, 1, 1)
-				VAR EndDate = DATE(2026, 12, 31)
+				VAR StartDate =
+				    MINX(
+				        ALL(permits_clean),
+				        permits_clean[applied_date]
+				    )
+				VAR EndDate =
+				    MAXX(
+				        ALL(permits_clean),
+				        permits_clean[applied_date]
+				    )
 				RETURN
 				ADDCOLUMNS(
 				    CALENDAR(StartDate, EndDate),
-				    "Year", YEAR([Date]),
-				    "Month Number", MONTH([Date]),
+				
+				    "Year",
+				        YEAR([Date]),
+				
+				    "Month Number",
+				        MONTH([Date]),
+				
+				    "YearMonth",
+				        FORMAT([Date], "yyyy-MM"),
+				
+				    "Month Start",
+				        DATE(YEAR([Date]), MONTH([Date]), 1),
+				
 				    "Season",
 				        SWITCH(
 				            TRUE(),
@@ -70,6 +113,7 @@ table Calendar
 				            MONTH([Date]) IN {6, 7, 8}, "Summer",
 				            "Fall"
 				        ),
+				
 				    "Policy Period",
 				        SWITCH(
 				            TRUE(),

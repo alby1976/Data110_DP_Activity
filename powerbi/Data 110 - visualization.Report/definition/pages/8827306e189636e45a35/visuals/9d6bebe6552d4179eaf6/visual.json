@@ -28,6 +28,7 @@
               },
               "queryRef": "00_Measures.Before Permits",
               "nativeQueryRef": "Before Permits",
+              "displayName": "Before Permits",
               "format": "#,0"
             }
           ]

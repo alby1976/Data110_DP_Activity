@@ -28,6 +28,7 @@
               },
               "queryRef": "00_Measures.During Permits",
               "nativeQueryRef": "During Permits",
+              "displayName": "During Permits",
               "format": "#,0"
             }
           ]
@@ -93,5 +94,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7cdc4d12cfa4897bb272",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo During Permits"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

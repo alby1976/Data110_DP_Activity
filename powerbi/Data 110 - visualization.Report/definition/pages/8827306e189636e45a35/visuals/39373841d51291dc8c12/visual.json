@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "39373841d51291dc8c12",
   "position": {
-    "x": 1558.3333333333335,
-    "y": 140,
+    "x": 1558.1762917933131,
+    "y": 0,
     "z": 9000,
     "height": 226.25,
     "width": 361.25,
@@ -151,5 +151,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "dc368141b291bb4b55fa",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Geography Metric"
+              }
+            },
+            "Property": "Metric"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

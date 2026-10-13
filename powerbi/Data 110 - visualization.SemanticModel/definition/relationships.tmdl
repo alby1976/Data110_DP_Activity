@@ -326,15 +326,6 @@ relationship 692d8581-53d6-5f9f-2bc4-0565432f3164
 	fromColumn: processing_type_summary.ResidentialType
 	toColumn: DimResidentialType.ResidentialType
 
-relationship dba8a2bf-bd0f-4964-ac2e-0ca3fc3d3ed4
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Calendar.Date
-	toColumn: LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7.Date
-
-relationship 8c614abc-9a82-eb74-4290-2a4c3f0a289d
-	fromColumn: permits_clean.applied_date
-	toColumn: Calendar.Date
-
 relationship e8625750-08f8-4a39-a104-dd7c10e47b0e
 	joinOnDateBehavior: datePartOnly
 	fromColumn: CommunityCentroids.:created_at
@@ -447,4 +438,18 @@ relationship f4af9505-98b2-69f8-9438-25314180bf65
 	isActive: false
 	fromColumn: CommunityMapLocations.communitycode
 	toColumn: CommunityCentroids.comm_code
+
+relationship 9822e074-e5f3-43d9-965c-70e6e0bd76b2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7.Date
+
+relationship 8c614abc-9a82-eb74-4290-2a4c3f0a289d
+	fromColumn: permits_clean.applied_date
+	toColumn: Calendar.Date
+
+relationship 14b947f7-c016-463f-b90b-c5216b23bf36
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.'Month Start'
+	toColumn: LocalDateTable_873f1889-8346-41df-8c0f-71c39ec7f191.Date
 

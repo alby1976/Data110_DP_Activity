@@ -305,6 +305,25 @@ table 00_Measures
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure 'Geo Monthly Applications' =
+			
+			COALESCE(
+			    [Permit Count],
+			    0
+			)
+		formatString: 0
+		lineageTag: 3336e422-3323-4d6f-9117-124634e7e61c
+
+	measure 'Geo Monthly Rate 30' =
+			
+			DIVIDE(
+			    [Permit Count] * 30,
+			    COUNTROWS('Calendar')
+			)
+		lineageTag: 53c652e5-e9d1-49be-9825-476fe7309763
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column Placeholder
 		dataType: int64
 		isHidden

@@ -40617,7 +40617,7 @@ cultureInfo en-CA
 			          }
 			        },
 			        {
-			          "Before 30-Day Rate": {
+			          "Before 30-day Rate": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -40640,6 +40640,16 @@ cultureInfo en-CA
 			        {
 			          "geo during rate 30": {
 			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "During 30-Rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
 			          }
 			        },
 			        {
@@ -56886,9 +56896,791 @@ cultureInfo en-CA
 			          }
 			        }
 			      ]
+			    },
+			    "entity_00_measure.geo_monthly_applications": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "00_Measures",
+			          "ConceptualProperty": "Geo Monthly Applications"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "geo monthly applications": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "applications": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "monthly applications": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "geo monthly submission": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "geo monthly presentation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "geo monthly solicitation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "monthly submission": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "monthly presentation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "monthly solicitation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "geo monthly request": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "geo monthly claim": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "geo monthly bid": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "geo monthly tender": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        }
+			      ]
+			    },
+			    "entity_00_measure.geo_monthly_rate_30": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "00_Measures",
+			          "ConceptualProperty": "Geo Monthly Rate 30"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "geo monthly rate 30": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "rate 30": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "monthly rate 30": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "Monthly 30-Day Rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "calendar.year_month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "ConceptualProperty": "YearMonth"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "year month": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "YearMonth": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "year mth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "yr month": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        }
+			      ]
+			    },
+			    "calendar.month_start": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "ConceptualProperty": "Month Start"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month start": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "start": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "mth start": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "month twitch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "month jump": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "month jerk": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "month flinch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "month jolt": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "twitch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "jump": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "jerk": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "flinch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "calendar.month_start.date_hierarchy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "VariationSource": "Month Start",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Date Hierarchy"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month start date hierarchy": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "date hierarchy": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "start date hierarchy": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "calendar.month_start.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "VariationSource": "Month Start",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Date Hierarchy",
+			          "HierarchyLevel": "Year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month start year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "year": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "start year": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "month start yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "start yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "yr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "mth start year": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "calendar.month_start.quarter": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "VariationSource": "Month Start",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Date Hierarchy",
+			          "HierarchyLevel": "Quarter"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month start quarter": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "quarter": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "start quarter": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "month start qtr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.846
+			          }
+			        },
+			        {
+			          "start qtr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.833
+			          }
+			        },
+			        {
+			          "qtr": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.818
+			          }
+			        },
+			        {
+			          "mth start quarter": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "calendar.month_start.month": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "VariationSource": "Month Start",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Date Hierarchy",
+			          "HierarchyLevel": "Month"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month start month": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "month": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "start month": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "month start mth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "start mth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "mth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "mth start month": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
+			    },
+			    "calendar.month_start.day": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Calendar",
+			          "VariationSource": "Month Start",
+			          "VariationSet": "Variation",
+			          "Hierarchy": "Date Hierarchy",
+			          "HierarchyLevel": "Day"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "month start day": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "day": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "start day": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "mth start day": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        }
+			      ],
+			      "SemanticType": "Time"
 			    }
 			  },
 			  "Relationships": {
+			    "community_map_location_season_start_date_date_hierarchy_has_community_map_location_season_start_date_year": {
+			      "Binding": {
+			        "ConceptualEntity": "CommunityMapLocations"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "community_map_location.season_start_date.date_hierarchy": {
+			          "Target": {
+			            "Entity": "community_map_location.season_start_date.date_hierarchy"
+			          }
+			        },
+			        "community_map_location.season_start_date.year": {
+			          "Target": {
+			            "Entity": "community_map_location.season_start_date.year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "community_map_location.season_start_date.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "community_map_location.season_start_date.year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "season_start_date_hierarchies_have_season_start_years"
+			        }
+			      ]
+			    },
+			    "community_map_location_season_start_date_has_date_hierarchy": {
+			      "Binding": {
+			        "ConceptualEntity": "CommunityMapLocations"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "community_map_location.season_start_date": {
+			          "Target": {
+			            "Entity": "community_map_location.season_start_date"
+			          }
+			        },
+			        "community_map_location.season_start_date.date_hierarchy": {
+			          "Target": {
+			            "Entity": "community_map_location.season_start_date.date_hierarchy"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "community_map_location.season_start_date"
+			            },
+			            "Object": {
+			              "Role": "community_map_location.season_start_date.date_hierarchy"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "season_start_dates_have_season_start_date_hierarchies"
+			        }
+			      ]
+			    },
+			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_day": {
+			      "Binding": {
+			        "ConceptualEntity": "CommunityMapLocations"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "community_map_location.raw_canceledrefuseddate.date_hierarchy": {
+			          "Target": {
+			            "Entity": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
+			          }
+			        },
+			        "community_map_location.raw_canceledrefuseddate.day": {
+			          "Target": {
+			            "Entity": "community_map_location.raw_canceledrefuseddate.day"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "community_map_location.raw_canceledrefuseddate.day"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_days"
+			        }
+			      ]
+			    },
+			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_month": {
+			      "Binding": {
+			        "ConceptualEntity": "CommunityMapLocations"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "community_map_location.raw_canceledrefuseddate.date_hierarchy": {
+			          "Target": {
+			            "Entity": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
+			          }
+			        },
+			        "community_map_location.raw_canceledrefuseddate.month": {
+			          "Target": {
+			            "Entity": "community_map_location.raw_canceledrefuseddate.month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "community_map_location.raw_canceledrefuseddate.month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_months"
+			        }
+			      ]
+			    },
+			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_quarter": {
+			      "Binding": {
+			        "ConceptualEntity": "CommunityMapLocations"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "community_map_location.raw_canceledrefuseddate.date_hierarchy": {
+			          "Target": {
+			            "Entity": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
+			          }
+			        },
+			        "community_map_location.raw_canceledrefuseddate.quarter": {
+			          "Target": {
+			            "Entity": "community_map_location.raw_canceledrefuseddate.quarter"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "community_map_location.raw_canceledrefuseddate.quarter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_quarters"
+			        }
+			      ]
+			    },
 			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_year": {
 			      "Binding": {
 			        "ConceptualEntity": "CommunityMapLocations"
@@ -59558,7 +60350,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_date_hierarchies_have_season_start_years"
+			          "ID": "season_start_date_hierarchies_have_season_start_years1"
 			        }
 			      ]
 			    },
@@ -59591,7 +60383,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_dates_have_season_start_date_hierarchies"
+			          "ID": "season_start_dates_have_season_start_date_hierarchies1"
 			        }
 			      ]
 			    },
@@ -59888,7 +60680,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_date_hierarchies_have_season_start_years1"
+			          "ID": "season_start_date_hierarchies_have_season_start_years2"
 			        }
 			      ]
 			    },
@@ -59921,7 +60713,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_dates_have_season_start_date_hierarchies1"
+			          "ID": "season_start_dates_have_season_start_date_hierarchies2"
 			        }
 			      ]
 			    },
@@ -60218,7 +61010,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_date_hierarchies_have_season_start_years2"
+			          "ID": "season_start_date_hierarchies_have_season_start_years3"
 			        }
 			      ]
 			    },
@@ -60251,7 +61043,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_dates_have_season_start_date_hierarchies2"
+			          "ID": "season_start_dates_have_season_start_date_hierarchies3"
 			        }
 			      ]
 			    },
@@ -61373,7 +62165,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_date_hierarchies_have_season_start_years3"
+			          "ID": "season_start_date_hierarchies_have_season_start_years4"
 			        }
 			      ]
 			    },
@@ -61406,7 +62198,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "season_start_dates_have_season_start_date_hierarchies3"
+			          "ID": "season_start_dates_have_season_start_date_hierarchies4"
 			        }
 			      ]
 			    },
@@ -61439,7 +62231,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_days"
+			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_days1"
 			        }
 			      ]
 			    },
@@ -61472,7 +62264,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_months"
+			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_months1"
 			        }
 			      ]
 			    },
@@ -61505,7 +62297,7 @@ cultureInfo en-CA
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_quarters"
+			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_quarters1"
 			        }
 			      ]
 			    },
@@ -64001,6 +64793,52 @@ cultureInfo en-CA
 			        }
 			      ]
 			    },
+			    "permit_clean_has_calendar": {
+			      "Binding": {
+			        "ConceptualEntity": "permits_clean"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "permit_clean": {
+			          "Target": {
+			            "Entity": "permit_clean"
+			          }
+			        },
+			        "calendar": {
+			          "Target": {
+			            "Entity": "calendar"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "permit_clean"
+			            },
+			            "Object": {
+			              "Role": "calendar"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "permit_clean_have_calendars"
+			        },
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar"
+			            },
+			            "Object": {
+			              "Role": "permit_clean"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "calendars_have_permit_clean"
+			        }
+			      ]
+			    },
 			    "permit_clean_has_community_map_location1": {
 			      "Binding": {
 			        "ConceptualEntity": "permits_clean"
@@ -64077,52 +64915,6 @@ cultureInfo en-CA
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "community_centroids_have_permit_clean"
-			        }
-			      ]
-			    },
-			    "permit_clean_has_calendar": {
-			      "Binding": {
-			        "ConceptualEntity": "permits_clean"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "permit_clean": {
-			          "Target": {
-			            "Entity": "permit_clean"
-			          }
-			        },
-			        "calendar": {
-			          "Target": {
-			            "Entity": "calendar"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "permit_clean"
-			            },
-			            "Object": {
-			              "Role": "calendar"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "permit_clean_have_calendars"
-			        },
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "calendar"
-			            },
-			            "Object": {
-			              "Role": "permit_clean"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "calendars_have_permit_clean"
 			        }
 			      ]
 			    },
@@ -64215,6 +65007,171 @@ cultureInfo en-CA
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "permit_volumes_have_permit_clean"
+			        }
+			      ]
+			    },
+			    "calendar_has_month_start": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar": {
+			          "Target": {
+			            "Entity": "calendar"
+			          }
+			        },
+			        "calendar.month_start": {
+			          "Target": {
+			            "Entity": "calendar.month_start"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar"
+			            },
+			            "Object": {
+			              "Role": "calendar.month_start"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "calendars_have_month_starts"
+			        }
+			      ]
+			    },
+			    "calendar_has_year_month": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar": {
+			          "Target": {
+			            "Entity": "calendar"
+			          }
+			        },
+			        "calendar.year_month": {
+			          "Target": {
+			            "Entity": "calendar.year_month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar"
+			            },
+			            "Object": {
+			              "Role": "calendar.year_month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "calendars_have_year_months"
+			        }
+			      ]
+			    },
+			    "permit_clean_has_entity_00_measure_geo_monthly_rate_30": {
+			      "Binding": {
+			        "ConceptualEntity": "permits_clean"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "permit_clean": {
+			          "Target": {
+			            "Entity": "permit_clean"
+			          }
+			        },
+			        "entity_00_measure.geo_monthly_rate_30": {
+			          "Target": {
+			            "Entity": "entity_00_measure.geo_monthly_rate_30"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "permit_clean"
+			            },
+			            "Object": {
+			              "Role": "entity_00_measure.geo_monthly_rate_30"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "permit_clean_have_geo_monthly_rate_30"
+			        }
+			      ]
+			    },
+			    "calendar_has_entity_00_measure_geo_monthly_rate_30": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar": {
+			          "Target": {
+			            "Entity": "calendar"
+			          }
+			        },
+			        "entity_00_measure.geo_monthly_rate_30": {
+			          "Target": {
+			            "Entity": "entity_00_measure.geo_monthly_rate_30"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar"
+			            },
+			            "Object": {
+			              "Role": "entity_00_measure.geo_monthly_rate_30"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "calendars_have_geo_monthly_rate_30"
+			        }
+			      ]
+			    },
+			    "permit_clean_has_entity_00_measure_geo_monthly_applications": {
+			      "Binding": {
+			        "ConceptualEntity": "permits_clean"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "permit_clean": {
+			          "Target": {
+			            "Entity": "permit_clean"
+			          }
+			        },
+			        "entity_00_measure.geo_monthly_applications": {
+			          "Target": {
+			            "Entity": "entity_00_measure.geo_monthly_applications"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "permit_clean"
+			            },
+			            "Object": {
+			              "Role": "entity_00_measure.geo_monthly_applications"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "permit_clean_have_geo_monthly_applications"
 			        }
 			      ]
 			    },
@@ -86165,171 +87122,6 @@ cultureInfo en-CA
 			        }
 			      ]
 			    },
-			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_quarter": {
-			      "Binding": {
-			        "ConceptualEntity": "CommunityMapLocations"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "community_map_location.raw_canceledrefuseddate.date_hierarchy": {
-			          "Target": {
-			            "Entity": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
-			          }
-			        },
-			        "community_map_location.raw_canceledrefuseddate.quarter": {
-			          "Target": {
-			            "Entity": "community_map_location.raw_canceledrefuseddate.quarter"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "community_map_location.raw_canceledrefuseddate.quarter"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_quarters1"
-			        }
-			      ]
-			    },
-			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_month": {
-			      "Binding": {
-			        "ConceptualEntity": "CommunityMapLocations"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "community_map_location.raw_canceledrefuseddate.date_hierarchy": {
-			          "Target": {
-			            "Entity": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
-			          }
-			        },
-			        "community_map_location.raw_canceledrefuseddate.month": {
-			          "Target": {
-			            "Entity": "community_map_location.raw_canceledrefuseddate.month"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "community_map_location.raw_canceledrefuseddate.month"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_months1"
-			        }
-			      ]
-			    },
-			    "community_map_location_raw_canceledrefuseddate_date_hierarchy_has_community_map_location_raw_canceledrefuseddate_day": {
-			      "Binding": {
-			        "ConceptualEntity": "CommunityMapLocations"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "community_map_location.raw_canceledrefuseddate.date_hierarchy": {
-			          "Target": {
-			            "Entity": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
-			          }
-			        },
-			        "community_map_location.raw_canceledrefuseddate.day": {
-			          "Target": {
-			            "Entity": "community_map_location.raw_canceledrefuseddate.day"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "community_map_location.raw_canceledrefuseddate.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "community_map_location.raw_canceledrefuseddate.day"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "raw_canceledrefuseddate_date_hierarchies_have_raw_canceledrefuseddate_days1"
-			        }
-			      ]
-			    },
-			    "community_map_location_season_start_date_has_date_hierarchy": {
-			      "Binding": {
-			        "ConceptualEntity": "CommunityMapLocations"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "community_map_location.season_start_date": {
-			          "Target": {
-			            "Entity": "community_map_location.season_start_date"
-			          }
-			        },
-			        "community_map_location.season_start_date.date_hierarchy": {
-			          "Target": {
-			            "Entity": "community_map_location.season_start_date.date_hierarchy"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "community_map_location.season_start_date"
-			            },
-			            "Object": {
-			              "Role": "community_map_location.season_start_date.date_hierarchy"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "season_start_dates_have_season_start_date_hierarchies4"
-			        }
-			      ]
-			    },
-			    "community_map_location_season_start_date_date_hierarchy_has_community_map_location_season_start_date_year": {
-			      "Binding": {
-			        "ConceptualEntity": "CommunityMapLocations"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "community_map_location.season_start_date.date_hierarchy": {
-			          "Target": {
-			            "Entity": "community_map_location.season_start_date.date_hierarchy"
-			          }
-			        },
-			        "community_map_location.season_start_date.year": {
-			          "Target": {
-			            "Entity": "community_map_location.season_start_date.year"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "community_map_location.season_start_date.date_hierarchy"
-			            },
-			            "Object": {
-			              "Role": "community_map_location.season_start_date.year"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "season_start_date_hierarchies_have_season_start_years4"
-			        }
-			      ]
-			    },
 			    "community_map_location_season_start_date_date_hierarchy_has_community_map_location_season_start_date_quarter": {
 			      "Binding": {
 			        "ConceptualEntity": "CommunityMapLocations"
@@ -86591,6 +87383,171 @@ cultureInfo en-CA
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "season_end_date_hierarchies_have_season_end_days4"
+			        }
+			      ]
+			    },
+			    "calendar_month_start_has_date_hierarchy": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar.month_start": {
+			          "Target": {
+			            "Entity": "calendar.month_start"
+			          }
+			        },
+			        "calendar.month_start.date_hierarchy": {
+			          "Target": {
+			            "Entity": "calendar.month_start.date_hierarchy"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar.month_start"
+			            },
+			            "Object": {
+			              "Role": "calendar.month_start.date_hierarchy"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "month_starts_have_month_start_date_hierarchies"
+			        }
+			      ]
+			    },
+			    "calendar_month_start_date_hierarchy_has_calendar_month_start_year": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar.month_start.date_hierarchy": {
+			          "Target": {
+			            "Entity": "calendar.month_start.date_hierarchy"
+			          }
+			        },
+			        "calendar.month_start.year": {
+			          "Target": {
+			            "Entity": "calendar.month_start.year"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar.month_start.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "calendar.month_start.year"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "month_start_date_hierarchies_have_month_start_years"
+			        }
+			      ]
+			    },
+			    "calendar_month_start_date_hierarchy_has_calendar_month_start_quarter": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar.month_start.date_hierarchy": {
+			          "Target": {
+			            "Entity": "calendar.month_start.date_hierarchy"
+			          }
+			        },
+			        "calendar.month_start.quarter": {
+			          "Target": {
+			            "Entity": "calendar.month_start.quarter"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar.month_start.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "calendar.month_start.quarter"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "month_start_date_hierarchies_have_month_start_quarters"
+			        }
+			      ]
+			    },
+			    "calendar_month_start_date_hierarchy_has_calendar_month_start_month": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar.month_start.date_hierarchy": {
+			          "Target": {
+			            "Entity": "calendar.month_start.date_hierarchy"
+			          }
+			        },
+			        "calendar.month_start.month": {
+			          "Target": {
+			            "Entity": "calendar.month_start.month"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar.month_start.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "calendar.month_start.month"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "month_start_date_hierarchies_have_month_start_months"
+			        }
+			      ]
+			    },
+			    "calendar_month_start_date_hierarchy_has_calendar_month_start_day": {
+			      "Binding": {
+			        "ConceptualEntity": "Calendar"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "calendar.month_start.date_hierarchy": {
+			          "Target": {
+			            "Entity": "calendar.month_start.date_hierarchy"
+			          }
+			        },
+			        "calendar.month_start.day": {
+			          "Target": {
+			            "Entity": "calendar.month_start.day"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "calendar.month_start.date_hierarchy"
+			            },
+			            "Object": {
+			              "Role": "calendar.month_start.day"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "month_start_date_hierarchies_have_month_start_days"
 			        }
 			      ]
 			    }

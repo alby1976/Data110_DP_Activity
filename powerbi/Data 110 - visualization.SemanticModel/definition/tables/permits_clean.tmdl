@@ -197,15 +197,16 @@ table permits_clean
 		annotation SummarizationSetBy = Automatic
 
 	column ward
-		dataType: string
-		formatString: Whole Number
+		dataType: int64
 		lineageTag: fbe2c294-d5ba-4308-addf-92286c9d0ce6
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: ward
+
+		changedProperty = DataType
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isCustom":true}
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column quadrant
 		dataType: string

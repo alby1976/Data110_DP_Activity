@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "00_Measures.During Rate 30",
-              "nativeQueryRef": "Geo During Rate 30"
+              "nativeQueryRef": "During 30-Rate",
+              "displayName": "During 30-Rate"
             }
           ]
         }
@@ -74,5 +75,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b37ac11372c2f4f076d7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo During Rate 30"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "a043db69925b7c00d985",
   "position": {
-    "x": 906.66666666666674,
-    "y": 138.33333333333334,
+    "x": 1559.6352583586627,
+    "y": 555.86626139817633,
     "z": 7000,
-    "height": 385,
-    "width": 303.33333333333337,
+    "height": 523.76899696048633,
+    "width": 360.36474164133739,
     "tabOrder": 7000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -42,11 +42,11 @@
                       "Entity": "00_Measures"
                     }
                   },
-                  "Property": "Geo Absolute Change"
+                  "Property": "Geo Selected Change"
                 }
               },
-              "queryRef": "00_Measures.Geo Absolute Change",
-              "nativeQueryRef": "Geo Absolute Change"
+              "queryRef": "00_Measures.Geo Selected Change",
+              "nativeQueryRef": "Geo Selected Change"
             }
           ]
         }
@@ -61,7 +61,7 @@
                     "Entity": "00_Measures"
                   }
                 },
-                "Property": "Geo Absolute Change"
+                "Property": "Geo Selected Change"
               }
             },
             "direction": "Descending"
@@ -105,7 +105,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Raw Absolute Change'"
+                  "Value": "'Application Change - Before vs During'"
                 }
               }
             }
@@ -118,7 +118,21 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "ca6bc7c196d7def970bc",
+        "name": "a8984e76311a87d67206",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "permits_clean"
+              }
+            },
+            "Property": "community"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "223bd3963d53b51b9b3f",
         "field": {
           "Measure": {
             "Expression": {
@@ -126,44 +140,10 @@
                 "Entity": "00_Measures"
               }
             },
-            "Property": "Geo Absolute Change"
+            "Property": "Geo Selected Change"
           }
         },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "0",
-              "Entity": "00_Measures",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 2,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "0"
-                        }
-                      },
-                      "Property": "Geo Absolute Change"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "22L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
+        "type": "Advanced"
       }
     ]
   }

@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "00_Measures.Before Rate 30",
-              "nativeQueryRef": "Geo Before Rate 30"
+              "nativeQueryRef": "Before 30-day Rate",
+              "displayName": "Before 30-day Rate"
             }
           ]
         }
@@ -74,5 +75,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b5dadd2a21cc2468c8d5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo Before Rate 30"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

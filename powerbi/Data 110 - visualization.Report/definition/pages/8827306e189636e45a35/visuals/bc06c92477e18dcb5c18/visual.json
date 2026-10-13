@@ -2,8 +2,8 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "bc06c92477e18dcb5c18",
   "position": {
-    "x": 1558.3333333333335,
-    "y": 366.66666666666669,
+    "x": 1559.6352583586627,
+    "y": 226.13981762917933,
     "z": 12000,
     "height": 173.33333333333334,
     "width": 360,
@@ -55,5 +55,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "3e82251c8d10c2b77c47",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calendar"
+              }
+            },
+            "Property": "Season"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

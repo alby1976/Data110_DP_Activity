@@ -66,7 +66,6 @@ ref table 00_Measures
 ref table LocalDateTable_0004d7fb-b820-4ec4-9443-ea04713a4ff5
 ref table DimResidentialType
 ref table Calendar
-ref table LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7
 ref table 'Geography Metric'
 ref table CommunityCentroids
 ref table LocalDateTable_0e30e792-55cd-418d-93c2-ab7ad255a648
@@ -87,6 +86,8 @@ ref table LocalDateTable_e21c57c7-2ecb-46e0-9981-5ffc1ff4c2b4
 ref table LocalDateTable_23a9bd1b-7199-46c8-9bdc-63ad9a64712a
 ref table LocalDateTable_60f0d958-70d4-4432-81fc-43d2e6bd267a
 ref table FallbackCommunityCoordinates
+ref table LocalDateTable_befb86d6-a42b-432c-8890-3c71dbb1a0a7
+ref table LocalDateTable_873f1889-8346-41df-8c0f-71c39ec7f191
 
 ref cultureInfo en-CA
 

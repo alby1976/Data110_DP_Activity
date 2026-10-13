@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "b6677c6bb1f9e2031d1f",
   "position": {
-    "x": 455,
-    "y": 138.33333333333334,
+    "x": 455.19756838905772,
+    "y": 135.68389057750761,
     "z": 6000,
-    "height": 385,
-    "width": 451.66666666666669,
+    "height": 713.434650455927,
+    "width": 452.27963525835867,
     "tabOrder": 6000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "clusteredBarChart",
     "query": {
       "queryState": {
         "Category": {
@@ -118,55 +118,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "890bf829d64b6f62117b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "00_Measures"
-              }
-            },
-            "Property": "Geo During Rate 30"
-          }
-        },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "0",
-              "Entity": "00_Measures",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 2,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "0"
-                        }
-                      },
-                      "Property": "Geo During Rate 30"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "4.49D"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "name": "ce17d86074c5f31ece30",
+        "name": "8f87936c2096022d4ac8",
         "field": {
           "Column": {
             "Expression": {
@@ -180,7 +132,7 @@
         "type": "Categorical"
       },
       {
-        "name": "78c242f2230e4c5283d8",
+        "name": "5ded7df7f1e6e319c03b",
         "field": {
           "Measure": {
             "Expression": {
@@ -189,6 +141,20 @@
               }
             },
             "Property": "Geo Before Rate 30"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c9b86efba3b680cbc25a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "00_Measures"
+              }
+            },
+            "Property": "Geo During Rate 30"
           }
         },
         "type": "Advanced"
