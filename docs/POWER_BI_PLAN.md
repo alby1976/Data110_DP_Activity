@@ -14,7 +14,7 @@ Run all commands from the repository root. These files work together:
 
 | File | Responsibility |
 |---|---|
-| [`environment.yml`](../environment.yml) | Creates the `data110-dp-activity` Conda environment with Python 3.13 and pip, then installs the project in editable mode with `[dev,parquet,excel,notebook]` for tests, snapshots, Excel exports, and notebook execution. |
+| [`environment.yml`](../environment.yml) | Creates the `data110-dp-activity` Conda environment with Python 3.13, pip, and Quarto CLI 1.9.38, then installs the project in editable mode with `[dev,parquet,excel,notebook]` for tests, snapshots, Excel exports, and notebook execution. |
 | [`pyproject.toml`](../pyproject.toml) | Defines Python package dependencies, optional extras, and the `dp-activity` CLI entry point. The `parquet` extra reads the pinned snapshot; `excel` supplies XlsxWriter for `.xlsx` export. |
 | [`config/settings.yaml`](../config/settings.yaml) | Selects study periods, classification rules, output directories, formats, workbook layout, filename prefix, and overwrite behavior. |
 
@@ -28,6 +28,10 @@ python -m dp_activity.cli --help
 
 If the environment already exists, activate it without recreating it. After
 changing package dependencies in `pyproject.toml`, update the active environment:
+
+If `environment.yml` has changed, first run `conda env update --file environment.yml`
+from the repository root, then activate `data110-dp-activity`. This installs the
+specified Quarto CLI alongside the Python environment.
 
 ```powershell
 python -m pip install -e ".[dev,parquet,excel,notebook]"

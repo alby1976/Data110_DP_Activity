@@ -1,9 +1,9 @@
-# Project Summary
+# Project Overview
 
 For the current concise analytics plan, see the
 [one-page project summary](../reports/project_summary.md). The working setup uses
-Python 3.13 through `environment.yml` and an editable installation of
-`.[dev,parquet,excel,notebook]`, with dependency pins maintained in `pyproject.toml`.
+Python 3.13 through [`environment.yml`](../environment.yml) and an editable installation of
+`.[dev,parquet,excel,notebook]`, with dependency pins maintained in [`pyproject.toml`](../pyproject.toml).
 Notebook support includes IPython and ipykernel; Excel export uses XlsxWriter.
 The Conda environment includes Quarto CLI 1.9.38; Power BI Desktop is installed
 separately. A standard virtual environment requires a separate Quarto installation. The presentation now
@@ -22,12 +22,20 @@ This project asks: **What differences in Calgary residential development-permit 
 
 The project uses the City of Calgary's public **Development Permits** dataset (ID `6933-unw5`). It contains permit identifiers, application and decision dates, category and proposed-use information, land-use district, current status, community, ward, and geographic coordinates.
 
-Permits will be classified by `AppliedDate` into two primary comparison periods:
+Applications are classified by `AppliedDate` into two primary comparison periods:
 
 - **Before rezoning:** August 6, 2022–August 5, 2024
 - **During rezoning:** August 6, 2024–August 3, 2026
 
 Data from August 4, 2026 onward may be shown as an incomplete early post-repeal indicator, but it will not be treated as a comparable third period.
+
+The presentation uses the pinned
+`development_permits_residential_20261013_001726.parquet` snapshot and its metadata
+sidecar. Its October 13, 2026 UTC retrieval horizon covers 31,627 source records.
+Four blank-address records are excluded, leaving 31,623 retained records;
+18,015 are included as residential applications: 9,856 Before, 7,603 During,
+and 556 Early Post-Repeal. Retrieval is a coverage convention, not proof that
+all applications have been reported.
 
 ### Analytics plan
 
@@ -44,7 +52,13 @@ Both notebooks retain separate all-permit source exploration and residential-onl
 profiles, analyses, and charts. Cleaned exports are residential-only by default,
 while raw snapshots and full-source audit evidence remain available.
 
-Python will retrieve and profile the source data; standardize dates and text; remove or flag invalid records; classify residential and rezoning-relevant permits; calculate derived measures; create exploratory charts; and export validated tables for Power BI. Power BI will present an interactive dashboard with synchronized filters for period, community, ward, development type, permit status, and land-use district.
+Python retrieves and profiles source data, standardizes dates and text, applies
+documented exclusions and flags, classifies residential and rezoning-relevant
+applications, calculates derived measures, creates charts, and exports reporting
+tables with validation evidence. Validation reports do not automatically prevent
+export. The Power BI report provides Overview, Development Type & Processing,
+and Geography pages; imported values and filter behavior still require
+reconciliation with the corresponding Python run.
 
 The Python design separates external systems from the analytical core through adapters and repositories, composes deterministic cleaning and feature stages as pipes and filters, applies ordered classification specifications as a chain of responsibility, and implements analyses as interchangeable strategies. The command-line module acts as the composition root, while the analysis pipeline provides a single facade over the workflow. These choices make the code easier to test and keep methodological rules auditable; they are documented in [Python Design Patterns](DESIGN_PATTERNS.md).
 
@@ -54,11 +68,19 @@ The analysis will compare monthly and seasonal permit volume, development-type m
 
 ### Expected contribution and related work
 
-As of September 23, 2026, volume, development-type, geography, processing-time, seasonal, and rezoning analysis strategies are implemented. Geography outputs include community and ward counts,
-Before/During changes, small-baseline warnings, and missing-geography totals.
-The latest full suite reports **522 passed, no expected failures** for unfinished
-stages. The sensitivity runner is implemented; study-specific scenarios still need CLI configuration. Table export is implemented. The chart API is implemented. The synthetic CLI table smoke test passes. CLI chart integration and Power BI
-reconciliation remain pending; implemented summaries are not final study findings.
+Volume, development-type, geography, processing-time, seasonal, and rezoning
+analysis strategies are implemented. Geography outputs include community and
+ward counts, Before/During changes, small-baseline warnings, and missing-location
+totals. The last suite run recorded during the environment-documentation update
+reported **554 passed**, with 143 Matplotlib/NumPy deprecation warnings and one
+pytest cache permission warning. This records that run, rather than claiming a
+new test execution for this documentation update.
+
+Table export, the chart API, and the sensitivity runner are implemented.
+Independent classification review, study-specific sensitivity scenarios, and
+Power BI reconciliation remain outstanding. The presentation contains eight
+scripted sections, a two-minute Power BI demonstration, and a rehearsal appendix.
+Its budget is 7:40 narration, 2:00 demonstration, and 0:20 transition buffer.
 
 The City of Calgary already publishes planning-application statistics by community and ward, demonstrating the value of permit data for monitoring development activity. CMHC research also examines how land-use regulation and permitting relate to housing supply, affordability, and the pace of development. This project is narrower: it builds a reproducible, Calgary-specific before/during comparison of permit applications, documents its classification rules, and combines Python analysis with an interactive Power BI dashboard. It does not treat permit applications as completed housing units or attempt to reproduce CMHC's causal claims.
 

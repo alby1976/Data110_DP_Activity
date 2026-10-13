@@ -31,4 +31,4 @@ Deliver reproducible Python notebooks, traceable summary tables, and a Power BI 
 
 The design supports descriptive associations, not a causal estimate of rezoning effects. Applications do not count dwelling units or completed homes. Economic conditions, reporting lag, source completeness, classification uncertainty, and incomplete decisions can influence observed differences. Exposure adjustment corrects calendar length only; the short recent period remains unsuitable for a full post-repeal comparison.
 
-Project basis: [presentation notebook](../notebooks/03_ten_minute_presentation.ipynb) and [project methodology](../docs/METHODOLOGY.md). Source: City of Calgary Development Permits, dataset 6933-unw5.
+Project basis: [project overview](../docs/PROJECT_OVERVIEW.md), [presentation notebook](../notebooks/03_ten_minute_presentation.ipynb), and [project methodology](../docs/METHODOLOGY.md). Delivery guides: [Power BI plan](../docs/POWER_BI_PLAN.md) and [presentation plan](../docs/PRESENTATION_PLAN.md). Source: City of Calgary Development Permits, dataset 6933-unw5.

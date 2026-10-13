@@ -1,5 +1,9 @@
 # Presentation Plan
 
+The [one-page analytics plan](../reports/project_summary.md) defines the study
+scope, measures, quality controls, and limitations. The
+[project overview](PROJECT_OVERVIEW.md) provides supporting project context.
+
 ## 10-minute notebook presentation
 
 The [presentation notebook](../notebooks/03_ten_minute_presentation.ipynb)
