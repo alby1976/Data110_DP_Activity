@@ -124,7 +124,7 @@ Data110_DP_Activity/
 │   ├── METHODOLOGY.md
 │   ├── POWER_BI_PLAN.md
 │   ├── PRESENTATION_PLAN.md
-│   ├── PROJECT_SUMMARY.md
+│   ├── PROJECT_OVERVIEW.md
 │   ├── REFERENCES.md
 │   └── TESTING.md
 ├── data/
@@ -397,7 +397,7 @@ defined in the [Testing Framework](docs/TESTING.md).
 - [Python design patterns](docs/DESIGN_PATTERNS.md)
 - [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
 - [One-page analytics plan](reports/project_summary.md)
-- [Project background and extended summary](docs/PROJECT_SUMMARY.md)
+- [Project overview](docs/PROJECT_OVERVIEW.md)
 - [Biases and mitigation plan](docs/BIAS_AND_MITIGATION.md)
 - [Development permit background](docs/DEVELOPMENT_PERMIT_BACKGROUND.md)
 - [Methodology and analysis rules](docs/METHODOLOGY.md)
