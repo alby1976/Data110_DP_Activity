@@ -1,5 +1,118 @@
 # Presentation Plan
 
+## 10-minute notebook presentation
+
+The [presentation notebook](../notebooks/03_ten_minute_presentation.ipynb)
+provides a Quarto Reveal.js presentation. Its eight main sections total
+**10:00**, excluding preparation and appendix questions. The original slide
+outline below remains a shorter alternative for a deck.
+
+| Section | Topic | Time | Cumulative |
+|---:|---|---:|---:|
+| 1 | Question and comparison windows | 0:40 | 0:40 |
+| 2 | Policy context and application activity | 0:55 | 1:35 |
+| 3 | Source data and observational design | 1:05 | 2:40 |
+| 4 | Cleaning, classification, and validation | 1:05 | 3:45 |
+| 5 | Volume, exposure rates, and complete seasons | 1:30 | 5:15 |
+| 6 | Residential type counts and shares | 1:15 | 6:30 |
+| 7 | Community changes and processing eligibility | 1:35 | 8:05 |
+| 8 | Conclusions, safeguards, and remaining uncertainty | 1:55 | 10:00 |
+
+Use the project interpreter and run all cells before presenting. The notebook
+requires the pinned `development_permits_residential_20261013_001726.parquet`
+snapshot and its adjacent metadata sidecar under `data/raw`. Preparation checks
+checksum, dataset/query identity, coverage, address-exclusion reconciliation,
+schema, and analytical totals, then calls reusable project analyses. It makes
+no permit downloads or data exports and uses source community/ward values.
+Quarto separately renders the saved notebook output into an HTML slide deck.
+
+Quarto **1.10.19** is installed on the author's Windows workstation as a
+per-user portable installation at `%LOCALAPPDATA%\Programs\Quarto`.
+`%LOCALAPPDATA%\Programs\Quarto\bin` is on the user PATH. The official Windows
+archive's SHA-256 was verified before installation. This local installation
+is separate from the repository and its Conda environment; a fresh checkout
+on another computer requires installing the
+[Quarto CLI](https://quarto.org/docs/get-started/).
+
+Restart PyCharm after installation to refresh the environment inherited by
+its terminals. Quarto renders documents separately from Python analysis;
+`pyproject.toml` and `environment.yml` do not install the CLI. After running
+all notebook cells in PyCharm, run these commands from the repository root:
+
+```powershell
+quarto --version
+quarto render
+```
+
+If a terminal still reports that `quarto` is not recognized, restart it or
+use the installed command directly while diagnosing PATH:
+
+```powershell
+& "$env:LOCALAPPDATA\Programs\Quarto\bin\quarto.cmd" --version
+& "$env:LOCALAPPDATA\Programs\Quarto\bin\quarto.cmd" render
+```
+
+The repository's `_quarto.yml` renders only the presentation notebook and writes
+`reports/presentation/notebooks/03_ten_minute_presentation.html` plus supporting
+assets. Open that HTML file in a browser. Keep its accompanying files together
+when copying the deck. `S` opens speaker view, `F` enables fullscreen, and `Esc`
+shows the overview. Presenter notes use Quarto's `.notes` blocks; preparation
+cells use `include: false` and audience code cells use `echo: false`.
+
+Rendering does not execute Python: the notebook's saved outputs are the source
+of displayed results. Rerun all notebook cells after changing data or settings,
+then render again. The `.quarto` cache and generated deck are ignored by Git.
+No hosting or publishing is performed by these commands.
+
+The [Quarto configuration](../_quarto.yml) selects the notebook, Reveal.js
+theme, slide dimensions, output location, and saved-output rendering behavior.
+[Presentation CSS](../notebooks/presentation.css) sizes headings, tables,
+text output, and charts. These presentation settings are separate from the
+analysis definitions in `config/settings.yaml`. Dense slides and the appendix
+support scrolling; check them at the display size used for delivery.
+
+If figures or findings are missing or stale, rerun all ten code cells in the
+notebook and save it before rendering. Rendering alone does not recalculate
+results. If copied slides lose styling or images, copy the complete generated
+`reports/presentation/` directory, including its assets and reference files.
+Keep the eight main sections within the talk and the appendix outside it.
+
+The notebook calculates its findings rather than hard-coding summary totals.
+It includes a monthly exposure-rate chart, complete-season rate table,
+residential-type count chart, type/share comparison table, ranked community
+change chart, and eligible processing-duration summaries. The community chart
+shows only the ten largest absolute changes among known communities with
+adequate baselines; the full geography results remain in the exploratory notebook.
+
+Present sections 1–8, reading the speaker notes as prompts rather than aloud.
+Keep setup and appendix output outside the timed talk. Rehearse twice; target
+durations are guidance and do not guarantee a 10-minute delivery. If the course
+requires questions within the same ten minutes, shorten the conclusion or use
+the shorter deck outline below. The notebook is the editable source; the
+rendered Reveal.js deck is the presentation artifact. Seasonal detail and full
+type/share tables appear in the appendix to keep the main slides concise.
+
+After changing inputs, settings, or classification rules, rerun all cells and
+review warnings before delivery. Applications are not dwelling units, geography
+uses source values, recent decisions have incomplete follow-up, and the design
+does not establish a causal policy effect. Independent classification review,
+sensitivity scenarios, and Power BI reconciliation remain outstanding.
+
+Verification: all ten code cells completed successfully on October 12, 2026;
+the three charts were visually inspected. The pinned run reports 9,856 Before,
+7,603 During, and 556 contextual post-repeal residential applications. During
+has 22.86% fewer applications and a 22.54% lower rate per 30 exposed days.
+This is notebook verification, not a full test-suite run or timed rehearsal.
+Quarto 1.10.19 rendered the HTML deck successfully with ten slides (title,
+eight main sections, appendix), eight presenter-note blocks, and three local
+chart images. Preparation output and Python source are hidden in the deck.
+After installation, the persistent `quarto` command reported version 1.10.19
+and rendered the notebook successfully from the repository root.
+The rendered structure and image paths were checked; browser visual inspection
+was unavailable because the connected browser blocks local file URLs.
+
+## Alternative shorter deck
+
 Target length: **8–9 minutes**, leaving time for transitions or a brief question within the 10-minute limit.
 
 ## Slide outline

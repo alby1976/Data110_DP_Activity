@@ -111,6 +111,7 @@ Data110_DP_Activity/
 ├── ACADEMIC_INTEGRITY.md
 ├── LICENSE.md
 ├── README.md
+├── _quarto.yml              # renders the presentation notebook to Reveal.js
 ├── config/
 │   ├── settings.yaml             # project-wide analysis settings
 │   └── classification_rules.csv # ordered housing-form classification rules
@@ -129,7 +130,7 @@ Data110_DP_Activity/
 ├── data/
 │   ├── raw/                 # downloaded source data; not committed
 │   └── processed/           # cleaned Power BI inputs
-├── notebooks/               # optional exploration notebooks
+├── notebooks/               # exploration and presentation notebooks; slide CSS
 ├── powerbi/                 # Power BI .pbix file
 ├── reports/                 # final summary and presentation exports
 ├── requirements-dev.txt     # pinned local testing dependencies
@@ -270,6 +271,33 @@ The complete-period notebook's optional export creates
 with the current Excel settings. The guide also covers the CLI export to
 `data/processed`, the Before-only workbook, table selection, and reconciliation.
 
+## Render the 10-minute presentation
+
+The [presentation notebook](notebooks/03_ten_minute_presentation.ipynb) uses
+Quarto Reveal.js with eight timed sections, speaker notes, three charts, and a
+detail appendix. Run all notebook cells in PyCharm first, then render from the
+repository root:
+
+```powershell
+quarto --version
+quarto render
+```
+
+Quarto **1.10.19** is installed on the author's Windows workstation at
+`%LOCALAPPDATA%\Programs\Quarto`, with its `bin` directory on the user PATH.
+Restart PyCharm after installation so its terminals inherit the updated PATH.
+On another computer, install the [Quarto CLI](https://quarto.org/docs/get-started/)
+separately; the Python/Conda setup does not install it.
+
+Open `reports/presentation/notebooks/03_ten_minute_presentation.html` in a
+browser. Keep the generated presentation directory together when copying it.
+Press `S` for speaker view, `F` for fullscreen, and `Esc` for the overview.
+Rendering uses saved notebook output and does not execute Python. Rerun the
+notebook before rendering changed data, settings, or rules. Preparation cells
+and source code are hidden from the slides. See the
+[presentation guide](docs/PRESENTATION_PLAN.md#10-minute-notebook-presentation)
+for timing, troubleshooting, and verification limits.
+
 ## Running the tests
 
 The [Before exploratory notebook](notebooks/01_permit_exploration.ipynb) and
@@ -340,6 +368,7 @@ defined in the [Testing Framework](docs/TESTING.md).
 
 ## Documentation
 
+- [10-minute Quarto presentation notebook](notebooks/03_ten_minute_presentation.ipynb): eight timed sections, presenter notes, calculated charts, and a questions appendix. Run all cells in PyCharm, then run `quarto render` from the repository root to create the Reveal.js HTML deck under `reports/presentation/notebooks/`. Quarto uses saved output and hides preparation code; `S` opens speaker view. See the [setup and delivery instructions](docs/PRESENTATION_PLAN.md#10-minute-notebook-presentation).
 - [Complete-period notebook guide](notebooks/02_complete_period_exploration_explanation.md)
 - [Before-period notebook guide](notebooks/01_permit_exploration_explaination.md)
 - [Copyright notice](LICENSE.md)

@@ -1,0 +1,9 @@
+/* Presentation typography and saved notebook output sizing. */
+.reveal { font-size: 30px; }
+.reveal h2 { font-size: 1.5em; text-transform: none; }
+.reveal table { font-size: 0.62em; }
+.reveal table th, .reveal table td { padding: 0.25em 0.45em; }
+.reveal .cell-output-stdout pre { font-size: 0.68em; white-space: pre-wrap; }
+.reveal .cell-output-display img { max-height: 420px; object-fit: contain; }
+.reveal .slide .cell { margin-top: 0.4em; }
+.reveal .slide p, .reveal .slide li { line-height: 1.25; }

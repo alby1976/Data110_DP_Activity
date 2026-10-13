@@ -8,6 +8,8 @@ __pycache__/
 
 # Notebooks
 .ipynb_checkpoints/
+.quarto/
+reports/presentation/
 
 # Environment and secrets
 config/dp.env
@@ -29,3 +31,6 @@ powerbi/.pbi/
 Thumbs.db
 .vscode/
 .idea/
+
+/.quarto/
+**/*.quarto_ipynb

@@ -495,6 +495,25 @@ lists generated artifacts. Writes are per file, so an unsuccessful export can
 leave a partially populated run directory. The default disabled branch has been
 verified; the enabled branch has not been run against this snapshot.
 
+### Quarto presentation settings
+
+The [presentation notebook](../notebooks/03_ten_minute_presentation.ipynb)
+uses the repository's [`_quarto.yml`](../_quarto.yml) for Reveal.js rendering.
+Its render target is the presentation notebook only, with output under
+`reports/presentation/`. The project sets `execute.enabled: false`, so rendering
+uses saved notebook results. `execute.echo: false` hides Python source;
+preparation cells additionally use `include: false` to hide their output.
+Presenter notes use `.notes` Markdown blocks. Styling lives in
+[`notebooks/presentation.css`](../notebooks/presentation.css).
+
+Quarto 1.10.19 is installed separately on the author's Windows workstation;
+it is not supplied by the Python package or Conda specification. See the
+[presentation guide](PRESENTATION_PLAN.md#10-minute-notebook-presentation)
+for installation, PATH troubleshooting, rendering, and delivery instructions.
+Presentation settings change the deck's appearance and output location, not
+residential membership or analysis definitions. After changing analysis inputs,
+rerun and save all notebook cells before `quarto render`.
+
 ### Recording analysis inputs
 
 Each processed permit should retain `ClassificationRule`, `ClassificationNeedsReview`, and the rule's `ValidationStatus` alongside its original category, use, description, and district fields. The pipeline should also report rule coverage, unmatched counts, review counts, provisional/fallback counts, and potential conflicts by study period.
