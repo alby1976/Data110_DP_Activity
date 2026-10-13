@@ -44,7 +44,9 @@ For notebook exports, select the Conda environment as the PyCharm project and
 notebook interpreter.
 
 The `notebook` extra provides IPython and ipykernel; the `excel` extra pins
-XlsxWriter 3.2.9. Power BI Desktop and the Quarto CLI are separate installations.
+XlsxWriter 3.2.9. Conda installs Quarto CLI 1.9.38 from `environment.yml`;
+Power BI Desktop is installed separately. With a standard virtual environment,
+install Quarto separately using its official installer.
 See the [one-page analytics plan](../reports/project_summary.md) for the study
 scope and the [presentation plan](PRESENTATION_PLAN.md) for the live demo schedule.
 

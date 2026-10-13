@@ -5,7 +5,8 @@ For the current concise analytics plan, see the
 Python 3.13 through `environment.yml` and an editable installation of
 `.[dev,parquet,excel,notebook]`, with dependency pins maintained in `pyproject.toml`.
 Notebook support includes IPython and ipykernel; Excel export uses XlsxWriter.
-Quarto CLI and Power BI Desktop are installed separately. The presentation now
+The Conda environment includes Quarto CLI 1.9.38; Power BI Desktop is installed
+separately. A standard virtual environment requires a separate Quarto installation. The presentation now
 reserves two minutes for a scripted Power BI demonstration; see the
 [presentation plan](PRESENTATION_PLAN.md).
 

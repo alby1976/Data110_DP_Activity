@@ -1,13 +1,14 @@
-# Conda owns the interpreter; pyproject.toml owns Python package dependencies.
+# Conda owns the interpreter and Quarto CLI; pyproject.toml owns Python packages.
 # Run from the repository root so the editable install resolves correctly.
 # Includes notebook execution, tests, Parquet snapshots, and Excel exports.
-# Install the Quarto CLI and Power BI Desktop separately.
+# Install Power BI Desktop separately.
 name: data110-dp-activity
 channels:
   - conda-forge
   - nodefaults
 dependencies:
   - python=3.13
+  - quarto=1.9.38
   - pip
   - pip:
       - "-e .[dev,parquet,excel,notebook]"

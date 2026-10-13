@@ -177,7 +177,7 @@ conda activate data110-dp-activity
 python -m dp_activity.cli --help
 ```
 
-Conda supplies Python 3.13 and pip; the YAML's pip section installs the project
+Conda supplies Python 3.13, pip, and Quarto CLI 1.9.38; the YAML's pip section installs the project
 in editable mode with its dependencies, tests, Parquet, Excel, and notebook support.
 Change package versions in `pyproject.toml` to keep one dependency definition.
 After changing Python package dependencies, activate the environment and run:
@@ -200,7 +200,21 @@ The `notebook` extra installs IPython display utilities and ipykernel for
 PyCharm notebook execution. Direct runtime, test, Parquet, Excel, and notebook
 dependencies are pinned in `pyproject.toml`; Python 3.10 uses IPython 8.37.0,
 while Python 3.11 and newer use IPython 9.17.1. These pins do not lock transitive
-dependencies. Quarto CLI and Power BI Desktop are installed separately.
+dependencies. The Conda specification installs the Quarto CLI from conda-forge;
+Power BI Desktop is installed separately. A standard virtual environment does
+not install Quarto; use the [Quarto installer](https://quarto.org/docs/get-started/)
+for that setup.
+
+To add Quarto to an existing Conda environment, update it from the repository root:
+
+```bash
+conda env update --file environment.yml
+conda activate data110-dp-activity
+quarto --version
+quarto render
+```
+
+Run and save the presentation notebook before rendering; Quarto uses its saved outputs.
 
 ### Standard virtual environment
 

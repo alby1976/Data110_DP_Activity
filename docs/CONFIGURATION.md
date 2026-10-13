@@ -506,8 +506,9 @@ preparation cells additionally use `include: false` to hide their output.
 Presenter notes use `.notes` Markdown blocks. Styling lives in
 [`notebooks/presentation.css`](../notebooks/presentation.css).
 
-Quarto 1.10.19 is installed separately on the author's Windows workstation;
-it is not supplied by the Python package or Conda specification. See the
+The Conda specification installs Quarto CLI 1.9.38 from conda-forge.
+The Python package does not install the CLI; standard virtual environments
+require a separate Quarto installation. See the
 [presentation guide](PRESENTATION_PLAN.md#10-minute-notebook-presentation)
 for installation, PATH troubleshooting, rendering, and delivery instructions.
 Presentation settings change the deck's appearance and output location, not

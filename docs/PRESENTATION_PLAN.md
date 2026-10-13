@@ -25,7 +25,7 @@ outline below remains a shorter alternative for a deck.
 Install the project with `.[dev,parquet,excel,notebook]`, using `environment.yml`
 or `requirements-dev.txt`, and select that interpreter in PyCharm. The `notebook`
 extra provides IPython and ipykernel; version pins live in `pyproject.toml`.
-Quarto CLI and Power BI Desktop require separate installations.
+The Conda environment includes Quarto CLI 1.9.38; Power BI Desktop is installed separately.
 Use the project interpreter and run all cells before presenting. The notebook
 requires the pinned `development_permits_residential_20261013_001726.parquet`
 snapshot and its adjacent metadata sidecar under `data/raw`. Preparation checks
@@ -34,31 +34,26 @@ schema, and analytical totals, then calls reusable project analyses. It makes
 no permit downloads or data exports and uses source community/ward values.
 Quarto separately renders the saved notebook output into an HTML slide deck.
 
-Quarto **1.10.19** is installed on the author's Windows workstation as a
-per-user portable installation at `%LOCALAPPDATA%\Programs\Quarto`.
-`%LOCALAPPDATA%\Programs\Quarto\bin` is on the user PATH. The official Windows
-archive's SHA-256 was verified before installation. This local installation
-is separate from the repository and its Conda environment; a fresh checkout
-on another computer requires installing the
-[Quarto CLI](https://quarto.org/docs/get-started/).
-
-Restart PyCharm after installation to refresh the environment inherited by
-its terminals. Quarto renders documents separately from Python analysis;
-`pyproject.toml` and `environment.yml` do not install the CLI. After running
-all notebook cells in PyCharm, run these commands from the repository root:
+The Conda specification installs **Quarto CLI 1.9.38** from conda-forge.
+Create the environment with `conda env create --file environment.yml`, or update
+an existing environment with `conda env update --file environment.yml`.
+Activate it before rendering so the environment's Quarto executable is on PATH:
 
 ```powershell
+conda activate data110-dp-activity
 quarto --version
 quarto render
 ```
 
-If a terminal still reports that `quarto` is not recognized, restart it or
-use the installed command directly while diagnosing PATH:
+Run and save all notebook cells in PyCharm before `quarto render`. The
+`pyproject.toml` package and `requirements-dev.txt` do not install Quarto.
+For a standard virtual environment, install the
+[Quarto CLI](https://quarto.org/docs/get-started/) separately.
 
-```powershell
-& "$env:LOCALAPPDATA\Programs\Quarto\bin\quarto.cmd" --version
-& "$env:LOCALAPPDATA\Programs\Quarto\bin\quarto.cmd" render
-```
+If `quarto` is not recognized, confirm the Conda environment is activated and
+updated, then reopen the terminal. `Get-Command quarto` shows the executable
+selected on Windows. If a separate workstation installation also exists,
+check `quarto --version` to confirm which installation is being used.
 
 The repository's `_quarto.yml` renders only the presentation notebook and writes
 `reports/presentation/notebooks/03_ten_minute_presentation.html` plus supporting
