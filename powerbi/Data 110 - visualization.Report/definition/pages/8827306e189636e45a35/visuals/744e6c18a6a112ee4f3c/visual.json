@@ -69,6 +69,13 @@
                   "Value": "'Before Blanket Rezoning  Applications (30-Day average)'"
                 }
               }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }

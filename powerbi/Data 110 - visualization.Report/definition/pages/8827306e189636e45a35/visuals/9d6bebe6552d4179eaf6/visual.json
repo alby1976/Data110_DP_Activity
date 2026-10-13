@@ -88,6 +88,13 @@
                   "Value": "'Before Blanket Rezoning Applications'"
                 }
               }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }

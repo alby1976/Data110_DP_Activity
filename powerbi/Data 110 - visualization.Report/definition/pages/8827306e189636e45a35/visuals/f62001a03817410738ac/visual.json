@@ -88,6 +88,13 @@
                   "Value": "'During Blanket Rezoning Applications'"
                 }
               }
+            },
+            "titleWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
