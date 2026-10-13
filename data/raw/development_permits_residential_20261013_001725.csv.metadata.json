@@ -1,0 +1,10 @@
+{
+  "created_at_utc": "2026-10-13T00:17:26.405929+00:00",
+  "dataset_id": "6933-unw5",
+  "endpoint": "https://data.calgary.ca/resource/6933-unw5.json",
+  "query": "{\"page_size\": 50000, \"where\": \"(applieddate >= '2022-08-06T00:00:00' AND applieddate < '2024-08-06T00:00:00') OR (applieddate >= '2024-08-06T00:00:00' AND applieddate < '2026-08-04T00:00:00') OR (applieddate >= '2026-08-04T00:00:00')\"}",
+  "retrieved_at_utc": "2026-10-13 00:17:25.865806+00:00",
+  "row_count": 31627,
+  "sha256": "8dd1ad0dccab9882e0b33b880270d7d8284aef5a2a0dd82675a981402f1e2744",
+  "snapshot_file": "development_permits_residential_20261013_001725.csv"
+}
