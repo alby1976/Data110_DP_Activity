@@ -1,6 +1,42 @@
 # Power BI Dashboard Plan
 
-The dashboard should answer the research questions in three pages without turning the submission into a cockpit from a budget airline.
+The dashboard uses three main pages, with hidden community pages supporting
+hover comparisons and drillthrough.
+
+## Current report and support pages
+
+Open [Data 110 - visualization.pbip](../powerbi/Data%20110%20-%20visualization.pbip)
+in Power BI Desktop. Report and semantic-model definitions live in the adjacent
+.Report and .SemanticModel folders; a .pbix file is also available. Check
+workbook source paths before refreshing against the selected export.
+
+| Page | Role |
+|---|---|
+| Overview | Main application-volume comparison |
+| Development Type & Processing | Main housing-form and decision-duration comparison |
+| Geography | Main community comparison |
+| Community Detail | Hidden drillthrough page bound to permits_clean[community] |
+| Community Tooltip | Hidden 400 × 300 tooltip bound to permits_clean[community] and linked from a Geography visual |
+
+The tooltip table displays community, Geo Before Permits, Geo During Permits,
+and Geo Baseline Warning, with conditional formatting on the During count.
+The two count measures remove the direct permits_clean[Period] filter and
+apply their respective period; other filters still affect the result. Check
+Calendar and synchronized slicer interactions in Desktop before assuming these
+are full-period totals under every selection.
+
+Geo Baseline Warning reports **No baseline** for zero Before applications,
+**Low baseline** for fewer than 30, and **OK** otherwise. Rankable percentage
+change and rate-change measures return blank below 30 Before applications.
+This is a report-specific ranking threshold; Python's default
+SmallBaselineWarning uses fewer than five. State the threshold used by each visual.
+
+The Community Detail definition retains a saved MCKENZIE TOWNE drillthrough
+filter. Enter through drillthrough from another community and verify the selected
+community replaces that saved context. Test the tooltip on multiple communities,
+check counts against Python under matching filters, and verify baseline warnings
+and back navigation. Definitions were inspected for this documentation update;
+Desktop interaction testing and numerical reconciliation remain outstanding.
 
 ## Create the Power BI input files
 
@@ -327,7 +363,7 @@ Answer whether activity differed overall and show the timing of changes.
 - permitted/discretionary;
 - current status.
 
-## Page 2 — Development Type and Processing
+## Page 2 — Development Type & Processing
 
 ### Purpose
 

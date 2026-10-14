@@ -116,11 +116,13 @@ Data110_DP_Activity/
 │   ├── settings.yaml             # project-wide analysis settings
 │   └── classification_rules.csv # ordered housing-form classification rules
 ├── docs/
+│   ├── CALCULATION_ASSUMPTIONS.md
 │   ├── CONFIGURATION.md
 │   ├── DATA_DICTIONARY.md
 │   ├── DESIGN_PATTERNS.md
 │   ├── BIAS_AND_MITIGATION.md
 │   ├── DEVELOPMENT_PERMIT_BACKGROUND.md
+│   ├── IMPLEMENTATION_PLAN.md
 │   ├── METHODOLOGY.md
 │   ├── POWER_BI_PLAN.md
 │   ├── PRESENTATION_PLAN.md
@@ -131,9 +133,11 @@ Data110_DP_Activity/
 │   ├── raw/                 # downloaded source data; not committed
 │   └── processed/           # cleaned Power BI inputs
 ├── notebooks/               # exploration and presentation notebooks; slide CSS
-├── powerbi/                 # Power BI .pbix file
+├── powerbi/                 # Power BI .pbip project, report/model definitions, and .pbix
 ├── reports/                 # final summary and presentation exports
-├── requirements-dev.txt     # pinned local testing dependencies
+├── environment.yml          # Conda interpreter, Quarto CLI, and editable project install
+├── pyproject.toml           # Python dependencies, extras, and CLI entry point
+├── requirements-dev.txt     # installs project development and data-format extras
 ├── src/                     # reusable Python modules
 └── tests/                   # pytest tree mirroring the Python modules
 ```
@@ -291,6 +295,22 @@ The complete-period notebook's optional export creates
 with the current Excel settings. The guide also covers the CLI export to
 `data/processed`, the Before-only workbook, table selection, and reconciliation.
 
+## Open the Power BI report
+
+Open [Data 110 - visualization.pbip](powerbi/Data%20110%20-%20visualization.pbip)
+in Power BI Desktop to work with the report and semantic-model definitions.
+The folder also contains a .pbix report. Check the model's workbook source path
+and refresh against the chosen processed export before reporting results.
+
+The three main pages are **Overview**, **Development Type & Processing**, and
+**Geography**. Hidden support pages provide **Community Detail** drillthrough
+and a **Community Tooltip** linked to a Geography visual. The tooltip shows
+community Before/During counts and a baseline warning. Report geography measures
+flag baselines below 30 applications and omit them from percentage rankings;
+Python's default small-baseline warning uses fewer than five applications.
+See the [Power BI guide](docs/POWER_BI_PLAN.md#current-report-and-support-pages)
+for filter behavior and validation requirements. Numerical reconciliation and
+interactive checks in Power BI Desktop remain outstanding.
 ## Render the 10-minute presentation
 
 The [presentation notebook](notebooks/03_ten_minute_presentation.ipynb) uses
@@ -299,15 +319,18 @@ detail appendix. Run all notebook cells in PyCharm first, then render from the
 repository root:
 
 ```powershell
+conda activate data110-dp-activity
 quarto --version
 quarto render
 ```
 
-Quarto **1.10.19** is installed on the author's Windows workstation at
-`%LOCALAPPDATA%\Programs\Quarto`, with its `bin` directory on the user PATH.
-Restart PyCharm after installation so its terminals inherit the updated PATH.
-On another computer, install the [Quarto CLI](https://quarto.org/docs/get-started/)
-separately; the Python/Conda setup does not install it.
+The Conda specification installs **Quarto CLI 1.9.38**. Update an existing
+environment with `conda env update --file environment.yml` before activating it
+if Quarto is missing. A separate **1.10.19** workstation installation was used
+for the recorded render verification; `quarto --version` shows which executable
+is selected. For a standard virtual environment, install the
+[Quarto CLI](https://quarto.org/docs/get-started/) separately and restart PyCharm
+so its terminals inherit the updated PATH.
 
 Open `reports/presentation/notebooks/03_ten_minute_presentation.html` in a
 browser. Keep the generated presentation directory together when copying it.

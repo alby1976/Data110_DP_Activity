@@ -1,18 +1,53 @@
-/* Presentation typography and saved notebook output sizing. */
-.reveal { font-size: 30px; }
-.reveal h2 { font-size: 1.5em; text-transform: none; }
+/* Readable audience slides on a 1920 x 1080 presentation canvas. */
+.reveal {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 36px;
+  line-height: 1.3;
+}
+.reveal h1 { font-size: 1.9em; text-transform: none; }
+.reveal h2 {
+  font-size: 1.45em;
+  text-transform: none;
+  line-height: 1.15;
+  margin-bottom: 0.45em;
+}
+.reveal h3 { font-size: 1.05em; text-transform: none; }
+.reveal p { margin: 0.45em 0; }
+.reveal li { margin-bottom: 0.35em; }
+.reveal .source-note { font-size: 0.72em; color: #cbd5e1; margin-top: 1em; }
 .reveal table {
   width: auto;
   max-width: 100%;
-  font-size: 22px;
+  margin: 0.45em auto;
+  font-size: 28px;
   line-height: 1.15;
+  border-collapse: collapse;
 }
 .reveal table th, .reveal table td {
-  padding: 0.2em 0.4em;
+  padding: 0.24em 0.55em;
   vertical-align: middle;
 }
 .reveal table th { white-space: normal; }
-.reveal .cell-output-stdout pre { font-size: 0.68em; white-space: pre-wrap; }
-.reveal .cell-output-display img { max-height: 420px; object-fit: contain; }
-.reveal .slide .cell { margin-top: 0.4em; }
-.reveal .slide p, .reveal .slide li { line-height: 1.25; }
+.reveal .cell-output-stdout pre {
+  font-family: inherit;
+  font-size: 26px;
+  line-height: 1.25;
+  white-space: pre-wrap;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.reveal .cell-output-display img {
+  display: block;
+  max-height: 450px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  margin: 0.25em auto;
+  object-fit: contain;
+}
+.reveal .slide .cell { margin: 0.25em 0; }
+.reveal .cell-output-display { overflow: visible; }
+.reveal .slides section { box-sizing: border-box; }
+.reveal .slide-number { font-size: 20px; }

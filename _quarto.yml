@@ -4,19 +4,20 @@ project:
     - notebooks/03_ten_minute_presentation.ipynb
   output-dir: reports/presentation
 
-title: "Calgary development permit activity"
-subtitle: "A 10-minute observational comparison"
+title: "Calgary Development Permit Before and During Blanket Rezoning"
+subtitle: "An observational comparison"
 author: "Albert Leung · DATA 110"
-date: "2026-10-12"
+date: "2026-10-13"
+date-format: "MMMM D, YYYY"
 
 format:
   revealjs:
     theme: dark
     slide-level: 2
     slide-number: c/t
-    width: 1600
-    height: 900
-    margin: 0.06
+    width: 1920
+    height: 1080
+    margin: 0.04
     center: false
     transition: fade
     controls: true

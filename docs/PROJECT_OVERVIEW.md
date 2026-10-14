@@ -57,7 +57,7 @@ documented exclusions and flags, classifies residential and rezoning-relevant
 applications, calculates derived measures, creates charts, and exports reporting
 tables with validation evidence. Validation reports do not automatically prevent
 export. The Power BI report provides Overview, Development Type & Processing,
-and Geography pages; imported values and filter behavior still require
+and Geography pages, with hidden Community Detail drillthrough and Community Tooltip support pages. See the [current report guide](POWER_BI_PLAN.md#current-report-and-support-pages) for baseline thresholds and filter behavior. Imported values and filter behavior still require
 reconciliation with the corresponding Python run.
 
 The Python design separates external systems from the analytical core through adapters and repositories, composes deterministic cleaning and feature stages as pipes and filters, applies ordered classification specifications as a chain of responsibility, and implements analyses as interchangeable strategies. The command-line module acts as the composition root, while the analysis pipeline provides a single facade over the workflow. These choices make the code easier to test and keep methodological rules auditable; they are documented in [Python Design Patterns](DESIGN_PATTERNS.md).

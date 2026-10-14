@@ -75,10 +75,9 @@ The [Quarto configuration](../_quarto.yml) selects the notebook, Reveal.js
 theme, slide dimensions, output location, and saved-output rendering behavior.
 [Presentation CSS](../notebooks/presentation.css) sizes headings, tables,
 text output, and charts. These presentation settings are separate from the
-analysis definitions in `config/settings.yaml`. Dense slides and the appendix
-support scrolling; check them at the display size used for delivery.
+analysis definitions in `config/settings.yaml`. The deck uses a 1920 × 1080 canvas with 36px body text, 28px tables, and larger chart labels. Dense appendix content is separated into individual slides, so audience slides do not require scrolling.
 
-If figures or findings are missing or stale, rerun all ten code cells in the
+If figures or findings are missing or stale, rerun all eleven code cells in the
 notebook and save it before rendering. Rendering alone does not recalculate
 results. If copied slides lose styling or images, copy the complete generated
 `reports/presentation/` directory, including its assets and reference files.
@@ -94,7 +93,7 @@ adequate baselines; the full geography results remain in the exploratory noteboo
 Present sections 1–7, switch to Power BI at 6:50, and return to section 8 by
 8:50. The notes contain exact spoken scripts; presenter cues and bracketed
 actions are not spoken. The demo visits Overview, Development Type & Processing,
-and Geography. Open the report before the talk, clear filters, and prepare static
+and Geography. On Geography, hover over a visual linked to Community Tooltip to show community Before/During counts and the baseline warning. Community Detail is a hidden drillthrough page; use it only if the two-minute demo budget permits. Verify both interactions in Power BI Desktop before rehearsal. Open the report before the talk, clear filters, and prepare static
 backup screenshots. If behind schedule, show Overview and Geography only.
 Keep setup and appendix output outside the timed talk. Rehearse twice; target
 durations are guidance and do not guarantee a 10-minute delivery. If the course
@@ -122,6 +121,24 @@ and rendered the notebook successfully from the repository root.
 The rendered structure and image paths were checked; browser visual inspection
 was unavailable because the connected browser blocks local file URLs.
 
+
+### Readability update — October 13, 2026
+
+The deck now has 16 slides: title, eight numbered sections, the live-demo slide,
+and six appendix slides outside the ten-minute talk. Speaker scripts and the
+7:40 narration / 2:00 demo / 0:20 buffer remain. Audience text is shorter;
+study and processing tables show the columns needed for the talk. Full type
+comparisons and complete-season rates have separate appendix slides.
+Preparation and rehearsal details remain in presenter notes.
+
+All eleven code cells completed successfully with the pinned snapshot. Quarto
+1.9.38 rendered the saved outputs. A local headless Chrome check at 1920 × 1080
+found no audience content outside the viewport or overlapping the bottom
+navigation area on any of the 16 slides; all three chart images loaded.
+Chart and table screenshots were visually inspected. Chart colors and typography
+are set explicitly so rerunning in another kernel retains the dark-slide contrast.
+These checks establish rendering and notebook execution, not timed rehearsal
+or Power BI numerical agreement.
 ## Alternative shorter deck
 
 Target length: **8–9 minutes**, leaving time for transitions or a brief question within the 10-minute limit.
